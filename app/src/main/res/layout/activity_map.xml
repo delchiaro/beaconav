@@ -1,4 +1,93 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:id="@+id/map" tools:context=".MapActivity"
-    android:name="com.google.android.gms.maps.SupportMapFragment" />
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapActivity" >
+
+
+
+
+    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:scrollbars="vertical"
+        class="com.google.android.gms.maps.SupportMapFragment"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Naviga"
+        android:id="@+id/button"
+        android:layout_gravity="left|bottom"
+        android:onClick="onClickNavigate" />
+
+
+    <!--
+        <RadioGroup
+            android:id="@+id/radio_group_list_selector"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:background="#80000000"
+            android:padding="4dp" >
+
+            <RadioButton
+                android:id="@+id/radioPopular"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="popular"
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_weight="1"
+                 />
+
+            <View
+                android:id="@+id/VerticalLine1"
+                android:layout_width="1dip"
+                android:layout_height="match_parent"
+                android:background="#aaa" />
+
+            <RadioButton
+                android:id="@+id/radioAZ"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="AZ"
+                android:layout_weight="1"
+                />
+
+            <View
+                android:id="@+id/VerticalLine2"
+                android:layout_width="1dip"
+                android:layout_height="match_parent"
+                android:background="#aaa" />
+
+            <RadioButton
+                android:id="@+id/radioCategory"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="ategory"
+                android:layout_weight="1"
+             />
+            <View
+                android:id="@+id/VerticalLine"
+                android:layout_width="1dip"
+                android:layout_height="match_parent"
+                android:background="#aaa" />
+
+            <RadioButton
+                android:id="@+id/radioNearBy"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="NearBy"
+                android:layout_weight="1"
+            />
+        </RadioGroup>
+
+
+        -->
+</FrameLayout>
