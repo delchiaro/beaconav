@@ -60,40 +60,9 @@ public class MapActivity extends FragmentActivity {
 
     public void onClickNavigate(View view)
     {
-
-        LatLng A = new LatLng(map.currentLocation.latitude, map.currentLocation.longitude);
-        LatLng B = new LatLng(map.marker.latitude, map.marker.longitude);
-
-
-
-        RoutingTask myTask = new RoutingTask();
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB )
-            myTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, A, B);
-        else
-            myTask.execute(A, B);
-
-        for(int i = 0; i < 500; i++ ) Log.d("DEBUG!", "Ciao CIAO CIAO CIAO STO SCRIVENDO SUL LOG!!!!!!!");
-
+        map.route();
     }
 
-
-
-
-    private class RoutingTask extends AsyncTask<LatLng, Void, Navigation>
-    {
-
-        protected Navigation doInBackground(LatLng ... pt)
-        {
-            Navigation nav = map.route(pt[0] , pt[1]);
-            return nav;
-        }
-
-        protected void onPostExecute(Navigation nav)
-        {
-            map.drawNavigation(nav);
-        }
-
-    }
 
 
 }

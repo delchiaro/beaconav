@@ -48,7 +48,6 @@ public class Navigation
     public void draw(GoogleMap gmap, PolylineOptions polylineOptions, int routeIndex)
     {
         Route route = this.routes.get(routeIndex);
-
         route.draw(gmap, polylineOptions);
     }
 }
