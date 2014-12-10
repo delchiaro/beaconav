@@ -111,19 +111,21 @@ public class Map
 
     public void route(LatLng origin, LatLng dest)
     {
-        RouteTask task = new RouteTask();
-        task.execute(origin, dest);
+        if(origin != null && dest != null) {
+            RouteTask task = new RouteTask();
+            task.execute(origin, dest);
 
-                /********************** IF MULTITASKING DOES NOT WORK TRY THIS: ******************************************
+            /********************** IF MULTITASKING DOES NOT WORK TRY THIS: ******************************************
 
-                    if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB )
-                        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, origin, dest);
-                    else
-                        task.execute(origin, dest);
+             if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB )
+             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, origin, dest);
+             else
+             task.execute(origin, dest);
 
-                ***************************************************************************************************/
+             ***************************************************************************************************/
 
-        Log.d("DEBUG", "Downloading directions from google servers...");
+            Log.d("DEBUG", "Downloading directions from google servers...");
+        }
     }
 
 

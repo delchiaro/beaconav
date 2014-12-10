@@ -3,5 +3,9 @@
 
     <string name="app_name">Beaconav</string>
     <string name="title_activity_map">Map</string>
+    <string name="title_activity_opengl_test">OpenglTestActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_canvas_test">canvasTestActivity</string>
 
 </resources>

@@ -24,6 +24,14 @@
         android:layout_gravity="left|bottom"
         android:onClick="onClickNavigate" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Indoor"
+        android:id="@+id/btnIndoor"
+        android:layout_gravity="center_horizontal|bottom"
+        android:onClick="onClickBtnIndoor" />
+
 
     <!--
         <RadioGroup
