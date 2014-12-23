@@ -8,10 +8,8 @@ import android.content.Intent;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 
-public class MapActivity extends FragmentActivity {
-
-
-
+public class MapActivity extends FragmentActivity
+{
     private Map map; // Might be null if Google Play services APK is not available.
 
 
@@ -31,16 +29,11 @@ public class MapActivity extends FragmentActivity {
     }
 
 
-
-
-
     @Override
     protected void onResume()
     {
         super.onResume();
     }
-
-
 
     public void eventManager()
     {
@@ -54,10 +47,8 @@ public class MapActivity extends FragmentActivity {
 
     public void onClickBtnIndoor(View view)
     {
-        Intent intent = new Intent(this, micc.beaconav.canvasTest.canvasTestActivity.class);
+        Intent intent = new Intent(this, micc.beaconav.multitouch.TouchActivity.class);
         startActivity(intent);
     }
-
-
 
 }
