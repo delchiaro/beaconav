@@ -1,64 +1,65 @@
 package micc.beaconav.indoor.building;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import micc.beaconav.indoor.Drawable;
+import micc.beaconav.indoor.drawable.DrawableBitmap;
+import micc.beaconav.indoor.localization.Position;
 
 
-
-public class Floor extends Drawable
+public class Floor extends DrawableBitmap
 {
-
     List<Room> roomList;
+    Building _containerBuilding;
 
-
-    Bitmap floorBmp;
-
-	public Floor(Point position)
-    {
-        super(position);
-    }
-    public Floor(int x, int y)
-    {
-        super(x,y);
-    }
-
-    @Override
-    public void draw(Canvas canvas)
-    {
-        canvas.drawBitmap(floorBmp, position.x, position.y, null );
+	public Floor(android.graphics.Bitmap bmp, Position position){
+        super(bmp, position, -1000);
+        roomList = new ArrayList<Room>();
     }
 
 
-    public void drawVectorial(Canvas canvas)
+//    public void drawVectorial(Canvas canvas){
+//        Iterator<Room> roomIterator = roomList.iterator();
+//        while(roomIterator.hasNext())
+//        {
+//            Room room = roomIterator.next();
+//            room.draw(canvas);
+//        }
+//
+//    }
+
+
+
+
+
+
+    public Building getContainerBuilding(){
+        return this._containerBuilding;
+    }
+
+    void setContainerBuilding(Building building) //package-private visibility
     {
-        Iterator<Room> roomIterator = roomList.iterator();
-        while(roomIterator.hasNext())
+        this._containerBuilding = building;
+    }
+
+	public int getRooms(){
+		return roomList.size();
+	}
+	public Room getRoom(int index)
+    {
+		return roomList.get(index);
+	}
+
+    public boolean addRoom(Room newRoom){
+        if(newRoom.getContainerFloor() == this)
         {
-            Room room = roomIterator.next();
-            room.draw(canvas);
+            roomList.add(newRoom);
+            return true;
         }
-
+        else return false;
     }
-
-
-
-	public int getRooms() {
-		// TODO implement here
-		return 0;
-	}
-
-
-	public Room getRoom() {
-		// TODO implement here
-		return null;
-	}
 
 }

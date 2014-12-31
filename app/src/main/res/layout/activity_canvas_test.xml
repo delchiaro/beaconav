@@ -7,12 +7,19 @@
     tools:context="micc.beaconav.canvasTest.canvasTestActivity">
 
 
-    <micc.beaconav.multitouch.MyImageView
+    <!--<micc.beaconav.multitouch.MyImageView-->
+        <!--android:id="@+id/imageView"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:scaleType="matrix">-->
+    <!--</micc.beaconav.multitouch.MyImageView>-->
+
+    <ImageView
         android:id="@+id/imageView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="matrix">
-    </micc.beaconav.multitouch.MyImageView>
+    </ImageView>
 
 
 </RelativeLayout>

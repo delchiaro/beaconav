@@ -3,14 +3,9 @@ package micc.beaconav.multitouch;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -20,9 +15,11 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 import micc.beaconav.R;
+import micc.beaconav.indoor.IndoorMap;
+import micc.beaconav.indoor.building.Building;
+import micc.beaconav.indoor.localization.Position;
 import micc.beaconav.multitouch.gesturedetectors.MoveGestureDetector;
 import micc.beaconav.multitouch.gesturedetectors.RotateGestureDetector;
-import micc.beaconav.multitouch.gesturedetectors.ShoveGestureDetector;
 
 /**
 * Test activity for testing the different GestureDetectors.
@@ -57,6 +54,9 @@ public class TouchActivity extends Activity implements OnTouchListener
     private int mAlpha = 255;
     private int mImageHeight, mImageWidth;
 
+    private float zoomTranslationX = 0.f;
+    private float zoomTranslationY = 0.f;
+
     private ScaleGestureDetector mScaleDetector;
     private RotateGestureDetector mRotateDetector;
     private MoveGestureDetector mMoveDetector;
@@ -80,37 +80,48 @@ public class TouchActivity extends Activity implements OnTouchListener
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
         //Canvas canvas = new Canvas(bm.copy(Bitmap.Config.ARGB_8888, true));
 
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.RED);
-        //canvas.drawPaint(paint);
-
-    //Create a new image bitmap and attach a brand new canvas to it
-        Bitmap tempBitmap = Bitmap.createBitmap(bm.getWidth(), bm.getHeight(), Bitmap.Config.RGB_565);
-        Canvas tempCanvas = new Canvas(tempBitmap);
-
-    //Draw the image bitmap into the cavas
-        tempCanvas.drawBitmap(bm, 0, 0, null);
+//        Paint paint = new Paint();
+//        paint.setStyle(Paint.Style.FILL);
+//        paint.setColor(Color.RED);
+//        //canvas.drawPaint(paint);
 
 
-    //Draw everything else you want into the canvas, in this example a rectangle with rounded edges
-        tempCanvas.drawRoundRect(new RectF(30,30,300,500), 2, 2, paint);
+
+    //Create a new image bitmap and setManager a brand new canvas to it
+
+    /*    Building building = new Building(500, 220);
+        Bitmap floor0 = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
+        building.addFloor(floor0, new Position(0,0));
+        IndoorMap indoorMap = new IndoorMap(building);
+
+        Bitmap frameBmp = indoorMap.drawMapBmp();
+*/
+
+//
+//    //Draw everything else you want into the canvas, in this example a rectangle with rounded edges
+//        tempCanvas.drawRoundRect(new RectF(30,30,300,500), 2, 2, paint);
 
     //Attach the canvas to the ImageView
-        imgView.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
+/*
+        imgView.setImageDrawable(new BitmapDrawable(getResources(), frameBmp));
+*/
 
 
 
 
 
+/*
+        mImageWidth = building.getWidth();
+        mImageHeight = building.getHeight();
+*/
 
 		// View is scaled and translated by matrix, so scale and translate initially
-        float scaledImageCenterX = (mImageWidth*mScaleFactor)/2;
-        float scaledImageCenterY = (mImageHeight*mScaleFactor)/2;
-
-		mMatrix.postScale(mScaleFactor, mScaleFactor);
-		mMatrix.postTranslate(mFocusX - scaledImageCenterX, mFocusY - scaledImageCenterY);
-		imgView.setImageMatrix(mMatrix);
+//        float scaledImageCenterX = (mImageWidth*mScaleFactor)/2;
+//        float scaledImageCenterY = (mImageHeight*mScaleFactor)/2;
+//
+//		mMatrix.postScale(mScaleFactor, mScaleFactor);
+//		mMatrix.postTranslate(mFocusX - scaledImageCenterX, mFocusY - scaledImageCenterY);
+//		imgView.setImageMatrix(mMatrix);
 
 		// Setup Gesture Detectors
 		mScaleDetector 	= new ScaleGestureDetector(getApplicationContext(), new ScaleListener());
@@ -125,28 +136,41 @@ public class TouchActivity extends Activity implements OnTouchListener
         mRotateDetector.onTouchEvent(event);
         mMoveDetector.onTouchEvent(event);
 
+
+        //event.getY();
         float scaledImageCenterX = (mImageWidth*mScaleFactor)/2;
         float scaledImageCenterY = (mImageHeight*mScaleFactor)/2;
 
         mMatrix.reset();
-        mMatrix.postScale(mScaleFactor, mScaleFactor);
-        mMatrix.postRotate(mRotationDegrees,  scaledImageCenterX, scaledImageCenterY);
-        mMatrix.postTranslate(mFocusX - scaledImageCenterX, mFocusY - scaledImageCenterY);
+        mMatrix.postScale(mScaleFactor, mScaleFactor, zoomTranslationX, zoomTranslationY);
+        //mMatrix.postRotate(mRotationDegrees,  scaledImageCenterX, scaledImageCenterY);
+       // mMatrix.postTranslate(mFocusX - scaledImageCenterX, mFocusY - scaledImageCenterY);
 
 		ImageView view = (ImageView) v;
 		view.setImageMatrix(mMatrix);
-		view.setAlpha(mAlpha);
+		//view.setAlpha(mAlpha);
 
 		return true; // indicate event was handled
 	}
 
+
+
+
+
 	private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 		@Override
-		public boolean onScale(ScaleGestureDetector detector) {
+		public boolean onScale(ScaleGestureDetector detector)
+        {
+            float oldScaleFactor = mScaleFactor;
 			mScaleFactor *= detector.getScaleFactor(); // scale change since previous event
-
 			// Don't let the object get too small or too large.
 			mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 10.0f));
+
+            float scaleDifference = mScaleFactor / oldScaleFactor;
+            float zoomTranslationX = (1 - scaleDifference) * detector.getFocusX() / mScaleFactor;
+            float zoomTranslationY = (1 - scaleDifference) * detector.getFocusY() / mScaleFactor;
+
+
 
 			return true;
 		}
@@ -167,8 +191,8 @@ public class TouchActivity extends Activity implements OnTouchListener
 			mFocusX += d.x;
 			mFocusY += d.y;
 
-			// mFocusX = detector.getFocusX();
-			// mFocusY =
+//			mFocusX = detector.getFocusX();
+//			mFocusY =  detector.getFocusY();
 			return true;
 		}
 	}

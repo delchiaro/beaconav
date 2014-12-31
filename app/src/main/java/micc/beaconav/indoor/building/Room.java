@@ -2,27 +2,32 @@ package micc.beaconav.indoor.building;
 
 import android.graphics.Canvas;
 
-import micc.beaconav.indoor.Drawable;
+import java.util.ArrayList;
+
+import micc.beaconav.indoor.drawable.DrawableImage;
 import micc.beaconav.indoor.spot.Spot;
 
 /**
  * 
  */
-public class Room extends Drawable
+public class Room
 {
-    //TODO: FINISH THIS CLASS ONLY IF USEFULL...
+    private ArrayList<Spot> _graphNode = new ArrayList<Spot>();
+    private Floor _containerFloor;
+    private String _description;
 
 
-	public Room()
+	public Room(Floor containerFloor)
     {
-        super(0,0);
+        this._containerFloor = containerFloor;
+        containerFloor.addRoom(this);
 
 	}
 
-
-    @Override
-    public void draw(Canvas canvas)
-    {
-     // TODO: Vectorial implementation
+    public Floor getContainerFloor(){
+        return this._containerFloor;
     }
+
+
+
 }

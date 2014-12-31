@@ -54,6 +54,10 @@
             android:name="micc.beaconav.multitouch.TouchActivity"
             android:label="@string/title_activity_canvas_test" >
         </activity>
+        <activity
+            android:name=".newTouchActivity"
+            android:label="@string/title_activity_canvas_test" >
+        </activity>
     </application>
 
 </manifest>

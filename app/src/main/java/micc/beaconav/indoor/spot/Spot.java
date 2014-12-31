@@ -1,21 +1,71 @@
 package micc.beaconav.indoor.spot;
 
 
-import micc.beaconav.indoor.Drawable;
+import android.graphics.PointF;
+
+import java.util.ArrayList;
+
 import micc.beaconav.indoor.localization.IndoorPosition;
+import micc.beaconav.indoor.localization.Position;
 
 /**
  * 
  */
-public abstract class Spot extends Drawable {
+public class Spot implements ISpot
+{
 
-    private IndoorPosition position;
+    protected IndoorPosition _indoorPosition;
+    private ArrayList<Spot> _links = new ArrayList<Spot>();
 
-	public Spot(float x, float y, int floor)
-    {
-        super(x,y);
-        position = new IndoorPosition(x, y, floor);
-	}
+    // private Room roomContainer;
+
+    public Spot(IndoorPosition indPosition){
+        _indoorPosition = indPosition;
+    }
+    public Spot(Position position, int floor){
+        _indoorPosition = new IndoorPosition(position, floor);
+    }
+    public Spot(PointF position, int floor){
+        _indoorPosition = new IndoorPosition(position, floor);
+    }
+    public Spot(int x, int y, int floor){
+        _indoorPosition = new IndoorPosition(x, y, floor);
+    }
+
+
+
+    public float getX(){ return _indoorPosition.X(); }
+    public float getY(){ return _indoorPosition.Y(); }
+    public int getFloor(){ return _indoorPosition.getFloor(); }
+    public Position getPosition(){ return this._indoorPosition.getPosition();}
+    public IndoorPosition getIndoorPosition(){ return _indoorPosition; }
+
+    public void setIndoorPosition(IndoorPosition newPosition){
+        this._indoorPosition = newPosition;
+    }
+    public void setX(float x){
+        this._indoorPosition.setX(x);
+    }
+    public void setY(float y){
+        this._indoorPosition.setY(y);
+    }
+    public void setFloor(int floor){
+        this._indoorPosition.setFloor(floor);
+    }
+
+
+
+    public Spot addLink(Spot nodeToLink){
+        nodeToLink._links.add(this);
+        this._links.add(nodeToLink);
+        return this;
+    }
+
+    public Spot remLink(Spot nodeToUnlink) {
+        nodeToUnlink._links.remove(this);
+        this._links.remove(nodeToUnlink);
+        return this;
+    }
 
 
 
