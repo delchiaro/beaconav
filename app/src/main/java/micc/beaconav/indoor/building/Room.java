@@ -14,19 +14,40 @@ public class Room
 {
     private ArrayList<Spot> _graphNode = new ArrayList<Spot>();
     private Floor _containerFloor;
-    private String _description;
+
 
 
 	public Room(Floor containerFloor)
     {
         this._containerFloor = containerFloor;
-        containerFloor.addRoom(this);
-
+        _containerFloor = null;
 	}
+
+
+
+    //gestione associazione bidirezionale Building - Floor
 
     public Floor getContainerFloor(){
         return this._containerFloor;
     }
+    Room setContainerFloor(Floor floor) //package-private visibility
+    {
+        this._containerFloor = floor;
+        return this;
+    }
+    void unsetContainerFloor() //package-private visibility
+    {
+        this._containerFloor = null;
+    }
+    public final void removeContainerBuilding()
+    {
+        if(this._containerFloor!=null)
+            this._containerFloor.removeRoom(this);
+    }
+
+
+
+
 
 
 

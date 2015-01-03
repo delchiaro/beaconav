@@ -6,20 +6,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
     <!--
- The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but are recommended.
+            The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+            Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <!-- OpenGL ES stuff -->
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
-
-    <supports-gl-texture android:name="GL_OES_compressed_ETC1_RGB8_texture" />
-    <supports-gl-texture android:name="GL_OES_compressed_paletted_texture" />
 
     <application
         android:allowBackup="true"
@@ -33,8 +26,10 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <!-- ! ! !  ACTIVITY  ! ! ! -->
+
         <activity
-            android:name="micc.beaconav.MapActivity"
+            android:name=".MapActivity"
             android:label="@string/title_activity_map" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,20 +38,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="micc.beaconav.openglTest.OpenglTestActivity"
-            android:label="@string/title_activity_opengl_test" >
-        </activity>
-        <activity
-            android:name="micc.beaconav.canvasTest.canvasTestActivity"
+            android:name=".test.canvasTest.canvasTestActivity"
             android:label="@string/title_activity_canvas_test" >
         </activity>
         <activity
-            android:name="micc.beaconav.multitouch.TouchActivity"
+            android:name=".multitouch.TouchActivity"
             android:label="@string/title_activity_canvas_test" >
         </activity>
         <activity
             android:name=".newTouchActivity"
             android:label="@string/title_activity_canvas_test" >
+        </activity>
+        <activity
+            android:name=".testLocationActivity"
+            android:label="@string/title_activity_test_location" >
+        </activity>
+        <activity
+            android:name=".testLastLocationActivity"
+            android:label="@string/title_activity_test_updating_location" >
         </activity>
     </application>
 

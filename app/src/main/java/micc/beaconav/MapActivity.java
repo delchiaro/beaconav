@@ -47,8 +47,26 @@ public class MapActivity extends FragmentActivity
 
     public void onClickBtnIndoor(View view)
     {
-        Intent intent = new Intent(this, newTouchActivity.class);
+        //Intent intent = new Intent(this, newTouchActivity.class);
         //Intent intent = new Intent(this, micc.beaconav.multitouch.TouchActivity.class);
+        Intent intent = new Intent(this, micc.beaconav.newTouchActivity.class);
+
+        startActivity(intent);
+    }
+
+    public void onClickBtnTestLocation1(View view)
+    {
+        //Intent intent = new Intent(this, newTouchActivity.class);
+        //Intent intent = new Intent(this, micc.beaconav.multitouch.TouchActivity.class);
+        Intent intent = new Intent(this, micc.beaconav.testLocationActivity.class);
+
+        startActivity(intent);
+    }
+    public void onClickBtnTestLocation2(View view)
+    {
+        //Intent intent = new Intent(this, newTouchActivity.class);
+        //Intent intent = new Intent(this, micc.beaconav.multitouch.TouchActivity.class);
+        Intent intent = new Intent(this, testLastLocationActivity.class);
 
         startActivity(intent);
     }

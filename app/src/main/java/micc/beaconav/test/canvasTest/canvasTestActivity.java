@@ -1,11 +1,9 @@
-package micc.beaconav.canvasTest;
+package micc.beaconav.test.canvasTest;
 
 import android.graphics.Bitmap;
-import android.graphics.RectF;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,8 +11,6 @@ import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-
-import micc.beaconav.R;
 
 public class canvasTestActivity extends ActionBarActivity
 {

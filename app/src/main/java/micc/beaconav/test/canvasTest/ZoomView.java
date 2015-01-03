@@ -1,17 +1,4 @@
-package micc.beaconav.canvasTest;
-
-
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.util.AttributeSet;
-import android.view.Display;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
+package micc.beaconav.test.canvasTest;
 
 
 import android.content.Context;

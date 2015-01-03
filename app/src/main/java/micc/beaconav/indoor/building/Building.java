@@ -1,16 +1,10 @@
 package micc.beaconav.indoor.building;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.TreeMap;
 
-import micc.beaconav.indoor.drawable.Drawable;
 import micc.beaconav.indoor.drawable.DrawableManager;
-import micc.beaconav.indoor.localization.Position;
 
 
 public class Building
@@ -33,17 +27,7 @@ public class Building
 	}
 
 
-	public int getFloors(){
-        return floorList.size();
-	}
-	public Floor getFloor(int floorIndex){
-		return floorList.get(floorIndex);
-	}
-    public void addFloor(Floor newFloor, int floorIndex)
-    {
-        floorList.put(floorIndex, newFloor);
-        newFloor.setContainerBuilding(this);
-    }
+
 
     public int getWidth(){
         return width;
@@ -51,6 +35,34 @@ public class Building
     public int getHeight(){
         return height;
     }
+
+
+
+    //gestione associazione bidirezionale Building - Floor
+    public final void addFloor(Floor newFloor, int floorIndex)
+    {
+        newFloor.unsetContainerBuilding();
+        floorList.put(floorIndex, newFloor);
+        newFloor.setContainerBuilding(this);
+    }
+    public final void remove(Floor removedFloor)
+    {
+        if(removedFloor.getContainerBuilding() != null && removedFloor.getContainerBuilding() == this)
+        {
+            this.floorList.remove(removedFloor);
+            removedFloor.unsetContainerBuilding();
+        }
+    }
+
+
+
+    public int getFloors(){
+        return floorList.size();
+    }
+    public Floor getFloor(int floorIndex){
+        return floorList.get(floorIndex);
+    }
+
 
     public boolean setActiveFloor(int floorIndex){
         if(floorList.get(floorIndex) != null ) {

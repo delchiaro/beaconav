@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PointF;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -15,9 +14,6 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 import micc.beaconav.R;
-import micc.beaconav.indoor.IndoorMap;
-import micc.beaconav.indoor.building.Building;
-import micc.beaconav.indoor.localization.Position;
 import micc.beaconav.multitouch.gesturedetectors.MoveGestureDetector;
 import micc.beaconav.multitouch.gesturedetectors.RotateGestureDetector;
 

@@ -1,10 +1,8 @@
 package micc.beaconav.indoor.building;
 
-import android.graphics.Canvas;
+import android.graphics.Bitmap;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.TreeMap;
 
 import micc.beaconav.indoor.drawable.DrawableBitmap;
 import micc.beaconav.indoor.localization.Position;
@@ -12,13 +10,15 @@ import micc.beaconav.indoor.localization.Position;
 
 public class Floor extends DrawableBitmap
 {
-    List<Room> roomList;
-    Building _containerBuilding;
+    private TreeMap<String, Room> _rooms;
+    private Building _containerBuilding;
 
-	public Floor(android.graphics.Bitmap bmp, Position position){
-        super(bmp, position, -1000);
-        roomList = new ArrayList<Room>();
+	public Floor(Bitmap bmp, Position padding){
+        super(bmp, padding, Long.MIN_VALUE);
+        _rooms = new TreeMap<String, Room>();
+        _containerBuilding = null;
     }
+
 
 
 //    public void drawVectorial(Canvas canvas){
@@ -35,31 +35,55 @@ public class Floor extends DrawableBitmap
 
 
 
-
+    //gestione associazione bidirezionale Building - Floor
     public Building getContainerBuilding(){
         return this._containerBuilding;
     }
-
-    void setContainerBuilding(Building building) //package-private visibility
+    Floor setContainerBuilding(Building building) //package-private visibility
     {
         this._containerBuilding = building;
+        return this;
     }
+    void unsetContainerBuilding() //package-private visibility
+    {
+        this._containerBuilding = null;
+    }
+    public final void removeContainerBuilding()
+    {
+        if(this._containerBuilding!=null)
+            this._containerBuilding.remove(this);
+    }
+
+
+
+    //gestione associazione bidirezionale Floor - Room
+    public void addRoom(String roomName, Room  room)
+    {
+        room.unsetContainerFloor();
+        _rooms.put(roomName, room);
+        room.setContainerFloor(this);
+    }
+    public final void removeRoom(Room removedRoom)
+    {
+        if(removedRoom.getContainerFloor() != null && removedRoom.getContainerFloor() == this)
+        {
+            this._rooms.remove(removedRoom);
+            removedRoom.unsetContainerFloor();
+        }
+    }
+
+
+
+
 
 	public int getRooms(){
-		return roomList.size();
+		return _rooms.size();
 	}
-	public Room getRoom(int index)
+	public Room getRoom(String roomNam)
     {
-		return roomList.get(index);
+		return _rooms.get(roomNam);
 	}
 
-    public boolean addRoom(Room newRoom){
-        if(newRoom.getContainerFloor() == this)
-        {
-            roomList.add(newRoom);
-            return true;
-        }
-        else return false;
-    }
+
 
 }

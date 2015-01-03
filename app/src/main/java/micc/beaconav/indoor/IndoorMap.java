@@ -1,16 +1,11 @@
 package micc.beaconav.indoor;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import java.util.Iterator;
-
-import micc.beaconav.R;
 import micc.beaconav.indoor.building.Building;
-import micc.beaconav.indoor.drawable.Drawable;
 import micc.beaconav.indoor.localization.IndoorPosition;
 import micc.beaconav.indoor.localization.LocalizationManager;
 import micc.beaconav.indoor.spot.Spot;
