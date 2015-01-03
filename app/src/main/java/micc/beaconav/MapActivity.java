@@ -42,7 +42,9 @@ public class MapActivity extends FragmentActivity
 
     public void onClickNavigate(View view)
     {
-        map.route();
+        if(map.getCustomLocationMarker() != null)
+            map.routeFromCustomLocation();
+        else map.route();
     }
 
     public void onClickBtnIndoor(View view)

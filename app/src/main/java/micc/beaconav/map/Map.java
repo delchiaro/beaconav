@@ -1,5 +1,6 @@
 package micc.beaconav.map;
 
+import android.location.Location;
 import android.os.AsyncTask;
 import android.graphics.Color;
 import android.util.Log;
@@ -25,12 +26,15 @@ import micc.beaconav.map.navigation.Navigation;
 public class Map
 {
     private GoogleMap gmap; // Might be null if Google Play services APK is not available.
-    private LatLng markerLocation;
-    private LatLng currentLocation;
+    private LatLng destinationMarker;
+    private LatLng customLocationMarker;
 
     public Map(GoogleMap mMap)
     {
         this.gmap = mMap;
+        this.gmap.setMyLocationEnabled(true);
+        destinationMarker = null;
+        customLocationMarker = null;
         setUpEvents();
     }
 
@@ -41,58 +45,70 @@ public class Map
             @Override
             public void onMapLongClick(LatLng point)
             {
-                setMarkerLocation(point);
-
+                if(getCustomLocationMarker() == null)
+                    setCustomLocationMarker(point);
+                else
+                    unsetCustomLocationMarker();
             }
         });
         gmap.setOnMapClickListener(new OnMapClickListener() {
 
             @Override
             public void onMapClick(LatLng point) {
-                setCurrentLocation(point);
+                setDestinationMarker(point);
             }
         });
+
     }
 
 
-
-    public LatLng getMarkerLocation()
+    public void setDestinationMarker(LatLng point)
     {
-        return new LatLng(markerLocation.latitude, markerLocation.longitude);
-    }
-    public void setMarkerLocation(LatLng point)
-    {
-        markerLocation = point;
+        destinationMarker = point;
         drawMarkers();
     }
-
-
-    public LatLng getCurrentLocation()
+    public LatLng getDestinationMarker()
     {
-        return new LatLng(currentLocation.latitude, currentLocation.longitude);
+        if(this.destinationMarker != null)
+            return new LatLng(destinationMarker.latitude, destinationMarker.longitude);
+        else return null;
     }
 
-    public void setCurrentLocation(LatLng currentLocPoint)
-    {
-        currentLocation = currentLocPoint;
+     public void setCustomLocationMarker(LatLng currentLocPoint) {
+        customLocationMarker = currentLocPoint;
         drawMarkers();
     }
+    public void unsetCustomLocationMarker() {
+        customLocationMarker = null;
+        drawMarkers();
+    }
+    public LatLng getCustomLocationMarker() {
+        if(this.customLocationMarker != null)
+            return new LatLng(customLocationMarker.latitude, customLocationMarker.longitude);
+        else return null;
+    }
+
+    public Location getCurrentLocation()
+    {
+        return this.gmap.getMyLocation();
+    }
+
 
 
     protected void drawMarkers()
     {
         gmap.clear();
-        if(markerLocation != null)
+        if(destinationMarker != null)
         {
             MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(this.markerLocation);
+            markerOptions.position(this.destinationMarker);
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             gmap.addMarker(markerOptions);
         }
-        if(currentLocation!=null)
+        if(customLocationMarker !=null)
         {
             MarkerOptions currentLocationOptions = new MarkerOptions();
-            currentLocationOptions.position(this.currentLocation);
+            currentLocationOptions.position(this.customLocationMarker);
             currentLocationOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             gmap.addMarker(currentLocationOptions);
         }
@@ -101,12 +117,17 @@ public class Map
 
     public void route()
     {
-        route(this.currentLocation, this.markerLocation);
+        LatLng myLocation = new LatLng(this.gmap.getMyLocation().getLatitude(), this.gmap.getMyLocation().getLongitude());
+        route(myLocation, this.destinationMarker);
+    }
+    public void routeFromCustomLocation()
+    {
+        route(this.customLocationMarker, this.destinationMarker);
     }
 
     public void route(LatLng startLocation)
     {
-        route(startLocation, this.markerLocation);
+        route(startLocation, this.destinationMarker);
     }
 
     public void route(LatLng origin, LatLng dest)
