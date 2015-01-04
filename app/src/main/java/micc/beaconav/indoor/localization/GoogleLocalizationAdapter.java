@@ -1,11 +1,9 @@
-package micc.beaconav;
+package micc.beaconav.indoor.localization;
 
-
+import android.content.Context;
 import android.location.Location;
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -13,50 +11,51 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-public class testLocationActivity extends Activity implements
+/**
+ * Created by Nagash on 03/01/2015.
+ */
+public class GoogleLocalizationAdapter implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener
+{
 
-    private final String TAG = "MyAwesomeApp";
 
-    private TextView mLocationView;
+
+    private final String TAG = "GoogleLocalizationAdapter_DEBUG";
 
     private GoogleApiClient mGoogleApiClient;
-
     private LocationRequest mLocationRequest;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private GoogleLocalizationAdaptedActivity observerContext;
 
-        mLocationView = new TextView(this);
 
-        setContentView(mLocationView);
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+    public GoogleLocalizationAdapter(Context context, GoogleLocalizationAdaptedActivity adapterContext)
+    {
+        this.observerContext = adapterContext;
+        mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Connect the client.
+
+
+    public void start(){
         mGoogleApiClient.connect();
     }
 
-    @Override
-    protected void onStop() {
-        // Disconnecting the client invalidates it.
+    public void stop(){
         mGoogleApiClient.disconnect();
-        super.onStop();
     }
+
+
 
     @Override
     public void onConnected(Bundle bundle) {
+
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(1000); // Update location every second
@@ -76,7 +75,11 @@ public class testLocationActivity extends Activity implements
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        mLocationView.setText("Location received: " + location.toString());
+    public void onLocationChanged(Location location){
+        // TODO: prendere la posizione location e utilizzarla in qualche modo, fornendola verso l'esterno in un formato utilizzabile (adapting)
+        // mLocationView.setText("Location received: " + location.toString());
+
+        this.observerContext.onLocationChanged(location);
+
     }
 }

@@ -57,6 +57,12 @@
             android:name=".testLastLocationActivity"
             android:label="@string/title_activity_test_updating_location" >
         </activity>
+        <activity
+            android:name=".testAdaptedLocationActivity"
+            android:label="@string/title_activity_test_updating_location" >
+        </activity>
+
+
     </application>
 
 </manifest>

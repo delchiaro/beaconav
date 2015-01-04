@@ -60,8 +60,7 @@ public class MapActivity extends FragmentActivity
     {
         //Intent intent = new Intent(this, newTouchActivity.class);
         //Intent intent = new Intent(this, micc.beaconav.multitouch.TouchActivity.class);
-        Intent intent = new Intent(this, micc.beaconav.testLocationActivity.class);
-
+        Intent intent = new Intent(this, testAdaptedLocationActivity.class);
         startActivity(intent);
     }
     public void onClickBtnTestLocation2(View view)
