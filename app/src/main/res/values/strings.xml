@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Beaconav</string>
-    <string name="title_activity_map">Map</string>
+    <string name="title_activity_map">Beaconav</string>
     <string name="title_activity_opengl_test">OpenglTestActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

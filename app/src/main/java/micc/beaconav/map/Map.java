@@ -11,11 +11,15 @@ import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 
+import micc.beaconav.R;
 import micc.beaconav.map.navigation.GMapRouteManager;
 import micc.beaconav.map.navigation.Navigation;
 
@@ -28,6 +32,8 @@ public class Map
     private GoogleMap gmap; // Might be null if Google Play services APK is not available.
     private LatLng destinationMarker;
     private LatLng customLocationMarker;
+    Circle circle;
+    CircleOptions circleOptions;
 
     public Map(GoogleMap mMap)
     {
@@ -36,6 +42,19 @@ public class Map
         destinationMarker = null;
         customLocationMarker = null;
         setUpEvents();
+
+        LatLng coord = new LatLng(43.8007117, 11.2435291);
+        // Instantiates a new CircleOptions object and defines the center and radius
+        circleOptions = new CircleOptions()
+                .center(new LatLng(37.4, -122.1))
+                .radius(1000)// In meters
+                .fillColor(Color.RED);
+
+        // Get back the mutable Circle
+        circle = gmap.addCircle(circleOptions);
+
+
+
     }
 
     private void setUpEvents()
@@ -59,16 +78,24 @@ public class Map
             }
         });
 
+        gmap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+
+                circleOptions.center(new LatLng(location.getLatitude(), location.getLongitude()));
+                Circle circle2 = gmap.addCircle(circleOptions);
+                circle.remove();
+                circle = circle2;
+            }
+        });
     }
 
 
-    public void setDestinationMarker(LatLng point)
-    {
+    public void setDestinationMarker(LatLng point) {
         destinationMarker = point;
         drawMarkers();
     }
-    public LatLng getDestinationMarker()
-    {
+    public LatLng getDestinationMarker(){
         if(this.destinationMarker != null)
             return new LatLng(destinationMarker.latitude, destinationMarker.longitude);
         else return null;
@@ -95,9 +122,11 @@ public class Map
 
 
 
-    protected void drawMarkers()
-    {
+    protected void drawMarkers(){
+
         gmap.clear();
+
+
         if(destinationMarker != null)
         {
             MarkerOptions markerOptions = new MarkerOptions();
@@ -113,6 +142,13 @@ public class Map
             gmap.addMarker(currentLocationOptions);
         }
     }
+
+
+
+
+
+
+
 
 
     public void route()

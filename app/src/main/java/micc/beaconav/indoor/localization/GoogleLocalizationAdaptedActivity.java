@@ -9,5 +9,4 @@ import android.location.Location;
 public interface GoogleLocalizationAdaptedActivity
 {
     public void onLocationChanged(Location location);
-
 }
