@@ -13,13 +13,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 
-import micc.beaconav.R;
 import micc.beaconav.map.navigation.GMapRouteManager;
 import micc.beaconav.map.navigation.Navigation;
 
@@ -29,18 +28,38 @@ import micc.beaconav.map.navigation.Navigation;
  */
 public class Map
 {
+
+
+
     private GoogleMap gmap; // Might be null if Google Play services APK is not available.
-    private LatLng destinationMarker;
-    private LatLng customLocationMarker;
-    Circle circle;
-    CircleOptions circleOptions;
+    private LatLng destMarkerLatLng;
+    private LatLng customMarkerLatLng;
+
+    private Marker destMarker;
+    private Marker customMarker;
+
+    private boolean polyline = false;
+
+    private LatLng lastLocation = null;
+
+    private Circle circle;
+    private CircleOptions circleOptions;
+
+
+
+
+
+
 
     public Map(GoogleMap mMap)
     {
         this.gmap = mMap;
         this.gmap.setMyLocationEnabled(true);
-        destinationMarker = null;
-        customLocationMarker = null;
+        destMarkerLatLng = null;
+        customMarkerLatLng = null;
+        destMarker = null;
+        customMarker = null;
+
         setUpEvents();
 
         LatLng coord = new LatLng(43.8007117, 11.2435291);
@@ -48,13 +67,11 @@ public class Map
         circleOptions = new CircleOptions()
                 .center(new LatLng(37.4, -122.1))
                 .radius(1000)// In meters
-                .fillColor(Color.RED);
-
+                .strokeColor(Color.parseColor("#FF9800"))
+                .strokeWidth(5)
+                .fillColor(Color.parseColor("#20FFA726"));
         // Get back the mutable Circle
         circle = gmap.addCircle(circleOptions);
-
-
-
     }
 
     private void setUpEvents()
@@ -64,8 +81,8 @@ public class Map
             @Override
             public void onMapLongClick(LatLng point)
             {
-                if(getCustomLocationMarker() == null)
-                    setCustomLocationMarker(point);
+                if(getCustomMarkerLatLng() == null)
+                    setCustomMarkerLatLng(point);
                 else
                     unsetCustomLocationMarker();
             }
@@ -74,44 +91,42 @@ public class Map
 
             @Override
             public void onMapClick(LatLng point) {
-                setDestinationMarker(point);
+                setDestMarkerLatLng(point);
             }
         });
 
         gmap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location location) {
+                lastLocation = new LatLng( location.getLatitude(), location.getLongitude());
+                circle.setCenter(lastLocation);
 
-                circleOptions.center(new LatLng(location.getLatitude(), location.getLongitude()));
-                Circle circle2 = gmap.addCircle(circleOptions);
-                circle.remove();
-                circle = circle2;
             }
         });
     }
 
 
-    public void setDestinationMarker(LatLng point) {
-        destinationMarker = point;
+    public void setDestMarkerLatLng(LatLng point) {
+        destMarkerLatLng = point;
         drawMarkers();
     }
-    public LatLng getDestinationMarker(){
-        if(this.destinationMarker != null)
-            return new LatLng(destinationMarker.latitude, destinationMarker.longitude);
+    public LatLng getDestMarkerLatLng(){
+        if(this.destMarkerLatLng != null)
+            return new LatLng(destMarkerLatLng.latitude, destMarkerLatLng.longitude);
         else return null;
     }
 
-     public void setCustomLocationMarker(LatLng currentLocPoint) {
-        customLocationMarker = currentLocPoint;
+     public void setCustomMarkerLatLng(LatLng currentLocPoint) {
+        customMarkerLatLng = currentLocPoint;
         drawMarkers();
     }
     public void unsetCustomLocationMarker() {
-        customLocationMarker = null;
+        customMarkerLatLng = null;
         drawMarkers();
     }
-    public LatLng getCustomLocationMarker() {
-        if(this.customLocationMarker != null)
-            return new LatLng(customLocationMarker.latitude, customLocationMarker.longitude);
+    public LatLng getCustomMarkerLatLng() {
+        if(this.customMarkerLatLng != null)
+            return new LatLng(customMarkerLatLng.latitude, customMarkerLatLng.longitude);
         else return null;
     }
 
@@ -122,48 +137,68 @@ public class Map
 
 
 
-    protected void drawMarkers(){
-
-        gmap.clear();
-
-
-        if(destinationMarker != null)
+    protected void drawMarkers()
+    {
+        if(this.polyline)
         {
+            initMapDrawing();
+        }
+
+        if(destMarkerLatLng != null)
+        {
+            if(this.destMarker != null) destMarker.remove();
+
             MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(this.destinationMarker);
+            markerOptions.position(this.destMarkerLatLng);
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-            gmap.addMarker(markerOptions);
+            this.destMarker = gmap.addMarker(markerOptions);
         }
-        if(customLocationMarker !=null)
+        if(customMarkerLatLng !=null)
         {
+            if(this.customMarker != null) customMarker.remove();
+
             MarkerOptions currentLocationOptions = new MarkerOptions();
-            currentLocationOptions.position(this.customLocationMarker);
+            currentLocationOptions.position(this.customMarkerLatLng);
             currentLocationOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            gmap.addMarker(currentLocationOptions);
+            this.customMarker = gmap.addMarker(currentLocationOptions);
         }
+    }
+
+    protected void initMapDrawing()
+    {
+        gmap.clear();
+        this.polyline = false;
+        if(lastLocation != null)
+            circleOptions.center(lastLocation);
+
+        circle = gmap.addCircle(circleOptions);
+
     }
 
 
 
 
 
-
-
+    public Map setRadius(int radius)
+    {
+        circle.setRadius(radius);
+        return this;
+    }
 
 
     public void route()
     {
         LatLng myLocation = new LatLng(this.gmap.getMyLocation().getLatitude(), this.gmap.getMyLocation().getLongitude());
-        route(myLocation, this.destinationMarker);
+        route(myLocation, this.destMarkerLatLng);
     }
     public void routeFromCustomLocation()
     {
-        route(this.customLocationMarker, this.destinationMarker);
+        route(this.customMarkerLatLng, this.destMarkerLatLng);
     }
 
     public void route(LatLng startLocation)
     {
-        route(startLocation, this.destinationMarker);
+        route(startLocation, this.destMarkerLatLng);
     }
 
     public void route(LatLng origin, LatLng dest)
@@ -202,6 +237,7 @@ public class Map
         nav.draw(gmap, lineOptions, 0);
         // TODO: aggiungere schermata con caricamento e/o disegnare la polyline usando solo punti "abbastanza lontani" calcolando la distanza euclidea e confrontandola col livello di zoom..
 
+        this.polyline = true;
     }
 
 

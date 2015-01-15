@@ -8,13 +8,32 @@
 https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=F2:38:F5:29:EE:22:B4:04:D3:BD:16:C3:4F:11:70:66:13:B2:21:DF%3Bmicc.beaconav		
 		
     You can also add your credentials to an existing key, using this line:		
-    F2:38:F5:29:EE:22:B4:04:D3:BD:16:C3:4F:11:70:66:13:B2:21:DF;micc.beaconav
 
-    5C:33:5F:EA:4C:08:C1:E2:A4:C5:41:F3:E2:AD:E4:7A:05:B6:79:C0;micc.beaconav
-		
+
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"		
-    string in this file.		
-    --></string>		
-		
-    <string name="google_maps_key" templateMergeStrategy="preserve">AIzaSyAb9d51do-Gpyz78S5cCnkYQHjywhatvKo</string>
+    string in this file.
+
+
+
+    Macbook pro Franco: D9:34:BA:1B:B9:BC:84:BA:98:4A:8E:F5:20:B1:36:F9:8A:D8:DE:F6;micc.beaconav
+    Lenovo OS X NAGASH: 16:DD:47:13:CD:5B:65:09:A5:6D:17:06:D5:2E:D0:AE:E9:B6:2C:8D;micc.beaconav
+    Lenovo Win8 Nagash: F2:38:F5:29:EE:22:B4:04:D3:BD:16:C3:4F:11:70:66:13:B2:21:DF;micc.beaconav
+
+    --></string>
+
+
+
+
+    <!-- COMMENTA TUTTE LE STRINGHE TRANNE QUELLE RELATIVE AL PC DAL QUALE STAI LAVORANDO !!!!!! -->
+
+
+        <string name="google_maps_key" templateMergeStrategy="preserve">AIzaSyAb9d51do-Gpyz78S5cCnkYQHjywhatvKo</string>
+
+
+
+        <!-- <string name="google_maps_key" templateMergeStrategy="preserve">AIzaSyCNMQpbxgo4qQsVdKPZ4RljXSuVJPKVFOU</string>
+     -->
+
+
+
 </resources>

@@ -48,5 +48,4 @@
         android:layout_gravity="center_horizontal|top"
         android:onClick="onClickBtnTestLocation2" />
 
-
 </FrameLayout>
