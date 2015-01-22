@@ -62,22 +62,34 @@ public class ColumnField
     }
 
     public String valueString(){
-        return (String)this.value;
+        if(this.type() == Type.STRING)
+            return (String)this.value;
+        else return null;
     }
-    public int valueInt(){
-        return (int)this.value;
+    public Integer valueInt(){
+        if(this.type() == Type.INT)
+            return (int)this.value;
+        else return null;
     }
-    public long valueLong(){
-    return (long)this.value;
+    public Long valueLong(){
+        if(this.type() == Type.LONG)
+            return (long)this.value;
+        else return null;
     }
-    public float valueFloat(){
-        return (float)this.value;
+    public Float valueFloat(){
+        if(this.type() == Type.FLOAT)
+            return (float)this.value;
+        else return null;
     }
-    public double valueDouble(){
-        return (double)this.value;
+    public Double valueDouble(){
+        if(this.type() == Type.DOUBLE)
+            return (double)this.value;
+        else return null;
     }
-    public boolean valueBool(){
-        return (boolean)this.value;
+    public Boolean valueBool(){
+        if(this.type() == Type.BOOL)
+            return (boolean)this.value;
+        else return null;
     }
 
 
