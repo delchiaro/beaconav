@@ -19,6 +19,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import micc.beaconav.dbHelper.MuseumRow;
+import micc.beaconav.dbHelper.MuseumSchemaFactory;
+import micc.beaconav.dbJSONManager.JSONHandler;
+import micc.beaconav.dbJSONManager.JSONLoader;
+import micc.beaconav.dbJSONManager.schema.TableRow;
+import micc.beaconav.dbJSONManager.schema.TableSchema;
 import micc.beaconav.map.navigation.GMapRouteManager;
 import micc.beaconav.map.navigation.Navigation;
 
@@ -26,7 +35,7 @@ import micc.beaconav.map.navigation.Navigation;
 /**
  * Created by nagash on 02/12/14.
  */
-public class Map
+public class Map implements JSONHandler
 {
 
 
@@ -37,6 +46,10 @@ public class Map
 
     private Marker destMarker;
     private Marker customMarker;
+
+    private ArrayList<MuseumRow> rows = null;
+    private ArrayList<Marker>    museumMarkers = null;
+    private final String jsonMuseumListURL = "http://whitelight.altervista.org/JSONTest.php";
 
     private boolean polyline = false;
 
@@ -60,6 +73,8 @@ public class Map
         destMarker = null;
         customMarker = null;
 
+        setUpDbObjects();
+
         setUpEvents();
 
         LatLng coord = new LatLng(43.8007117, 11.2435291);
@@ -73,6 +88,32 @@ public class Map
         // Get back the mutable Circle
         circle = gmap.addCircle(circleOptions);
     }
+
+    private void setUpDbObjects()
+    {
+        MuseumSchemaFactory factory = new MuseumSchemaFactory();
+        TableSchema schema = factory.getSchema();
+        JSONLoader jsonLoader = new JSONLoader(schema, this);
+        jsonLoader.startDownload(jsonMuseumListURL);
+    }
+
+    @Override
+    public void onJSONDownloadFinished(ArrayList<TableRow> result)
+    {
+        this.rows = new ArrayList<>();
+
+        Iterator<TableRow> iter = result.iterator();
+
+        while(iter.hasNext())
+        {
+            MuseumRow row = new MuseumRow( iter.next() );
+            this.rows.add(row);
+        }
+        drawMarkers();
+    }
+
+
+
 
     private void setUpEvents()
     {
@@ -106,6 +147,10 @@ public class Map
     }
 
 
+
+
+
+
     public void setDestMarkerLatLng(LatLng point) {
         destMarkerLatLng = point;
         drawMarkers();
@@ -137,6 +182,10 @@ public class Map
 
 
 
+
+
+
+
     protected void drawMarkers()
     {
         if(this.polyline)
@@ -162,6 +211,31 @@ public class Map
             currentLocationOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             this.customMarker = gmap.addMarker(currentLocationOptions);
         }
+
+
+        if(this.rows != null)
+        {
+            if(this.museumMarkers != null )
+            {
+                Iterator<Marker> iter = this.museumMarkers.iterator();
+                while(iter.hasNext())
+                {
+                    iter.next().remove();;
+                }
+            }
+
+            this.museumMarkers = new ArrayList<>();
+
+            Iterator<MuseumRow> iter = this.rows.iterator();
+            while(iter.hasNext())
+            {
+                MuseumRow row = iter.next();
+                MarkerOptions museumMarkOpt = new MarkerOptions();
+                museumMarkOpt.position(new LatLng(row.getLatitude(), row.getLongitude()));
+                museumMarkOpt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                this.museumMarkers.add( gmap.addMarker(museumMarkOpt));
+            }
+        }
     }
 
     protected void initMapDrawing()
@@ -174,9 +248,6 @@ public class Map
         circle = gmap.addCircle(circleOptions);
 
     }
-
-
-
 
 
     public Map setRadius(int radius)
@@ -239,7 +310,6 @@ public class Map
 
         this.polyline = true;
     }
-
 
 
     private class RouteTask extends AsyncTask<LatLng, Void, Navigation>

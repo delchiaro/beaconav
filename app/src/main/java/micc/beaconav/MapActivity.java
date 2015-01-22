@@ -72,4 +72,10 @@ public class MapActivity extends FragmentActivity
         startActivity(intent);
     }
 
+    public void onClickBtnJsonTest(View view)
+    {
+        Intent intent = new Intent(this, JSONTest.class);
+        startActivity(intent);
+    }
+
 }

@@ -61,8 +61,10 @@
             android:name=".testAdaptedLocationActivity"
             android:label="@string/title_activity_test_updating_location" >
         </activity>
-
-
+        <activity
+            android:name=".JSONTest"
+            android:label="@string/title_activity_jsontest" >
+        </activity>
     </application>
 
 </manifest>
