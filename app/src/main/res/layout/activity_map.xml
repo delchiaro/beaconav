@@ -48,4 +48,13 @@
         android:layout_gravity="center_horizontal|top"
         android:onClick="onClickBtnTestLocation2" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="JSON Test"
+        android:id="@+id/button4"
+        android:layout_gravity="left|bottom"
+        android:onClick="onClickBtnJsonTest"
+        android:layout_marginBottom="50dp" />
+
 </FrameLayout>
