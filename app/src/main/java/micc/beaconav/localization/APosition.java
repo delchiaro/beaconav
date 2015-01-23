@@ -1,4 +1,4 @@
-package micc.beaconav.indoor.localization;
+package micc.beaconav.localization;
 
 /**
  * Created by Nagash on 29/12/2014.

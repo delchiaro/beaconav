@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import java.util.TreeMap;
 
 import micc.beaconav.indoor.drawable.DrawableBitmap;
-import micc.beaconav.indoor.localization.Position;
+import micc.beaconav.localization.Position;
 
 
 public class Floor extends DrawableBitmap

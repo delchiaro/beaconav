@@ -1,6 +1,6 @@
 package micc.beaconav.indoor.drawable;
 
-import micc.beaconav.indoor.localization.Position;
+import micc.beaconav.localization.Position;
 
 /**
  * 

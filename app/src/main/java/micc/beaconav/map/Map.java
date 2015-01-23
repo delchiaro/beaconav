@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.graphics.Color;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
@@ -30,12 +31,15 @@ import micc.beaconav.dbJSONManager.schema.TableRow;
 import micc.beaconav.dbJSONManager.schema.TableSchema;
 import micc.beaconav.map.navigation.GMapRouteManager;
 import micc.beaconav.map.navigation.Navigation;
+import micc.beaconav.proximity.ProximityManager;
+import micc.beaconav.proximity.ProximityNotificationHandler;
+import micc.beaconav.proximity.ProximityObject;
 
 
 /**
  * Created by nagash on 02/12/14.
  */
-public class Map implements JSONHandler
+public class Map implements JSONHandler, ProximityNotificationHandler
 {
 
 
@@ -59,7 +63,9 @@ public class Map implements JSONHandler
     private CircleOptions circleOptions;
 
 
-
+    private ProximityManager proximityManager;
+    private boolean fakeProximity = false;
+    private ProximityObject lastProxyMuseum = null;
 
 
 
@@ -72,6 +78,9 @@ public class Map implements JSONHandler
         customMarkerLatLng = null;
         destMarker = null;
         customMarker = null;
+
+        proximityManager = new ProximityManager(this);
+
 
         setUpDbObjects();
 
@@ -110,7 +119,37 @@ public class Map implements JSONHandler
             this.rows.add(row);
         }
         drawMarkers();
+
+        proximityManager.setProximityObjects(rows.toArray(new ProximityObject[rows.size()]));
     }
+
+
+
+    public void zoomOnLatLng(LatLng latLng, float zoom)
+    {
+        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+    }
+    @Override
+    public void handleProximityNotification(ProximityObject object)
+    {
+        if(this.lastProxyMuseum == null || this.lastProxyMuseum != null && this.lastProxyMuseum != object)
+        {
+            zoomOnLatLng(new LatLng(object.getLatitude(), object.getLongitude()), 16);
+            this.lastProxyMuseum = object;
+        }
+        else lastProxyMuseum = object;
+    }
+    public void setFakeProximity(boolean val){
+        this.fakeProximity = val;
+    }
+    public boolean getFakeProximity(){
+        return this.fakeProximity;
+    }
+    public void resetLastProxyMuseum(){
+        this.lastProxyMuseum = null;
+    }
+
+
 
 
 
@@ -141,6 +180,7 @@ public class Map implements JSONHandler
             public void onMyLocationChange(Location location) {
                 lastLocation = new LatLng( location.getLatitude(), location.getLongitude());
                 circle.setCenter(lastLocation);
+                proximityManager.startProximityAnalysis(location.getLatitude(), location.getLatitude(), 10, 500);
 
             }
         });
@@ -161,7 +201,7 @@ public class Map implements JSONHandler
         else return null;
     }
 
-     public void setCustomMarkerLatLng(LatLng currentLocPoint) {
+    public void setCustomMarkerLatLng(LatLng currentLocPoint) {
         customMarkerLatLng = currentLocPoint;
         drawMarkers();
     }
@@ -257,12 +297,17 @@ public class Map implements JSONHandler
     }
 
 
+
+
+
+
+
     public void route()
     {
         LatLng myLocation = new LatLng(this.gmap.getMyLocation().getLatitude(), this.gmap.getMyLocation().getLongitude());
         route(myLocation, this.destMarkerLatLng);
     }
-    public void routeFromCustomLocation()
+    public void routeFromCustomMarker()
     {
         route(this.customMarkerLatLng, this.destMarkerLatLng);
     }
@@ -310,6 +355,8 @@ public class Map implements JSONHandler
 
         this.polyline = true;
     }
+
+
 
 
     private class RouteTask extends AsyncTask<LatLng, Void, Navigation>

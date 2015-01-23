@@ -5,8 +5,8 @@ import android.graphics.PointF;
 
 import java.util.ArrayList;
 
-import micc.beaconav.indoor.localization.IndoorPosition;
-import micc.beaconav.indoor.localization.Position;
+import micc.beaconav.localization.IndoorPosition;
+import micc.beaconav.localization.Position;
 
 /**
  * 

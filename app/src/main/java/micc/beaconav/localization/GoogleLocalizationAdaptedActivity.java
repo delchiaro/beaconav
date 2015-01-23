@@ -1,6 +1,5 @@
-package micc.beaconav.indoor.localization;
+package micc.beaconav.localization;
 
-import android.content.Context;
 import android.location.Location;
 
 /**

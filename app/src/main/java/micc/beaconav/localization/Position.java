@@ -1,4 +1,4 @@
-package micc.beaconav.indoor.localization;
+package micc.beaconav.localization;
 
 import android.graphics.PointF;
 

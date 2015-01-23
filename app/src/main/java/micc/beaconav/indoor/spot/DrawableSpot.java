@@ -2,8 +2,8 @@ package micc.beaconav.indoor.spot;
 
 import micc.beaconav.indoor.drawable.Drawable;
 import micc.beaconav.indoor.drawable.DrawableImage;
-import micc.beaconav.indoor.localization.IndoorPosition;
-import micc.beaconav.indoor.localization.Position;
+import micc.beaconav.localization.IndoorPosition;
+import micc.beaconav.localization.Position;
 
 /**
  * Created by Nagash on 29/12/2014.

@@ -3,7 +3,7 @@ package micc.beaconav.indoor.drawable;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import micc.beaconav.indoor.localization.Position;
+import micc.beaconav.localization.Position;
 
 /**
  * Created by Nagash on 23/12/2014.

@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.content.Intent;
+import android.widget.Button;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 
@@ -30,8 +32,7 @@ public class MapActivity extends FragmentActivity
 
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume(){
         super.onResume();
     }
 
@@ -40,10 +41,26 @@ public class MapActivity extends FragmentActivity
 
     }
 
+
+
+
+
+
+    private  boolean fakeProximity = false;
+
+    public void setFakeProximity(View view)
+    {
+        map.resetLastProxyMuseum();
+        if(map.getFakeProximity() == false) {
+            map.setFakeProximity(true);
+        }
+
+    }
+
     public void onClickNavigate(View view)
     {
         if(map.getCustomMarkerLatLng() != null)
-            map.routeFromCustomLocation();
+            map.routeFromCustomMarker();
         else map.route();
     }
 

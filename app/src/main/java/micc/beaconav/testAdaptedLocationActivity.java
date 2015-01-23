@@ -6,8 +6,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import micc.beaconav.indoor.localization.GoogleLocalizationAdaptedActivity;
-import micc.beaconav.indoor.localization.GoogleLocalizationAdapter;
+import micc.beaconav.localization.GoogleLocalizationAdaptedActivity;
+import micc.beaconav.localization.GoogleLocalizationAdapter;
 
 public class testAdaptedLocationActivity extends Activity  implements GoogleLocalizationAdaptedActivity
 {

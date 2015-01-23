@@ -20,7 +20,7 @@ import java.util.PriorityQueue;
 
 import micc.beaconav.indoor.building.Building;
 import micc.beaconav.indoor.building.Floor;
-import micc.beaconav.indoor.localization.Position;
+import micc.beaconav.localization.Position;
 
 
 public class newTouchActivity extends Activity implements OnTouchListener

@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import java.util.HashMap;
 import java.util.Map;
 
-import micc.beaconav.indoor.localization.Position;
+import micc.beaconav.localization.Position;
 
 /**
  * Created by Nagash on 29/12/2014.

@@ -6,8 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import micc.beaconav.indoor.building.Building;
-import micc.beaconav.indoor.localization.IndoorPosition;
-import micc.beaconav.indoor.localization.LocalizationManager;
+import micc.beaconav.localization.IndoorPosition;
+import micc.beaconav.localization.LocalizationManager;
 import micc.beaconav.indoor.spot.Spot;
 
 /**
