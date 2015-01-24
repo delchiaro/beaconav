@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -14,6 +15,10 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 import micc.beaconav.R;
+import micc.beaconav.indoor.IndoorMap;
+import micc.beaconav.indoor.building.Building;
+import micc.beaconav.indoor.building.Floor;
+import micc.beaconav.localization.Position;
 import micc.beaconav.multitouch.gesturedetectors.MoveGestureDetector;
 import micc.beaconav.multitouch.gesturedetectors.RotateGestureDetector;
 
@@ -73,7 +78,26 @@ public class TouchActivity extends Activity implements OnTouchListener
         ImageView imgView = (ImageView) findViewById(R.id.imageView);
         imgView.setOnTouchListener(this);
 
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
+//        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
+
+        imgView.setOnTouchListener(this);
+
+
+
+        Bitmap floor0_bmp = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
+        Building building = new Building(500,500);
+        Floor floor0 = new Floor(floor0_bmp, new Position(10,10));
+        Floor floor1 = new Floor(null, new Position(20,20));
+
+        building.addFloor(floor0, 0);
+        building.addFloor(floor1, 1);
+
+
+        IndoorMap indoorMap = new IndoorMap(building);
+        Bitmap frameBmp = indoorMap.drawMapBmp();
+        imgView.setImageDrawable(new BitmapDrawable(getResources(), frameBmp));
+
+
         //Canvas canvas = new Canvas(bm.copy(Bitmap.Config.ARGB_8888, true));
 
 //        Paint paint = new Paint();
@@ -106,24 +130,54 @@ public class TouchActivity extends Activity implements OnTouchListener
 
 
 
-/*
+
         mImageWidth = building.getWidth();
         mImageHeight = building.getHeight();
-*/
 
-		// View is scaled and translated by matrix, so scale and translate initially
-//        float scaledImageCenterX = (mImageWidth*mScaleFactor)/2;
-//        float scaledImageCenterY = (mImageHeight*mScaleFactor)/2;
-//
-//		mMatrix.postScale(mScaleFactor, mScaleFactor);
-//		mMatrix.postTranslate(mFocusX - scaledImageCenterX, mFocusY - scaledImageCenterY);
-//		imgView.setImageMatrix(mMatrix);
+
+	//	View is scaled and translated by matrix, so scale and translate initially
+        float scaledImageCenterX = (mImageWidth*mScaleFactor)/2;
+        float scaledImageCenterY = (mImageHeight*mScaleFactor)/2;
+
+		mMatrix.postScale(mScaleFactor, mScaleFactor);
+		mMatrix.postTranslate(mFocusX - scaledImageCenterX, mFocusY - scaledImageCenterY);
+		imgView.setImageMatrix(mMatrix);
 
 		// Setup Gesture Detectors
 		mScaleDetector 	= new ScaleGestureDetector(getApplicationContext(), new ScaleListener());
 		mRotateDetector = new RotateGestureDetector(getApplicationContext(), new RotateListener());
 		mMoveDetector 	= new MoveGestureDetector(getApplicationContext(), new MoveListener());
 	}
+
+
+
+    private void generateFrame()
+    {
+        setContentView(R.layout.activity_canvas_test);
+        ImageView imgView = (ImageView) findViewById(R.id.imageView);
+        imgView.setOnTouchListener(this);
+
+
+
+        Bitmap floor0_bmp = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
+        Building building = new Building(500,500);
+        Floor floor0 = new Floor(floor0_bmp, new Position(10,10));
+        Floor floor1 = new Floor(null, new Position(20,20));
+
+        building.addFloor(floor0, 0);
+        building.addFloor(floor1, 1);
+
+
+        IndoorMap indoorMap = new IndoorMap(building);
+        Bitmap frameBmp = indoorMap.drawMapBmp();
+        imgView.setImageDrawable(new BitmapDrawable(getResources(), frameBmp));
+
+    }
+
+
+
+
+
 
 	@SuppressWarnings("deprecation")
 	public boolean onTouch(View v, MotionEvent event)

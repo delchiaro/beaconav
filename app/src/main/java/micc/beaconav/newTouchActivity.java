@@ -5,8 +5,12 @@ package micc.beaconav;
  */
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.FloatMath;
 import android.view.MotionEvent;
@@ -18,8 +22,12 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
+import micc.beaconav.indoor.IndoorMap;
 import micc.beaconav.indoor.building.Building;
 import micc.beaconav.indoor.building.Floor;
+import micc.beaconav.indoor.drawable.Drawable;
+import micc.beaconav.indoor.drawable.DrawableBitmap;
+import micc.beaconav.indoor.drawable.DrawableManager;
 import micc.beaconav.localization.Position;
 
 
@@ -47,7 +55,39 @@ public class newTouchActivity extends Activity implements OnTouchListener
     {
         super.onCreate(savedInstanceState);
 
+//        this.priorityTest();
 
+        generateFrame();
+
+    }
+
+    private void generateFrame()
+    {
+        setContentView(R.layout.activity_canvas_test);
+        ImageView imgView = (ImageView) findViewById(R.id.imageView);
+        imgView.setOnTouchListener(this);
+
+
+
+        Bitmap floor0_bmp = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
+        Building building = new Building(500,500);
+        Floor floor0 = new Floor(floor0_bmp, new Position(10,10));
+        Floor floor1 = new Floor(null, new Position(20,20));
+
+        building.addFloor(floor0, 0);
+        building.addFloor(floor1, 1);
+
+
+        IndoorMap indoorMap = new IndoorMap(building);
+        Bitmap frameBmp = indoorMap.drawMapBmp();
+        imgView.setImageDrawable(new BitmapDrawable(getResources(), frameBmp));
+
+    }
+
+
+
+    public void priorityTest()
+    {
 
         class Test{
             int value;
@@ -101,63 +141,15 @@ public class newTouchActivity extends Activity implements OnTouchListener
             int bb = val;
         }
         t2.setValue(0);
+        queue.remove(t2);
         queue.add(t2);
+
         iter = queue.iterator();
         while(iter.hasNext())
         {
             int val = iter.next().getValue();
             int bb = val;
         }
-
-
-//
-//        Canvas canvas = new Canvas();
-//
-//        DrawableManager manager = new DrawableManager();
-//        Drawable dw1 = new DrawableBitmap(null, new Position(1,1), 10);
-//        Drawable dw2 = new DrawableBitmap(null, new Position(2,2), 20);
-//
-//        manager.add(dw1);
-//        manager.add(dw2);
-//
-//
-//
-//        manager.drawAll(canvas);
-//
-//        dw2.setZIndex(30);
-//
-//        manager.drawAll(canvas);
-//
-//
-
-
-
-
-        Building building = new Building(500,500);
-        Floor floor1 = new Floor(null, new Position(10,10));
-        Floor floor2 = new Floor(null, new Position(20,20));
-
-        building.addFloor(floor1, 1);
-        building.addFloor(floor2, 1);
-
-
-        /*
-        setContentView(R.layout.activity_canvas_test);
-        ImageView view = (ImageView) findViewById(R.id.imageView);
-        view.setOnTouchListener(this);
-
-        ImageView imgView = (ImageView) findViewById(R.id.imageView);
-        imgView.setOnTouchListener(this);
-
-        Building building = new Building(500, 220);
-        Bitmap floor0 = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
-        building.addFloor(floor0, new Position(0,0));
-        IndoorMap indoorMap = new IndoorMap(building);
-
-        Bitmap frameBmp = indoorMap.drawMapBmp();
-
-        imgView.setImageDrawable(new BitmapDrawable(getResources(), frameBmp));
-        */
 
     }
 

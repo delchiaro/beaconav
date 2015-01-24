@@ -20,6 +20,7 @@ public class MapActivity extends FragmentActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
         map = new Map( this.getGMapFromXML() );
     }
 
@@ -66,7 +67,6 @@ public class MapActivity extends FragmentActivity
 
     public void onClickBtnIndoor(View view)
     {
-        //Intent intent = new Intent(this, newTouchActivity.class);
         //Intent intent = new Intent(this, micc.beaconav.multitouch.TouchActivity.class);
         Intent intent = new Intent(this, micc.beaconav.newTouchActivity.class);
 
