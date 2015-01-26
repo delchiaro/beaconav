@@ -15,9 +15,9 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 import micc.beaconav.R;
-import micc.beaconav.indoor.IndoorMap;
-import micc.beaconav.indoor.building.Building;
-import micc.beaconav.indoor.building.Floor;
+import micc.beaconav.indoorEngine.IndoorMap;
+import micc.beaconav.indoorEngine.building.Building;
+import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.localization.Position;
 import micc.beaconav.multitouch.gesturedetectors.MoveGestureDetector;
 import micc.beaconav.multitouch.gesturedetectors.RotateGestureDetector;

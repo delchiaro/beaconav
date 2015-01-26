@@ -10,6 +10,8 @@ public abstract class TableSchemaFactory
 {
 
     private static TableSchema schema = null;
+
+    // design pattern tipo singleton ma non static
     public TableSchema getSchema()
     {
         if(TableSchemaFactory.schema == null)

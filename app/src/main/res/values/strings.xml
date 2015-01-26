@@ -16,4 +16,12 @@
     <string name="title_activity_test_updating_location">testUpdatingLocationActivity</string>
     <string name="title_activity_jsontest">JSONTest</string>
 
+
+    <string name="action_hide">Hide Panel</string>
+    <string name="action_show">Show Panel</string>
+    <string name="action_anchor_enable">Enable Anchor Point</string>
+    <string name="action_anchor_disable">Disable Anchor Point</string>
+    <string name="hello">hello!</string>
+    <string name="follow">follow</string>
+
 </resources>

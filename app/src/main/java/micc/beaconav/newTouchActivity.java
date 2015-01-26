@@ -7,7 +7,6 @@ package micc.beaconav;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,12 +21,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
-import micc.beaconav.indoor.IndoorMap;
-import micc.beaconav.indoor.building.Building;
-import micc.beaconav.indoor.building.Floor;
-import micc.beaconav.indoor.drawable.Drawable;
-import micc.beaconav.indoor.drawable.DrawableBitmap;
-import micc.beaconav.indoor.drawable.DrawableManager;
+import micc.beaconav.indoorEngine.IndoorMap;
+import micc.beaconav.indoorEngine.building.Building;
+import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.localization.Position;
 
 

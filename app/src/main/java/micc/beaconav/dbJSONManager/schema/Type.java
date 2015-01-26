@@ -5,7 +5,7 @@ package micc.beaconav.dbJSONManager.schema;
  */
 public enum Type
 {
-    INT,LONG,  FLOAT, DOUBLE,  STRING, BOOL;
+    INT, LONG,  FLOAT, DOUBLE,  STRING, BOOL;
 
     public static Object parseTypeValue(Type type, String value)
     {
