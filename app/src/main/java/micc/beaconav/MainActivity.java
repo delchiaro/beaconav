@@ -80,7 +80,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private void initActivityAndXML()
     {
     // FIND VIEW BY ID * * * * * * * * * * * * * * * * * * * * * * * *
-        //setSupportActionBar((Toolbar)findViewById(R.id.main_toolbar)); setta la barra del titolo, per adesso non serve
         mSearch = (SearchView) findViewById(R.id.search_view);
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         //mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
@@ -369,7 +368,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
             super.onBackPressed();
         }
     }
-
 
 
 

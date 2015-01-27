@@ -102,6 +102,7 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
         museumMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
         selectedMuseumMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
     }
 
     private void setUpDbObjects()
@@ -230,6 +231,7 @@ public class Map implements JSONHandler, ProximityNotificationHandler
     public Marker getSelectedMuseumMarker(){
         return selectedMuseumMarker;
     }
+
     public LatLng getSelectedMuseumLatLng(){
         if(this.selectedMuseumMarker != null)
             return selectedMuseumMarker.getPosition();
