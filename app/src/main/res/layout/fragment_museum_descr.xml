@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/descr"
+        android:layout_alignParentStart="true"
+        android:text="Description"
+        android:textColor="@android:color/darker_gray"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/descr"
+        android:id="@+id/separator"/>
+
+    <TextView
+        android:id="@+id/museumDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/museum_description"
+        android:layout_below="@id/descr"/>
+
+    <TextView
+        android:id="@+id/gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gallery of artpieces here"
+        android:layout_below="@id/museumDescription"/>
+
+    <TextView
+        android:id="@+id/indoorMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Museum indoor map here"
+        android:layout_below="@id/gallery"/>
+
+
+</RelativeLayout>

@@ -9,4 +9,5 @@ public interface MuseumMarkerManager {
 
     abstract void onClickMuseumMarker(MuseumRow museumRow);
     abstract void onDeselectMuseumMarker();
+
 }

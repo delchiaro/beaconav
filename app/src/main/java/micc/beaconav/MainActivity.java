@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -28,6 +29,7 @@ import micc.beaconav.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.animationHelper.ScrollViewResizer;
 import micc.beaconav.customList.FragmentListView;
 import micc.beaconav.customList.FragmentListView2;
+import micc.beaconav.customList.MuseumDescrFragment;
 import micc.beaconav.dbHelper.MuseumRow;
 import micc.beaconav.map.MapFragment;
 import micc.beaconav.map.MuseumMarkerManager;
@@ -66,6 +68,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private FragmentListView fragment1 = new FragmentListView();
     private FragmentListView2 fragment2 = new FragmentListView2();
     private MapFragment mapFragment = new MapFragment();
+    private MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
 
 //* * * * * * * * * * * *  FLAGS  * * * * * * * * * * * * * * *
 
@@ -372,12 +375,25 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     @Override
     public void onClickMuseumMarker(MuseumRow museumRow) {
-        // TODO: gestire la comparsa delle informazioni del museo sulla barra in basso
+
+        //TODO: Se chiamato la seconda volta SULLO STESSO MARKER non fa, trovare l'errore.
+        FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
+        transaction3.replace(R.id.fragment_list_container, museumDescrFragment);
+        transaction3.addToBackStack(null);
+        transaction3.commit();
+        Resources res = getResources();
+        String museumDescr = String.format(res.getString(R.string.museum_description, museumRow.getDescr()));
+
     }
 
     @Override
     public void onDeselectMuseumMarker() {
-        // TODO: gestire la ricomparsa della barra di ricerca ecc..
+
+        FragmentTransaction transaction4 = getFragmentManager().beginTransaction();
+        transaction4.replace(R.id.fragment_list_container, fragment1);
+        transaction4.addToBackStack(null);
+        transaction4.commit();
+        fragmentNumber = 1;
     }
 }
 
