@@ -32,29 +32,35 @@ public class MapFragment extends Fragment
     private Map map; // Might be null if Google Play services APK is not available.
     private Context context;
 
-    public MapFragment(){}
+    private View myFragmentView;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+
+    public MapFragment(){
+        super();
+    }
+
+
+
+    private Button buttonIndoor;
+    private Button buttonNavigate;
+    private Button buttonProximity;
+    private Button buttonJson;
+    private Button buttonLocation;
+    private Button buttonSingleLocation;
+
+// * * * * SET UP FRAGMENT * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+    public void setUp()
     {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View myFragmentView = inflater.inflate(R.layout.fragment_map, container, false);
-        this.context = this.getActivity();
-        return myFragmentView;
 
-
-       //Button buttonIndoor = (Button) getView().findViewById(R.id.btnIndoor);
-
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        map = new Map( this.getGMapFromXML() );
+        buttonIndoor         =  (Button) myFragmentView.findViewById(R.id.buttonIndoor);
+        buttonNavigate       =  (Button) myFragmentView.findViewById(R.id.buttonNavigate);
+        buttonProximity      =  (Button) myFragmentView.findViewById(R.id.buttonProximity);
+        buttonJson           =  (Button) myFragmentView.findViewById(R.id.buttonJson);
+        buttonLocation       =  (Button) myFragmentView.findViewById(R.id.buttonLocation);
+        buttonSingleLocation =  (Button) myFragmentView.findViewById(R.id.buttonSingleLocation);
 
     }
-
-
 
 
     private GoogleMap getGMapFromXML()
@@ -70,15 +76,48 @@ public class MapFragment extends Fragment
 
 
 
-    private  boolean fakeProximity = false;
+// * * * * SET UP EVENT LISTENER * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    public void setFakeProximity(View view)
+    public void setUpEventListeners()
     {
-        map.resetLastProxyMuseum();
-        if(map.getFakeProximity() == false) {
-            map.setFakeProximity(true);
-        }
 
+        buttonIndoor.setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v) { onClickButtonIndoor(v); }
+        });
+
+        buttonNavigate.setOnClickListener(new View.OnClickListener()
+        {
+            @Override  public void onClick(View v) { onClickNavigate(v); }
+        });
+
+        buttonJson.setOnClickListener(new View.OnClickListener()
+        {
+            @Override  public void onClick(View v) {
+                Intent intent = new Intent(context, JSONTest.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonLocation.setOnClickListener(new View.OnClickListener()
+        {
+            @Override  public void onClick(View v) {
+                Intent intent = new Intent(context, testAdaptedLocationActivity.class);
+                startActivity(intent);
+            }
+        });
+        buttonSingleLocation.setOnClickListener(new View.OnClickListener()
+        {
+            @Override  public void onClick(View v) {
+                Intent intent = new Intent(context, testLastLocationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonProximity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { setFakeProximity(v); }
+        });
     }
 
     public void onClickNavigate(View view)
@@ -89,29 +128,63 @@ public class MapFragment extends Fragment
     }
 
 
+    public void setFakeProximity(View view)
+    {
+        map.resetLastProxyMuseum();
+        if(map.getFakeProximity() == false) {
+            map.setFakeProximity(true);
+        }
 
-    public void onClickBtnIndoor(View view)
+    }
+
+    public void onClickButtonIndoor(View view)
     {
         //Intent intent = new Intent(this, micc.beaconav.multitouch.TouchActivity.class);
         Intent intent = new Intent(this.context, micc.beaconav.newTouchActivity.class);
         startActivity(intent);
     }
 
-    public void onClickBtnTestLocation1(View view)
-    {
-        //Intent intent = new Intent(this, newTouchActivity.class);
-        //Intent intent = new Intent(this, micc.beaconav.multitouch.TouchActivity.class);
-        Intent intent = new Intent(this.context, testAdaptedLocationActivity.class);
-        startActivity(intent);
-    }
-    public void onClickBtnTestLocation2(View view)
-    {
-        //Intent intent = new Intent(this, newTouchActivity.class);
-        //Intent intent = new Intent(this, micc.beaconav.multitouch.TouchActivity.class);
-        Intent intent = new Intent(this.context, testLastLocationActivity.class);
 
-        startActivity(intent);
+
+
+
+
+
+
+
+
+
+
+
+
+// * * * * OVERRIDE METHODS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        super.onCreateView(inflater, container, savedInstanceState);
+        myFragmentView = inflater.inflate(R.layout.fragment_map, container, false);
+        context = this.getActivity();
+        setUp();
+        setUpEventListeners();
+
+        return myFragmentView;
+       //Button buttonIndoor = (Button) getView().findViewById(R.id.btnIndoor);
     }
+
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        map = new Map( this.getGMapFromXML() );
+
+    }
+
+
+
+
+
 
 
 

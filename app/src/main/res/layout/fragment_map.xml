@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Naviga"
-        android:id="@+id/button"
+        android:id="@+id/buttonNavigate"
         android:layout_gravity="left|bottom"
         android:onClick="onClickNavigate" />
 
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Indoor"
-        android:id="@+id/btnIndoor"
+        android:id="@+id/buttonIndoor"
         android:layout_gravity="center_horizontal|bottom"
         android:onClick="onClickBtnIndoor" />
 
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location1"
-        android:id="@+id/button2"
+        android:id="@+id/buttonLocation"
         android:layout_gravity="left|top"
         android:onClick="onClickBtnTestLocation1" />
 
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Single Location"
-        android:id="@+id/button3"
+        android:id="@+id/buttonSingleLocation"
         android:layout_gravity="center_horizontal|top"
         android:onClick="onClickBtnTestLocation2" />
 
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="JSON Test"
-        android:id="@+id/button4"
+        android:id="@+id/buttonJson"
         android:layout_gravity="left|bottom"
         android:onClick="onClickBtnJsonTest"
         android:layout_marginBottom="50dp" />
