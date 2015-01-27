@@ -28,13 +28,16 @@ import micc.beaconav.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.animationHelper.ScrollViewResizer;
 import micc.beaconav.customList.FragmentListView;
 import micc.beaconav.customList.FragmentListView2;
+import micc.beaconav.dbHelper.MuseumRow;
 import micc.beaconav.map.MapFragment;
+import micc.beaconav.map.MuseumMarkerManager;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements MuseumMarkerManager
+{
 
     private static final String TAG = "MainActivity";
     private DpHelper dpHelper;
@@ -109,6 +112,8 @@ public class MainActivity extends ActionBarActivity {
         FragmentTransaction mapFragmentTransaction = mapFragmentManager.beginTransaction();
         mapFragmentTransaction.add(R.id.fragment_map_container, mapFragment);
         mapFragmentTransaction.commit();
+
+        mapFragment.setMuseumMarkerManager(this);
 
 
     }
@@ -364,6 +369,16 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+
+    @Override
+    public void onClickMuseumMarker(MuseumRow museumRow) {
+        // TODO: gestire la comparsa delle informazioni del museo sulla barra in basso
+    }
+
+    @Override
+    public void onDeselectMuseumMarker() {
+        // TODO: gestire la ricomparsa della barra di ricerca ecc..
+    }
 }
 
 

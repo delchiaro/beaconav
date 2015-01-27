@@ -20,7 +20,7 @@ public class MapActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_map);
 
-        map = new Map( this.getGMapFromXML() );
+      //  map = new Map( this.getGMapFromXML() );
     }
 
 
@@ -59,9 +59,7 @@ public class MapActivity extends FragmentActivity
 
     public void onClickNavigate(View view)
     {
-        if(map.getCustomMarkerLatLng() != null)
-            map.routeFromCustomMarker();
-        else map.route();
+        map.route();
     }
 
     public void onClickBtnIndoor(View view)

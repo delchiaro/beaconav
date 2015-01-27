@@ -40,6 +40,7 @@ public class MapFragment extends Fragment
     }
 
 
+    private MuseumMarkerManager manager;
 
     private Button buttonIndoor;
     private Button buttonNavigate;
@@ -50,7 +51,13 @@ public class MapFragment extends Fragment
 
 // * * * * SET UP FRAGMENT * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    public void setUp()
+
+    public void setMuseumMarkerManager(MuseumMarkerManager manager)
+    {
+        this.manager = manager;
+    }
+
+    private void setUp()
     {
 
         buttonIndoor         =  (Button) myFragmentView.findViewById(R.id.buttonIndoor);
@@ -122,9 +129,7 @@ public class MapFragment extends Fragment
 
     public void onClickNavigate(View view)
     {
-        if(map.getCustomMarkerLatLng() != null)
-            map.routeFromCustomMarker();
-        else map.route();
+        map.route();
     }
 
 
@@ -167,18 +172,16 @@ public class MapFragment extends Fragment
         context = this.getActivity();
         setUp();
         setUpEventListeners();
-
+        map = new Map(getGMapFromXML(), manager);
         return myFragmentView;
        //Button buttonIndoor = (Button) getView().findViewById(R.id.btnIndoor);
     }
 
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        map = new Map( this.getGMapFromXML() );
-
+        getArguments();
     }
 
 

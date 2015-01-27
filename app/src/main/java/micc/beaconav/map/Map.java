@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import micc.beaconav.dbHelper.MuseumRow;
@@ -45,14 +46,17 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
 
     private GoogleMap gmap; // Might be null if Google Play services APK is not available.
-    private LatLng destMarkerLatLng;
-    private LatLng customMarkerLatLng;
 
-    private Marker destMarker;
-    private Marker customMarker;
+
+    private Marker selectedMuseumMarker = null;
+    MarkerOptions museumMarkerOptions = new MarkerOptions();
+    MarkerOptions selectedMuseumMarkerOptions = new MarkerOptions();
+
 
     private ArrayList<MuseumRow> rows = null;
-    private ArrayList<Marker>    museumMarkers = null;
+    private HashMap<Marker, MuseumRow> museumMarkersMap = null;
+    private MuseumMarkerManager markerManager = null;
+
     private final String jsonMuseumListURL = "http://whitelight.altervista.org/JSONTest.php";
 
     private boolean polyline = false;
@@ -70,17 +74,14 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
 
 
-    public Map(GoogleMap mMap)
+    public Map(GoogleMap mMap, MuseumMarkerManager markerManager)
     {
         this.gmap = mMap;
         this.gmap.setMyLocationEnabled(true);
-        destMarkerLatLng = null;
-        customMarkerLatLng = null;
-        destMarker = null;
-        customMarker = null;
 
         proximityManager = new ProximityManager(this);
 
+        this.markerManager = markerManager;
 
         setUpDbObjects();
 
@@ -96,6 +97,11 @@ public class Map implements JSONHandler, ProximityNotificationHandler
                 .fillColor(Color.parseColor("#20FFA726"));
         // Get back the mutable Circle
         circle = gmap.addCircle(circleOptions);
+
+
+
+        museumMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+        selectedMuseumMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
     }
 
     private void setUpDbObjects()
@@ -129,6 +135,10 @@ public class Map implements JSONHandler, ProximityNotificationHandler
     {
         gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
+    public void goOnLatLng(LatLng latLng)
+    {
+        gmap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+    }
     @Override
     public void handleProximityNotification(ProximityObject object)
     {
@@ -156,22 +166,32 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
     private void setUpEvents()
     {
+
+        gmap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                MuseumRow row = museumMarkersMap.get(marker);
+                goOnLatLng(marker.getPosition());
+                markerManager.onClickMuseumMarker(row);
+                setSelectedMuseumMarker(marker);
+
+                return true;
+            }
+        } );
+
         gmap.setOnMapLongClickListener(new OnMapLongClickListener() {
 
             @Override
             public void onMapLongClick(LatLng point)
             {
-                if(getCustomMarkerLatLng() == null)
-                    setCustomMarkerLatLng(point);
-                else
-                    unsetCustomLocationMarker();
+                unsetMuseumMarker();
             }
         });
         gmap.setOnMapClickListener(new OnMapClickListener() {
 
             @Override
             public void onMapClick(LatLng point) {
-                setDestMarkerLatLng(point);
+                unsetMuseumMarker();
             }
         });
 
@@ -184,42 +204,50 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
             }
         });
+
+
     }
 
 
 
 
-
-
-    public void setDestMarkerLatLng(LatLng point) {
-        destMarkerLatLng = point;
+    private final void setSelectedMuseumMarker(Marker selectedMarker)
+    {
+        this.selectedMuseumMarker = selectedMarker;
         drawMarkers();
     }
-    public LatLng getDestMarkerLatLng(){
-        if(this.destMarkerLatLng != null)
-            return new LatLng(destMarkerLatLng.latitude, destMarkerLatLng.longitude);
+
+    private final void unsetMuseumMarker()
+    {
+        if(selectedMuseumMarker != null)
+        {
+            selectedMuseumMarker = null;
+            drawMarkers();
+        }
+        markerManager.onDeselectMuseumMarker();
+    }
+
+    public Marker getSelectedMuseumMarker(){
+        return selectedMuseumMarker;
+    }
+    public LatLng getSelectedMuseumLatLng(){
+        if(this.selectedMuseumMarker != null)
+            return selectedMuseumMarker.getPosition();
         else return null;
     }
 
-    public void setCustomMarkerLatLng(LatLng currentLocPoint) {
-        customMarkerLatLng = currentLocPoint;
-        drawMarkers();
-    }
-    public void unsetCustomLocationMarker() {
-        customMarkerLatLng = null;
-        drawMarkers();
-    }
-    public LatLng getCustomMarkerLatLng() {
-        if(this.customMarkerLatLng != null)
-            return new LatLng(customMarkerLatLng.latitude, customMarkerLatLng.longitude);
-        else return null;
-    }
 
-    public Location getCurrentLocation()
+
+    public final Location getCurrentLocation()
     {
         return this.gmap.getMyLocation();
     }
-
+    public final LatLng getCurrentLatLng()
+    {
+        if(this.getCurrentLocation() != null)
+            return new LatLng(this.getCurrentLocation().getLatitude(), this.getCurrentLocation().getLongitude());
+        else return null;
+    }
 
 
 
@@ -233,47 +261,35 @@ public class Map implements JSONHandler, ProximityNotificationHandler
             initMapDrawing();
         }
 
-        if(destMarkerLatLng != null)
-        {
-            if(this.destMarker != null) destMarker.remove();
-
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(this.destMarkerLatLng);
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-            this.destMarker = gmap.addMarker(markerOptions);
-        }
-        if(customMarkerLatLng !=null)
-        {
-            if(this.customMarker != null) customMarker.remove();
-
-            MarkerOptions currentLocationOptions = new MarkerOptions();
-            currentLocationOptions.position(this.customMarkerLatLng);
-            currentLocationOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            this.customMarker = gmap.addMarker(currentLocationOptions);
-        }
 
 
         if(this.rows != null)
         {
-            if(this.museumMarkers != null )
+            if(this.museumMarkersMap != null )
             {
-                Iterator<Marker> iter = this.museumMarkers.iterator();
+                Iterator<Marker> iter = this.museumMarkersMap.keySet().iterator();
                 while(iter.hasNext())
                 {
                     iter.next().remove();;
                 }
             }
 
-            this.museumMarkers = new ArrayList<>();
+            this.museumMarkersMap = new HashMap<>();
 
             Iterator<MuseumRow> iter = this.rows.iterator();
             while(iter.hasNext())
             {
                 MuseumRow row = iter.next();
-                MarkerOptions museumMarkOpt = new MarkerOptions();
-                museumMarkOpt.position(new LatLng(row.getLatitude(), row.getLongitude()));
-                museumMarkOpt.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-                this.museumMarkers.add( gmap.addMarker(museumMarkOpt));
+                museumMarkerOptions.position(new LatLng(row.getLatitude(), row.getLongitude()));
+                this.museumMarkersMap.put( gmap.addMarker(museumMarkerOptions), row);
+                //this.museumMarkers.add( gmap.addMarker(museumMarkOpt));
+            }
+
+            if(this.selectedMuseumMarker != null)
+            {
+                selectedMuseumMarkerOptions.position(selectedMuseumMarker.getPosition());
+                selectedMuseumMarker.remove();
+                selectedMuseumMarker = gmap.addMarker(selectedMuseumMarkerOptions);
             }
         }
     }
@@ -302,19 +318,22 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
 
 
+
+
+
+
+
     public void route()
     {
-        LatLng myLocation = new LatLng(this.gmap.getMyLocation().getLatitude(), this.gmap.getMyLocation().getLongitude());
-        route(myLocation, this.destMarkerLatLng);
-    }
-    public void routeFromCustomMarker()
-    {
-        route(this.customMarkerLatLng, this.destMarkerLatLng);
+        if(getCurrentLatLng() != null && getSelectedMuseumLatLng() != null) {
+            route(getCurrentLatLng(), getSelectedMuseumLatLng());
+        }
     }
 
     public void route(LatLng startLocation)
     {
-        route(startLocation, this.destMarkerLatLng);
+        if(this.selectedMuseumMarker != null)
+            route(startLocation, this.selectedMuseumMarker.getPosition());
     }
 
     public void route(LatLng origin, LatLng dest)
@@ -336,7 +355,6 @@ public class Map implements JSONHandler, ProximityNotificationHandler
         }
     }
 
-
     private Navigation _route(LatLng origin, LatLng dest)
     {
         GMapRouteManager routeManager = new GMapRouteManager();
@@ -355,8 +373,6 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
         this.polyline = true;
     }
-
-
 
 
     private class RouteTask extends AsyncTask<LatLng, Void, Navigation>
