@@ -382,7 +382,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         transaction3.addToBackStack(null);
         transaction3.commit();
         Resources res = getResources();
-        String museumDescr = String.format(res.getString(R.string.museum_description, museumRow.getDescr()));
+        String museumDescr = String.format(res.getString(R.string.museum_description), museumRow.getDescr());
 
     }
 
