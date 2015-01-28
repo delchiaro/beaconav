@@ -1,46 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp">
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
 
 
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/descr"
-        android:layout_alignParentStart="true"
-        android:text="Description"
-        android:textColor="@android:color/darker_gray"/>
+        android:id="@+id/scrollView"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_below="@id/descr"
-        android:id="@+id/separator"/>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/museumDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/descr"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/descr"
+                android:layout_alignParentStart="true"
+                android:text="Description"
+                android:textColor="@android:color/darker_gray"/>
 
-    <TextView
-        android:id="@+id/gallery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Gallery of artpieces here"
-        android:layout_below="@id/museumDescription"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_below="@id/descr"
+                android:id="@+id/separator"/>
 
-    <TextView
-        android:id="@+id/indoorMap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Museum indoor map here"
-        android:layout_below="@id/gallery"/>
+
+            <TextView
+                android:id="@+id/museumDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/descr"/>
+
+            <TextView
+                android:id="@+id/gallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="***Gallery of artpieces here***"
+                android:layout_below="@id/museumDescription"
+                android:padding="2dp"/>
+
+            <TextView
+                android:id="@+id/indoorMap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="***Museum indoor map here***"
+                android:layout_below="@id/gallery"
+                android:padding="2dp"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 
 </RelativeLayout>

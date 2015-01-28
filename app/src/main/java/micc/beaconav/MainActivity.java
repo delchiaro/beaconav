@@ -140,7 +140,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 Log.i(TAG, "onPanelSlide, offset " + slideOffset);
-                //resizeScrollView(1-slideOffset); <-- Da richiamare da file esterno
+                scrollViewResizer.resizeScrollView(1-slideOffset);
 
                 if (slideOffset >= 0.7) {
                     if (colorAnimationStarted != true) {
