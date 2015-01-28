@@ -1,32 +1,59 @@
 package micc.beaconav.indoorEngine.building;
 
-import java.util.ArrayList;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import micc.beaconav.indoorEngine.drawable.Drawable;
 import micc.beaconav.indoorEngine.spot.Spot;
+import micc.beaconav.indoorEngine.spot.Vertex;
 
 /**
  * 
  */
-public class Room
+public class Room extends Drawable
 {
-    private ArrayList<Spot> _vertices = new ArrayList<Spot>();
+    private Paint wallsPaint;
+
+    private ArrayList<Vertex> _vertices = new ArrayList<Vertex>();
     private ArrayList<ConvexArea> _convexAreas = new ArrayList<>();
     private Floor _containerFloor;
 
 
 
-	public Room(Floor containerFloor)
-    {
-        this._containerFloor = containerFloor;
+	public Room() {
+        super(0);
+        this._containerFloor = null;
 	}
 
-    public void pushVertex(Spot newVertex){
+
+
+    @Override
+    protected void _coreDraw(Canvas canvas) {
+        Iterator<Vertex> vertexIter = _vertices.iterator();
+
+        Vertex oldVertex = null;
+        if(vertexIter.hasNext())
+            oldVertex = vertexIter.next();
+
+        while( vertexIter.hasNext())
+        {
+            Vertex vertex = vertexIter.next();
+            Paint newPaint = new Paint();
+            canvas.drawLine(oldVertex.getX(), oldVertex.getY(), vertex.getX(), vertex.getY(), wallsPaint);
+        }
+    }
+
+
+    public void pushVertex(Vertex newVertex){
         this._vertices.add(newVertex);
     }
-    public int indexOfVertex(Spot vertex){
+    public int indexOfVertex(Vertex vertex){
         return this._vertices.indexOf(vertex);
     }
-    public void addCorner(Spot vertex, int index){
+    public void addCorner(Vertex vertex, int index){
         this._vertices.add(index, vertex);
     }
 
@@ -50,16 +77,11 @@ public class Room
     {
         this._containerFloor = null;
     }
-    public final void removeContainerBuilding()
+    public final void removeFromContainerFloor()
     {
         if(this._containerFloor!=null)
             this._containerFloor.removeRoom(this);
     }
-
-
-
-
-
 
 
 }

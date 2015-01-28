@@ -54,6 +54,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 1164,
@@ -78,6 +79,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;1",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 393,
@@ -103,11 +105,12 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 1164,
 											"top": 48,
-											"width": 72,
+											"width": 73,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
@@ -128,6 +131,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 1164,
@@ -147,6 +151,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 388,
@@ -175,6 +180,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"left": 388,
@@ -225,6 +231,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 816,
@@ -249,6 +256,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;1",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 429,
@@ -274,11 +282,12 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 816,
 											"top": 1032,
-											"width": 159,
+											"width": 160,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
@@ -299,6 +308,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 816,
@@ -318,6 +328,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 424,
@@ -354,6 +365,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 424,
@@ -388,6 +400,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 429,
@@ -416,6 +429,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 429,
@@ -444,6 +458,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 429,
@@ -464,6 +479,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 424,
@@ -488,6 +504,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 544,
@@ -504,6 +521,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"left": 424,
@@ -520,6 +538,8 @@
 								"$ref": "AAAAAAFKpmrp1ET2CxA="
 							},
 							"wordWrap": false,
+							"suppressAttributes": false,
+							"suppressOperations": false,
 							"showMultiplicity": true,
 							"showOperationSignature": true,
 							"attributeCompartment": {
@@ -565,6 +585,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": -192,
@@ -589,6 +610,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;1",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 461,
@@ -614,11 +636,12 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": -192,
 											"top": -60,
-											"width": 159,
+											"width": 160,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
@@ -639,6 +662,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": -192,
@@ -658,6 +682,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 456,
@@ -694,6 +719,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 456,
@@ -728,6 +754,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 461,
@@ -756,6 +783,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 461,
@@ -784,6 +812,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 461,
@@ -792,7 +821,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+removeContainer()",
+											"text": "+removeFromContainer()",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5
 										},
@@ -812,6 +841,7 @@
 											"fontColor": "#000000",
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": true,
 											"left": 461,
@@ -832,6 +862,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 456,
@@ -856,6 +887,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": -128,
@@ -872,6 +904,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"left": 456,
@@ -888,6 +921,8 @@
 								"$ref": "AAAAAAFKpmsVC0UcHAE="
 							},
 							"wordWrap": false,
+							"suppressAttributes": false,
+							"suppressOperations": false,
 							"showMultiplicity": true,
 							"showOperationSignature": true,
 							"attributeCompartment": {
@@ -926,6 +961,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 614,
@@ -939,6 +975,7 @@
 										"$ref": "AAAAAAFKpmtJSEVGyIg="
 									},
 									"edgePosition": 1,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -958,6 +995,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 629,
@@ -971,6 +1009,7 @@
 										"$ref": "AAAAAAFKpmtJSEVGyIg="
 									},
 									"edgePosition": 1,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -990,6 +1029,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 585,
@@ -1003,6 +1043,7 @@
 										"$ref": "AAAAAAFKpmtJSEVGyIg="
 									},
 									"edgePosition": 1,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1022,6 +1063,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 615,
@@ -1035,6 +1077,7 @@
 										"$ref": "AAAAAAFKpmtJSEVGyIg="
 									},
 									"edgePosition": 2,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1054,6 +1097,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 628,
@@ -1067,6 +1111,7 @@
 										"$ref": "AAAAAAFKpmtJSEVGyIg="
 									},
 									"edgePosition": 2,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1086,6 +1131,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 587,
@@ -1099,6 +1145,7 @@
 										"$ref": "AAAAAAFKpmtJSEVGyIg="
 									},
 									"edgePosition": 2,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1118,6 +1165,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 615,
@@ -1131,6 +1179,7 @@
 										"$ref": "AAAAAAFKpmtJSEVGyIg="
 									},
 									"edgePosition": 0,
+									"underline": false,
 									"text": "-containedAggregation",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
@@ -1151,6 +1200,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 628,
@@ -1164,6 +1214,7 @@
 										"$ref": "AAAAAAFKpmtJSEVGyIg="
 									},
 									"edgePosition": 0,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1183,6 +1234,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 587,
@@ -1196,6 +1248,7 @@
 										"$ref": "AAAAAAFKpmtJSEVGyIg="
 									},
 									"edgePosition": 0,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1215,6 +1268,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": -224,
@@ -1239,6 +1293,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": -224,
@@ -1255,6 +1310,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"head": {
@@ -1329,6 +1385,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 486,
@@ -1342,6 +1399,7 @@
 										"$ref": "AAAAAAFKpmt5cEWl920="
 									},
 									"edgePosition": 1,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1361,6 +1419,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 501,
@@ -1374,6 +1433,7 @@
 										"$ref": "AAAAAAFKpmt5cEWl920="
 									},
 									"edgePosition": 1,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1393,6 +1453,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 457,
@@ -1406,6 +1467,7 @@
 										"$ref": "AAAAAAFKpmt5cEWl920="
 									},
 									"edgePosition": 1,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1425,6 +1487,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 408,
@@ -1438,6 +1501,7 @@
 										"$ref": "AAAAAAFKpmt5cEWl920="
 									},
 									"edgePosition": 2,
+									"underline": false,
 									"text": "-container",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
@@ -1458,6 +1522,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 500,
@@ -1471,6 +1536,7 @@
 										"$ref": "AAAAAAFKpmt5cEWl920="
 									},
 									"edgePosition": 2,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1490,6 +1556,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 459,
@@ -1503,6 +1570,7 @@
 										"$ref": "AAAAAAFKpmt5cEWl920="
 									},
 									"edgePosition": 2,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1522,6 +1590,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 487,
@@ -1535,6 +1604,7 @@
 										"$ref": "AAAAAAFKpmt5cEWl920="
 									},
 									"edgePosition": 0,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1554,6 +1624,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 500,
@@ -1567,6 +1638,7 @@
 										"$ref": "AAAAAAFKpmt5cEWl920="
 									},
 									"edgePosition": 0,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1586,6 +1658,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": false,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": 459,
@@ -1599,6 +1672,7 @@
 										"$ref": "AAAAAAFKpmt5cEWl920="
 									},
 									"edgePosition": 0,
+									"underline": false,
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5
 								},
@@ -1618,6 +1692,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": -224,
@@ -1642,6 +1717,7 @@
 									"fontColor": "#000000",
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": true,
 									"left": -224,
@@ -1658,6 +1734,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"head": {
@@ -1719,14 +1796,16 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"left": 928,
 							"top": 184,
 							"width": 249,
-							"height": 81,
+							"height": 83,
 							"autoResize": false,
-							"text": "removeContainer() {\n    if(container != null) \n          container.removeContained(this);\n}"
+							"text": "removeFromContainer() {\n    if(container != null) \n          container.removeContained(this);\n}",
+							"wordWrap": true
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -1741,6 +1820,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"head": {
@@ -1765,6 +1845,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"left": 700,
@@ -1772,7 +1853,8 @@
 							"width": 179,
 							"height": 57,
 							"autoResize": false,
-							"text": "setContainer(Container c) {\n    this.container = c;\n}"
+							"text": "setContainer(Container c) {\n    this.container = c;\n}",
+							"wordWrap": true
 						},
 						{
 							"_type": "UMLNoteView",
@@ -1787,6 +1869,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"left": 704,
@@ -1794,7 +1877,8 @@
 							"width": 177,
 							"height": 65,
 							"autoResize": false,
-							"text": "unsetContainer() {\n    this.container = null;\n}"
+							"text": "unsetContainer() {\n    this.container = null;\n}",
+							"wordWrap": true
 						},
 						{
 							"_type": "UMLNoteView",
@@ -1809,6 +1893,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"left": 924,
@@ -1816,7 +1901,8 @@
 							"width": 177,
 							"height": 65,
 							"autoResize": false,
-							"text": "getContainer() {\n    return this.container;\n}"
+							"text": "getContainer() {\n    return this.container;\n}",
+							"wordWrap": true
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -1831,6 +1917,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"head": {
@@ -1855,6 +1942,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"head": {
@@ -1879,6 +1967,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"head": {
@@ -1903,6 +1992,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"left": 64,
@@ -1910,7 +2000,8 @@
 							"width": 249,
 							"height": 85,
 							"autoResize": false,
-							"text": "add(Contained new) {\n    new.removeContainer()\n    containedAggregation.add(new);\n    new.setContainer(this);\n}"
+							"text": "add(Contained new) {\n    new.removeContainer()\n    containedAggregation.add(new);\n    new.setContainer(this);\n}",
+							"wordWrap": true
 						},
 						{
 							"_type": "UMLNoteView",
@@ -1925,14 +2016,16 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"left": 64,
 							"top": 556,
 							"width": 309,
-							"height": 175,
+							"height": 188,
 							"autoResize": false,
-							"text": "add(Contained rem)\n{\n     if( rem.getContainer() != null)\n     {\n          if( rem.getContainer() == this)\n          {\n               this.containedAggregation.remove(rem);\n               rem.unsetContainer();\n          }\n     }\n}"
+							"text": "add(Contained rem)\n{\n     if( rem.getContainer() != null)\n     {\n          if( rem.getContainer() == this)\n          {\n               this.containedAggregation.remove(rem);\n               rem.unsetContainer();\n          }\n     }\n}",
+							"wordWrap": true
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -1947,6 +2040,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"head": {
@@ -1971,6 +2065,7 @@
 							"fontColor": "#000000",
 							"font": "Arial;13;0",
 							"parentStyle": false,
+							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
 							"head": {
@@ -2086,6 +2181,7 @@
 											"visibility": "public",
 											"isStatic": false,
 											"isLeaf": false,
+											"type": "",
 											"isReadOnly": false,
 											"isOrdered": false,
 											"isUnique": false,
@@ -2115,7 +2211,7 @@
 								}
 							],
 							"isAbstract": false,
-							"isFinalSpecification": false,
+							"isFinalSpecialization": false,
 							"isLeaf": false,
 							"isActive": false
 						},
@@ -2274,7 +2370,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFKpmsVC0UZgxs="
 									},
-									"name": "removeContainer",
+									"name": "removeFromContainer",
 									"visibility": "public",
 									"isStatic": false,
 									"isLeaf": false,
@@ -2317,7 +2413,7 @@
 								}
 							],
 							"isAbstract": false,
-							"isFinalSpecification": false,
+							"isFinalSpecialization": false,
 							"isLeaf": false,
 							"isActive": false
 						}

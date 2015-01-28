@@ -31,6 +31,9 @@ public class Spot implements ISpot
         _indoorPosition = new IndoorPosition(x, y, floor);
     }
 
+    public Spot(Spot copy){
+        this._indoorPosition = copy._indoorPosition.clone();
+    }
 
 
     public float getX(){ return _indoorPosition.X(); }

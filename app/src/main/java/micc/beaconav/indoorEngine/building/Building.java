@@ -15,7 +15,7 @@ public class Building
     private TreeMap<Integer, Floor> floorList;
     private int _activeFloor;
 
-    private DrawableManager _drawableManager;
+    private final DrawableManager _drawableManager = new DrawableManager();
 
 	public Building(int width, int height)
     {
@@ -23,7 +23,6 @@ public class Building
         this.height = height;
         _activeFloor = 0;
         floorList = new TreeMap<Integer, Floor>();
-        //_drawableManager = new Drawable.DrawableManager();
 	}
 
 
@@ -44,6 +43,8 @@ public class Building
         newFloor.unsetContainerBuilding();
         floorList.put(floorIndex, newFloor);
         newFloor.setContainerBuilding(this);
+
+        _drawableManager.add(newFloor);
     }
     public final void remove(Floor removedFloor)
     {
@@ -51,6 +52,8 @@ public class Building
         {
             this.floorList.remove(removedFloor);
             removedFloor.unsetContainerBuilding();
+
+            _drawableManager.remove( removedFloor);
         }
     }
 
@@ -77,6 +80,12 @@ public class Building
     public int getActiveFloorIndex() {
         return this._activeFloor;
     }
+
+    public DrawableManager getDrawableManager()
+    {
+        return this._drawableManager;
+    }
+
 
     public void draw(Canvas canvas, int floorIndex)
     {

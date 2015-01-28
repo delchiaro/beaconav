@@ -1,36 +1,38 @@
 package micc.beaconav.indoorEngine.building;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
+import java.util.Iterator;
 import java.util.TreeMap;
 
+import micc.beaconav.indoorEngine.drawable.Drawable;
 import micc.beaconav.indoorEngine.drawable.DrawableBitmap;
 import micc.beaconav.localization.Position;
 
 
-public class Floor extends DrawableBitmap
+public class Floor extends Drawable
 {
     private TreeMap<String, Room> _rooms;
     private Building _containerBuilding;
 
 	public Floor(Bitmap bmp, Position padding){
-        super(bmp, padding, Long.MIN_VALUE);
+        super(Long.MIN_VALUE);
         _rooms = new TreeMap<String, Room>();
         _containerBuilding = null;
     }
 
 
 
-//    public void drawVectorial(Canvas canvas){
-//        Iterator<Room> roomIterator = roomList.iterator();
-//        while(roomIterator.hasNext())
-//        {
-//            Room room = roomIterator.next();
-//            room.draw(canvas);
-//        }
-//
-//    }
+    @Override
+    protected void _coreDraw(Canvas canvas) {
+        Iterator<Room> roomIter = _rooms.values().iterator();
+        while(roomIter.hasNext())
+        {
+            roomIter.next().draw(canvas); //delego disegno ad ogni stanza
+        }
 
+    }
 
 
 
@@ -48,7 +50,7 @@ public class Floor extends DrawableBitmap
     {
         this._containerBuilding = null;
     }
-    public final void removeContainerBuilding()
+    public final void removeFromContainerBuilding()
     {
         if(this._containerBuilding!=null)
             this._containerBuilding.remove(this);
@@ -83,7 +85,6 @@ public class Floor extends DrawableBitmap
     {
 		return _rooms.get(roomNam);
 	}
-
 
 
 }

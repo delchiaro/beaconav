@@ -289,9 +289,19 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
             if(this.selectedMuseumMarker != null)
             {
+                MuseumRow removedRow = museumMarkersMap.get(selectedMuseumMarker);
+                museumMarkersMap.remove(selectedMuseumMarker);
+                // rimuovo il marker dalla mappa salvandomi il relativo MuseumRow
+
                 selectedMuseumMarkerOptions.position(selectedMuseumMarker.getPosition());
                 selectedMuseumMarker.remove();
+                // rimuovo il marker da google maps (gmap) salvandomi la posizioni
+
                 selectedMuseumMarker = gmap.addMarker(selectedMuseumMarkerOptions);
+                // riinserisco in google map il marker
+
+                museumMarkersMap.put(selectedMuseumMarker, removedRow);
+                //riinserisco il marker-museumRow nella mappa
             }
         }
     }
@@ -306,7 +316,6 @@ public class Map implements JSONHandler, ProximityNotificationHandler
         circle = gmap.addCircle(circleOptions);
 
     }
-
 
     public Map setRadius(int radius)
     {
@@ -375,7 +384,6 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
         this.polyline = true;
     }
-
 
     private class RouteTask extends AsyncTask<LatLng, Void, Navigation>
     {
