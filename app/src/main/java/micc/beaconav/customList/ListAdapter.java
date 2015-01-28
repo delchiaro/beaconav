@@ -2,9 +2,11 @@ package micc.beaconav.customList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,12 +54,28 @@ public class ListAdapter extends BaseAdapter {
 
         ListItem listItem = (ListItem) getItem(position);
 
+        holder._image.setOnClickListener(mOnButtonClickListener);
+        holder._txt.setOnClickListener(mOnTextClickListener);
         holder._txt.setText(listItem.getDescription());       //Anche questa parte deve diventare più flessibile
         holder._image.setImageResource(listItem.getImageId());
 
         return convertView;
 
     }
+
+    private View.OnClickListener mOnTextClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+
+    private View.OnClickListener mOnButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
 
     @Override
     public int getCount() {
