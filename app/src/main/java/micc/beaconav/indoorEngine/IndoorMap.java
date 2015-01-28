@@ -32,7 +32,7 @@ public class IndoorMap
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.RED);
 
-        Bitmap tempBmp =  Bitmap.createBitmap(building.getWidth(), building.getHeight(), Bitmap.Config.RGB_565);
+        Bitmap tempBmp =  Bitmap.createBitmap((int)building.getWidth(), (int)building.getHeight(), Bitmap.Config.RGB_565);
         Canvas tempCanvas = new Canvas(tempBmp);
         building.draw(tempCanvas);
 

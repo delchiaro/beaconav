@@ -131,8 +131,8 @@ public class TouchActivity extends Activity implements OnTouchListener
 
 
 
-        mImageWidth = building.getWidth();
-        mImageHeight = building.getHeight();
+        mImageWidth = (int)building.getWidth();
+        mImageHeight = (int) building.getHeight();
 
 
 	//	View is scaled and translated by matrix, so scale and translate initially

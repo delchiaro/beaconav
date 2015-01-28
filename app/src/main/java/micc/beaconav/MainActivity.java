@@ -373,14 +373,11 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     @Override
     public void onClickMuseumMarker(final MuseumRow museumRow) {
 
-        FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
-        transaction3.replace(R.id.fragment_list_container, museumDescrFragment);
-        transaction3.addToBackStack(null);
-        transaction3.commit();
-        //Resources res = getResources();
-        //String museumDescr = String.format(res.getString(R.string.museum_description), museumRow.getDescr());
-        museumDescrFragment.updateMuseumDescr(museumRow.getDescr());
-
+        FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
+        fragTrans.replace(R.id.fragment_list_container, museumDescrFragment);
+        fragTrans.addToBackStack(null);
+        fragTrans.commit();
+        museumDescrFragment.setMuseumRow(museumRow);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package micc.beaconav.customList;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import org.w3c.dom.Text;
 
 import micc.beaconav.MainActivity;
 import micc.beaconav.R;
+import micc.beaconav.dbHelper.MuseumRow;
 
 
 /**
@@ -23,7 +25,8 @@ import micc.beaconav.R;
  */
 public class MuseumDescrFragment extends Fragment {
 
-    private TextView textViewMuseumDescr;
+    private TextView textViewMuseumDescr = null;
+    private MuseumRow museumRow = null;
 
     public MuseumDescrFragment() {
     }
@@ -31,16 +34,26 @@ public class MuseumDescrFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View myFragmentView = inflater.inflate(R.layout.fragment_museum_descr, container, false);
-
-        return myFragmentView;
+        return inflater.inflate(R.layout.fragment_museum_descr, container, false);
 
     }
 
-    public void updateMuseumDescr(String newDescr)
-    {
-        TextView textViewMuseumDescr = (TextView)getView().findViewById(R.id.museumDescription);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        textViewMuseumDescr = (TextView)getView().findViewById(R.id.museumDescription);
+        if(museumRow != null)
+            textViewMuseumDescr.setText(museumRow.getDescr());
+    }
+
+    public void setMuseumRow(MuseumRow row){
+        this.museumRow = row;
+        if(textViewMuseumDescr != null)
+            textViewMuseumDescr.setText(museumRow.getDescr());
+    }
+
+
+    public void updateMuseumDescr(String newDescr){
         textViewMuseumDescr.setText(newDescr);
     }
 

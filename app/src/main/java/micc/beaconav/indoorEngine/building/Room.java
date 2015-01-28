@@ -1,6 +1,7 @@
 package micc.beaconav.indoorEngine.building;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import java.util.ArrayList;
@@ -26,6 +27,9 @@ public class Room extends Drawable
 	public Room() {
         super(0);
         this._containerFloor = null;
+        this.wallsPaint = new Paint();
+        wallsPaint.setColor(Color.BLACK);
+        wallsPaint.setStrokeWidth(3);
 	}
 
 
@@ -41,7 +45,6 @@ public class Room extends Drawable
         while( vertexIter.hasNext())
         {
             Vertex vertex = vertexIter.next();
-            Paint newPaint = new Paint();
             canvas.drawLine(oldVertex.getX(), oldVertex.getY(), vertex.getX(), vertex.getY(), wallsPaint);
         }
     }

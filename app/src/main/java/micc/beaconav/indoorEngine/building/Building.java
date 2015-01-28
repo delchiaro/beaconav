@@ -2,6 +2,8 @@ package micc.beaconav.indoorEngine.building;
 
 import android.graphics.Canvas;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.TreeMap;
 
 import micc.beaconav.indoorEngine.drawable.DrawableManager;
@@ -10,8 +12,12 @@ import micc.beaconav.indoorEngine.drawable.DrawableManager;
 public class Building
 {
 
-	private int width;
-    private int height;
+  //  LatLng p1;
+  //  LatLng p2; // Il Building è un rettangolo definito tra due punti p1 e p2
+
+
+	private float width; // in  metri
+    private float height; // in metri
     private TreeMap<Integer, Floor> floorList;
     private int _activeFloor;
 
@@ -28,10 +34,10 @@ public class Building
 
 
 
-    public int getWidth(){
+    public float getWidth(){
         return width;
     }
-    public int getHeight(){
+    public float getHeight(){
         return height;
     }
 
