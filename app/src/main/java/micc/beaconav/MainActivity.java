@@ -46,7 +46,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private Context context;
 
 
-
 // * * * * * * * * * * * * COSTANTI (evitiamo i numeri magici) * * * * * * * * * * * * * * * * * *
     final float ANCHOR_POINT = 0.5f;
     final int SLIDING_BAR_EXPANDED_HEIGHT_DP = 120;
@@ -372,15 +371,15 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
 
     @Override
-    public void onClickMuseumMarker(MuseumRow museumRow) {
+    public void onClickMuseumMarker(final MuseumRow museumRow) {
 
-        //TODO: Se chiamato la seconda volta SULLO STESSO MARKER non fa, trovare l'errore.
         FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
         transaction3.replace(R.id.fragment_list_container, museumDescrFragment);
         transaction3.addToBackStack(null);
         transaction3.commit();
-        Resources res = getResources();
-        String museumDescr = String.format(res.getString(R.string.museum_description), museumRow.getDescr());
+        //Resources res = getResources();
+        //String museumDescr = String.format(res.getString(R.string.museum_description), museumRow.getDescr());
+        museumDescrFragment.updateMuseumDescr(museumRow.getDescr());
 
     }
 

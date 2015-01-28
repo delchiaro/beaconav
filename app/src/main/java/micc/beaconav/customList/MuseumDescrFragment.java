@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import micc.beaconav.MainActivity;
 import micc.beaconav.R;
 
 
@@ -19,6 +23,8 @@ import micc.beaconav.R;
  */
 public class MuseumDescrFragment extends Fragment {
 
+    private TextView textViewMuseumDescr;
+
     public MuseumDescrFragment() {
     }
 
@@ -29,6 +35,13 @@ public class MuseumDescrFragment extends Fragment {
         View myFragmentView = inflater.inflate(R.layout.fragment_museum_descr, container, false);
 
         return myFragmentView;
+
+    }
+
+    public void updateMuseumDescr(String newDescr)
+    {
+        TextView textViewMuseumDescr = (TextView)getView().findViewById(R.id.museumDescription);
+        textViewMuseumDescr.setText(newDescr);
     }
 
 }

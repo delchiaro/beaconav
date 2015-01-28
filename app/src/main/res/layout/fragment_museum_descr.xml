@@ -26,7 +26,6 @@
         android:id="@+id/museumDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/museum_description"
         android:layout_below="@id/descr"/>
 
     <TextView
