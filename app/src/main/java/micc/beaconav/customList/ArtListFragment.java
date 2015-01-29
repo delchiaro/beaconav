@@ -13,16 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import micc.beaconav.R;
+import micc.beaconav.dbHelper.MuseumRow;
 
 /**
 * Created by Mr_Holmes on 21/01/15.
 */
-public class FragmentListView extends Fragment {
+public class ArtListFragment extends Fragment {
 
-    ListView listView;
-    List<ListItem> listItems;
+    private ListView listView;
+    private List<ArtListItem> artListItems;
+    private ArrayList<MuseumRow> museumRows;
+    //List<ArtPieceRow> artPieceRows; quando ci saranno anche le opere questa riga va attivata
 
-    public FragmentListView() {}
+    public ArtListFragment() {}
 
     //probabilmente questo metodo non serve
     @Override
@@ -33,7 +36,7 @@ public class FragmentListView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.fragment_list_view, container, false);
+        return inflater.inflate(R.layout.fragment_art_list, container, false);
     }
 
     @Override
@@ -41,17 +44,17 @@ public class FragmentListView extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
 
-        listItems = new ArrayList<ListItem>();
+        artListItems = new ArrayList<ArtListItem>();
+
         for(int i = 0; i < 20; i++)
         {
-            String str = new String();
-            str = "Description number " + i;
-            ListItem item = new ListItem(R.drawable.graphic, str);
-            listItems.add(item);
+            String str = "Description number " + i;
+            ArtListItem item = new ArtListItem(R.drawable.graphic, str);
+            artListItems.add(item);
         }
 
         listView = (ListView) getView().findViewById(R.id.descriptionList);
-        ListAdapter adapter = new ListAdapter(getActivity(), listItems);
+        ListAdapter adapter = new ListAdapter(getActivity(), artListItems);
         listView.setAdapter(adapter);
 
     }

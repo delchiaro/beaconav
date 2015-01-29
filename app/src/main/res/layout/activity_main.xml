@@ -56,8 +56,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
-                android:background="@drawable/layout_searchbar_corners"
-                />
+                android:background="@drawable/layout_searchbar_corners"/>
 
 
 
@@ -144,8 +143,8 @@
                 android:paddingTop="2dp">
 
                 <!--Questo è il fragment che verrà sosotituito a seconda della lista-->
-                <!--<fragment android:name="micc.beaconav.CustomList.FragmentListView"
-                    android:id="@+id/fragment_list_view"
+                <!--<fragment android:name="micc.beaconav.CustomList.ArtListFragment"
+                    android:id="@+id/fragment_art_list"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>-->

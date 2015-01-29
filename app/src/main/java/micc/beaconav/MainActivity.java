@@ -4,8 +4,6 @@ import android.animation.ObjectAnimator;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -14,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.Transformation;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,8 +24,7 @@ import micc.beaconav.animationHelper.BackgroundColorChangerHSV;
 import micc.beaconav.animationHelper.DpHelper;
 import micc.beaconav.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.animationHelper.ScrollViewResizer;
-import micc.beaconav.customList.FragmentListView;
-import micc.beaconav.customList.FragmentListView2;
+import micc.beaconav.customList.ArtListFragment;
 import micc.beaconav.customList.MuseumDescrFragment;
 import micc.beaconav.dbHelper.MuseumRow;
 import micc.beaconav.map.MapFragment;
@@ -53,6 +49,10 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     final int SEARCH_BAR_PADDING_DP = 8;
     final  int SEARCH_BAR_HIDED_PADDING_DP = -60;
 
+//* * * * * * * * * * * *  FLAGS  * * * * * * * * * * * * * * *
+    private boolean fadeOutAnimationStarted = false;
+    private boolean colorAnimationStarted = false;
+    private boolean panelAnchored = false;
 
 // * * * * * * * * * * * *  DEFINIZIONE E INIZIALIZZAZIONE LAYOUT * * * * * * * * * * * * * * * * *
     private RelativeLayout mSlidingBarBg;
@@ -64,17 +64,10 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private SearchView mSearch;
     private FloatingActionButton mButton;
     private LinearLayout dragView;
-    private FragmentListView fragment1 = new FragmentListView();
-    private FragmentListView2 fragment2 = new FragmentListView2();
+    private ArtListFragment museumListFragment = new ArtListFragment();
     private MapFragment mapFragment = new MapFragment();
     private MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
 
-//* * * * * * * * * * * *  FLAGS  * * * * * * * * * * * * * * *
-
-    private boolean fadeOutAnimationStarted = false;
-    private boolean colorAnimationStarted = false;
-
-    private int fragmentNumber = 1; //flag temporaneo per test
 
     private void initActivityAndXML()
     {
@@ -89,8 +82,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         mSlidingBar = (LinearLayout) findViewById(R.id.slidingBar);
         fragmentListContainer = (RelativeLayout) findViewById(R.id.fragment_list_container);
 
-        //final Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-        //final Animation fadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
 
 
 
@@ -104,7 +95,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_list_container, fragment1);
+        fragmentTransaction.add(R.id.fragment_list_container, museumListFragment);
         fragmentTransaction.commit();
 
 
@@ -233,6 +224,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 Log.i(TAG, "onPanelExpanded");
                 
                 scrollViewResizer.resizeScrollView(0.0f);
+                panelAnchored = false; //è considerato true solo se fermo a metà
 
             }
 
@@ -262,25 +254,15 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         mButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v)
             {
-
-                switch(fragmentNumber)
+                if(panelAnchored == false)
                 {
-
-                    case 1:
-                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                            transaction.replace(R.id.fragment_list_container, fragment2);
-                            transaction.addToBackStack(null);
-                            transaction.commit();
-                            fragmentNumber = 2;
-                            break;
-                    case 2:
-                            FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
-                            transaction2.replace(R.id.fragment_list_container, fragment1);
-                            transaction2.addToBackStack(null);
-                            transaction2.commit();
-                            fragmentNumber = 1;
-                            break;
-
+                    mSlidingUpPanelLayout.expandPanel(ANCHOR_POINT);
+                    panelAnchored = true;
+                }
+                else
+                {
+                    mSlidingUpPanelLayout.expandPanel(0.0f);
+                    panelAnchored = false;
                 }
 
             }
@@ -373,21 +355,20 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     @Override
     public void onClickMuseumMarker(final MuseumRow museumRow) {
 
-        FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
-        fragTrans.replace(R.id.fragment_list_container, museumDescrFragment);
-        fragTrans.addToBackStack(null);
-        fragTrans.commit();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_list_container, museumDescrFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
         museumDescrFragment.setMuseumRow(museumRow);
     }
 
     @Override
     public void onDeselectMuseumMarker() {
 
-        FragmentTransaction transaction4 = getFragmentManager().beginTransaction();
-        transaction4.replace(R.id.fragment_list_container, fragment1);
-        transaction4.addToBackStack(null);
-        transaction4.commit();
-        fragmentNumber = 1;
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_list_container, museumListFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
 

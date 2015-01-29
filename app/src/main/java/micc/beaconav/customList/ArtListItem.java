@@ -3,12 +3,12 @@ package micc.beaconav.customList;
 /**
  * Created by Mr_Holmes on 22/01/15.
  */
-public class ListItem {
+public class ArtListItem {
 
     private String _description;
     private int _imageId;
 
-    public ListItem(int _imageId, String _description) {
+    public ArtListItem(int _imageId, String _description) {
         this._imageId = _imageId;
         this._description = _description;
     }

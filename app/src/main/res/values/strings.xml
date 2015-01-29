@@ -17,5 +17,8 @@
     <string name="action_show">Show Panel</string>
     <string name="action_anchor_enable">Enable Anchor Point</string>
     <string name="action_anchor_disable">Disable Anchor Point</string>
+    <string name="museum_search_hint">Search Museums</string>
+    <string name="title_activity_searchable">SearchableActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

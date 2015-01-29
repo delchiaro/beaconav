@@ -2,11 +2,9 @@ package micc.beaconav.customList;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,16 +19,15 @@ import java.util.List;
 public class ListAdapter extends BaseAdapter {
 
     Context context;
-    List<ListItem> list; //lista di oggetti base della lista (sono questi che si possono modificare a piacimento)
+    List<ArtListItem> list; //lista di oggetti base della lista (sono questi che si possono modificare a piacimento)
 
-    //questa classe andrà portata fuori e chiaramente cambia a seconda del layout
     private class ViewHolder
     {
-        ImageView _image;
-        TextView _txt;
+        ImageView _navButton;
+        TextView _artPieceName;
     }
 
-    public ListAdapter(Context context, List<ListItem> list) {
+    public ListAdapter(Context context, List<ArtListItem> list) {
         this.context = context;
         this.list = list;
     }
@@ -42,22 +39,22 @@ public class ListAdapter extends BaseAdapter {
         LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.list_item, null);
+            convertView = mInflater.inflate(R.layout.art_list_item, null);
             holder = new ViewHolder();
-            holder._txt = (TextView) convertView.findViewById(R.id.txt);            //Questa parte di codice andrebbe resa più flessibile
-            holder._image = (ImageView) convertView.findViewById(R.id.listImage);   //basterebbe fare un metodo che prende viewHolder
-            convertView.setTag(holder);                                             //come parametro e setta la roba a seconda del tipo di holder
+            holder._artPieceName = (TextView) convertView.findViewById(R.id.artPieceName);
+            holder._navButton = (ImageView) convertView.findViewById(R.id.navButton);
+            convertView.setTag(holder);
         }
         else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ListItem listItem = (ListItem) getItem(position);
+        ArtListItem artListItem = (ArtListItem) getItem(position);
 
-        holder._image.setOnClickListener(mOnButtonClickListener);
-        holder._txt.setOnClickListener(mOnTextClickListener);
-        holder._txt.setText(listItem.getDescription());       //Anche questa parte deve diventare più flessibile
-        holder._image.setImageResource(listItem.getImageId());
+        holder._navButton.setOnClickListener(mOnButtonClickListener);
+        holder._artPieceName.setOnClickListener(mOnTextClickListener);
+        holder._artPieceName.setText(artListItem.getDescription());
+        holder._navButton.setImageResource(artListItem.getImageId());
 
         return convertView;
 
@@ -65,14 +62,14 @@ public class ListAdapter extends BaseAdapter {
 
     private View.OnClickListener mOnTextClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(View txt) {
 
         }
     };
 
     private View.OnClickListener mOnButtonClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(View image) {
 
         }
     };
