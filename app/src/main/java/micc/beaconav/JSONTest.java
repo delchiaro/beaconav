@@ -17,7 +17,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import micc.beaconav.dbJSONManager.JSONParser;
+import micc.beaconav.db.dbJSONManager.JSONParser;
 
 
 public class JSONTest extends ActionBarActivity {

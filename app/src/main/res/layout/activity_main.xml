@@ -96,7 +96,7 @@
 
 
 
-                    <micc.beaconav.seekBar.DiscreteSeekBar
+                    <micc.beaconav.gui.seekBar.DiscreteSeekBar
                         android:id="@+id/seekBar"
                         android:layout_width="match_parent"
                         android:layout_marginRight="80dp"

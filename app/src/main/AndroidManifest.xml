@@ -52,7 +52,7 @@
             android:label="@string/title_activity_canvas_test" >
         </activity>
         <activity
-            android:name=".multitouch.TouchActivity"
+            android:name=".gui.multitouch.TouchActivity"
             android:label="@string/title_activity_canvas_test" >
         </activity>
         <activity

@@ -20,15 +20,15 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 
-import micc.beaconav.animationHelper.BackgroundColorChangerHSV;
-import micc.beaconav.animationHelper.DpHelper;
-import micc.beaconav.animationHelper.LayoutDimensionChanger;
-import micc.beaconav.animationHelper.ScrollViewResizer;
-import micc.beaconav.customList.ArtListFragment;
-import micc.beaconav.customList.MuseumDescrFragment;
-import micc.beaconav.dbHelper.MuseumRow;
-import micc.beaconav.map.MapFragment;
-import micc.beaconav.map.MuseumMarkerManager;
+import micc.beaconav.gui.animationHelper.BackgroundColorChangerHSV;
+import micc.beaconav.gui.animationHelper.DpHelper;
+import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
+import micc.beaconav.gui.animationHelper.ScrollViewResizer;
+import micc.beaconav.gui.customList.ArtListFragment;
+import micc.beaconav.gui.customList.MuseumDescrFragment;
+import micc.beaconav.db.dbHelper.MuseumRow;
+import micc.beaconav.outdoorEngine.MapFragment;
+import micc.beaconav.outdoorEngine.MuseumMarkerManager;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
