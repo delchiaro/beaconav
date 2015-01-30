@@ -32,6 +32,10 @@ public class TableRow
     }
 
 
+    public TableSchema getSchema(){
+        return this.schema;
+    }
+
     public int size(){
         return fields.values().size();
     }

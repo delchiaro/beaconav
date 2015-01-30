@@ -24,10 +24,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.MuseumRow;
 import micc.beaconav.db.dbHelper.MuseumSchemaFactory;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
-import micc.beaconav.db.dbJSONManager.JSONLoader;
+import micc.beaconav.db.dbJSONManager.JSONDownloader;
 import micc.beaconav.db.dbJSONManager.schema.TableRow;
 import micc.beaconav.db.dbJSONManager.schema.TableSchema;
 import micc.beaconav.outdoorEngine.navigation.GMapRouteManager;
@@ -57,7 +58,6 @@ public class Map implements JSONHandler, ProximityNotificationHandler
     private HashMap<Marker, MuseumRow> museumMarkersMap = null;
     private MuseumMarkerManager markerManager = null;
 
-    private final String jsonMuseumListURL = "http://whitelight.altervista.org/JSONTest.php";
 
     private boolean polyline = false;
 
@@ -99,7 +99,6 @@ public class Map implements JSONHandler, ProximityNotificationHandler
         circle = gmap.addCircle(circleOptions);
 
 
-
         museumMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
         selectedMuseumMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
@@ -107,22 +106,19 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
     private void setUpDbObjects()
     {
-        MuseumSchemaFactory factory = new MuseumSchemaFactory();
-        TableSchema schema = factory.getSchema();
-        JSONLoader jsonLoader = new JSONLoader(schema, this);
-        jsonLoader.startDownload(jsonMuseumListURL);
+        DbManager.museumDownloader.addHandler(this);
+        DbManager.museumDownloader.startDownload();
     }
 
     @Override
-    public void onJSONDownloadFinished(ArrayList<TableRow> result)
+    public void onJSONDownloadFinished(TableRow[] result)
     {
         this.rows = new ArrayList<>();
 
-        Iterator<TableRow> iter = result.iterator();
-
-        while(iter.hasNext())
+        int resultLenght = result.length;
+        for(int i = 0; i < resultLenght; i++)
         {
-            MuseumRow row = new MuseumRow( iter.next() );
+            MuseumRow row = new MuseumRow( result[i] );
             this.rows.add(row);
         }
         drawMarkers();

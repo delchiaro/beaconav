@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import micc.beaconav.db.dbJSONManager.schema.ColumnField;
@@ -18,28 +19,56 @@ import micc.beaconav.db.dbJSONManager.schema.TableSchema;
  * Created by nagash on 21/01/15.
  */
 
-public class JSONLoader extends AsyncTask<String, String, ArrayList<TableRow>>
+public class JSONDownloader extends AsyncTask<String, String, TableRow[]>
 {
 
     private TableSchema schema;
-    private ArrayList<TableRow> downloadedRows;
-    private JSONHandler handler;
+    private TableRow[] downloadedRows;
+    private List<JSONHandler> handlerList;
+    private final String URL;
 
-    public JSONLoader(TableSchema tableSchema, JSONHandler handler) {
+    private final int DOWNLOAD_NOT_STARTED = -1;
+    private final int DOWNLOAD_STARTED = 0;
+
+    long downloadIstant = DOWNLOAD_NOT_STARTED;
+
+
+
+    public JSONDownloader(TableSchema tableSchema, String url) {
         this.schema = tableSchema;
         this.downloadedRows = null;
-        this.handler = handler;
+        this.handlerList = new ArrayList<>();
+        this.URL = url;
     }
 
-    public void startDownload(String url)
-    {
-        String[] str = new String[1];
-        str[0] = url;
-        this.execute(str);
+    public void addHandler(JSONHandler newHandler){
+        this.handlerList.add(newHandler);
+        if(isDownloadFinished())
+            newHandler.onJSONDownloadFinished(this.getDownloadedRows());
+    }
+
+    public boolean startDownload() {
+        if(isDownloadStarted()==false) {
+            this.execute(URL);
+            return true;
+        }
+        else return false;
+    }
+    public boolean isDownloadFinished(){
+        if(downloadIstant > DOWNLOAD_STARTED ) return true;
+        else return false;
+    }
+    public boolean isDownloadStarted(){
+        if(downloadIstant > DOWNLOAD_NOT_STARTED) return true;
+        else return false;
+    }
+    public long getDownloadIstant(){
+        return downloadIstant;
     }
 
 
-    public ArrayList<TableRow> getDownloadedRows()
+
+    public TableRow[] getDownloadedRows()
     {
         if(downloadedRows != null)
             return downloadedRows;
@@ -47,15 +76,19 @@ public class JSONLoader extends AsyncTask<String, String, ArrayList<TableRow>>
     }
 
 
+
+
+
+
+
     @Override
     protected final void onPreExecute() {
         super.onPreExecute();
-        this.downloadedRows = null;
-        //cancella i vecchi download e indica che non ci sono rows scaricate.
+        this.downloadIstant = DOWNLOAD_STARTED;
     }
 
 
-    protected final ArrayList<TableRow> doInBackground(String... args) {
+    protected final TableRow[] doInBackground(String... args) {
 
         String url = args[0];
         ArrayList<TableRow> tableRows = new ArrayList<TableRow>();
@@ -101,13 +134,18 @@ public class JSONLoader extends AsyncTask<String, String, ArrayList<TableRow>>
             }
         }
 
-        return tableRows;
+        return tableRows.toArray(new TableRow[tableRows.size()]);
     }
 
 
-    protected final void onPostExecute(ArrayList<TableRow> result) {
+    protected final void onPostExecute(TableRow[] result) {
         this.downloadedRows = result;
-        handler.onJSONDownloadFinished(result);
+        downloadIstant = System.nanoTime();
+
+        Iterator<JSONHandler> iter = this.handlerList.iterator();
+        while(iter.hasNext())
+            iter.next().onJSONDownloadFinished(result);
+            // richiama i gestori di tutti gli handler
     }
 
 }

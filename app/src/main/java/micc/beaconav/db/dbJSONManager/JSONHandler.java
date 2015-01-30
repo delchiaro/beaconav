@@ -9,5 +9,5 @@ import micc.beaconav.db.dbJSONManager.schema.TableRow;
  */
 public interface JSONHandler
 {
-    abstract void onJSONDownloadFinished(ArrayList<TableRow> result);
+    abstract void onJSONDownloadFinished(TableRow[] result);
 }

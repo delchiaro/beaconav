@@ -1,5 +1,6 @@
 package micc.beaconav.gui.customList;
 
+import android.view.View;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,8 +15,8 @@ import micc.beaconav.R;
 import java.util.List;
 
 /**
-* Created by Mr_Holmes on 21/01/15.
-*/
+ * Created by Mr_Holmes on 21/01/15.
+ */
 public class ListAdapter extends BaseAdapter {
 
     Context context;
@@ -32,8 +33,7 @@ public class ListAdapter extends BaseAdapter {
         this.list = list;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
 
@@ -63,12 +63,7 @@ public class ListAdapter extends BaseAdapter {
 
     private View.OnClickListener mOnTextClickListener = new View.OnClickListener() {
         @Override
-<<<<<<< Updated upstream
         public void onClick(View txt) {
-=======
-        public void onClick(View v){
-
->>>>>>> Stashed changes
 
         }
     };
