@@ -11,6 +11,9 @@
         android:text="Description"
         android:layout_alignParentLeft="true"/>
 
+    <!--Qualsiasi cosa si voglia infilare fra il nome dell'opera/museo va messa qui e
+     gli va assegnato l'allineamento alla destra di artPieceName-->
+
     <ImageView
         android:id="@+id/navButton"
         android:layout_width="56dp"

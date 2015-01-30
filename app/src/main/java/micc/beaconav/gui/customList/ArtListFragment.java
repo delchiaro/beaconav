@@ -3,17 +3,23 @@ package micc.beaconav.gui.customList;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import micc.beaconav.R;
+import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.MuseumRow;
+import micc.beaconav.db.dbJSONManager.JSONHandler;
+import micc.beaconav.db.dbJSONManager.schema.TableRow;
 
 /**
 * Created by Mr_Holmes on 21/01/15.
@@ -23,7 +29,7 @@ public class ArtListFragment extends Fragment {
     private ListView listView;
     private List<ArtListItem> artListItems;
     private ArrayList<MuseumRow> museumRows;
-    //List<ArtPieceRow> artPieceRows; quando ci saranno anche le opere questa riga va attivata
+    //private List<ArtPieceRow> artPieceRows; quando ci saranno anche le opere questa riga va attivata
 
     public ArtListFragment() {}
 
@@ -44,22 +50,41 @@ public class ArtListFragment extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
 
-        artListItems = new ArrayList<ArtListItem>();
+      //if(isMuseum == true){
 
-        for(int i = 0; i < 20; i++)
-        {
-            String str = "Description number " + i;
-            ArtListItem item = new ArtListItem(R.drawable.graphic, str);
-            artListItems.add(item);
-        }
+        DbManager.museumDownloader.startDownload();
 
-        listView = (ListView) getView().findViewById(R.id.descriptionList);
-        ListAdapter adapter = new ListAdapter(getActivity(), artListItems);
-        listView.setAdapter(adapter);
+        DbManager.museumDownloader.addHandler(new JSONHandler() {
+
+            @Override
+            public void onJSONDownloadFinished(TableRow[] result) {
+
+                //museumRows = Arrays.asList((MuseumRow[]) result);
+
+                museumRows = new ArrayList<MuseumRow>(result.length);
+                for(int i=0; i<result.length; i++)
+                {
+                    museumRows.add(new MuseumRow(result[i]));
+                }
+
+                artListItems = new ArrayList<ArtListItem>();
+
+                for(int i = 0; i < museumRows.size(); i++)
+                {
+                    String name = museumRows.get(i).getName();
+                    ArtListItem item = new ArtListItem(R.drawable.graphic, name);
+                    artListItems.add(item);
+                }
+
+                listView = (ListView) getView().findViewById(R.id.descriptionList);
+                ListAdapter adapter = new ListAdapter(getActivity(), artListItems);
+                listView.setAdapter(adapter);
+
+            }
+            //else
+            //{stesso codice di sopra ma con le opere}
+        });
 
     }
-
-    //TODO: implementare l'onClickListener per andare alla descrizione se clickato sul titolo
-    //TODO: alla navigazione se clickato su immagine
 
 }

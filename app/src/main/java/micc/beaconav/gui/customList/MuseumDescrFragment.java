@@ -42,6 +42,8 @@ public class MuseumDescrFragment extends Fragment {
             textViewMuseumDescr.setText(museumRow.getDescr());
     }
 
+
+    //Questo setter è fondamentale, al Fragment di quale museo sto parlando
     public void setMuseumRow(MuseumRow row){
         this.museumRow = row;
         if(textViewMuseumDescr != null)
