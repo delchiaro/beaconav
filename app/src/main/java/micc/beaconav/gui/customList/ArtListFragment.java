@@ -3,23 +3,20 @@ package micc.beaconav.gui.customList;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
-import micc.beaconav.db.dbJSONManager.schema.TableRow;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.ATableRow;
 
 /**
 * Created by Mr_Holmes on 21/01/15.
@@ -57,7 +54,7 @@ public class ArtListFragment extends Fragment {
         DbManager.museumDownloader.addHandler(new JSONHandler() {
 
             @Override
-            public void onJSONDownloadFinished(TableRow[] result) {
+            public void onJSONDownloadFinished(ATableRow[] result) {
 
                 //museumRows = Arrays.asList((MuseumRow[]) result);
 

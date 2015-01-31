@@ -1,4 +1,4 @@
-package micc.beaconav.db.dbJSONManager.schema;
+package micc.beaconav.db.dbJSONManager.tableSchemaManager;
 
 /**
  * Created by nagash on 21/01/15.

@@ -1,4 +1,4 @@
-package micc.beaconav.db.dbJSONManager.schema;
+package micc.beaconav.db.dbJSONManager.tableSchemaManager;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -6,12 +6,12 @@ import java.util.Iterator;
 /**
  * Created by nagash on 21/01/15.
  */
-public class TableRow
+public class ATableRow
 {
-    private final TableSchema schema;
+    private TableSchema schema;
     private HashMap<String, ColumnField> fields;
 
-    public TableRow(TableSchema schema)
+    public ATableRow(TableSchema schema)
     {
         this.schema = schema;
         fields = new HashMap<>(schema.columnsMap().values().size());
@@ -25,15 +25,14 @@ public class TableRow
         }
     }
 
-    public TableRow(TableRow copy)
+    public ATableRow(ATableRow copy)
     {
-        this.schema = copy.schema;
         this.fields = copy.fields;
     }
 
 
     public TableSchema getSchema(){
-        return this.schema;
+        return schema;
     }
 
     public int size(){

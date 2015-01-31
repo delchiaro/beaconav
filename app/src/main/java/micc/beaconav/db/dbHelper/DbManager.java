@@ -8,6 +8,7 @@ import micc.beaconav.db.dbHelper.museum.MuseumSchemaFactory;
 import micc.beaconav.db.dbHelper.room.VertexRow;
 import micc.beaconav.db.dbHelper.room.VertexSchemaFactory;
 import micc.beaconav.db.dbJSONManager.JSONDownloader;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchemaManager;
 import micc.beaconav.indoorEngine.building.Room;
 
 /**
@@ -15,10 +16,14 @@ import micc.beaconav.indoorEngine.building.Room;
  */
 public class DbManager
 {
+    static private TableSchemaManager tableSchemaManager = TableSchemaManager.getIstance();
+
+
+
 
     static private final String museumJSONLink = "http://trinity.micc.unifi.it/museumapp/JSON_Museums.php";
     static public final JSONDownloader museumDownloader =
-            new JSONDownloader(new MuseumSchemaFactory().getSchema(), museumJSONLink);
+            new JSONDownloader(new MuseumSchemaFactory(), museumJSONLink);
 
 
 
@@ -32,7 +37,7 @@ public class DbManager
         if(vertexFromRoomDownloaders.get(roomID) == null)
         {
             //vertexJSONLink += "id=" + roomID; // TODO: implementare id in php
-            dl = new JSONDownloader(new VertexSchemaFactory().getSchema(), vertexJSONLink);
+            dl = new JSONDownloader(new VertexSchemaFactory(), vertexJSONLink);
             vertexFromRoomDownloaders.put(roomID, dl);
         }
         else dl = vertexFromRoomDownloaders.get(roomID);

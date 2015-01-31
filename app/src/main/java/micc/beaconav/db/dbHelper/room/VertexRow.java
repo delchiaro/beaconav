@@ -1,28 +1,28 @@
 package micc.beaconav.db.dbHelper.room;
 
-import micc.beaconav.db.dbJSONManager.schema.TableRow;
-import micc.beaconav.db.dbJSONManager.schema.TableSchema;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.ATableRow;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableRow;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchema;
 import micc.beaconav.indoorEngine.spot.Vertex;
-import micc.beaconav.localization.proximity.ProximityObject;
 
 /**
  * Created by nagash on 22/01/15.
  */
-public class VertexRow extends TableRow
+public class VertexRow extends TableRow<VertexSchemaFactory>
 {
 
-    private static TableSchema schema = new VertexSchemaFactory().generateSchema();
 
-    public VertexRow() {
-        super(schema);
+    public VertexRow(VertexSchemaFactory tableSchemaFactory) {
+        super(tableSchemaFactory);
     }
 
-    public VertexRow(TableRow copy)
-    {
+    public VertexRow(TableRow<VertexSchemaFactory> copy) {
         super(copy);
     }
 
-
+    public VertexRow(ATableRow genericTableRow) {
+        super(genericTableRow);
+    }
 
     public final String getID(){
          return field("ID").valueString();
@@ -41,5 +41,6 @@ public class VertexRow extends TableRow
     {
         return new Vertex(getX(), getY());
     }
+
 }
 

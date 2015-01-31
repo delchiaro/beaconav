@@ -26,11 +26,8 @@ import java.util.Iterator;
 
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
-import micc.beaconav.db.dbHelper.museum.MuseumSchemaFactory;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
-import micc.beaconav.db.dbJSONManager.JSONDownloader;
-import micc.beaconav.db.dbJSONManager.schema.TableRow;
-import micc.beaconav.db.dbJSONManager.schema.TableSchema;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.ATableRow;
 import micc.beaconav.outdoorEngine.navigation.GMapRouteManager;
 import micc.beaconav.outdoorEngine.navigation.Navigation;
 import micc.beaconav.localization.proximity.ProximityManager;
@@ -111,7 +108,7 @@ public class Map implements JSONHandler, ProximityNotificationHandler
     }
 
     @Override
-    public void onJSONDownloadFinished(TableRow[] result)
+    public void onJSONDownloadFinished(ATableRow[] result)
     {
         this.rows = new ArrayList<>();
 

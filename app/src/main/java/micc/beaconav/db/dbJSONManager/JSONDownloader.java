@@ -8,24 +8,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import micc.beaconav.db.dbHelper.museum.MuseumRow;
-import micc.beaconav.db.dbJSONManager.schema.ColumnField;
-import micc.beaconav.db.dbJSONManager.schema.TableRow;
-import micc.beaconav.db.dbJSONManager.schema.TableSchema;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.ColumnField;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.ATableRow;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchema;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchemaFactory;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchemaManager;
 
 /**
  * Created by nagash on 21/01/15.
  */
 
-public class JSONDownloader extends AsyncTask<String, String, TableRow[]>
+public class JSONDownloader extends AsyncTask<String, String, ATableRow[]>
 {
 
     private TableSchema schema;
-    private TableRow[] downloadedRows;
+    private ATableRow[] downloadedRows;
     private List<JSONHandler> handlerList;
     private final String URL;
 
@@ -36,8 +36,8 @@ public class JSONDownloader extends AsyncTask<String, String, TableRow[]>
 
 
 
-    public JSONDownloader(TableSchema tableSchema, String url) {
-        this.schema = tableSchema;
+    public JSONDownloader(TableSchemaFactory schemaFactory, String url) {
+        this.schema = TableSchemaManager.getIstance().getSchema(schemaFactory);
         this.downloadedRows = null;
         this.handlerList = new ArrayList<>();
         this.URL = url;
@@ -64,7 +64,7 @@ public class JSONDownloader extends AsyncTask<String, String, TableRow[]>
 
 
 
-    public TableRow[] getDownloadedRows()
+    public ATableRow[] getDownloadedRows()
     {
         if(downloadedRows != null)
             return downloadedRows;
@@ -90,13 +90,13 @@ public class JSONDownloader extends AsyncTask<String, String, TableRow[]>
     }
 
 
-    protected final TableRow[] doInBackground(String... args) {
+    protected final ATableRow[] doInBackground(String... args) {
         // TODO: Gestire eccezione nel caso in cui non si trovi l'oggetto json, e nel caso incuinon ci si possa connettere
 
         String url = args[0];
         String schemaName = args[1];
 
-        ArrayList<TableRow> tableRows = new ArrayList<TableRow>();
+        ArrayList<ATableRow> tableRows = new ArrayList<ATableRow>();
         JSONArray jsonArray = null;
 
         JSONParser jParser = new JSONParser();
@@ -121,13 +121,13 @@ public class JSONDownloader extends AsyncTask<String, String, TableRow[]>
                 try
                 {
                     jsonObject = jsonArray.getJSONObject(i);
-                    TableRow row = this.schema.newRow();
+                    ATableRow row = this.schema.newRow();
 
                     int nCols = this.schema.size();
                     for (int j = 0; j < nCols; j++)
                     {
                         ColumnField field = row.field(j);
-                        String colName = field.name();
+                        String colName = field.columnName();
                         String jsonValue = jsonObject.getString(colName);
                         row.field(j).set(jsonValue);
                     }
@@ -139,11 +139,11 @@ public class JSONDownloader extends AsyncTask<String, String, TableRow[]>
             }
         }
 
-        return tableRows.toArray(new TableRow[tableRows.size()]);
+        return tableRows.toArray(new ATableRow[tableRows.size()]);
     }
 
 
-    protected final void onPostExecute(TableRow[] result) {
+    protected final void onPostExecute(ATableRow[] result) {
         this.downloadedRows = result;
         downloadIstant = System.nanoTime();
 

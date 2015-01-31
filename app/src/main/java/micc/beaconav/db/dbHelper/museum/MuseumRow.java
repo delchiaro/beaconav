@@ -1,26 +1,27 @@
 package micc.beaconav.db.dbHelper.museum;
 
-import micc.beaconav.db.dbJSONManager.schema.TableRow;
-import micc.beaconav.db.dbJSONManager.schema.TableSchema;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.ATableRow;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableRow;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchema;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchemaManager;
 import micc.beaconav.localization.proximity.ProximityObject;
 
 /**
  * Created by nagash on 22/01/15.
  */
-public class MuseumRow extends TableRow implements ProximityObject
+public class MuseumRow extends TableRow<MuseumSchemaFactory> implements ProximityObject
 {
-
-    private static TableSchema schema = new MuseumSchemaFactory().generateSchema();
-
-    public MuseumRow() {
-        super(schema);
+    public MuseumRow(MuseumSchemaFactory tableSchemaFactory) {
+        super(tableSchemaFactory);
     }
 
-    public MuseumRow(TableRow copy)
-    {
+    public MuseumRow(TableRow<MuseumSchemaFactory> copy) {
         super(copy);
     }
 
+    public MuseumRow(ATableRow genericTableRow) {
+        super(genericTableRow);
+    }
 
 
     public final String getID(){
@@ -46,7 +47,5 @@ public class MuseumRow extends TableRow implements ProximityObject
     {
         return field("bmpSrc").valueString();
     }
-
-
 }
 

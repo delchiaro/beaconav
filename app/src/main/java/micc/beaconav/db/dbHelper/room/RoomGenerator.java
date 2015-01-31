@@ -1,6 +1,6 @@
 package micc.beaconav.db.dbHelper.room;
 
-import micc.beaconav.db.dbJSONManager.schema.TableRow;
+import micc.beaconav.db.dbJSONManager.tableSchemaManager.ATableRow;
 import micc.beaconav.indoorEngine.building.Room;
 
 /**
@@ -19,14 +19,23 @@ public class RoomGenerator
         return ret;
     }
 
-    public static Room generateRoomFromVertices(TableRow[] vertexRows)
+
+    public static Room generateRoomFromVertices(ATableRow[] vertexRows)
     {
         if(vertexRows == null || vertexRows.length <= 0) return null;
 
-        else if( vertexRows[0].getSchema() == new RoomSchemaFactory().getSchema() )
+        else if( new VertexSchemaFactory().isSameSchema(vertexRows[0]) )
         {
-            return generateRoomFromVertices((VertexRow[])vertexRows);
+            Room ret = new Room();
+            for(int i = 0; i < vertexRows.length; i++)
+            {
+                VertexRow vertexRow =  new VertexRow(vertexRows[i]);
+                ret.addCorner(vertexRow.toVertex(), i);
+            }
+            return ret;
         }
         else return null;
     }
+
+
 }

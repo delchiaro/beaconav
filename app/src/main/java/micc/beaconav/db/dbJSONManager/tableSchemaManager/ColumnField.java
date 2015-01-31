@@ -1,8 +1,9 @@
-package micc.beaconav.db.dbJSONManager.schema;
+package micc.beaconav.db.dbJSONManager.tableSchemaManager;
 
 /**
  * Created by Nagash on 20/01/2015.
  */
+
 public class ColumnField
 {
 
@@ -23,37 +24,24 @@ public class ColumnField
 
 
 
-    private Object getInitValue(){
-        switch(this.schema.type())
-        {
-            case STRING:    return new String();
-            case INT:       return new Integer(0);
-            case LONG:      return new Long(0);
-            case FLOAT:     return new Float(0);
-            case DOUBLE:    return new Double(0);
-            case BOOL:      return new Boolean(false);
-        }
-        return null;
-    }
     private void initValue(){
-        this.value = getInitValue();
+        this.value = this.type().getInitValue();
     }
 
     public void set(Object newVal)
     {
         this.value = newVal;
     }
-    public void set(String newValue)
-    {
+    public void set(String newValue){
         Type type = this.type();
-        this.value = Type.parseTypeValue(type, newValue);
+        this.value = this.type().fromString(newValue);
     }
 
 
     public final Type type(){
         return this.schema.type();
     }
-    public final String name(){
+    public final String columnName(){
         return this.schema.name();
     }
 

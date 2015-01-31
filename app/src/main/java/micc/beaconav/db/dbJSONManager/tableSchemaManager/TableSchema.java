@@ -1,4 +1,4 @@
-package micc.beaconav.db.dbJSONManager.schema;
+package micc.beaconav.db.dbJSONManager.tableSchemaManager;
 
 import java.util.HashMap;
 
@@ -7,15 +7,17 @@ import java.util.HashMap;
  */
 public class TableSchema
 {
+
     private final String name;
     private final HashMap<String, ColumnSchema> columns;
 
 
-    public TableSchema(TableSchema copy) {
-        this.name = copy.name;
-        this.columns = new HashMap<>(copy.columns);
-    }
-    public TableSchema(String name, ColumnSchema... columnSchemas)
+//    TableSchema(TableSchema copy) {
+//        this.name = copy.name;
+//        this.columns = new HashMap<>(copy.columns);
+//    }
+
+    TableSchema(String name, ColumnSchema... columnSchemas)
     {
         this.name = name;
         HashMap<String, ColumnSchema> initColumns = new HashMap<>(columnSchemas.length);
@@ -26,9 +28,9 @@ public class TableSchema
         this.columns = initColumns;
     }
 
-    public TableRow newRow()
+    public ATableRow newRow()
     {
-        return new TableRow(this);
+        return new ATableRow(this);
     }
 
     public final ColumnSchema[] columns()
