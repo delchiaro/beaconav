@@ -20,13 +20,13 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 
+import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.gui.animationHelper.BackgroundColorChangerHSV;
 import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.gui.animationHelper.ScrollViewResizer;
 import micc.beaconav.gui.customList.ArtListFragment;
 import micc.beaconav.gui.customList.MuseumDescrFragment;
-import micc.beaconav.db.dbHelper.MuseumRow;
 import micc.beaconav.outdoorEngine.MapFragment;
 import micc.beaconav.outdoorEngine.MuseumMarkerManager;
 
@@ -351,9 +351,8 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     }
 
 
-
     @Override
-    public void onClickMuseumMarker(final MuseumRow museumRow) {
+    public void onClickMuseumMarker(MuseumRow museumRow) {
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_list_container, museumDescrFragment);
@@ -361,6 +360,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         transaction.commit();
         museumDescrFragment.setMuseumRow(museumRow);
     }
+
 
     @Override
     public void onDeselectMuseumMarker() {

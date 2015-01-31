@@ -16,7 +16,7 @@ public class Floor extends Drawable
     private TreeMap<String, Room> _rooms;
     private Building _containerBuilding;
 
-	public Floor(Bitmap bmp, Position padding){
+	public Floor(Position padding){
         super(Long.MIN_VALUE);
         _rooms = new TreeMap<String, Room>();
         _containerBuilding = null;

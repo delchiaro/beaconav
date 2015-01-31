@@ -25,8 +25,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import micc.beaconav.db.dbHelper.DbManager;
-import micc.beaconav.db.dbHelper.MuseumRow;
-import micc.beaconav.db.dbHelper.MuseumSchemaFactory;
+import micc.beaconav.db.dbHelper.museum.MuseumRow;
+import micc.beaconav.db.dbHelper.museum.MuseumSchemaFactory;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 import micc.beaconav.db.dbJSONManager.JSONDownloader;
 import micc.beaconav.db.dbJSONManager.schema.TableRow;

@@ -1,4 +1,4 @@
-package micc.beaconav.db.dbHelper;
+package micc.beaconav.db.dbHelper.museum;
 
 import micc.beaconav.db.dbJSONManager.schema.ColumnSchema;
 import micc.beaconav.db.dbJSONManager.TableSchemaFactory;
@@ -22,5 +22,6 @@ public class MuseumSchemaFactory extends TableSchemaFactory
 
         //"ID":"uffizi","latitude":"43.767829","longitude":"11.255251","width":"900","height":"600","bmpSrc":"","name":"Galleria degli Uffizi","descr":"Galleria degli Uggizi"},
         return new TableSchema("museum", columnSchemas);
+
     }
 }

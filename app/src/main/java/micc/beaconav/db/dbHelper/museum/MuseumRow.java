@@ -1,4 +1,4 @@
-package micc.beaconav.db.dbHelper;
+package micc.beaconav.db.dbHelper.museum;
 
 import micc.beaconav.db.dbJSONManager.schema.TableRow;
 import micc.beaconav.db.dbJSONManager.schema.TableSchema;
@@ -46,7 +46,6 @@ public class MuseumRow extends TableRow implements ProximityObject
     {
         return field("bmpSrc").valueString();
     }
-
 
 
 }

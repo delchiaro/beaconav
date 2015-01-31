@@ -66,7 +66,7 @@ public class Room extends Drawable
 
 
 
-    //gestione associazione bidirezionale Building - Floor
+    //gestione associazione bidirezionale Floor - Room
 
     public Floor getContainerFloor(){
         return this._containerFloor;

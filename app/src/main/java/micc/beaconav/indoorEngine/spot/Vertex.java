@@ -20,16 +20,16 @@ public class Vertex extends Spot
         super(indPosition);
     }
 
-    public Vertex(Position position, int floor) {
-        super(position, floor);
+    public Vertex(Position position) {
+        super(position, Integer.MAX_VALUE);
     }
 
-    public Vertex(PointF position, int floor) {
-        super(position, floor);
+    public Vertex(PointF position) {
+        super(position, Integer.MAX_VALUE);
     }
 
-    public Vertex(int x, int y, int floor) {
-        super(x, y, floor);
+    public Vertex(float x, float y) {
+        super(x, y, Integer.MAX_VALUE);
     }
 
     public Vertex(Vertex copy){

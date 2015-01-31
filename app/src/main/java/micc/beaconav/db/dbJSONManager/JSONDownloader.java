@@ -8,9 +8,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.schema.ColumnField;
 import micc.beaconav.db.dbJSONManager.schema.TableRow;
 import micc.beaconav.db.dbJSONManager.schema.TableSchema;
@@ -47,13 +49,7 @@ public class JSONDownloader extends AsyncTask<String, String, TableRow[]>
             newHandler.onJSONDownloadFinished(this.getDownloadedRows());
     }
 
-    public boolean startDownload() {
-        if(isDownloadStarted()==false) {
-            this.execute(URL);
-            return true;
-        }
-        else return false;
-    }
+
     public boolean isDownloadFinished(){
         if(downloadIstant > DOWNLOAD_STARTED ) return true;
         else return false;
@@ -79,7 +75,13 @@ public class JSONDownloader extends AsyncTask<String, String, TableRow[]>
 
 
 
-
+    public boolean startDownload() {
+        if(isDownloadStarted()==false) {
+            this.execute(URL, schema.getName());
+            return true;
+        }
+        else return false;
+    }
 
     @Override
     protected final void onPreExecute() {
@@ -89,8 +91,11 @@ public class JSONDownloader extends AsyncTask<String, String, TableRow[]>
 
 
     protected final TableRow[] doInBackground(String... args) {
+        // TODO: Gestire eccezione nel caso in cui non si trovi l'oggetto json, e nel caso incuinon ci si possa connettere
 
         String url = args[0];
+        String schemaName = args[1];
+
         ArrayList<TableRow> tableRows = new ArrayList<TableRow>();
         JSONArray jsonArray = null;
 
@@ -100,7 +105,7 @@ public class JSONDownloader extends AsyncTask<String, String, TableRow[]>
 
 
         try {
-            jsonArray = json.getJSONArray("museums");
+            jsonArray = json.getJSONArray(schemaName);
         } catch (JSONException e) {
             e.printStackTrace();
         }

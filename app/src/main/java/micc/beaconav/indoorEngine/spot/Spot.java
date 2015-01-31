@@ -27,7 +27,7 @@ public class Spot implements ISpot
     public Spot(PointF position, int floor){
         _indoorPosition = new IndoorPosition(position, floor);
     }
-    public Spot(int x, int y, int floor){
+    public Spot(float x, float y, int floor){
         _indoorPosition = new IndoorPosition(x, y, floor);
     }
 

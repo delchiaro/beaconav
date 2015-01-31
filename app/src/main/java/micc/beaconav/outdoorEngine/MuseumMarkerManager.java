@@ -1,6 +1,7 @@
 package micc.beaconav.outdoorEngine;
 
-import micc.beaconav.db.dbHelper.MuseumRow;
+
+import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
 /**
  * Created by nagash on 27/01/15.

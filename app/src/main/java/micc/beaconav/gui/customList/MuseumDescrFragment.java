@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import micc.beaconav.R;
-import micc.beaconav.db.dbHelper.MuseumRow;
+import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
 
 /**

@@ -21,13 +21,20 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
+import micc.beaconav.db.dbHelper.DbManager;
+import micc.beaconav.db.dbHelper.room.RoomGenerator;
+import micc.beaconav.db.dbJSONManager.JSONDownloader;
+import micc.beaconav.db.dbJSONManager.JSONHandler;
+import micc.beaconav.db.dbJSONManager.schema.TableRow;
 import micc.beaconav.indoorEngine.IndoorMap;
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.Floor;
+import micc.beaconav.indoorEngine.building.Room;
+import micc.beaconav.indoorEngine.drawable.DrawableManager;
 import micc.beaconav.localization.Position;
 
 
-public class newTouchActivity extends Activity implements OnTouchListener
+public class newTouchActivity extends Activity implements OnTouchListener, JSONHandler
 {
 
     // these matrices will be used to move and zoom image
@@ -46,15 +53,24 @@ public class newTouchActivity extends Activity implements OnTouchListener
     private float newRot = 0f;
     private float[] lastEvent = null;
 
+    JSONDownloader vertexDownloader;
+    Room roomToDisplay;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-//        this.priorityTest();
+        vertexDownloader = DbManager.getVertexFromRoomDownloader(0);
+        vertexDownloader.addHandler(this);
+        vertexDownloader.startDownload();
 
+    }
+
+    @Override
+    public void onJSONDownloadFinished(TableRow[] result) {
+        roomToDisplay = RoomGenerator.generateRoomFromVertices(result);
         generateFrame();
-
     }
 
     private void generateFrame()
@@ -64,12 +80,11 @@ public class newTouchActivity extends Activity implements OnTouchListener
         imgView.setOnTouchListener(this);
 
 
-
-        Bitmap floor0_bmp = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
         Building building = new Building(500,500);
-        Floor floor0 = new Floor(floor0_bmp, new Position(10,10));
-        Floor floor1 = new Floor(null, new Position(20,20));
+        Floor floor0 = new Floor( new Position(10,10));
+        Floor floor1 = new Floor( new Position(20,20));
 
+        floor0.addRoom("MICC Room", roomToDisplay);
         building.addFloor(floor0, 0);
         building.addFloor(floor1, 1);
 
@@ -249,4 +264,6 @@ public class newTouchActivity extends Activity implements OnTouchListener
         double radians = Math.atan2(delta_y, delta_x);
         return (float) Math.toDegrees(radians);
     }
+
+
 }

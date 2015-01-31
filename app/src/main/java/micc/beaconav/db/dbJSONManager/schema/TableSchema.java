@@ -52,4 +52,8 @@ public class TableSchema
         return columns.size();
     }
 
+
+    public final String getName(){
+        return this.name;
+    }
 }
