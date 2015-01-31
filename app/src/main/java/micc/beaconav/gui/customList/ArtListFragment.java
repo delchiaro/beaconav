@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import micc.beaconav.MainActivity;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
@@ -24,7 +25,11 @@ import micc.beaconav.db.dbJSONManager.schema.TableRow;
 /**
 * Created by Mr_Holmes on 21/01/15.
 */
-public class ArtListFragment extends Fragment {
+public class ArtListFragment extends Fragment
+{
+
+    private View.OnClickListener listItemOnClickListener = null;
+
 
     private ListView listView;
     private List<ArtListItem> artListItems;
@@ -33,6 +38,7 @@ public class ArtListFragment extends Fragment {
 
     public ArtListFragment() {}
 
+
     //probabilmente questo metodo non serve
     @Override
     public void onAttach(Activity parentActivity) {
@@ -40,8 +46,7 @@ public class ArtListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_art_list, container, false);
     }
 
@@ -50,40 +55,53 @@ public class ArtListFragment extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
 
-      //if(isMuseum == true){
-
         DbManager.museumDownloader.startDownload();
 
         DbManager.museumDownloader.addHandler(new JSONHandler() {
-
             @Override
             public void onJSONDownloadFinished(TableRow[] result) {
-
-                //museumRows = Arrays.asList((MuseumRow[]) result);
-
-                museumRows = new ArrayList<MuseumRow>(result.length);
-                for(int i=0; i<result.length; i++)
-                {
-                    museumRows.add(new MuseumRow(result[i]));
-                }
-
-                artListItems = new ArrayList<ArtListItem>();
-
-                for(int i = 0; i < museumRows.size(); i++)
-                {
-                    ArtListItem item = new ArtListItem(R.drawable.graphic, museumRows.get(i).getName(), museumRows.get(i).getDescr());
-                    artListItems.add(item);
-                }
-
-                listView = (ListView) getView().findViewById(R.id.descriptionList);
-                ListAdapter adapter = new ListAdapter(getActivity(), artListItems);
-                listView.setAdapter(adapter);
-
+                inflateList(result);
             }
-            //else
-            //{stesso codice di sopra ma con le opere}
+
         });
 
+    }
+
+
+    public void setListItemOnClickListener(View.OnClickListener onClickListener ) {
+        this.listItemOnClickListener = onClickListener;
+    }
+
+
+
+
+
+
+// * * * * * * * * * * * * * * *  HELPERS * * * * * * * * * * * * * * * * * * * * *
+
+    private void inflateList(TableRow[] result) {
+
+        artListItems = new ArrayList<>();
+        for(int i = 0; i < result.length; i++)
+        {
+            /*
+            al posto di MuseumRow dovremo usare ArtRow astratta, per esempio.
+            ArtRow ha due metodi astratti: getName() e getDescription().
+            MuseumRow e ArtworkRow dovranno estendere ArtRow e quindi definire tali metodi.
+            Dovremo istanziare un new MuseumRow(result[i]) o un ArtworkRow(result[i]) a seconda
+            del tipo di TableSchema contenuto in result[i] ( nel branch indoor Engine ci sono funzioni apposite
+            per il controllo dei tipi, rimandare a dopo il merge).
+            */
+
+            MuseumRow museumRow = new MuseumRow(result[i]);
+            ArtListItem item = new ArtListItem(R.drawable.graphic, museumRow.getName(), museumRow.getDescr());
+            artListItems.add(item);
+        }
+
+        listView = (ListView) getView().findViewById(R.id.descriptionList);
+        ListAdapter adapter = new ListAdapter(getActivity(), artListItems);
+        adapter.setListItemOnClickListener(this.listItemOnClickListener);
+        listView.setAdapter(adapter);
     }
 
 }

@@ -30,6 +30,9 @@ import java.util.List;
 
 public class ListAdapter extends BaseAdapter {
 
+
+    private View.OnClickListener listItemOnClickListener = null;
+
     private Context context;
     private List<ArtListItem> list; //lista di oggetti base della lista (sono questi che si possono modificare a piacimento)
     private MuseumDescrFragment museumDescrFragment;
@@ -79,20 +82,18 @@ public class ListAdapter extends BaseAdapter {
         holder._navButton.setImageResource(artListItem.getImageId());
         this.description = artListItem.getDescription();
 
-        holder._navButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View btn) {
 
-                //TODO: qui il codice per andare alla descrizione del museo
 
-            }
-        });
+        if(this.listItemOnClickListener != null)
+            holder._navButton.setOnClickListener( this.listItemOnClickListener );
 
+
+        // TODO: fare lo stesso che ho fatto con listItemOnClickListener per quest'altro View:
         holder._artPieceName.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View txt) {
 
-                //TODO: qui il codice per far apparire la navigazione dal punto corrente al museo selezionato
+                //qui il codice per far apparire la navigazione dal punto corrente al museo selezionato
 
             }
         });
@@ -119,4 +120,11 @@ public class ListAdapter extends BaseAdapter {
     }
 
 
+
+
+
+
+    public void setListItemOnClickListener(View.OnClickListener onClickListener ) {
+        this.listItemOnClickListener = onClickListener;
+    }
 }

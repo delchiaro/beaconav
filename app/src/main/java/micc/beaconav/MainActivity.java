@@ -66,9 +66,9 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private SearchView mSearch;
     private FloatingActionButton mButton;
     private LinearLayout dragView;
-    private ArtListFragment museumListFragment = new ArtListFragment();
-    private MapFragment mapFragment = new MapFragment();
-    private MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
+
+
+
 
 
     private void initActivityAndXML()
@@ -279,7 +279,9 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         dpHelper = new DpHelper(this);
 
         initActivityAndXML();
+        initFragments();
         initEventListeners();
+
 
 
     }
@@ -347,29 +349,82 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     }
 
 
+
+
+
+
+
+
+
+
+
+// * * * * * * * * * * * * * * *  ALTRI EVENT MANAGER CREATI BEACONAV * * * * * * * * * * * * * * *
+
+
+
     @Override
     public void onClickMuseumMarker(MuseumRow museumRow) {
-
         swapFragment(R.id.fragment_list_container, museumDescrFragment);
         museumDescrFragment.setMuseumRow(museumRow);
-
     }
+
 
 
     @Override
     public void onDeselectMuseumMarker() {
-
         swapFragment(R.id.fragment_list_container, museumListFragment);
     }
 
+
+
+
+
+
+
+
+
+
+// * * * * * * * * * * * * * * *  GESTIONE DEI FRAGMENTS * * * * * * * * * * * * * * * * * * * * *
+
+
+    // * * * * * * * * * * * *  DEFINIZIONI DEI FRAGMENT
+    private ArtListFragment museumListFragment = new ArtListFragment();
+    private MapFragment mapFragment = new MapFragment();
+    private MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
+
+    private View.OnClickListener listItemOnClickListener;
+
+
+    private void initFragments(){
+        listItemOnClickListener = createListItemOnClickListener();
+        museumListFragment.setListItemOnClickListener(listItemOnClickListener);
+    }
+
+
+
+    // Metodo helper per istanziare event listener da inserire nella lista
+    private final View.OnClickListener createListItemOnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                swapFragment(R.id.fragment_list_container, museumDescrFragment);
+            }
+        };
+    }
+
     //Metodo per lo swap di fragments
-    public void swapFragment(int containerID, Fragment newFragment)
+    public final void swapFragment(int containerID, Fragment newFragment)
     {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(containerID, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+
+
+
+
 }
 
 
