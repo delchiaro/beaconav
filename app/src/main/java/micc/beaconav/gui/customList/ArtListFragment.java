@@ -29,7 +29,7 @@ public class ArtListFragment extends Fragment {
     private ListView listView;
     private List<ArtListItem> artListItems;
     private ArrayList<MuseumRow> museumRows;
-    //private List<ArtPieceRow> artPieceRows; quando ci saranno anche le opere questa riga va attivata
+    //private ArrayList<ArtPieceRow> artPieceRows; quando ci saranno anche le opere questa riga va attivata
 
     public ArtListFragment() {}
 
@@ -71,8 +71,7 @@ public class ArtListFragment extends Fragment {
 
                 for(int i = 0; i < museumRows.size(); i++)
                 {
-                    String name = museumRows.get(i).getName();
-                    ArtListItem item = new ArtListItem(R.drawable.graphic, name);
+                    ArtListItem item = new ArtListItem(R.drawable.graphic, museumRows.get(i).getName(), museumRows.get(i).getDescr());
                     artListItems.add(item);
                 }
 

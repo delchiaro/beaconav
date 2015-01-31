@@ -1,9 +1,11 @@
 package micc.beaconav;
 
 import android.animation.ObjectAnimator;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -93,17 +95,11 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     //Setta il fragment della lista scorrevole
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_list_container, museumListFragment);
-        fragmentTransaction.commit();
+        swapFragment(R.id.fragment_list_container, museumListFragment);
 
 
 
-        FragmentManager mapFragmentManager = getFragmentManager();
-        FragmentTransaction mapFragmentTransaction = mapFragmentManager.beginTransaction();
-        mapFragmentTransaction.add(R.id.fragment_map_container, mapFragment);
-        mapFragmentTransaction.commit();
+        swapFragment(R.id.fragment_map_container, mapFragment);
 
         mapFragment.setMuseumMarkerManager(this);
 
@@ -354,19 +350,23 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     @Override
     public void onClickMuseumMarker(MuseumRow museumRow) {
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_list_container, museumDescrFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        swapFragment(R.id.fragment_list_container, museumDescrFragment);
         museumDescrFragment.setMuseumRow(museumRow);
+
     }
 
 
     @Override
     public void onDeselectMuseumMarker() {
 
+        swapFragment(R.id.fragment_list_container, museumListFragment);
+    }
+
+    //Metodo per lo swap di fragments
+    public void swapFragment(int containerID, Fragment newFragment)
+    {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_list_container, museumListFragment);
+        transaction.replace(containerID, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
