@@ -72,16 +72,14 @@ public class ListAdapter extends BaseAdapter {
         holder._navButton.setImageResource(artListItem.getImageId());
 
 
-
-        OnListItemBtnClickListener btnClickListener = new OnListItemBtnClickListener();
-        btnClickListener.setRow(list.get(position).getRow());
-
-
         final MuseumRow currentRow = list.get(position).getRow();
+
+
 
         holder._navButton.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                FragmentHelper.simulateMuseumOnMapClickOn(currentRow);
                 // TODO: navigazione verso le coordinate del museo -> seleziona marker museo e naviga
             }
         });
@@ -90,7 +88,7 @@ public class ListAdapter extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    FragmentHelper.getIstance().showMuseumDescrFragment(currentRow);
+                    FragmentHelper.simulateMuseumOnMapClickOn(currentRow);
                 }
         });
 

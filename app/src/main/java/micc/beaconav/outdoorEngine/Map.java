@@ -18,6 +18,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
 
 import java.util.ArrayList;
@@ -45,6 +47,23 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 {
 
 
+    private static Map istance = null;
+    public static Map getIstance(){
+        if(istance == null)
+        {
+            return null;
+        }
+        else return istance;
+    }
+    public static Map setupIstance(GoogleMap mMap, MuseumMarkerManager markerManager){
+        if(istance == null)
+        {
+            istance = new Map(mMap, markerManager);
+            return istance;
+        }
+        else return null;
+    }
+
 
     private GoogleMap gmap; // Might be null if Google Play services APK is not available.
 
@@ -53,9 +72,9 @@ public class Map implements JSONHandler, ProximityNotificationHandler
     MarkerOptions museumMarkerOptions = new MarkerOptions();
     MarkerOptions selectedMuseumMarkerOptions = new MarkerOptions();
 
-
     private ArrayList<MuseumRow> rows = null;
-    private HashMap<Marker, MuseumRow> museumMarkersMap = null;
+    private BiMap<Marker, MuseumRow>  museumMarkersMap = null;
+
     private MuseumMarkerManager markerManager = null;
 
 
@@ -74,7 +93,7 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
 
 
-    public Map(GoogleMap mMap, MuseumMarkerManager markerManager)
+    private Map(GoogleMap mMap, MuseumMarkerManager markerManager)
     {
         this.gmap = mMap;
         this.gmap.setMyLocationEnabled(true);
@@ -167,10 +186,8 @@ public class Map implements JSONHandler, ProximityNotificationHandler
         gmap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
             @Override
             public boolean onMarkerClick(Marker marker) {
-                MuseumRow row = museumMarkersMap.get(marker);
-                goOnLatLng(marker.getPosition());
-                markerManager.onClickMuseumMarker(row);
-                setSelectedMuseumMarker(marker);
+                simulateMarkerClick(marker);
+
 
                 return true;
             }
@@ -268,19 +285,20 @@ public class Map implements JSONHandler, ProximityNotificationHandler
                 Iterator<Marker> iter = this.museumMarkersMap.keySet().iterator();
                 while(iter.hasNext())
                 {
-                    iter.next().remove();;
+                    iter.next().remove();
                 }
+
             }
 
-            this.museumMarkersMap = new HashMap<>();
+            this.museumMarkersMap = HashBiMap.create();
 
             Iterator<MuseumRow> iter = this.rows.iterator();
             while(iter.hasNext())
             {
                 MuseumRow row = iter.next();
                 museumMarkerOptions.position(new LatLng(row.getLatitude(), row.getLongitude()));
-                this.museumMarkersMap.put( gmap.addMarker(museumMarkerOptions), row);
-                //this.museumMarkers.add( gmap.addMarker(museumMarkOpt));
+                Marker addedMarker = gmap.addMarker(museumMarkerOptions);
+                this.museumMarkersMap.put( addedMarker, row);
             }
 
             if(this.selectedMuseumMarker != null)
@@ -322,10 +340,17 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
 
 
+    public void simulateMarkerClick(Marker markerToClick) {
+        MuseumRow row = museumMarkersMap.get(markerToClick);
+        goOnLatLng(markerToClick.getPosition());
+        markerManager.onClickMuseumMarker(row);
+        setSelectedMuseumMarker(markerToClick);
+    }
 
-
-
-
+    public void simulateMuseumClick(MuseumRow museumRow) {
+        Marker markerToClick = this.museumMarkersMap.inverse().get(museumRow);
+        this.simulateMarkerClick(markerToClick);
+    }
 
 
 
@@ -341,7 +366,7 @@ public class Map implements JSONHandler, ProximityNotificationHandler
     {
         if(this.selectedMuseumMarker != null)
             route(startLocation, this.selectedMuseumMarker.getPosition());
-    }
+    }ah
 
     public void route(LatLng origin, LatLng dest)
     {

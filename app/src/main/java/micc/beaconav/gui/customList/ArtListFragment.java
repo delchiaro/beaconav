@@ -13,6 +13,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import micc.beaconav.FragmentHelper;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
@@ -101,6 +102,15 @@ public class ArtListFragment extends Fragment
         listView = (ListView) getView().findViewById(R.id.descriptionList);
         ListAdapter adapter = new ListAdapter(getActivity(), artListItems);
         listView.setAdapter(adapter);
+
+        final TableRow[] rows = result;
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FragmentHelper.simulateMuseumOnMapClickOn(new MuseumRow(rows[position]));
+
+            }
+        });
         // questi 2 metodi settano i listener per ogni elemento della lista
         // sanno già a che positione si trova
         listView.setItemsCanFocus(true);
