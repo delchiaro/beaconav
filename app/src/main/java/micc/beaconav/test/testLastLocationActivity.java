@@ -1,4 +1,4 @@
-package micc.beaconav;
+package micc.beaconav.test;
 
 //FULL example with single locationa ccess (not continuous update)
 
@@ -26,6 +26,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import micc.beaconav.R;
 
 public class testLastLocationActivity extends FragmentActivity implements
         GooglePlayServicesClient.ConnectionCallbacks,

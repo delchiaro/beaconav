@@ -1,4 +1,4 @@
-package micc.beaconav;
+package micc.beaconav.test;
 
 
 import android.app.Activity;

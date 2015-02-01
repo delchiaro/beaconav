@@ -60,19 +60,19 @@
             android:label="@string/title_activity_canvas_test" >
         </activity>
         <activity
-            android:name=".testLocationActivity"
+            android:name=".test.testLocationActivity"
             android:label="@string/title_activity_test_location" >
         </activity>
         <activity
-            android:name=".testLastLocationActivity"
+            android:name=".test.testLastLocationActivity"
             android:label="@string/title_activity_test_updating_location" >
         </activity>
         <activity
-            android:name=".testAdaptedLocationActivity"
+            android:name=".test.testAdaptedLocationActivity"
             android:label="@string/title_activity_test_updating_location" >
         </activity>
         <activity
-            android:name=".JSONTest"
+            android:name=".test.JSONTest"
             android:label="@string/title_activity_jsontest" >
         </activity>
     </application>

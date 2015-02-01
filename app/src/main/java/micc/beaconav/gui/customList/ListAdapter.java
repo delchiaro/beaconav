@@ -9,7 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import micc.beaconav.FragmentHelper;
+import micc.beaconav.MainActivity;
 import micc.beaconav.R;
+import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
 import java.util.List;
 
@@ -27,6 +30,7 @@ public class ListAdapter extends BaseAdapter {
 
     private View.OnClickListener listItemNameOnClickListener = null;
     private View.OnClickListener listItemBtnOnClickListener = null;
+
 
     private Context context;
     private List<ArtListItem> list; //lista di oggetti base della lista (sono questi che si possono modificare a piacimento)
@@ -71,12 +75,22 @@ public class ListAdapter extends BaseAdapter {
         holder._navButton.setImageResource(artListItem.getImageId());
 
 
-        if(this.listItemBtnOnClickListener != null)
-            holder._navButton.setOnClickListener( this.listItemBtnOnClickListener);
+
+        OnListItemBtnClickListener btnClickListener = new OnListItemBtnClickListener();
+        btnClickListener.setRow(list.get(position).getRow());
+        holder._navButton.setOnClickListener(   btnClickListener );
 
 
-        if(this.listItemNameOnClickListener != null)
-            holder._artPieceName.setOnClickListener( this.listItemNameOnClickListener);
+
+        final MuseumRow currentRow = list.get(position).getRow();
+        holder._navButton.setOnClickListener( new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                FragmentHelper.showMuseumDescrFragment(currentRow);
+
+            }
+        });
 
         return convertView;
 
