@@ -21,6 +21,6 @@ public class OnListItemBtnClickListener implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        FragmentHelper.showMuseumDescrFragment(this.museumRow);
+        FragmentHelper.getIstance().showMuseumDescrFragment(this.museumRow);
     }
 }

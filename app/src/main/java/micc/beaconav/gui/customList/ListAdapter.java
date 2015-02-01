@@ -28,9 +28,6 @@ import java.util.List;
 public class ListAdapter extends BaseAdapter {
 
 
-    private View.OnClickListener listItemNameOnClickListener = null;
-    private View.OnClickListener listItemBtnOnClickListener = null;
-
 
     private Context context;
     private List<ArtListItem> list; //lista di oggetti base della lista (sono questi che si possono modificare a piacimento)
@@ -78,32 +75,30 @@ public class ListAdapter extends BaseAdapter {
 
         OnListItemBtnClickListener btnClickListener = new OnListItemBtnClickListener();
         btnClickListener.setRow(list.get(position).getRow());
-        holder._navButton.setOnClickListener(   btnClickListener );
-
 
 
         final MuseumRow currentRow = list.get(position).getRow();
-        holder._navButton.setOnClickListener( new View.OnClickListener(){
 
+        holder._navButton.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                FragmentHelper.showMuseumDescrFragment(currentRow);
-
+                // TODO: navigazione verso le coordinate del museo -> seleziona marker museo e naviga
             }
+        });
+
+        holder._artPieceName.setOnClickListener( new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    FragmentHelper.getIstance().showMuseumDescrFragment(currentRow);
+                }
         });
 
         return convertView;
 
     }
 
-    public void setListItemBtnOnClickListener(View.OnClickListener listItemBtnOnClickListener) {
-        this.listItemBtnOnClickListener = listItemBtnOnClickListener;
-    }
-
-    public void setListItemNameOnClickListener(View.OnClickListener listItemNameOnClickListener) {
-        this.listItemNameOnClickListener = listItemNameOnClickListener;
-    }
-
+  
     @Override
     public int getCount() {
         return list.size();

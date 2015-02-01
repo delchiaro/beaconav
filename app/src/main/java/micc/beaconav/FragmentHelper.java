@@ -1,6 +1,7 @@
 package micc.beaconav;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
@@ -18,9 +19,9 @@ public class FragmentHelper
 
 
 
-    private static ArtListFragment artListFragment = new ArtListFragment();
-    private static MapFragment mapFragment = new MapFragment();
-    private static MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
+    public static ArtListFragment artListFragment = new ArtListFragment();
+    public static MapFragment mapFragment = new MapFragment();
+    public static MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
 
 
     public static void setMainActivity(MainActivity activity) {
@@ -44,26 +45,26 @@ public class FragmentHelper
 
     public static final void showListFragment() {
         swapFragment(R.id.fragment_list_container, artListFragment);
+
+
     }
 
-    public static final void showMapFragment() {
-        swapFragment(R.id.fragment_map_container, artListFragment);
+    public static  final void showMapFragment() {
+        swapFragment(R.id.fragment_map_container, mapFragment);
         mapFragment.setMuseumMarkerManager(mainActivity);
     }
-
-
-
-
 
 
 
     //Metodo per lo swap di fragments
     private static final void swapFragment(int containerID, Fragment newFragment)
     {
-        FragmentTransaction transaction = mainActivity.getFragmentManager().beginTransaction();
+        FragmentManager fragmentManager = mainActivity.getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(containerID, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+
     }
 
 

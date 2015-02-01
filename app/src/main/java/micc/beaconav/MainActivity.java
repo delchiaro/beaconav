@@ -1,6 +1,9 @@
 package micc.beaconav;
 
 import android.animation.ObjectAnimator;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -25,6 +28,7 @@ import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.gui.animationHelper.ScrollViewResizer;
 
+import micc.beaconav.gui.customList.ArtListFragment;
 import micc.beaconav.outdoorEngine.MuseumMarkerManager;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -87,8 +91,21 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     //Setta il fragment della lista scorrevole
 
-        FragmentHelper.showMapFragment();
-        FragmentHelper.showListFragment();
+
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment_list_container, FragmentHelper.artListFragment);
+//        fragmentTransaction.commit();
+//
+//
+//
+//        FragmentManager mapFragmentManager = getFragmentManager();
+//        FragmentTransaction mapFragmentTransaction = mapFragmentManager.beginTransaction();
+//        mapFragmentTransaction.replace(R.id.fragment_map_container, FragmentHelper.mapFragment);
+//        mapFragmentTransaction.commit();
+
+        FragmentHelper.getIstance().showListFragment();
+        FragmentHelper.getIstance().showMapFragment();
 
 
     }
@@ -350,14 +367,14 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     @Override
     public void onClickMuseumMarker(MuseumRow museumRow) {
-        FragmentHelper.showMuseumDescrFragment(museumRow);
+        FragmentHelper.getIstance().showMuseumDescrFragment(museumRow);
     }
 
 
 
     @Override
     public void onDeselectMuseumMarker() {
-        FragmentHelper.showListFragment();
+        FragmentHelper.getIstance().showListFragment();
     }
 
 
