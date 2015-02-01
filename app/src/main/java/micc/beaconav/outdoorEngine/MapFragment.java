@@ -13,10 +13,10 @@ import android.widget.Button;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 
-import micc.beaconav.JSONTest;
+import micc.beaconav.test.JSONTest;
 import micc.beaconav.R;
-import micc.beaconav.testAdaptedLocationActivity;
-import micc.beaconav.testLastLocationActivity;
+import micc.beaconav.test.testAdaptedLocationActivity;
+import micc.beaconav.test.testLastLocationActivity;
 
 /**
  * Created by nagash on 26/01/15.

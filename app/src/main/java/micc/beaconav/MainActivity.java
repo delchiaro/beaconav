@@ -2,6 +2,7 @@ package micc.beaconav;
 
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-import android.widget.AdapterView;
+
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -26,10 +27,8 @@ import micc.beaconav.gui.animationHelper.BackgroundColorChangerHSV;
 import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.gui.animationHelper.ScrollViewResizer;
+
 import micc.beaconav.gui.customList.ArtListFragment;
-import micc.beaconav.gui.customList.ArtListItem;
-import micc.beaconav.gui.customList.MuseumDescrFragment;
-import micc.beaconav.outdoorEngine.MapFragment;
 import micc.beaconav.outdoorEngine.MuseumMarkerManager;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -68,9 +67,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private LinearLayout dragView;
 
 
-
-
-
     private void initActivityAndXML()
     {
     // FIND VIEW BY ID * * * * * * * * * * * * * * * * * * * * * * * *
@@ -95,13 +91,21 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     //Setta il fragment della lista scorrevole
 
-        swapFragment(R.id.fragment_list_container, artListFragment);
 
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment_list_container, FragmentHelper.artListFragment);
+//        fragmentTransaction.commit();
+//
+//
+//
+//        FragmentManager mapFragmentManager = getFragmentManager();
+//        FragmentTransaction mapFragmentTransaction = mapFragmentManager.beginTransaction();
+//        mapFragmentTransaction.replace(R.id.fragment_map_container, FragmentHelper.mapFragment);
+//        mapFragmentTransaction.commit();
 
-
-        swapFragment(R.id.fragment_map_container, mapFragment);
-
-        mapFragment.setMuseumMarkerManager(this);
+        FragmentHelper.getIstance().showListFragment();
+        FragmentHelper.getIstance().showMapFragment();
 
 
     }
@@ -276,8 +280,9 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         this.context = this;
         dpHelper = new DpHelper(this);
 
-        initActivityAndXML();
         initFragments();
+
+        initActivityAndXML();
         initEventListeners();
 
 
@@ -362,15 +367,14 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     @Override
     public void onClickMuseumMarker(MuseumRow museumRow) {
-        swapFragment(R.id.fragment_list_container, museumDescrFragment);
-        museumDescrFragment.setMuseumRow(museumRow);
+        FragmentHelper.getIstance().showMuseumDescrFragment(museumRow);
     }
 
 
 
     @Override
     public void onDeselectMuseumMarker() {
-        swapFragment(R.id.fragment_list_container, artListFragment);
+        FragmentHelper.getIstance().showListFragment();
     }
 
 
@@ -386,58 +390,19 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
 
     // * * * * * * * * * * * *  DEFINIZIONI DEI FRAGMENT
-    private ArtListFragment artListFragment = new ArtListFragment();
-    private MapFragment mapFragment = new MapFragment();
-    private MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
-
-    private AdapterView.OnItemClickListener listItemNameOnClickListener;
-    private AdapterView.OnItemClickListener listItemBtnOnClickListener;
-
-
     private void initFragments(){
-        listItemNameOnClickListener = createListItemNameOnClickListener();
-        listItemBtnOnClickListener = createListItemBtnOnClickListener();
-        artListFragment.setListItemNameOnClickListener(listItemNameOnClickListener);
-        artListFragment.setListItemBtnOnClickListener(listItemBtnOnClickListener);
-
+        FragmentHelper.setMainActivity(this);
     }
 
-
-
-    // Metodi helper per istanziare event listener da inserire nella lista
-    // devono essere OnItemClickListener perchè posso specificare la posizione alla
-    // quale voglio accedere (vedi documentazione OnItemClick
-    // )
-    private final AdapterView.OnItemClickListener createListItemNameOnClickListener() {
-        return new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                swapFragment(R.id.fragment_list_container, museumDescrFragment);
-                museumDescrFragment.setMuseumRow(((ArtListItem) parent.getItemAtPosition(position)).getRow());
-            }
-        };
-    }
-
-    private final AdapterView.OnItemClickListener createListItemBtnOnClickListener()
-    {
-        return new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //da mettere la navigazione dalla posizione corrente al museo clicckato
-
-            }
-        };
-
-    }
-
-    //Metodo per lo swap di fragments
-    public final void swapFragment(int containerID, Fragment newFragment)
-    {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(containerID, newFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
+//
+//    //Metodo per lo swap di fragments
+//    public final void swapFragment(int containerID, Fragment newFragment)
+//    {
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        transaction.replace(containerID, newFragment);
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+//    }
 
 
 
