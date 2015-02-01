@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.gui.customList.ArtListFragment;
 import micc.beaconav.gui.customList.MuseumDescrFragment;
+import micc.beaconav.outdoorEngine.Map;
 import micc.beaconav.outdoorEngine.MapFragment;
 
 /**
@@ -41,6 +42,10 @@ public class FragmentHelper
     public static final void showMuseumDescrFragment(final MuseumRow row) {
         swapFragment(R.id.fragment_list_container, museumDescrFragment);
         museumDescrFragment.setMuseumRow(row);
+    }
+
+    public static final void simulateMuseumOnMapClickOn(final MuseumRow row){
+        Map.getIstance().simulateMuseumClick(row);
     }
 
     public static final void showListFragment() {
