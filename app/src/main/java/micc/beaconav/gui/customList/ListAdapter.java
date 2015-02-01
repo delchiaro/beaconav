@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.app.FragmentManager;
 
 import micc.beaconav.R;
-import micc.beaconav.db.dbJSONManager.schema.TableRow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,10 +77,7 @@ public class ListAdapter extends BaseAdapter {
         holder._navButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View btn) {
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_list_container, museumDescrFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+
             }
         });
 

@@ -5,12 +5,19 @@ package micc.beaconav.gui.customList;
  */
 public class ArtListItem {
 
+    private String _name;
     private String _description;
     private int _imageId;
 
     public ArtListItem(int _imageId, String _description) {
         this._imageId = _imageId;
         this._description = _description;
+    }
+
+
+    public String getName()
+    {
+        return this._name;
     }
 
     public String getDescription()
