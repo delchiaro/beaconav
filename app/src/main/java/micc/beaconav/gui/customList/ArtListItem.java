@@ -1,18 +1,30 @@
 package micc.beaconav.gui.customList;
 
+import micc.beaconav.R;
+import micc.beaconav.db.dbHelper.museum.MuseumRow;
+
 /**
  * Created by Mr_Holmes on 22/01/15.
  */
 public class ArtListItem {
 
+    private MuseumRow _row;
     private String _name;
     private String _description;
-    private int _imageId;
+    private int _imageId = R.drawable.graphic;
 
-    public ArtListItem(int imageId, String name, String description) {
-        this._imageId = imageId;
-        this._name = name;
-        this._description = description;
+    public ArtListItem(MuseumRow row) {
+        this._row = row;
+        this._name = row.getName();
+        this._description = row.getDescr();
+    }
+
+    public MuseumRow getRow() {
+        return _row;
+    }
+
+    public void setRow(MuseumRow row) {
+        this._row = row;
     }
 
     public String getName()

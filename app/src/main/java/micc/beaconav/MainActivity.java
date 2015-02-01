@@ -2,10 +2,8 @@ package micc.beaconav;
 
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -15,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -28,6 +27,7 @@ import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.gui.animationHelper.ScrollViewResizer;
 import micc.beaconav.gui.customList.ArtListFragment;
+import micc.beaconav.gui.customList.ArtListItem;
 import micc.beaconav.gui.customList.MuseumDescrFragment;
 import micc.beaconav.outdoorEngine.MapFragment;
 import micc.beaconav.outdoorEngine.MuseumMarkerManager;
@@ -95,7 +95,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     //Setta il fragment della lista scorrevole
 
-        swapFragment(R.id.fragment_list_container, museumListFragment);
+        swapFragment(R.id.fragment_list_container, artListFragment);
 
 
 
@@ -245,8 +245,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         });
 
 
-        //Questo bottone dovrà portare alla navigazione
-        //per adesso si usa per test
         mButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v)
             {
@@ -372,7 +370,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     @Override
     public void onDeselectMuseumMarker() {
-        swapFragment(R.id.fragment_list_container, museumListFragment);
+        swapFragment(R.id.fragment_list_container, artListFragment);
     }
 
 
@@ -388,28 +386,48 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
 
     // * * * * * * * * * * * *  DEFINIZIONI DEI FRAGMENT
-    private ArtListFragment museumListFragment = new ArtListFragment();
+    private ArtListFragment artListFragment = new ArtListFragment();
     private MapFragment mapFragment = new MapFragment();
     private MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
 
-    private View.OnClickListener listItemOnClickListener;
+    private AdapterView.OnItemClickListener listItemNameOnClickListener;
+    private AdapterView.OnItemClickListener listItemBtnOnClickListener;
 
 
     private void initFragments(){
-        listItemOnClickListener = createListItemOnClickListener();
-        museumListFragment.setListItemOnClickListener(listItemOnClickListener);
+        listItemNameOnClickListener = createListItemNameOnClickListener();
+        listItemBtnOnClickListener = createListItemBtnOnClickListener();
+        artListFragment.setListItemNameOnClickListener(listItemNameOnClickListener);
+        artListFragment.setListItemBtnOnClickListener(listItemBtnOnClickListener);
+
     }
 
 
 
-    // Metodo helper per istanziare event listener da inserire nella lista
-    private final View.OnClickListener createListItemOnClickListener() {
-        return new View.OnClickListener() {
+    // Metodi helper per istanziare event listener da inserire nella lista
+    // devono essere OnItemClickListener perchè posso specificare la posizione alla
+    // quale voglio accedere (vedi documentazione OnItemClick
+    // )
+    private final AdapterView.OnItemClickListener createListItemNameOnClickListener() {
+        return new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 swapFragment(R.id.fragment_list_container, museumDescrFragment);
+                museumDescrFragment.setMuseumRow(((ArtListItem) parent.getItemAtPosition(position)).getRow());
             }
         };
+    }
+
+    private final AdapterView.OnItemClickListener createListItemBtnOnClickListener()
+    {
+        return new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //da mettere la navigazione dalla posizione corrente al museo clicckato
+
+            }
+        };
+
     }
 
     //Metodo per lo swap di fragments

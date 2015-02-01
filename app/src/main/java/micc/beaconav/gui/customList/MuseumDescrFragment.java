@@ -54,11 +54,11 @@ public class MuseumDescrFragment extends Fragment
     }
 
 
-// TODO: Eliminabile? Si utilizza setMuseumRow al suo posto
-//    public void updateMuseumDescr(String newDescr){
-//        textViewMuseumDescr.setText(newDescr);
-//    }
-//
+    public void updateMuseumDescr(String newDescr){
+        if(textViewMuseumDescr != null)
+            textViewMuseumDescr.setText(newDescr);
+    }
+
 
 
 

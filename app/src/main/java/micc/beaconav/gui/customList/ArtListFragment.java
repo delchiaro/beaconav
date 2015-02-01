@@ -3,19 +3,16 @@ package micc.beaconav.gui.customList;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import micc.beaconav.MainActivity;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
@@ -28,13 +25,11 @@ import micc.beaconav.db.dbJSONManager.schema.TableRow;
 public class ArtListFragment extends Fragment
 {
 
-    private View.OnClickListener listItemOnClickListener = null;
-
+    private AdapterView.OnItemClickListener listItemNameOnClickListener = null;
+    private AdapterView.OnItemClickListener listItemBtnOnClickListener = null;
 
     private ListView listView;
     private List<ArtListItem> artListItems;
-    private ArrayList<MuseumRow> museumRows;
-    //private ArrayList<ArtPieceRow> artPieceRows; quando ci saranno anche le opere questa riga va attivata
 
     public ArtListFragment() {}
 
@@ -68,8 +63,12 @@ public class ArtListFragment extends Fragment
     }
 
 
-    public void setListItemOnClickListener(View.OnClickListener onClickListener ) {
-        this.listItemOnClickListener = onClickListener;
+    public void setListItemNameOnClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+        this.listItemNameOnClickListener = onItemClickListener;
+    }
+
+    public void setListItemBtnOnClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+        this.listItemBtnOnClickListener = onItemClickListener;
     }
 
 
@@ -94,14 +93,19 @@ public class ArtListFragment extends Fragment
             */
 
             MuseumRow museumRow = new MuseumRow(result[i]);
-            ArtListItem item = new ArtListItem(R.drawable.graphic, museumRow.getName(), museumRow.getDescr());
+            ArtListItem item = new ArtListItem(museumRow);
             artListItems.add(item);
         }
 
         listView = (ListView) getView().findViewById(R.id.descriptionList);
         ListAdapter adapter = new ListAdapter(getActivity(), artListItems);
-        adapter.setListItemOnClickListener(this.listItemOnClickListener);
         listView.setAdapter(adapter);
+        // questi 2 metodi settano i listener per ogni elemento della lista
+        // sanno già a che positione si trova
+        listView.setItemsCanFocus(true);
+        listView.setOnItemClickListener(this.listItemBtnOnClickListener);
+        listView.setOnItemClickListener(this.listItemNameOnClickListener);
+
     }
 
 }
