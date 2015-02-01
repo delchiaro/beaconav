@@ -103,8 +103,6 @@ public class ArtListFragment extends Fragment
         // questi 2 metodi settano i listener per ogni elemento della lista
         // sanno già a che positione si trova
         listView.setItemsCanFocus(true);
-        listView.setOnItemClickListener(this.listItemBtnOnClickListener);
-        listView.setOnItemClickListener(this.listItemNameOnClickListener);
 
     }
 
