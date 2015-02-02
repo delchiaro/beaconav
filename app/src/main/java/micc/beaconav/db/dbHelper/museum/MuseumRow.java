@@ -1,26 +1,20 @@
 package micc.beaconav.db.dbHelper.museum;
 
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.ATableRow;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableRow;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchema;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchemaManager;
+import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 import micc.beaconav.localization.proximity.ProximityObject;
 
 /**
  * Created by nagash on 22/01/15.
  */
-public class MuseumRow extends TableRow<MuseumSchemaFactory> implements ProximityObject
+public class MuseumRow extends TableRow implements ProximityObject
 {
-    public MuseumRow(MuseumSchemaFactory tableSchemaFactory) {
-        super(tableSchemaFactory);
-    }
+    static MuseumSchema schema = new MuseumSchema();
 
-    public MuseumRow(TableRow<MuseumSchemaFactory> copy) {
-        super(copy);
+    public MuseumRow() {
+        super(schema);
     }
-
-    public MuseumRow(ATableRow genericTableRow) {
-        super(genericTableRow);
+    public MuseumRow(TableRow genericRow) {
+        super(genericRow);
     }
 
 

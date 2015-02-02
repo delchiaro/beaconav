@@ -1,8 +1,8 @@
 package micc.beaconav.db.dbHelper.room;
 
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchemaFactory;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.ColumnSchema;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.Type;
+import micc.beaconav.db.dbJSONManager.tableScheme.TableSchemaFactory;
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.Type;
 
 /**
  * Created by nagash on 21/01/15.

@@ -1,8 +1,6 @@
 package micc.beaconav.db.dbHelper.room;
 
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.ATableRow;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableRow;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchema;
+import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 import micc.beaconav.indoorEngine.spot.Vertex;
 
 /**
@@ -20,7 +18,7 @@ public class VertexRow extends TableRow<VertexSchemaFactory>
         super(copy);
     }
 
-    public VertexRow(ATableRow genericTableRow) {
+    public VertexRow(TableRow genericTableRow) {
         super(genericTableRow);
     }
 

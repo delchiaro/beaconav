@@ -1,15 +1,11 @@
 package micc.beaconav.db.dbHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import micc.beaconav.db.dbHelper.museum.MuseumSchemaFactory;
-import micc.beaconav.db.dbHelper.room.VertexRow;
 import micc.beaconav.db.dbHelper.room.VertexSchemaFactory;
 import micc.beaconav.db.dbJSONManager.JSONDownloader;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchemaManager;
-import micc.beaconav.indoorEngine.building.Room;
+import micc.beaconav.db.dbJSONManager.tableScheme.TableSchemaManager;
 
 /**
  * Created by nagash on 30/01/15.
