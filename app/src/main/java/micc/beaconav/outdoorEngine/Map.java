@@ -18,19 +18,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
-import micc.beaconav.db.dbHelper.museum.MuseumSchemaFactory;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
-import micc.beaconav.db.dbJSONManager.JSONDownloader;
-import micc.beaconav.db.dbJSONManager.schema.TableRow;
-import micc.beaconav.db.dbJSONManager.schema.TableSchema;
 import micc.beaconav.outdoorEngine.navigation.GMapRouteManager;
 import micc.beaconav.outdoorEngine.navigation.Navigation;
 import micc.beaconav.localization.proximity.ProximityManager;
@@ -41,9 +40,26 @@ import micc.beaconav.localization.proximity.ProximityObject;
 /**
  * Created by nagash on 02/12/14.
  */
-public class Map implements JSONHandler, ProximityNotificationHandler
+public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 {
 
+
+    private static Map istance = null;
+    public static Map getIstance(){
+        if(istance == null)
+        {
+            return null;
+        }
+        else return istance;
+    }
+    public static Map setupIstance(GoogleMap mMap, MuseumMarkerManager markerManager){
+        if(istance == null)
+        {
+            istance = new Map(mMap, markerManager);
+            return istance;
+        }
+        else return null;
+    }
 
 
     private GoogleMap gmap; // Might be null if Google Play services APK is not available.
@@ -54,8 +70,9 @@ public class Map implements JSONHandler, ProximityNotificationHandler
     MarkerOptions selectedMuseumMarkerOptions = new MarkerOptions();
 
 
-    private ArrayList<MuseumRow> rows = null;
-    private HashMap<Marker, MuseumRow> museumMarkersMap = null;
+    private List<MuseumRow> rows = null;
+    private BiMap<Marker, MuseumRow>  museumMarkersMap = null;
+
     private MuseumMarkerManager markerManager = null;
 
 
@@ -74,7 +91,7 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
 
 
-    public Map(GoogleMap mMap, MuseumMarkerManager markerManager)
+    private Map(GoogleMap mMap, MuseumMarkerManager markerManager)
     {
         this.gmap = mMap;
         this.gmap.setMyLocationEnabled(true);
@@ -111,19 +128,13 @@ public class Map implements JSONHandler, ProximityNotificationHandler
     }
 
     @Override
-    public void onJSONDownloadFinished(TableRow[] result)
-    {
-        this.rows = new ArrayList<>();
+    public void onJSONDownloadFinished(MuseumRow[] result) {
 
-        int resultLenght = result.length;
-        for(int i = 0; i < resultLenght; i++)
-        {
-            MuseumRow row = new MuseumRow( result[i] );
-            this.rows.add(row);
-        }
+        this.rows = Arrays.asList(result);
         drawMarkers();
 
-        proximityManager.setProximityObjects(rows.toArray(new ProximityObject[rows.size()]));
+        if(rows != null )
+          proximityManager.setProximityObjects(rows.toArray(new ProximityObject[rows.size()]));
     }
 
 
@@ -167,10 +178,8 @@ public class Map implements JSONHandler, ProximityNotificationHandler
         gmap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
             @Override
             public boolean onMarkerClick(Marker marker) {
-                MuseumRow row = museumMarkersMap.get(marker);
-                goOnLatLng(marker.getPosition());
-                markerManager.onClickMuseumMarker(row);
-                setSelectedMuseumMarker(marker);
+                simulateMarkerClick(marker);
+
 
                 return true;
             }
@@ -268,19 +277,20 @@ public class Map implements JSONHandler, ProximityNotificationHandler
                 Iterator<Marker> iter = this.museumMarkersMap.keySet().iterator();
                 while(iter.hasNext())
                 {
-                    iter.next().remove();;
+                    iter.next().remove();
                 }
+
             }
 
-            this.museumMarkersMap = new HashMap<>();
+            this.museumMarkersMap = HashBiMap.create();
 
             Iterator<MuseumRow> iter = this.rows.iterator();
             while(iter.hasNext())
             {
                 MuseumRow row = iter.next();
                 museumMarkerOptions.position(new LatLng(row.getLatitude(), row.getLongitude()));
-                this.museumMarkersMap.put( gmap.addMarker(museumMarkerOptions), row);
-                //this.museumMarkers.add( gmap.addMarker(museumMarkOpt));
+                Marker addedMarker = gmap.addMarker(museumMarkerOptions);
+                this.museumMarkersMap.put( addedMarker, row);
             }
 
             if(this.selectedMuseumMarker != null)
@@ -322,10 +332,17 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
 
 
+    public void simulateMarkerClick(Marker markerToClick) {
+        MuseumRow row = museumMarkersMap.get(markerToClick);
+        goOnLatLng(markerToClick.getPosition());
+        markerManager.onClickMuseumMarker(row);
+        setSelectedMuseumMarker(markerToClick);
+    }
 
-
-
-
+    public void simulateMuseumClick(MuseumRow museumRow) {
+        Marker markerToClick = this.museumMarkersMap.inverse().get(museumRow);
+        this.simulateMarkerClick(markerToClick);
+    }
 
 
 
@@ -380,6 +397,9 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
         this.polyline = true;
     }
+
+
+
 
     private class RouteTask extends AsyncTask<LatLng, Void, Navigation>
     {

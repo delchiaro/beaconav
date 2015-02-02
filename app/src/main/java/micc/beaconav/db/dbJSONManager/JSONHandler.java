@@ -1,13 +1,13 @@
 package micc.beaconav.db.dbJSONManager;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import micc.beaconav.db.dbJSONManager.schema.TableRow;
+import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 
 /**
  * Created by nagash on 22/01/15.
  */
-public interface JSONHandler
+public interface JSONHandler<TR extends TableRow>
 {
-    abstract void onJSONDownloadFinished(TableRow[] result);
+    abstract void onJSONDownloadFinished(TR[] result);
 }

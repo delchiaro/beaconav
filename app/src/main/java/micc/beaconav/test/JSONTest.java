@@ -1,4 +1,4 @@
-package micc.beaconav;
+package micc.beaconav.test;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import micc.beaconav.R;
 import micc.beaconav.db.dbJSONManager.JSONParser;
 
 

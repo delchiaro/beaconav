@@ -1,45 +1,37 @@
 package micc.beaconav.db.dbHelper.room;
 
-import micc.beaconav.db.dbJSONManager.schema.TableRow;
-import micc.beaconav.db.dbJSONManager.schema.TableSchema;
+import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatField;
 import micc.beaconav.indoorEngine.spot.Vertex;
-import micc.beaconav.localization.proximity.ProximityObject;
 
 /**
- * Created by nagash on 22/01/15.
- */
-public class VertexRow extends TableRow
+* Created by nagash on 22/01/15.
+*/
+public class VertexRow extends TableRow<VertexSchema>
 {
 
-    private static TableSchema schema = new VertexSchemaFactory().generateSchema();
 
-    public VertexRow() {
-        super(schema);
+    public VertexRow(VertexSchema tableSchema) {
+        super(tableSchema);
     }
-
-    public VertexRow(TableRow copy)
-    {
-        super(copy);
-    }
-
 
 
     public final String getID(){
-         return field("ID").valueString();
+         return (String) field("ID").getValue();
     }
     public final float getX()
     {
-        return field("x").valueFloat();
+        return ((FloatField)field("x")).getValue();
     }
     public final float getY()
     {
-        return field("y").valueFloat();
+        return ((FloatField)field("y")).getValue();
     }
 
 
-    public final Vertex toVertex()
-    {
+    public final Vertex toVertex() {
         return new Vertex(getX(), getY());
     }
+
 }
 

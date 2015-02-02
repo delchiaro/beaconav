@@ -1,17 +1,25 @@
 package micc.beaconav.gui.customList;
 
+import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.view.View;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.app.FragmentManager;
 
+import micc.beaconav.FragmentHelper;
+import micc.beaconav.MainActivity;
 import micc.beaconav.R;
+import micc.beaconav.db.dbHelper.IArtRow;
+import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,22 +33,24 @@ import java.util.List;
 
 public class ListAdapter extends BaseAdapter {
 
-    Context context;
-    List<ArtListItem> list; //lista di oggetti base della lista (sono questi che si possono modificare a piacimento)
+
+    private Context context;
+    private List<IArtRow> list; //lista di oggetti base della lista (sono questi che si possono modificare a piacimento)
+    private MuseumDescrFragment museumDescrFragment;
+    //private ArtDescrFragment artDescrFragment;
 
     private class ViewHolder
     {
         ImageView _navButton;
         TextView _artPieceName;
-        // Altri attributi posso essere aggiunti qui
-        // ma devono essere anche messi nell'xml
-        // e vanno sempre inizializzati (null al limite)
+        //Altri elementi visuali qui e vanno ovviamente agganciati all'xml
     }
 
-    public ListAdapter(Context context, List<ArtListItem> list) {
+    public ListAdapter(Context context, List<IArtRow> list) {
         this.context = context;
         this.list = list;
     }
+
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -61,34 +71,54 @@ public class ListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ArtListItem artListItem = (ArtListItem) getItem(position);
+        IArtRow artRow = (IArtRow) getItem(position);
 
-        holder._navButton.setOnClickListener(mOnButtonClickListener);
-        holder._artPieceName.setOnClickListener(mOnTextClickListener);
-        holder._artPieceName.setText(artListItem.getDescription());
-        holder._navButton.setImageResource(artListItem.getImageId());
+        holder._artPieceName.setText(artRow.getName());
+        holder._navButton.setImageResource(artRow.getImageId());
+//        this.description = artListItem.getDescription();
+
+        holder._navButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View btn) {
+
+            }
+        });
+
+        holder._artPieceName.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View txt) {
+
+
+            }
+        });
+
+
+        final IArtRow currentRow = list.get(position);
+
+
+        holder._navButton.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if( currentRow instanceof MuseumRow)
+                    FragmentHelper.simulateMuseumOnMapClickOn((MuseumRow)currentRow);
+                // TODO: navigazione verso le coordinate del museo -> seleziona marker museo e naviga
+            }
+        });
+
+        holder._artPieceName.setOnClickListener( new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                if( currentRow instanceof MuseumRow)
+                    FragmentHelper.simulateMuseumOnMapClickOn((MuseumRow)currentRow);
+                }
+        });
 
         return convertView;
 
     }
 
-    //TODO: implementare il meccanismo dei click per ogni componente dell'oggetto
-    //TODO: base della lista, probabilmente da usare il metodo getItem().
-
-    private View.OnClickListener mOnTextClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View txt) {
-
-        }
-    };
-
-    private View.OnClickListener mOnButtonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View image) {
-
-        }
-    };
-
+  
     @Override
     public int getCount() {
         return list.size();
@@ -103,5 +133,6 @@ public class ListAdapter extends BaseAdapter {
     public Object getItem(int position) {
         return list.get(position);
     }
+
 
 }

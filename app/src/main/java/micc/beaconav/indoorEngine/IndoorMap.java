@@ -3,7 +3,9 @@ package micc.beaconav.indoorEngine;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DrawFilter;
 import android.graphics.Paint;
+import android.graphics.PaintFlagsDrawFilter;
 
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.localization.IndoorPosition;
@@ -15,8 +17,9 @@ import micc.beaconav.indoorEngine.spot.Spot;
  */
 public class IndoorMap
 {
-    private Building building;
+    private static int PPM = 300; // Pixel Per Meter
 
+    private Building building;
     private LocalizationSpotManager _localizationSpot;
 
 
@@ -30,10 +33,18 @@ public class IndoorMap
     {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.RED);
+        paint.setColor(Color.BLACK);
 
-        Bitmap tempBmp =  Bitmap.createBitmap((int)building.getWidth(), (int)building.getHeight(), Bitmap.Config.RGB_565);
+        Bitmap tempBmp =  Bitmap.createBitmap((int)building.getWidth(), (int)building.getHeight(), Bitmap.Config.ARGB_8888);
+
+
         Canvas tempCanvas = new Canvas(tempBmp);
+
+        // Removing anti aliasing:
+        final DrawFilter filter = new PaintFlagsDrawFilter(Paint.ANTI_ALIAS_FLAG, 0);
+        tempCanvas.setDrawFilter(filter);
+
+
         building.draw(tempCanvas);
 
        /* Iterator<Drawable> iter = Drawable.getDrawableQueue().iterator();

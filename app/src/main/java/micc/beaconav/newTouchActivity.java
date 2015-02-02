@@ -6,7 +6,6 @@ package micc.beaconav;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,22 +18,23 @@ import android.widget.ImageView;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.PriorityQueue;
 
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.room.RoomGenerator;
+import micc.beaconav.db.dbHelper.room.VertexRow;
+import micc.beaconav.db.dbHelper.room.VertexSchema;
 import micc.beaconav.db.dbJSONManager.JSONDownloader;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
-import micc.beaconav.db.dbJSONManager.schema.TableRow;
 import micc.beaconav.indoorEngine.IndoorMap;
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
-import micc.beaconav.indoorEngine.drawable.DrawableManager;
 import micc.beaconav.localization.Position;
 
 
-public class newTouchActivity extends Activity implements OnTouchListener, JSONHandler
+public class newTouchActivity extends Activity implements OnTouchListener, JSONHandler<VertexRow>
 {
 
     // these matrices will be used to move and zoom image
@@ -53,25 +53,20 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
     private float newRot = 0f;
     private float[] lastEvent = null;
 
-    JSONDownloader vertexDownloader;
+    JSONDownloader<VertexRow, VertexSchema> vertexDownloader;
     Room roomToDisplay;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         vertexDownloader = DbManager.getVertexFromRoomDownloader(0);
         vertexDownloader.addHandler(this);
         vertexDownloader.startDownload();
 
     }
 
-    @Override
-    public void onJSONDownloadFinished(TableRow[] result) {
-        roomToDisplay = RoomGenerator.generateRoomFromVertices(result);
-        generateFrame();
-    }
+
 
     private void generateFrame()
     {
@@ -266,4 +261,10 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
     }
 
 
+
+    @Override
+    public void onJSONDownloadFinished(VertexRow[] result) {
+        roomToDisplay = RoomGenerator.generateRoomFromVertices(result);
+        generateFrame();
+    }
 }

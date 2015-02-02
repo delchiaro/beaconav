@@ -1,6 +1,7 @@
 package micc.beaconav;
 
 import android.animation.ObjectAnimator;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -25,9 +27,8 @@ import micc.beaconav.gui.animationHelper.BackgroundColorChangerHSV;
 import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.gui.animationHelper.ScrollViewResizer;
+
 import micc.beaconav.gui.customList.ArtListFragment;
-import micc.beaconav.gui.customList.MuseumDescrFragment;
-import micc.beaconav.outdoorEngine.MapFragment;
 import micc.beaconav.outdoorEngine.MuseumMarkerManager;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -64,9 +65,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private SearchView mSearch;
     private FloatingActionButton mButton;
     private LinearLayout dragView;
-    private ArtListFragment museumListFragment = new ArtListFragment();
-    private MapFragment mapFragment = new MapFragment();
-    private MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
 
 
     private void initActivityAndXML()
@@ -93,19 +91,22 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     //Setta il fragment della lista scorrevole
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_list_container, museumListFragment);
-        fragmentTransaction.commit();
+
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment_list_container, FragmentHelper.artListFragment);
+//        fragmentTransaction.commit();
+//
+//
+//
+//        FragmentManager mapFragmentManager = getFragmentManager();
+//        FragmentTransaction mapFragmentTransaction = mapFragmentManager.beginTransaction();
+//        mapFragmentTransaction.replace(R.id.fragment_map_container, FragmentHelper.mapFragment);
+//        mapFragmentTransaction.commit();
 
 
-
-        FragmentManager mapFragmentManager = getFragmentManager();
-        FragmentTransaction mapFragmentTransaction = mapFragmentManager.beginTransaction();
-        mapFragmentTransaction.add(R.id.fragment_map_container, mapFragment);
-        mapFragmentTransaction.commit();
-
-        mapFragment.setMuseumMarkerManager(this);
+        FragmentHelper.getIstance().showListFragment();
+        FragmentHelper.getIstance().showMapFragment();
 
 
     }
@@ -249,8 +250,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         });
 
 
-        //Questo bottone dovrà portare alla navigazione
-        //per adesso si usa per test
         mButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v)
             {
@@ -282,8 +281,11 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         this.context = this;
         dpHelper = new DpHelper(this);
 
+        initFragments();
+
         initActivityAndXML();
         initEventListeners();
+
 
 
     }
@@ -351,25 +353,62 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     }
 
 
+
+
+
+
+
+
+
+
+
+// * * * * * * * * * * * * * * *  ALTRI EVENT MANAGER CREATI BEACONAV * * * * * * * * * * * * * * *
+
+
+
     @Override
     public void onClickMuseumMarker(MuseumRow museumRow) {
-
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_list_container, museumDescrFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-        museumDescrFragment.setMuseumRow(museumRow);
+        FragmentHelper.getIstance().showMuseumDescrFragment(museumRow);
     }
+
 
 
     @Override
     public void onDeselectMuseumMarker() {
-
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_list_container, museumListFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        FragmentHelper.getIstance().showListFragment();
     }
+
+
+
+
+
+
+
+
+
+
+// * * * * * * * * * * * * * * *  GESTIONE DEI FRAGMENTS * * * * * * * * * * * * * * * * * * * * *
+
+
+    // * * * * * * * * * * * *  DEFINIZIONI DEI FRAGMENT
+    private void initFragments(){
+        FragmentHelper.setMainActivity(this);
+    }
+
+//
+//    //Metodo per lo swap di fragments
+//    public final void swapFragment(int containerID, Fragment newFragment)
+//    {
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        transaction.replace(containerID, newFragment);
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+//    }
+
+
+
+
+
 }
 
 
