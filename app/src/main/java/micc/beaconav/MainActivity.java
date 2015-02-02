@@ -54,6 +54,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private boolean fadeOutAnimationStarted = false;
     private boolean colorAnimationStarted = false;
     private boolean panelAnchored = false;
+    private boolean heightAnimationStarted = false;
 
 // * * * * * * * * * * * *  DEFINIZIONE E INIZIALIZZAZIONE LAYOUT * * * * * * * * * * * * * * * * *
     private RelativeLayout mSlidingBarBg;
@@ -133,11 +134,8 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 Log.i(TAG, "onPanelSlide, offset " + slideOffset);
                 scrollViewResizer.resizeScrollView(1-slideOffset);
 
-                if (slideOffset >= 0.7) {
+                if (slideOffset >= 0.002) {
                     if (colorAnimationStarted != true) {
-                        slidingBarHeightAnimation = ObjectAnimator.ofInt(slidingBarHeightAnimMan, "dpHeight", SLIDING_BAR_HEIGHT_DP, SLIDING_BAR_EXPANDED_HEIGHT_DP);
-                        slidingBarHeightAnimation.setDuration(200);
-                        slidingBarHeightAnimation.start();
 
                         slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", 0, slidingBarColorChanger.getS());
                         slidingBarHeightAnimation.setDuration(500);
@@ -146,15 +144,11 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                     }
                 }
 
-                if (slideOffset <= 0.67) {
+                if (slideOffset <= 0.001) {
                     if (colorAnimationStarted != false) {
-                        slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
+                        //slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
                         slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
                         slidingBarHeightAnimation.setDuration(200);
-                        slidingBarHeightAnimation.start();
-
-                        slidingBarHeightAnimation = ObjectAnimator.ofInt(slidingBarHeightAnimMan, "dpHeight", SLIDING_BAR_EXPANDED_HEIGHT_DP, SLIDING_BAR_HEIGHT_DP);
-                        slidingBarHeightAnimation.setDuration(500);
                         slidingBarHeightAnimation.start();
                         colorAnimationStarted = false;
                     }
@@ -213,6 +207,29 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                             animMargin.setDuration(1000);
                             animMargin.start();
                         */
+                    }
+                }
+
+                if(slideOffset >= 0.95)
+                {
+                    if(heightAnimationStarted != true)
+                    {
+                        slidingBarHeightAnimation = ObjectAnimator.ofInt(slidingBarHeightAnimMan, "dpHeight", SLIDING_BAR_HEIGHT_DP, SLIDING_BAR_EXPANDED_HEIGHT_DP);
+                        slidingBarHeightAnimation.setDuration(200);
+                        slidingBarHeightAnimation.start();
+                        heightAnimationStarted = true;
+                    }
+
+                }
+
+                if(slideOffset <= 0.92)
+                {
+                    if(heightAnimationStarted != false)
+                    {
+                        slidingBarHeightAnimation = ObjectAnimator.ofInt(slidingBarHeightAnimMan, "dpHeight", SLIDING_BAR_EXPANDED_HEIGHT_DP, SLIDING_BAR_HEIGHT_DP);
+                        slidingBarHeightAnimation.setDuration(500);
+                        slidingBarHeightAnimation.start();
+                        heightAnimationStarted = false;
                     }
                 }
 

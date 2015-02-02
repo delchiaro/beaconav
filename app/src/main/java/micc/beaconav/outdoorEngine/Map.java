@@ -366,7 +366,7 @@ public class Map implements JSONHandler, ProximityNotificationHandler
     {
         if(this.selectedMuseumMarker != null)
             route(startLocation, this.selectedMuseumMarker.getPosition());
-    }ah
+    }
 
     public void route(LatLng origin, LatLng dest)
     {

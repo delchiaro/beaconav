@@ -123,8 +123,8 @@
                 android:layout_marginLeft="275dp"
                 android:layout_marginTop="-75dp"
                 fab:fab_icon="@drawable/ic_fab_star"
-                fab:fab_colorNormal="@color/pink"
-                fab:fab_colorPressed="@color/pink_pressed"
+                fab:fab_colorNormal="@color/orange"
+                fab:fab_colorPressed="@color/orange_pressed"
             />
 
 
