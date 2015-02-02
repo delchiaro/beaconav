@@ -93,10 +93,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     //Setta il fragment della lista scorrevole
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_list_container, museumListFragment);
-        fragmentTransaction.commit();
 
 
 
@@ -104,6 +100,13 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         FragmentTransaction mapFragmentTransaction = mapFragmentManager.beginTransaction();
         mapFragmentTransaction.add(R.id.fragment_map_container, mapFragment);
         mapFragmentTransaction.commit();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_list_container, museumListFragment);
+        fragmentTransaction.commit();
+
+
 
         mapFragment.setMuseumMarkerManager(this);
 

@@ -11,22 +11,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.ColumnField;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.ATableRow;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchema;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchemaFactory;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.TableSchemaManager;
-
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnField;
+import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
+import micc.beaconav.db.dbJSONManager.tableScheme.TableSchema;
 /**
  * Created by nagash on 21/01/15.
  */
 
-public class JSONDownloader extends AsyncTask<String, String, ATableRow[]>
+public class JSONDownloader<TR extends TableRow, TS extends TableSchema<TR>> extends AsyncTask<String, String, List<TR>>
 {
 
-    private TableSchema schema;
-    private ATableRow[] downloadedRows;
-    private List<JSONHandler> handlerList;
+    private TS schema;
+    private List<TR> downloadedRows;
+    private List<JSONHandler<TR>> handlerList;
     private final String URL;
 
     private final int DOWNLOAD_NOT_STARTED = -1;
@@ -36,8 +33,8 @@ public class JSONDownloader extends AsyncTask<String, String, ATableRow[]>
 
 
 
-    public JSONDownloader(TableSchemaFactory schemaFactory, String url) {
-        this.schema = TableSchemaManager.getIstance().getSchema(schemaFactory);
+    public JSONDownloader(TS schema, String url) {
+        this.schema = schema;
         this.downloadedRows = null;
         this.handlerList = new ArrayList<>();
         this.URL = url;
@@ -64,7 +61,7 @@ public class JSONDownloader extends AsyncTask<String, String, ATableRow[]>
 
 
 
-    public ATableRow[] getDownloadedRows()
+    public List<TR> getDownloadedRows()
     {
         if(downloadedRows != null)
             return downloadedRows;
@@ -90,13 +87,13 @@ public class JSONDownloader extends AsyncTask<String, String, ATableRow[]>
     }
 
 
-    protected final ATableRow[] doInBackground(String... args) {
+    protected final List<TR> doInBackground(String... args) {
         // TODO: Gestire eccezione nel caso in cui non si trovi l'oggetto json, e nel caso incuinon ci si possa connettere
 
         String url = args[0];
         String schemaName = args[1];
 
-        ArrayList<ATableRow> tableRows = new ArrayList<ATableRow>();
+        ArrayList<TR> tableRows = new ArrayList<TR>();
         JSONArray jsonArray = null;
 
         JSONParser jParser = new JSONParser();
@@ -121,7 +118,7 @@ public class JSONDownloader extends AsyncTask<String, String, ATableRow[]>
                 try
                 {
                     jsonObject = jsonArray.getJSONObject(i);
-                    ATableRow row = this.schema.newRow();
+                    TR row = this.schema.newRow();
 
                     int nCols = this.schema.size();
                     for (int j = 0; j < nCols; j++)
@@ -129,9 +126,10 @@ public class JSONDownloader extends AsyncTask<String, String, ATableRow[]>
                         ColumnField field = row.field(j);
                         String colName = field.columnName();
                         String jsonValue = jsonObject.getString(colName);
-                        row.field(j).set(jsonValue);
+                        row.field(j).setParsing(jsonValue);
                     }
 
+                    //todo: funziona??
                     tableRows.add(row);
 
                 }
@@ -139,15 +137,15 @@ public class JSONDownloader extends AsyncTask<String, String, ATableRow[]>
             }
         }
 
-        return tableRows.toArray(new ATableRow[tableRows.size()]);
+        return tableRows;
     }
 
 
-    protected final void onPostExecute(ATableRow[] result) {
+    protected final void onPostExecute(List<TR> result) {
         this.downloadedRows = result;
         downloadIstant = System.nanoTime();
 
-        Iterator<JSONHandler> iter = this.handlerList.iterator();
+        Iterator<JSONHandler<TR>> iter = this.handlerList.iterator();
         while(iter.hasNext())
             iter.next().onJSONDownloadFinished(result);
             // richiama i gestori di tutti gli handler

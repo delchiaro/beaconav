@@ -1,22 +1,25 @@
-package micc.beaconav.db.dbJSONManager.tableSchemaManager;
+package micc.beaconav.db.dbJSONManager.tableScheme;
 
 import java.util.HashMap;
 import java.util.Iterator;
 
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnField;
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
+
 /**
  * Created by nagash on 21/01/15.
  */
-public class ATableRow
+public class TableRow<TS extends TableSchema>
 {
-    private TableSchema schema;
-    private HashMap<String, ColumnField> fields;
+    private final TS schema;
+    private final HashMap<String, ColumnField> fields;
 
-    public ATableRow(TableSchema schema)
+    public TableRow(TS schema)
     {
         this.schema = schema;
-        fields = new HashMap<>(schema.columnsMap().values().size());
+        fields = new HashMap<>(schema.getColumnsMap().values().size());
 
-        Iterator<ColumnSchema> iter = schema.columnsMap().values().iterator();
+        Iterator<ColumnSchema> iter = schema.getColumnsMap().values().iterator();
 
         while(iter.hasNext())
         {
@@ -25,19 +28,17 @@ public class ATableRow
         }
     }
 
-    public ATableRow(ATableRow copy)
-    {
-        this.fields = copy.fields;
-    }
 
 
-    public TableSchema getSchema(){
+    public TS getSchema(){
         return schema;
     }
 
     public int size(){
         return fields.values().size();
     }
+
+
     public ColumnField[] fields(){
         return fields.values().toArray(new ColumnField[fields.size()]);
     }

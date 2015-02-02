@@ -20,14 +20,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
-import micc.beaconav.db.dbJSONManager.tableSchemaManager.ATableRow;
 import micc.beaconav.outdoorEngine.navigation.GMapRouteManager;
 import micc.beaconav.outdoorEngine.navigation.Navigation;
 import micc.beaconav.localization.proximity.ProximityManager;
@@ -38,7 +37,7 @@ import micc.beaconav.localization.proximity.ProximityObject;
 /**
  * Created by nagash on 02/12/14.
  */
-public class Map implements JSONHandler, ProximityNotificationHandler
+public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 {
 
 
@@ -51,7 +50,7 @@ public class Map implements JSONHandler, ProximityNotificationHandler
     MarkerOptions selectedMuseumMarkerOptions = new MarkerOptions();
 
 
-    private ArrayList<MuseumRow> rows = null;
+    private List<MuseumRow> rows = null;
     private HashMap<Marker, MuseumRow> museumMarkersMap = null;
     private MuseumMarkerManager markerManager = null;
 
@@ -108,19 +107,13 @@ public class Map implements JSONHandler, ProximityNotificationHandler
     }
 
     @Override
-    public void onJSONDownloadFinished(ATableRow[] result)
-    {
-        this.rows = new ArrayList<>();
+    public void onJSONDownloadFinished(List<MuseumRow> result) {
 
-        int resultLenght = result.length;
-        for(int i = 0; i < resultLenght; i++)
-        {
-            MuseumRow row = new MuseumRow( result[i] );
-            this.rows.add(row);
-        }
+        this.rows = result;
         drawMarkers();
 
-        proximityManager.setProximityObjects(rows.toArray(new ProximityObject[rows.size()]));
+        if(rows != null )
+          proximityManager.setProximityObjects(rows.toArray(new ProximityObject[rows.size()]));
     }
 
 
@@ -377,6 +370,9 @@ public class Map implements JSONHandler, ProximityNotificationHandler
 
         this.polyline = true;
     }
+
+
+
 
     private class RouteTask extends AsyncTask<LatLng, Void, Navigation>
     {
