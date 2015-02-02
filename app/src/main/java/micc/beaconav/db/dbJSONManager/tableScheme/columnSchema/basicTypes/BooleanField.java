@@ -16,4 +16,10 @@ public class BooleanField extends ColumnField<Boolean> {
     protected Boolean parseString(String newStringToParse) {
         return Boolean.parseBoolean(newStringToParse);
     }
+
+    @Override
+    public Boolean generateDeepCopy(Boolean deepCopyThis) {
+        return new Boolean(deepCopyThis);
+    }
+
 }

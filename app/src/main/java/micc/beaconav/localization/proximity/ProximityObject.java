@@ -5,6 +5,6 @@ package micc.beaconav.localization.proximity;
  */
 public interface ProximityObject
 {
-    public abstract double getLatitude();
-    public abstract double getLongitude();
+    public abstract Double getLatitude();
+    public abstract Double getLongitude();
 }

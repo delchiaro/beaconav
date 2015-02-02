@@ -3,7 +3,6 @@ package micc.beaconav.db.dbJSONManager;
 import java.util.List;
 
 import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
-import micc.beaconav.db.dbJSONManager.tableScheme.TableSchemaFactory;
 
 /**
  * Created by nagash on 22/01/15.

@@ -10,31 +10,31 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.String
 /**
  * Created by nagash on 01/02/15.
  */
-public class MuseumSchema extends TableSchema
+public class MuseumSchema extends TableSchema<MuseumRow>
 {
+    static final String          tableName  = "Museum";
 
-    MuseumSchema() {
-        super();
-    }
+    static final StringSchema    ID          = new StringSchema("ID");
+    static final StringSchema    name        = new StringSchema("name");
+    static final StringSchema    descr       = new StringSchema("descr");
+    static final DoubleSchema    latitude    = new DoubleSchema("latitude");
+    static final DoubleSchema    longitude   = new DoubleSchema("longitude");
+
+    private static final ColumnSchema[] columns = new ColumnSchema[]{ ID, name, descr, latitude, longitude};
 
     @Override
     protected String generateTableName() {
-        return "Museum";
+        return tableName;
     }
 
     @Override
     protected ColumnSchema[] generateTableColumns() {
-        ColumnSchema[] columnSchemas = new ColumnSchema[5];
-        columnSchemas[0] = new StringSchema("ID");
-        columnSchemas[1] = new StringSchema("name");
-        columnSchemas[2] = new StringSchema("descr");
-        columnSchemas[3] = new DoubleSchema("latitude");
-        columnSchemas[4] = new DoubleSchema("longitude");
-        return columnSchemas;
+
+        return columns;
     }
 
     @Override
-    protected TableRow generateRow() {
+    protected MuseumRow generateRow() {
         return new MuseumRow();
     }
 

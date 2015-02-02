@@ -16,4 +16,10 @@ public class LongField extends ColumnField<Long> {
     protected Long parseString(String newStringToParse) {
         return Long.parseLong(newStringToParse);
     }
+
+    @Override
+    public Long generateDeepCopy(Long deepCopyThis) {
+        return new Long(deepCopyThis);
+    }
+
 }

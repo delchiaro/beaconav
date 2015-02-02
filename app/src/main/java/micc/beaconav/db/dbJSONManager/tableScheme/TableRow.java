@@ -9,12 +9,12 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
 /**
  * Created by nagash on 21/01/15.
  */
-public class TableRow
+public class TableRow<TS extends TableSchema>
 {
-    private final TableSchema schema;
+    private final TS schema;
     private final HashMap<String, ColumnField> fields;
 
-    public TableRow(TableSchema schema)
+    public TableRow(TS schema)
     {
         this.schema = schema;
         fields = new HashMap<>(schema.getColumnsMap().values().size());
@@ -28,14 +28,9 @@ public class TableRow
         }
     }
 
-    public TableRow(TableRow copy)
-    {
-        this.fields = copy.fields;
-        this.schema = copy.schema;
-    }
 
 
-    public TableSchema getSchema(){
+    public TS getSchema(){
         return schema;
     }
 

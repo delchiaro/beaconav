@@ -112,7 +112,8 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         this.rows = result;
         drawMarkers();
 
-        proximityManager.setProximityObjects(rows.toArray(new ProximityObject[rows.size()]));
+        if(rows != null )
+          proximityManager.setProximityObjects(rows.toArray(new ProximityObject[rows.size()]));
     }
 
 

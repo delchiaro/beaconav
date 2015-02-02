@@ -16,4 +16,10 @@ public class FloatField extends ColumnField<Float> {
     protected Float parseString(String newStringToParse) {
         return Float.parseFloat(newStringToParse);
     }
+
+    @Override
+    public Float generateDeepCopy(Float deepCopyThis) {
+        return new Float(deepCopyThis);
+    }
+
 }

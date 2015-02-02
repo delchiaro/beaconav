@@ -18,12 +18,12 @@ import micc.beaconav.db.dbJSONManager.tableScheme.TableSchema;
  * Created by nagash on 21/01/15.
  */
 
-public class JSONDownloader<TR extends TableRow> extends AsyncTask<String, String, List<TR>>
+public class JSONDownloader<TR extends TableRow, TS extends TableSchema<TR>> extends AsyncTask<String, String, List<TR>>
 {
 
-    private TableSchema schema;
+    private TS schema;
     private List<TR> downloadedRows;
-    private List<JSONHandler> handlerList;
+    private List<JSONHandler<TR>> handlerList;
     private final String URL;
 
     private final int DOWNLOAD_NOT_STARTED = -1;
@@ -33,7 +33,7 @@ public class JSONDownloader<TR extends TableRow> extends AsyncTask<String, Strin
 
 
 
-    public JSONDownloader(TableSchema schema, String url) {
+    public JSONDownloader(TS schema, String url) {
         this.schema = schema;
         this.downloadedRows = null;
         this.handlerList = new ArrayList<>();
@@ -118,7 +118,7 @@ public class JSONDownloader<TR extends TableRow> extends AsyncTask<String, Strin
                 try
                 {
                     jsonObject = jsonArray.getJSONObject(i);
-                    TableRow row = this.schema.newRow();
+                    TR row = this.schema.newRow();
 
                     int nCols = this.schema.size();
                     for (int j = 0; j < nCols; j++)
@@ -126,11 +126,11 @@ public class JSONDownloader<TR extends TableRow> extends AsyncTask<String, Strin
                         ColumnField field = row.field(j);
                         String colName = field.columnName();
                         String jsonValue = jsonObject.getString(colName);
-                        row.field(j).set(jsonValue);
+                        row.field(j).setParsing(jsonValue);
                     }
 
-                    //tod: funziona??
-                    tableRows.add((TR)row);
+                    //todo: funziona??
+                    tableRows.add(row);
 
                 }
                 catch (JSONException e) {  e.printStackTrace(); }
@@ -145,7 +145,7 @@ public class JSONDownloader<TR extends TableRow> extends AsyncTask<String, Strin
         this.downloadedRows = result;
         downloadIstant = System.nanoTime();
 
-        Iterator<JSONHandler> iter = this.handlerList.iterator();
+        Iterator<JSONHandler<TR>> iter = this.handlerList.iterator();
         while(iter.hasNext())
             iter.next().onJSONDownloadFinished(result);
             // richiama i gestori di tutti gli handler

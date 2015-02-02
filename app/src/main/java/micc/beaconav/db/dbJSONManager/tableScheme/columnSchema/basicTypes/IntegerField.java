@@ -16,4 +16,9 @@ public class IntegerField extends ColumnField<Integer> {
     protected Integer parseString(String newStringToParse) {
         return Integer.parseInt(newStringToParse);
     }
+
+    @Override
+    public Integer generateDeepCopy(Integer copy) {
+        return new Integer(copy);
+    }
 }

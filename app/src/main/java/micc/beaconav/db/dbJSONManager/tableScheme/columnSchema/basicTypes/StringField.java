@@ -17,5 +17,10 @@ public class StringField extends ColumnField<String> {
         return newStringToParse;
     }
 
+    @Override
+    public String generateDeepCopy(String deepCopyThis) {
+        return new String(deepCopyThis);
+    }
+
 
 }

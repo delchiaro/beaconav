@@ -7,7 +7,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
 /**
  * Created by nagash on 21/01/15.
  */
-public abstract class TableSchema
+public abstract class TableSchema<TR extends  TableRow>
 {
 
     private final String name;
@@ -29,10 +29,10 @@ public abstract class TableSchema
 
     protected abstract String         generateTableName();
     protected abstract ColumnSchema[] generateTableColumns();
-    protected abstract TableRow       generateRow();
+    protected abstract TR       generateRow();
 
 
-    public TableRow newRow(){
+    public TR newRow(){
         return generateRow();
     }
 

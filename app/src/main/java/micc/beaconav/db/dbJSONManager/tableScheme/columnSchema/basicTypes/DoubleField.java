@@ -16,4 +16,11 @@ public class DoubleField extends ColumnField<Double> {
     protected Double parseString(String newStringToParse) {
         return Double.parseDouble(newStringToParse);
     }
+
+    @Override
+    public Double generateDeepCopy(Double deepCopyThis) {
+        return new Double(deepCopyThis);
+    }
+
+
 }

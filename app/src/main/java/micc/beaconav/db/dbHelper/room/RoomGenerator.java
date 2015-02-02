@@ -6,8 +6,8 @@ import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 import micc.beaconav.indoorEngine.building.Room;
 
 /**
- * Created by nagash on 30/01/15.
- */
+* Created by nagash on 30/01/15.
+*/
 public class RoomGenerator
 {
     public static Room generateRoomFromVertices(List<VertexRow> vertexRows)
@@ -21,9 +21,9 @@ public class RoomGenerator
         return ret;
     }
 
-
-    public static Room generateRoomFromVertices(TableRow[] vertexRows)
-    {
+//
+//    public static Room generateRoomFromVertices(TableRow[] vertexRows)
+//    {
 //        if(vertexRows == null || vertexRows.length <= 0) return null;
 //
 //        else if( new VertexSchemaFactory().isSameSchema(vertexRows[0]) )
@@ -37,7 +37,7 @@ public class RoomGenerator
 //            return ret;
 //        }
 //        else return null;
-    }
+//    }
 
 
 }
