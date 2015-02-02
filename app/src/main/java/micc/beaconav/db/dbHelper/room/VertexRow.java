@@ -21,7 +21,7 @@ public class VertexRow extends TableRow<VertexSchema>
     }
     public final float getX()
     {
-        return (float) field("x").getValue();
+        return ((FloatField)field("x")).getValue();
     }
     public final float getY()
     {

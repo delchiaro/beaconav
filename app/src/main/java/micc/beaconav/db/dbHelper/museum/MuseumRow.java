@@ -1,5 +1,6 @@
 package micc.beaconav.db.dbHelper.museum;
 
+import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.DoubleField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringField;
@@ -8,7 +9,7 @@ import micc.beaconav.localization.proximity.ProximityObject;
 /**
  * Created by nagash on 22/01/15.
  */
-public class MuseumRow extends TableRow<MuseumSchema> implements ProximityObject
+public class MuseumRow extends TableRow<MuseumSchema> implements ProximityObject, IArtRow
 {
     static MuseumSchema schema = new MuseumSchema();
 
@@ -32,6 +33,8 @@ public class MuseumRow extends TableRow<MuseumSchema> implements ProximityObject
     {
         return name.getValue();
     }
+
+
     public final String getDescr()
     {
         return descr.getValue();
@@ -40,6 +43,22 @@ public class MuseumRow extends TableRow<MuseumSchema> implements ProximityObject
     public final Double getLongitude()
     {
         return longitude.getValue();
+    }
+
+
+
+
+
+    @Override
+    public String getDescription() {
+        return getDescr();
+    }
+
+    @Override
+    public int getImageId() {
+        return 0;
+        //TODO: setter oppure meglio, ritornare un bitmap direttamente e fare un downloader
+        // del bitmap.
     }
 }
 

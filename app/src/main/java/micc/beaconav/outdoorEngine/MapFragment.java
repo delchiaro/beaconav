@@ -168,7 +168,7 @@ public class MapFragment extends Fragment
         context = this.getActivity();
         setUp();
         setUpEventListeners();
-        map = new Map(getGMapFromXML(), manager);
+        map = Map.setupIstance(getGMapFromXML(), manager);
         return myFragmentView;
        //Button buttonIndoor = (Button) getView().findViewById(R.id.btnIndoor);
     }

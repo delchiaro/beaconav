@@ -24,6 +24,7 @@ import java.util.PriorityQueue;
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.room.RoomGenerator;
 import micc.beaconav.db.dbHelper.room.VertexRow;
+import micc.beaconav.db.dbHelper.room.VertexSchema;
 import micc.beaconav.db.dbJSONManager.JSONDownloader;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 import micc.beaconav.indoorEngine.IndoorMap;
@@ -52,7 +53,7 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
     private float newRot = 0f;
     private float[] lastEvent = null;
 
-    JSONDownloader vertexDownloader;
+    JSONDownloader<VertexRow, VertexSchema> vertexDownloader;
     Room roomToDisplay;
 
     @Override
@@ -262,7 +263,7 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
 
 
     @Override
-    public void onJSONDownloadFinished(List<VertexRow> result) {
+    public void onJSONDownloadFinished(VertexRow[] result) {
         roomToDisplay = RoomGenerator.generateRoomFromVertices(result);
         generateFrame();
     }

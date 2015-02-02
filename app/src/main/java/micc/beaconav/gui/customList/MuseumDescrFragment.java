@@ -19,7 +19,10 @@ import micc.beaconav.db.dbHelper.museum.MuseumRow;
  * Use the {@link FragmentListView2#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MuseumDescrFragment extends Fragment {
+public class MuseumDescrFragment extends Fragment
+{
+
+
 
     private TextView textViewMuseumDescr = null;
     private MuseumRow museumRow = null;
@@ -52,7 +55,16 @@ public class MuseumDescrFragment extends Fragment {
 
 
     public void updateMuseumDescr(String newDescr){
-        textViewMuseumDescr.setText(newDescr);
+        if(textViewMuseumDescr != null)
+            textViewMuseumDescr.setText(newDescr);
     }
+
+
+
+
+
+
+
+
 
 }
