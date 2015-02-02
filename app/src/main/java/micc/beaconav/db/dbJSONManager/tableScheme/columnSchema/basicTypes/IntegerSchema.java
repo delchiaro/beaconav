@@ -6,7 +6,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
 /**
  * Created by nagash on 02/02/15.
  */
-public class IntegerSchema extends ColumnSchema {
+public class IntegerSchema extends ColumnSchema<Integer> {
 
 
     public IntegerSchema(String name) {
@@ -14,12 +14,7 @@ public class IntegerSchema extends ColumnSchema {
     }
 
     @Override
-    protected Class generateType() {
-        return Integer.class;
-    }
-
-    @Override
-    protected ColumnField generateField() {
+    protected IntegerField generateField() {
         return new IntegerField();
     }
 }

@@ -4,11 +4,11 @@ package micc.beaconav.db.dbJSONManager.tableScheme.columnSchema;
  * Created by Nagash on 20/01/2015.
  */
 
-public abstract class ColumnField
+public abstract class ColumnField<T>
 {
 
-    private ColumnSchema schema = null;
-    private Object value;
+    private ColumnSchema<T> schema = null;
+    private T value;
 
 
 
@@ -17,7 +17,7 @@ public abstract class ColumnField
         initValue();
     }
 
-    ColumnField initSchema(ColumnSchema finalSchema) {
+    ColumnField<T> initSchema(ColumnSchema<T> finalSchema) {
         if(this.schema == null) {
             this.schema = finalSchema;
             return this;
@@ -32,27 +32,25 @@ public abstract class ColumnField
         this.value = generateNewInitValue();
     }
 
-    protected abstract Object generateNewInitValue();
-    protected abstract Object parseString(String newStringToParse);
+    protected abstract T generateNewInitValue();
+    protected abstract T parseString(String newStringToParse);
 
 
-    public void set(Object newVal) {
-        if(type().isInstance(newVal))
-            this.value = newVal;
+    public void set(T newVal) {
+        this.value = newVal;
     }
     public void set(String newValue) {
         this.value = parseString(newValue);
     }
 
 
-    public final Class type(){
-        return this.schema.type();
-    }
     public final String columnName(){
         return this.schema.name();
     }
 
-
+    public final T getValue() {
+        return value;
+    }
 
 
 }

@@ -6,20 +6,16 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
 /**
  * Created by nagash on 02/02/15.
  */
-public class FloatSchema extends ColumnSchema {
+public class FloatSchema extends ColumnSchema<Float> {
 
 
     public FloatSchema(String name) {
         super(name);
     }
 
-    @Override
-    protected Class generateType() {
-        return Float.class;
-    }
 
     @Override
-    protected ColumnField generateField() {
+    protected FloatField generateField() {
         return new FloatField();
     }
 }

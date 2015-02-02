@@ -6,7 +6,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
 /**
  * Created by nagash on 02/02/15.
  */
-public class DoubleSchema extends ColumnSchema {
+public class DoubleSchema extends ColumnSchema<Double> {
 
 
     public DoubleSchema(String name) {
@@ -14,12 +14,7 @@ public class DoubleSchema extends ColumnSchema {
     }
 
     @Override
-    protected Class generateType() {
-        return Double.class;
-    }
-
-    @Override
-    protected ColumnField generateField() {
+    protected DoubleField generateField() {
         return new DoubleField();
     }
 }

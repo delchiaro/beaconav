@@ -5,15 +5,15 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnField;
 /**
  * Created by nagash on 01/02/15.
  */
-public class DoubleField extends ColumnField {
+public class DoubleField extends ColumnField<Double> {
 
     @Override
-    protected Object generateNewInitValue() {
+    protected Double generateNewInitValue() {
         return new Double(0);
     }
 
     @Override
-    protected Object parseString(String newStringToParse) {
+    protected Double parseString(String newStringToParse) {
         return Double.parseDouble(newStringToParse);
     }
 }

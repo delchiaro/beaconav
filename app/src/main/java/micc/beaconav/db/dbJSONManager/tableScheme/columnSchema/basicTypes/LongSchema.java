@@ -6,20 +6,16 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
 /**
  * Created by nagash on 02/02/15.
  */
-public class LongSchema extends ColumnSchema {
+public class LongSchema extends ColumnSchema<Long> {
 
 
     public LongSchema(String name) {
         super(name);
     }
 
-    @Override
-    protected Class generateType() {
-        return Long.class;
-    }
 
     @Override
-    protected ColumnField generateField() {
+    protected LongField generateField() {
         return new LongField();
     }
 }

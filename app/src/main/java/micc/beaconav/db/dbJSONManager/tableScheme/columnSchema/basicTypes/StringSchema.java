@@ -6,20 +6,16 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
 /**
  * Created by nagash on 02/02/15.
  */
-public class StringSchema extends ColumnSchema {
+public class StringSchema extends ColumnSchema<String> {
 
 
     public StringSchema(String name) {
         super(name);
     }
 
-    @Override
-    protected Class generateType() {
-        return String.class;
-    }
 
     @Override
-    protected ColumnField generateField() {
+    protected StringField generateField() {
         return new StringField();
     }
 }

@@ -6,7 +6,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
 /**
  * Created by nagash on 02/02/15.
  */
-public class BooleanSchema extends ColumnSchema {
+public class BooleanSchema extends ColumnSchema<Boolean> {
 
 
     public BooleanSchema(String name) {
@@ -14,12 +14,7 @@ public class BooleanSchema extends ColumnSchema {
     }
 
     @Override
-    protected Class generateType() {
-        return Boolean.class;
-    }
-
-    @Override
-    protected ColumnField generateField() {
+    protected BooleanField generateField() {
         return new BooleanField();
     }
 }
