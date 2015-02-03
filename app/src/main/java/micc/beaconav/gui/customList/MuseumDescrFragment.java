@@ -23,7 +23,7 @@ public class MuseumDescrFragment extends Fragment
 {
 
 
-
+    private TextView textViewMuseumName = null;
     private TextView textViewMuseumDescr = null;
     private MuseumRow museumRow = null;
 
@@ -40,24 +40,29 @@ public class MuseumDescrFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        textViewMuseumName = (TextView)getView().findViewById(R.id.museumName);
         textViewMuseumDescr = (TextView)getView().findViewById(R.id.museumDescription);
-        if(museumRow != null)
+        if(museumRow != null) {
             textViewMuseumDescr.setText(museumRow.getDescr());
+            textViewMuseumName.setText(museumRow.getName());
+        }
     }
 
 
     //Questo setter è fondamentale, al Fragment di quale museo sto parlando
     public void setMuseumRow(MuseumRow row){
         this.museumRow = row;
-        if(textViewMuseumDescr != null)
+        if(textViewMuseumDescr != null) {
             textViewMuseumDescr.setText(museumRow.getDescr());
+            textViewMuseumName.setText(museumRow.getName());
+        }
     }
 
 
-    public void updateMuseumDescr(String newDescr){
-        if(textViewMuseumDescr != null)
-            textViewMuseumDescr.setText(newDescr);
-    }
+//    public void updateMuseumDescr(String newDescr){
+//        if(textViewMuseumDescr != null)
+//            textViewMuseumDescr.setText(newDescr);
+//    }
 
 
 

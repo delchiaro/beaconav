@@ -1,9 +1,6 @@
 package micc.beaconav;
 
 import android.animation.ObjectAnimator;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -28,7 +25,6 @@ import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.gui.animationHelper.ScrollViewResizer;
 
-import micc.beaconav.gui.customList.ArtListFragment;
 import micc.beaconav.outdoorEngine.MuseumMarkerManager;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -76,7 +72,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         //mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
 
 
-        mButton = (FloatingActionButton) findViewById(R.id.nav_button);
+        mButton = (FloatingActionButton) findViewById(R.id.museum_button);
         mSlidingBarBg = (RelativeLayout) findViewById(R.id.slidingBarBg);
         mSlidingBar = (LinearLayout) findViewById(R.id.slidingBar);
         fragmentListContainer = (RelativeLayout) findViewById(R.id.fragment_list_container);
