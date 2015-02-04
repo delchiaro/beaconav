@@ -1,6 +1,7 @@
 package micc.beaconav;
 
 import android.animation.ObjectAnimator;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -358,11 +359,9 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     @Override
     public void onBackPressed() {
-        if (mSlidingUpPanelLayout != null && mSlidingUpPanelLayout.isPanelExpanded() || mSlidingUpPanelLayout.isPanelAnchored()) {
-            mSlidingUpPanelLayout.collapsePanel();
-        } else {
-            super.onBackPressed();
-        }
+    //TODO:chiamare qui la deselezione dei marker
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.popBackStack();
     }
 
 
