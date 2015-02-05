@@ -1,7 +1,5 @@
 package micc.beaconav.gui.customList;
 
-import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.view.View;
 import android.app.Activity;
 import android.content.Context;
@@ -9,17 +7,15 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.app.FragmentManager;
+
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import micc.beaconav.FragmentHelper;
-import micc.beaconav.MainActivity;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,26 +67,26 @@ public class ListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        IArtRow artRow = (IArtRow) getItem(position);
+        final IArtRow artRow = (IArtRow) getItem(position);
 
         holder._artPieceName.setText(artRow.getName());
         holder._navButton.setImageResource(artRow.getImageId());
 //        this.description = artListItem.getDescription();
 
-        holder._navButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View btn) {
-
-            }
-        });
-
-        holder._artPieceName.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View txt) {
-
-
-            }
-        });
+//        holder._navButton.setOnClickListener( new View.OnClickListener() {
+//            @Override
+//            public void onClick(View btn) {
+//
+//            }
+//        });
+//
+//        holder._artPieceName.setOnClickListener( new View.OnClickListener() {
+//            @Override
+//            public void onClick(View txt) {
+//
+//
+//            }
+//        });
 
 
         final IArtRow currentRow = list.get(position);
@@ -100,8 +96,8 @@ public class ListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if( currentRow instanceof MuseumRow)
-                    FragmentHelper.simulateMuseumOnMapClickOn((MuseumRow)currentRow);
-                // TODO: navigazione verso le coordinate del museo -> seleziona marker museo e naviga
+                    FragmentHelper.navigateToMuseumOnBtnClick((MuseumRow)currentRow, v);
+                    FragmentHelper.getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
 
@@ -110,7 +106,7 @@ public class ListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                 if( currentRow instanceof MuseumRow)
-                    FragmentHelper.simulateMuseumOnMapClickOn((MuseumRow)currentRow);
+                    FragmentHelper.simulateMuseumOnMapClick((MuseumRow) currentRow);
                 }
         });
 

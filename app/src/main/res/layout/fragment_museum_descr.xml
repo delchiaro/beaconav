@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -61,12 +63,41 @@
                 android:padding="2dp"/>
 
             <TextView
-                android:id="@+id/indoorMap"
+                android:id="@+id/indoorMapHere"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="***Museum indoor map here***"
                 android:layout_below="@id/gallery"
                 android:padding="2dp"/>
+
+            <!--in futuro questa immagine dovrà essere presa dal db-->
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:id="@+id/indoorMapImg"
+                android:layout_below="@id/indoorMapHere"
+                android:layout_alignParentStart="true"
+                android:layout_marginRight="80dp"
+                android:src="@drawable/indoor_map"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/toIndoorBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_below="@id/indoorMapHere"
+                fab:fab_colorNormal="@android:color/holo_red_light"
+                fab:fab_icon="@drawable/white_museum"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Switch to indoor"
+                android:id="@+id/textView5"
+                android:layout_below="@id/toIndoorBtn"
+                android:layout_alignParentRight="true"/>
+
 
         </RelativeLayout>
 

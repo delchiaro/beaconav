@@ -9,16 +9,10 @@ import android.widget.TextView;
 
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
+import micc.beaconav.FragmentHelper;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 
-/**
- * A simple {@link android.app.Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentListView2.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentListView2#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MuseumDescrFragment extends Fragment
 {
 
@@ -26,6 +20,7 @@ public class MuseumDescrFragment extends Fragment
     private TextView textViewMuseumName = null;
     private TextView textViewMuseumDescr = null;
     private MuseumRow museumRow = null;
+    private FloatingActionButton toIndoorBtn = null;
 
     public MuseumDescrFragment() {
     }
@@ -46,6 +41,13 @@ public class MuseumDescrFragment extends Fragment
             textViewMuseumDescr.setText(museumRow.getDescr());
             textViewMuseumName.setText(museumRow.getName());
         }
+        toIndoorBtn = (FloatingActionButton)getView().findViewById(R.id.toIndoorBtn);
+        toIndoorBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                FragmentHelper.showIndoorMapFragment();
+            }
+        });
+
     }
 
 

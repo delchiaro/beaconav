@@ -57,7 +57,6 @@ public class MapFragment extends Fragment
     {
 
         buttonIndoor         =  (Button) myFragmentView.findViewById(R.id.buttonIndoor);
-        buttonNavigate       =  (Button) myFragmentView.findViewById(R.id.buttonNavigate);
         buttonProximity      =  (Button) myFragmentView.findViewById(R.id.buttonProximity);
         buttonJson           =  (Button) myFragmentView.findViewById(R.id.buttonJson);
         buttonLocation       =  (Button) myFragmentView.findViewById(R.id.buttonLocation);
@@ -84,15 +83,10 @@ public class MapFragment extends Fragment
     public void setUpEventListeners()
     {
 
-        buttonIndoor.setOnClickListener(new View.OnClickListener()
-        {
-            @Override public void onClick(View v) { onClickButtonIndoor(v); }
-        });
-
-        buttonNavigate.setOnClickListener(new View.OnClickListener()
-        {
-            @Override  public void onClick(View v) { onClickNavigate(v); }
-        });
+//        buttonIndoor.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override public void onClick(View v) { onClickButtonIndoor(v); }
+//        });
 
         buttonJson.setOnClickListener(new View.OnClickListener()
         {
@@ -138,12 +132,12 @@ public class MapFragment extends Fragment
 
     }
 
-    public void onClickButtonIndoor(View view)
-    {
-        //Intent intent = new Intent(this, micc.beaconav.gui.multitouch.TouchActivity.class);
-        Intent intent = new Intent(this.context, micc.beaconav.newTouchActivity.class);
-        startActivity(intent);
-    }
+//    public void onClickButtonIndoor(View view)
+//    {
+//        //Intent intent = new Intent(this, micc.beaconav.gui.multitouch.TouchActivity.class);
+//        Intent intent = new Intent(this.context, micc.beaconav.newTouchActivity.class);
+//        startActivity(intent);
+//    }
 
 
 
@@ -165,10 +159,10 @@ public class MapFragment extends Fragment
     {
         super.onCreateView(inflater, container, savedInstanceState);
         myFragmentView = inflater.inflate(R.layout.fragment_map, container, false);
-        context = this.getActivity();
-        setUp();
-        setUpEventListeners();
-        map = Map.setupIstance(getGMapFromXML(), manager);
+//        context = this.getActivity();
+//        setUp();
+//        setUpEventListeners();
+//        map = Map.setupIstance(getGMapFromXML(), manager);
         return myFragmentView;
        //Button buttonIndoor = (Button) getView().findViewById(R.id.btnIndoor);
     }
@@ -178,6 +172,10 @@ public class MapFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getArguments();
+        context = this.getActivity();
+        setUp();
+        setUpEventListeners();
+        map = Map.setupIstance(getGMapFromXML(), manager);
     }
 
 

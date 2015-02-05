@@ -31,6 +31,7 @@ import micc.beaconav.outdoorEngine.MuseumMarkerManager;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
 public class MainActivity extends ActionBarActivity implements MuseumMarkerManager
 {
@@ -61,7 +62,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private TextView t;
     private ScrollView scrollView;
     private SearchView mSearch;
-    private FloatingActionButton mButton;
+    private FloatingActionButton museumButton;
     private LinearLayout dragView;
 
 
@@ -73,7 +74,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         //mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
 
 
-        mButton = (FloatingActionButton) findViewById(R.id.museum_button);
+        museumButton = (FloatingActionButton) findViewById(R.id.museum_button);
         mSlidingBarBg = (RelativeLayout) findViewById(R.id.slidingBarBg);
         mSlidingBar = (LinearLayout) findViewById(R.id.slidingBar);
         fragmentListContainer = (RelativeLayout) findViewById(R.id.fragment_list_container);
@@ -264,17 +265,13 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         });
 
 
-        mButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v)
-            {
-                if(panelAnchored == false)
-                {
-                    mSlidingUpPanelLayout.expandPanel(ANCHOR_POINT);
+        museumButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (panelAnchored == false) {
+                    mSlidingUpPanelLayout.setPanelState(PanelState.ANCHORED);
                     panelAnchored = true;
-                }
-                else
-                {
-                    mSlidingUpPanelLayout.expandPanel(0.0f);
+                } else {
+                    mSlidingUpPanelLayout.setPanelState(PanelState.COLLAPSED);
                     panelAnchored = false;
                 }
 
@@ -310,7 +307,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.action_toggle);
         if (mSlidingUpPanelLayout != null) {
-            if (mSlidingUpPanelLayout.isPanelHidden()) {
+            if (mSlidingUpPanelLayout.getPanelState() == PanelState.HIDDEN) {
                 item.setTitle(R.string.action_show);
             } else {
                 item.setTitle(R.string.action_hide);
@@ -329,11 +326,11 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         switch (item.getItemId()){
             case R.id.action_toggle: {
                 if (mSlidingUpPanelLayout != null) {
-                    if (!mSlidingUpPanelLayout.isPanelHidden()) {
-                        mSlidingUpPanelLayout.hidePanel();
+                    if (mSlidingUpPanelLayout.getPanelState() != PanelState.HIDDEN) {
+                        mSlidingUpPanelLayout.setPanelState(PanelState.HIDDEN);
                         item.setTitle(R.string.action_show);
                     } else {
-                        mSlidingUpPanelLayout.showPanel();
+                        mSlidingUpPanelLayout.setPanelState(PanelState.EXPANDED);
                         item.setTitle(R.string.action_hide);
                     }
                 }
@@ -343,11 +340,11 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 if (mSlidingUpPanelLayout != null) {
                     if (mSlidingUpPanelLayout.getAnchorPoint() == 1.0f) {
                         mSlidingUpPanelLayout.setAnchorPoint(0.7f);
-                        mSlidingUpPanelLayout.expandPanel(0.7f);
+                        mSlidingUpPanelLayout.setPanelState(PanelState.ANCHORED);
                         item.setTitle(R.string.action_anchor_enable);
                     } else {
                         mSlidingUpPanelLayout.setAnchorPoint(1.0f);
-                        mSlidingUpPanelLayout.collapsePanel();
+                        mSlidingUpPanelLayout.setPanelState(PanelState.COLLAPSED);
                         item.setTitle(R.string.action_anchor_disable);
                     }
                 }
@@ -367,7 +364,12 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
 
 
+//* * * * * * * * * * * * GETTERS * * * * * * * * * * * * * * * * * * *
 
+    public SlidingUpPanelLayout getSlidingUpPanelLayout()
+    {
+        return this.mSlidingUpPanelLayout;
+    }
 
 
 
@@ -393,12 +395,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
 
 
-
-
-
-
-
-
 // * * * * * * * * * * * * * * *  GESTIONE DEI FRAGMENTS * * * * * * * * * * * * * * * * * * * * *
 
 
@@ -406,18 +402,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private void initFragments(){
         FragmentHelper.setMainActivity(this);
     }
-
-//
-//    //Metodo per lo swap di fragments
-//    public final void swapFragment(int containerID, Fragment newFragment)
-//    {
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        transaction.replace(containerID, newFragment);
-//        transaction.addToBackStack(null);
-//        transaction.commit();
-//    }
-
-
 
 
 

@@ -3,10 +3,12 @@ package micc.beaconav;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.view.View;
 
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.gui.customList.ArtListFragment;
 import micc.beaconav.gui.customList.MuseumDescrFragment;
+import micc.beaconav.indoorEngine.IndoorMapFragment;
 import micc.beaconav.outdoorEngine.Map;
 import micc.beaconav.outdoorEngine.MapFragment;
 
@@ -23,12 +25,17 @@ public class FragmentHelper
     public static ArtListFragment artListFragment = new ArtListFragment();
     public static MapFragment mapFragment = new MapFragment();
     public static MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
+    public static IndoorMapFragment indoorMapFragment = new IndoorMapFragment();
 
 
     public static void setMainActivity(MainActivity activity) {
         if(FragmentHelper.mainActivity == null)
             FragmentHelper.mainActivity = activity;
         // settabile solo 1 volta
+    }
+
+    public static MainActivity getMainActivity() {
+        return mainActivity;
     }
 
     public static FragmentHelper getIstance(){
@@ -44,8 +51,14 @@ public class FragmentHelper
         museumDescrFragment.setMuseumRow(row);
     }
 
-    public static final void simulateMuseumOnMapClickOn(final MuseumRow row){
+    public static final void simulateMuseumOnMapClick(final MuseumRow row){
         Map.getIstance().simulateMuseumClick(row);
+    }
+
+    public static final void navigateToMuseumOnBtnClick(final MuseumRow row, View v)
+    {
+        Map.getIstance().simulateMuseumClick(row);
+        mapFragment.onClickNavigate(v);
     }
 
     public static final void showListFragment() {
@@ -57,6 +70,11 @@ public class FragmentHelper
     public static  final void showMapFragment() {
         swapFragment(R.id.fragment_map_container, mapFragment);
         mapFragment.setMuseumMarkerManager(mainActivity);
+    }
+
+    public static final void showIndoorMapFragment()
+    {
+        swapFragment(R.id.fragment_map_container, indoorMapFragment);
     }
 
 
