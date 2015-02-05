@@ -1,5 +1,6 @@
 package micc.beaconav.indoorEngine.spot;
 
+import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.localization.IndoorPosition;
 import micc.beaconav.localization.Position;
 
@@ -10,10 +11,11 @@ public interface ISpot
 {
     public float getX();
     public float getY();
-    public int getFloor();
+//    public int getFloor();
+//
+//    public Position getPosition();
+//    public IndoorPosition getIndoorPosition();
 
-    public Position getPosition();
-    public IndoorPosition getIndoorPosition();
-
+    public ConvexArea getConvexAreaContainer();
 
 }

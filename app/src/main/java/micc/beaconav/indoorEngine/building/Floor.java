@@ -13,10 +13,14 @@ import micc.beaconav.localization.Position;
 
 public class Floor extends Drawable
 {
+    private Integer _floorIndex = null;
     private TreeMap<String, Room> _rooms;
     private Building _containerBuilding;
 
-	public Floor(Position padding){
+
+
+
+	public Floor(){
         super(Long.MIN_VALUE);
         _rooms = new TreeMap<String, Room>();
         _containerBuilding = null;
@@ -26,6 +30,7 @@ public class Floor extends Drawable
 
     @Override
     protected void _coreDraw(Canvas canvas) {
+
         Iterator<Room> roomIter = _rooms.values().iterator();
         while(roomIter.hasNext())
         {
@@ -35,23 +40,37 @@ public class Floor extends Drawable
     }
 
 
+	public int getRooms(){
+		return _rooms.size();
+	}
+	public Room getRoom(String roomNam)
+    {
+		return _rooms.get(roomNam);
+	}
+
+
+
+    public final int getFloorIndex() {
+        return _floorIndex;
+    }
+
+
 
 
     //gestione associazione bidirezionale Building - Floor
-    public Building getContainerBuilding(){
+    final public Building getContainerBuilding(){
         return this._containerBuilding;
     }
-    Floor setContainerBuilding(Building building) //package-private visibility
-    {
+    final Floor setContainerBuilding(Building building, int floorIndex_in_building){
         this._containerBuilding = building;
+        this._floorIndex = floorIndex_in_building;
         return this;
     }
-    void unsetContainerBuilding() //package-private visibility
+    final void unsetContainerBuilding() //package-private visibility
     {
         this._containerBuilding = null;
     }
-    public final void removeFromContainerBuilding()
-    {
+    final public void removeFromContainerBuilding() {
         if(this._containerBuilding!=null)
             this._containerBuilding.remove(this);
     }
@@ -59,14 +78,12 @@ public class Floor extends Drawable
 
 
     //gestione associazione bidirezionale Floor - Room
-    public void addRoom(String roomName, Room  room)
-    {
+    final public void addRoom(String roomName, Room  room) {
         room.unsetContainerFloor();
         _rooms.put(roomName, room);
         room.setContainerFloor(this);
     }
-    public final void removeRoom(Room removedRoom)
-    {
+    final public void removeRoom(Room removedRoom) {
         if(removedRoom.getContainerFloor() != null && removedRoom.getContainerFloor() == this)
         {
             this._rooms.remove(removedRoom);
@@ -75,16 +92,6 @@ public class Floor extends Drawable
     }
 
 
-
-
-
-	public int getRooms(){
-		return _rooms.size();
-	}
-	public Room getRoom(String roomNam)
-    {
-		return _rooms.get(roomNam);
-	}
 
 
 }

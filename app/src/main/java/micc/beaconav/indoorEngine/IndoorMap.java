@@ -7,7 +7,13 @@ import android.graphics.DrawFilter;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import micc.beaconav.indoorEngine.building.Building;
+import micc.beaconav.indoorEngine.building.ConvexArea;
+import micc.beaconav.indoorEngine.building.Floor;
+import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.localization.IndoorPosition;
 import micc.beaconav.localization.LocalizationManager;
 import micc.beaconav.indoorEngine.spot.Spot;
@@ -36,8 +42,6 @@ public class IndoorMap
         paint.setColor(Color.BLACK);
 
         Bitmap tempBmp =  Bitmap.createBitmap((int)building.getWidth(), (int)building.getHeight(), Bitmap.Config.ARGB_8888);
-
-
         Canvas tempCanvas = new Canvas(tempBmp);
 
         // Removing anti aliasing:
@@ -59,10 +63,37 @@ public class IndoorMap
 
 
 
+    class DijkstraSolver {
 
 
 
+    }
 
+    class DijkstraArea {
+        ConvexArea area;
+        float pesoMinimo = Float.MAX_VALUE;
+        DijkstraArea predecessor = null;
+
+        public DijkstraArea(ConvexArea area) {
+            this.area = area;
+        }
+
+
+    }
+
+
+    public void drawPath(Spot myPosition, Spot destination)
+    {
+        if(destination.getBuildingContainer() == this.building)
+        {
+            Floor destinationFloor = destination.getFloorContainer();
+            Room destinationRoom = destination.getRoomContainer();
+
+
+
+        }
+
+    }
 
 
 

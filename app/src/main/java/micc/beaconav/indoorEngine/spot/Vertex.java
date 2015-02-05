@@ -10,30 +10,23 @@ import micc.beaconav.localization.Position;
 /**
  * Created by nagash on 27/01/15.
  */
-public class Vertex extends Spot
+public class Vertex
 {
+    private PointF floorOffsetPosition;
 
-    public Vertex(Spot spot){
-        super(spot);
-    }
-    public Vertex(IndoorPosition indPosition) {
-        super(indPosition);
-    }
-
-    public Vertex(Position position) {
-        super(position, Integer.MAX_VALUE);
+    public Vertex(float x, float y) {
+        this.floorOffsetPosition = new PointF(x, y);
     }
 
     public Vertex(PointF position) {
-        super(position, Integer.MAX_VALUE);
+        this(position.x, position.y);
     }
 
-    public Vertex(float x, float y) {
-        super(x, y, Integer.MAX_VALUE);
+    public float getX() {
+        return floorOffsetPosition.x;
     }
-
-    public Vertex(Vertex copy){
-        super(copy);
+    public float getY() {
+        return floorOffsetPosition.y;
     }
 
 

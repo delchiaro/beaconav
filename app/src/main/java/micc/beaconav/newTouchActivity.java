@@ -76,8 +76,8 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
 
 
         Building building = new Building(500,500);
-        Floor floor0 = new Floor( new Position(10,10));
-        Floor floor1 = new Floor( new Position(20,20));
+        Floor floor0 = new Floor();
+        Floor floor1 = new Floor();
 
         floor0.addRoom("MICC Room", roomToDisplay);
         building.addFloor(floor0, 0);
