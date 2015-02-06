@@ -1,5 +1,7 @@
 package micc.beaconav.indoorEngine.spot;
 
+import android.graphics.Canvas;
+
 import micc.beaconav.indoorEngine.drawable.Drawable;
 import micc.beaconav.indoorEngine.drawable.DrawableImage;
 import micc.beaconav.localization.IndoorPosition;
@@ -22,6 +24,10 @@ public class DrawableSpot extends Spot
     }
     public DrawableSpot(DrawableImage drawable, int floor){
         super(drawable.getPosition(), floor);
+    }
+
+    public void draw(Canvas canvas){
+        this._drawable.draw(canvas);
     }
 
 

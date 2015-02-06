@@ -1,6 +1,7 @@
 package micc.beaconav;
 
 import android.animation.ObjectAnimator;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -121,10 +122,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
             ObjectAnimator slidingBarColorAnimation;
             ScrollViewResizer scrollViewResizer = new ScrollViewResizer(mSlidingUpPanelLayout, fragmentListContainer);
 
-//            MarginChanger marginChanger = new MarginChanger((RelativeLayout.MarginLayoutParams) mSearch.getLayoutParams());
-//            ObjectAnimator searchBarAnimation;
-
-
 
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
@@ -134,9 +131,9 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 if (slideOffset >= 0.002) {
                     if (colorAnimationStarted != true) {
 
-                        slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", 0, slidingBarColorChanger.getS());
-                        slidingBarHeightAnimation.setDuration(500);
-                        slidingBarHeightAnimation.start();
+                        slidingBarColorAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", 0, slidingBarColorChanger.getS());
+                        slidingBarColorAnimation.setDuration(500);
+                        slidingBarColorAnimation.start();
                         colorAnimationStarted = true;
                     }
                 }
@@ -144,9 +141,9 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 if (slideOffset <= 0.001) {
                     if (colorAnimationStarted != false) {
                         //slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
-                        slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
-                        slidingBarHeightAnimation.setDuration(200);
-                        slidingBarHeightAnimation.start();
+                        slidingBarColorAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
+                        slidingBarColorAnimation.setDuration(200);
+                        slidingBarColorAnimation.start();
                         colorAnimationStarted = false;
                     }
                 }
@@ -207,7 +204,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                     }
                 }
 
-                if(slideOffset >= 0.95)
+                if(slideOffset >= 0.92)
                 {
                     if(heightAnimationStarted != true)
                     {
@@ -219,7 +216,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
                 }
 
-                if(slideOffset <= 0.92)
+                if(slideOffset <= 0.90)
                 {
                     if(heightAnimationStarted != false)
                     {
@@ -358,11 +355,9 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     @Override
     public void onBackPressed() {
-        if (mSlidingUpPanelLayout != null && mSlidingUpPanelLayout.isPanelExpanded() || mSlidingUpPanelLayout.isPanelAnchored()) {
-            mSlidingUpPanelLayout.collapsePanel();
-        } else {
-            super.onBackPressed();
-        }
+    //TODO:chiamare qui la deselezione dei marker
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.popBackStack();
     }
 
 
@@ -419,6 +414,14 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 //    }
 
 
+
+
+
+
+// * * * * * * * * * * * * * * *  COLORI  * * * * * * * * * * * * * * * * * * * * *
+
+private int slidePanleColor_down;
+private int slidePanleColor_up;
 
 
 

@@ -1,26 +1,38 @@
 package micc.beaconav.indoorEngine.building;
 
+import android.graphics.Canvas;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import micc.beaconav.indoorEngine.drawable.Drawable;
 import micc.beaconav.indoorEngine.spot.Spot;
 
 /**
  * Created by nagash on 24/01/15.
  */
-public class ConvexArea
+public class ConvexArea extends Drawable
 {
-    private Room _room;
+    private Room _containerRoom;
     private ArrayList<Ingress> ingresses;
     private ArrayList<Spot> _vertices = new ArrayList<Spot>();
 
     public ConvexArea(Room containerRoom){
-        this._room = containerRoom;
+        super(0);
+        this._containerRoom = containerRoom;
     }
 
 
+    @Override
+    protected void _coreDraw(Canvas canvas) {
+        Iterator<Ingress> ingressIter = ingresses.iterator();
+        while(ingressIter.hasNext()) {
+            ingressIter.next().draw(canvas); //delego disegno delle porte ad ogni convex area
+        }
+    }
+
     public Room getConteinerRoom(){
-        return this._room;
+        return this._containerRoom;
     }
     public void pushCorner(Spot newCorner) {
         this._vertices.add(newCorner);
@@ -32,8 +44,8 @@ public class ConvexArea
         return this._vertices.indexOf(corner);
     }
     public Spot addRoomCorner(int roomCornerIndex) {
-        Spot corner = _room.getCorner(roomCornerIndex);
-        this._vertices.add(_room.getCorner(roomCornerIndex));
+        Spot corner = _containerRoom.getCorner(roomCornerIndex);
+        this._vertices.add(_containerRoom.getCorner(roomCornerIndex));
         return corner;
     }
 
@@ -68,8 +80,57 @@ public class ConvexArea
 
 
 
+    public boolean isConvex()
+    {
+        if (_vertices.size()<4)
+            return true;
+
+        boolean sign=false;
+        int n=_vertices.size();
+        for(int i=0;i<n;i++)
+        {
+            double dx1 = _vertices.get((i+2)%n).getX()-_vertices.get((i+1)%n).getX();
+            double dy1 = _vertices.get((i+2)%n).getY()-_vertices.get((i+1)%n).getY();
+            double dx2 = _vertices.get(i).getX()-_vertices.get((i+1)%n).getX();
+            double dy2 = _vertices.get(i).getY()-_vertices.get((i+1)%n).getY();
+            double zcrossproduct = dx1*dy2 - dy1*dx2;
+            if (i==0)
+                sign=zcrossproduct>0;
+            else
+            {
+                if (sign!=(zcrossproduct>0))
+                    return false;
+            }
+        }
+        return true;
+    }
 
 
+    public final Building getContainerBuilding() {
+        return getContainerFloor().getContainerBuilding();
+    }
+
+    public final Floor getContainerFloor() {
+        return getContainerRoom().getContainerFloor();
+    }
+
+
+    //gestione associazione bidirezionale Room - ConvexArea
+
+    public final Room getContainerRoom(){
+        return this._containerRoom;
+    }
+    final ConvexArea  setContainerRoom(Room room) {
+        this._containerRoom = room;
+        return this;
+    }
+    final void  unsetContainerRoom() {
+        this._containerRoom = null;
+    }
+    public final void removeFromContainerRoom() {
+        if(this._containerRoom!=null)
+            this._containerRoom.removeConvexArea(this);
+    }
 
 
 
@@ -94,6 +155,7 @@ public class ConvexArea
         }
         return c;
     }
+
 }
 
 

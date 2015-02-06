@@ -1,12 +1,15 @@
 package micc.beaconav.indoorEngine.building;
 
+import android.graphics.Canvas;
+
+import micc.beaconav.indoorEngine.drawable.Drawable;
 import micc.beaconav.indoorEngine.spot.DrawableSpot;
 import micc.beaconav.indoorEngine.spot.Spot;
 
 /**
  * Created by nagash on 24/01/15.
  */
-public class Ingress
+public class Ingress extends Drawable
 {
     private final Spot virtualDoorA;
     private final Spot virtualDoorB;
@@ -18,6 +21,7 @@ public class Ingress
 
 
     public Ingress(ConvexArea area_A, ConvexArea area_B, Spot virtualDoor_A, Spot virtualDoor_B, DrawableSpot physicalDoor) {
+        super(0);
         this.virtualDoorA = virtualDoor_A;
         this.virtualDoorB = virtualDoor_B;
         this.physicalDoor = physicalDoor;
@@ -58,4 +62,12 @@ public class Ingress
     }
 
 
+    @Override
+    protected void _coreDraw(Canvas canvas)
+    {
+        if(physicalDoor != null){
+            physicalDoor.draw(canvas);
+        }
+
+    }
 }

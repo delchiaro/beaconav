@@ -5,6 +5,10 @@ import android.graphics.PointF;
 
 import java.util.ArrayList;
 
+import micc.beaconav.indoorEngine.building.Building;
+import micc.beaconav.indoorEngine.building.ConvexArea;
+import micc.beaconav.indoorEngine.building.Floor;
+import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.localization.IndoorPosition;
 import micc.beaconav.localization.Position;
 
@@ -14,45 +18,45 @@ import micc.beaconav.localization.Position;
 public class Spot implements ISpot
 {
 
-    protected IndoorPosition _indoorPosition;
+    protected PointF areaOffsetPosition;
 
-    // private Room roomContainer;
+    //protected IndoorPosition _indoorPosition;
+    private ConvexArea _containerConvexArea;
 
-    public Spot(IndoorPosition indPosition){
-        _indoorPosition = indPosition;
-    }
-    public Spot(Position position, int floor){
-        _indoorPosition = new IndoorPosition(position, floor);
-    }
-    public Spot(PointF position, int floor){
-        _indoorPosition = new IndoorPosition(position, floor);
-    }
-    public Spot(float x, float y, int floor){
-        _indoorPosition = new IndoorPosition(x, y, floor);
-    }
 
-    public Spot(Spot copy){
-        this._indoorPosition = copy._indoorPosition.clone();
+    public Spot(ConvexArea convexAreaContainer, PointF position_offset_in_Area){
+        this.areaOffsetPosition = position_offset_in_Area;
+    }
+    public Spot(ConvexArea convexAreaContainer, float x_area_offset, float y_area_offset){
+        areaOffsetPosition = new PointF(x_area_offset, y_area_offset);
+        this._containerConvexArea = convexAreaContainer;
     }
 
 
-    public float getX(){ return _indoorPosition.X(); }
-    public float getY(){ return _indoorPosition.Y(); }
-    public int getFloor(){ return _indoorPosition.getFloor(); }
-    public Position getPosition(){ return this._indoorPosition.getPosition();}
-    public IndoorPosition getIndoorPosition(){ return _indoorPosition; }
+    public float getX(){ return areaOffsetPosition.x; }
+    public float getY(){ return areaOffsetPosition.y; }
 
-    public void setIndoorPosition(IndoorPosition newPosition){
-        this._indoorPosition = newPosition;
+
+   // public Position getPosition(){ return this._indoorPosition.getPosition();}
+   // public IndoorPosition getIndoorPosition(){ return _indoorPosition; }
+
+
+
+    public Room getRoomContainer(){ return getConvexAreaContainer().getContainerRoom(); }
+    public Floor getFloorContainer(){ return getRoomContainer().getContainerFloor(); }
+    public Building getBuildingContainer() { return getFloorContainer().getContainerBuilding(); }
+
+
+    @Override
+    public ConvexArea getConvexAreaContainer() {
+        return null;
     }
+
     public void setX(float x){
-        this._indoorPosition.setX(x);
+        this.areaOffsetPosition.x = x;
     }
     public void setY(float y){
-        this._indoorPosition.setY(y);
-    }
-    public void setFloor(int floor){
-        this._indoorPosition.setFloor(floor);
+        this.areaOffsetPosition.y = y;
     }
 
 }

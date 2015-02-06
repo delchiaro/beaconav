@@ -77,7 +77,17 @@ public class Room extends Drawable
                 vertex.getX() * DPI, vertex.getY() * DPI, wallsPaint);
             */
         }
+
+        Iterator<ConvexArea> areaIter = _convexAreas.iterator();
+        while(areaIter.hasNext()) {
+            areaIter.next().draw(canvas); //delego disegno delle porte ad ogni convex area
+        }
+
     }
+
+
+
+
 
 
     public void pushVertex(Vertex newVertex){
@@ -90,31 +100,53 @@ public class Room extends Drawable
         this._vertices.add(index, vertex);
     }
 
-    public Spot getCorner(int index){
+    public Vertex getCorner(int index){
         return this._vertices.get(index);
     }
 
 
 
+
+    final public Building getCointainerBuilding() {
+        return this.getContainerFloor().getContainerBuilding();
+    }
+
     //gestione associazione bidirezionale Floor - Room
 
-    public Floor getContainerFloor(){
+    final public Floor getContainerFloor(){
         return this._containerFloor;
     }
-    Room setContainerFloor(Floor floor) //package-private visibility
-    {
+    final Room setContainerFloor(Floor floor) {
         this._containerFloor = floor;
         return this;
     }
-    void unsetContainerFloor() //package-private visibility
+    final void unsetContainerFloor() //package-private visibility
     {
         this._containerFloor = null;
     }
-    public final void removeFromContainerFloor()
-    {
+    final public void removeFromContainerFloor() {
         if(this._containerFloor!=null)
             this._containerFloor.removeRoom(this);
     }
+
+
+    //gestione associazione bidirezionale Room - ConvexArea
+    final public void addConvexArea( ConvexArea  area) {
+        if(area.isConvex())
+        {
+            area.unsetContainerRoom();
+            _convexAreas.add(area);
+            area.setContainerRoom(this);
+        }
+    }
+    final public void removeConvexArea(ConvexArea removedArea) {
+        if(removedArea.getContainerRoom() != null && removedArea.getContainerRoom() == this)
+        {
+            this._convexAreas.remove(removedArea);
+            removedArea.unsetContainerRoom();
+        }
+    }
+
 
 
 }

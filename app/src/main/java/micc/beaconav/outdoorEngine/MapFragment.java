@@ -27,7 +27,6 @@ public class MapFragment extends Fragment
 
     private Map map; // Might be null if Google Play services APK is not available.
     private Context context;
-
     private View myFragmentView;
 
 

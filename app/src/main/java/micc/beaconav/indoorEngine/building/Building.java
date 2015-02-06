@@ -33,12 +33,53 @@ public class Building
 
 
 
-    public float getWidth(){
+    public float    getWidth(){
         return width;
     }
-    public float getHeight(){
+    public float    getHeight(){
         return height;
     }
+
+    public int      getFloors(){
+        return floorList.size();
+    }
+    public Floor    getFloor(int floorIndex){
+        return floorList.get(floorIndex);
+    }
+
+    public boolean  setActiveFloor(int floorIndex){
+        if(floorList.get(floorIndex) != null ) {
+            this._activeFloor = floorIndex;
+            return true;
+        }
+        else return false;
+    }
+    public Floor    getActiveFloor(){
+        return floorList.get(this.getActiveFloorIndex());
+    }
+    public int getActiveFloorIndex() {
+        return this._activeFloor;
+    }
+
+
+
+    public DrawableManager getDrawableManager()
+    {
+        return this._drawableManager;
+    }
+
+    public void draw(Canvas canvas, int floorIndex) {
+        floorList.get(floorIndex).draw(canvas);
+    }
+    public void draw(Canvas canvas)
+    {
+        this.draw(canvas, this._activeFloor);
+    }
+
+
+
+
+
 
 
 
@@ -47,7 +88,7 @@ public class Building
     {
         newFloor.unsetContainerBuilding();
         floorList.put(floorIndex, newFloor);
-        newFloor.setContainerBuilding(this);
+        newFloor.setContainerBuilding(this, floorIndex);
 
         _drawableManager.add(newFloor);
     }
@@ -64,40 +105,4 @@ public class Building
 
 
 
-    public int getFloors(){
-        return floorList.size();
-    }
-    public Floor getFloor(int floorIndex){
-        return floorList.get(floorIndex);
-    }
-
-
-    public boolean setActiveFloor(int floorIndex){
-        if(floorList.get(floorIndex) != null ) {
-            this._activeFloor = floorIndex;
-            return true;
-        }
-        else return false;
-    }
-    public Floor getActiveFloor(){
-        return floorList.get(this.getActiveFloorIndex());
-    }
-    public int getActiveFloorIndex() {
-        return this._activeFloor;
-    }
-
-    public DrawableManager getDrawableManager()
-    {
-        return this._drawableManager;
-    }
-
-
-    public void draw(Canvas canvas, int floorIndex)
-    {
-        floorList.get(floorIndex).draw(canvas);
-    }
-    public void draw(Canvas canvas)
-    {
-        this.draw(canvas, 0);
-    }
 }
