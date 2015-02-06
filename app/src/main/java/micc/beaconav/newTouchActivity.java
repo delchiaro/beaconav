@@ -6,7 +6,10 @@ package micc.beaconav;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ import micc.beaconav.db.dbJSONManager.JSONDownloader;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 import micc.beaconav.indoorEngine.IndoorMap;
 import micc.beaconav.indoorEngine.building.Building;
+import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.localization.Position;
@@ -55,6 +59,7 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
 
     JSONDownloader<VertexRow, VertexSchema> vertexDownloader;
     Room roomToDisplay;
+    ConvexArea convexArea;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -73,6 +78,13 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
         setContentView(R.layout.activity_canvas_test);
         ImageView imgView = (ImageView) findViewById(R.id.imageView);
         imgView.setOnTouchListener(this);
+
+
+        Paint artworkPaint = new Paint();
+        artworkPaint.setColor(Color.RED);
+        Bitmap artworkMarkerBmp = Bitmap.createBitmap(20, 20, Bitmap.Config.ARGB_8888);
+        Canvas artworkMarkerCanv = new Canvas(artworkMarkerBmp);
+        artworkMarkerCanv.drawCircle(10,10,10, artworkPaint);
 
 
         Building building = new Building(500,500);
@@ -265,6 +277,8 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
     @Override
     public void onJSONDownloadFinished(VertexRow[] result) {
         roomToDisplay = RoomGenerator.generateRoomFromVertices(result);
+
+
         generateFrame();
     }
 }
