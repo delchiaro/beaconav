@@ -14,10 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sothree:panelHeight="48dp"
-        sothree:shadowHeight="0dp"
-        sothree:paralaxOffset="100dp"
-        sothree:dragView="@+id/dragView"
+        sothree:umanoPanelHeight="48dp"
+        sothree:umanoShadowHeight="0dp"
+        sothree:umanoParalaxOffset="100dp"
+        sothree:umanoDragView="@+id/dragView"
         android:clipChildren="false" >
 
         <!-- android:clipChildren="false"

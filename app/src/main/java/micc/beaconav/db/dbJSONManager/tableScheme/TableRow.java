@@ -42,7 +42,11 @@ public class TableRow<TS extends TableSchema>
     public ColumnField[] fields(){
         return fields.values().toArray(new ColumnField[fields.size()]);
     }
+
     public ColumnField field(String name){
+
+        schema.getColumn(name).getClass().cast(fields.get(name));
+
         return fields.get(name);
     }
     public ColumnField field(int index){

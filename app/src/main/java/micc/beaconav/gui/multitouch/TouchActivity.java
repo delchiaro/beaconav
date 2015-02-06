@@ -86,8 +86,8 @@ public class TouchActivity extends Activity implements OnTouchListener
 
         Bitmap floor0_bmp = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
         Building building = new Building(500,500);
-        Floor floor0 = new Floor( new Position(10,10));
-        Floor floor1 = new Floor( new Position(20,20));
+        Floor floor0 = new Floor();
+        Floor floor1 = new Floor();
 
         building.addFloor(floor0, 0);
         building.addFloor(floor1, 1);
@@ -161,8 +161,8 @@ public class TouchActivity extends Activity implements OnTouchListener
 
         Bitmap floor0_bmp = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
         Building building = new Building(500,500);
-        Floor floor0 = new Floor( new Position(10,10));
-        Floor floor1 = new Floor( new Position(20,20));
+        Floor floor0 = new Floor( );
+        Floor floor1 = new Floor( );
 
         building.addFloor(floor0, 0);
         building.addFloor(floor1, 1);

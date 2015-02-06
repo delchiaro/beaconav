@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import micc.beaconav.indoorEngine.drawable.Drawable;
 import micc.beaconav.indoorEngine.spot.Spot;
+import micc.beaconav.indoorEngine.spot.Vertex;
 
 /**
  * Created by nagash on 24/01/15.
@@ -15,7 +16,7 @@ public class ConvexArea extends Drawable
 {
     private Room _containerRoom;
     private ArrayList<Ingress> ingresses;
-    private ArrayList<Spot> _vertices = new ArrayList<Spot>();
+    private ArrayList<Vertex> _vertices = new ArrayList<Vertex>();
 
     public ConvexArea(Room containerRoom){
         super(0);
@@ -34,33 +35,33 @@ public class ConvexArea extends Drawable
     public Room getConteinerRoom(){
         return this._containerRoom;
     }
-    public void pushCorner(Spot newCorner) {
+    public void pushCorner(Vertex newCorner) {
         this._vertices.add(newCorner);
     }
-    public void addCorner(Spot newCorner, int index) {
+    public void addCorner(Vertex newCorner, int index) {
         this._vertices.add(index, newCorner);
     }
-    public int indexOfCorner(Spot corner){
+    public int indexOfCorner(Vertex corner){
         return this._vertices.indexOf(corner);
     }
-    public Spot addRoomCorner(int roomCornerIndex) {
-        Spot corner = _containerRoom.getCorner(roomCornerIndex);
+    public Vertex addRoomCorner(int roomCornerIndex) {
+        Vertex corner = _containerRoom.getCorner(roomCornerIndex);
         this._vertices.add(_containerRoom.getCorner(roomCornerIndex));
         return corner;
     }
 
 
-    public boolean checkSpotInArea(Spot spot)
+    public boolean checkSpotInArea(Vertex spot)
     {
         int size = _vertices.size();
-        Iterator<Spot> iter = _vertices.iterator();
+        Iterator<Vertex> iter = _vertices.iterator();
 
         float[] vert_x = new float[size];
         float[] vert_y = new float[size];
 
         for(int i = 0; iter.hasNext(); i++)
         {
-            Spot vertex = iter.next();
+            Vertex vertex = iter.next();
             vert_x[i] = vertex.getX();
             vert_y[i] = vertex.getY();
         }

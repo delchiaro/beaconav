@@ -265,12 +265,12 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
             {
                 if(panelAnchored == false)
                 {
-                    mSlidingUpPanelLayout.expandPanel(ANCHOR_POINT);
+                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
                     panelAnchored = true;
                 }
                 else
                 {
-                    mSlidingUpPanelLayout.expandPanel(0.0f);
+                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                     panelAnchored = false;
                 }
 
@@ -306,7 +306,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.action_toggle);
         if (mSlidingUpPanelLayout != null) {
-            if (mSlidingUpPanelLayout.isPanelHidden()) {
+            if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.HIDDEN) {
                 item.setTitle(R.string.action_show);
             } else {
                 item.setTitle(R.string.action_hide);
@@ -325,11 +325,11 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         switch (item.getItemId()){
             case R.id.action_toggle: {
                 if (mSlidingUpPanelLayout != null) {
-                    if (!mSlidingUpPanelLayout.isPanelHidden()) {
-                        mSlidingUpPanelLayout.hidePanel();
+                    if (mSlidingUpPanelLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) {
+                        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                         item.setTitle(R.string.action_show);
                     } else {
-                        mSlidingUpPanelLayout.showPanel();
+                        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                         item.setTitle(R.string.action_hide);
                     }
                 }
@@ -339,11 +339,11 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 if (mSlidingUpPanelLayout != null) {
                     if (mSlidingUpPanelLayout.getAnchorPoint() == 1.0f) {
                         mSlidingUpPanelLayout.setAnchorPoint(0.7f);
-                        mSlidingUpPanelLayout.expandPanel(0.7f);
+                        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
                         item.setTitle(R.string.action_anchor_enable);
                     } else {
                         mSlidingUpPanelLayout.setAnchorPoint(1.0f);
-                        mSlidingUpPanelLayout.collapsePanel();
+                        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                         item.setTitle(R.string.action_anchor_disable);
                     }
                 }
