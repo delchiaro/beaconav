@@ -1,7 +1,6 @@
 package micc.beaconav;
 
 import android.animation.ObjectAnimator;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -25,7 +24,8 @@ import micc.beaconav.gui.animationHelper.BackgroundColorChangerHSV;
 import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.gui.animationHelper.ScrollViewResizer;
-
+import micc.beaconav.gui.backPressedListeners.OnBackPressedListener;
+import micc.beaconav.gui.backPressedListeners.VoidOnBackPressedListener;
 import micc.beaconav.outdoorEngine.MuseumMarkerManager;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -55,7 +55,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private boolean heightAnimationStarted = false;
 
 // * * * * * * * * * * * *  DEFINIZIONE E INIZIALIZZAZIONE LAYOUT * * * * * * * * * * * * * * * * *
-    private RelativeLayout mSlidingBarBg;
+    private RelativeLayout fragmentHeaderContainer;
     private LinearLayout mSlidingBar;
     private RelativeLayout fragmentListContainer;
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
 
         museumButton = (FloatingActionButton) findViewById(R.id.museum_button);
-        mSlidingBarBg = (RelativeLayout) findViewById(R.id.slidingBarBg);
+        fragmentHeaderContainer = (RelativeLayout) findViewById(R.id.fragment_sliding_header_container);
         mSlidingBar = (LinearLayout) findViewById(R.id.slidingBar);
         fragmentListContainer = (RelativeLayout) findViewById(R.id.fragment_list_container);
 
@@ -84,28 +84,16 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     // INIT * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
         mSlidingUpPanelLayout.setAnchorPoint(ANCHOR_POINT);
-        mSlidingUpPanelLayout.setDragView(mSlidingBarBg);
+        mSlidingUpPanelLayout.setDragView(fragmentHeaderContainer);
         // sliding avviene solo se si scrolla sulla slidingBar e non se si scrolla il contenuto
 
 
     //Setta il fragment della lista scorrevole
 
 
-//        FragmentManager fragmentManager = getFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.fragment_list_container, FragmentHelper.artListFragment);
-//        fragmentTransaction.commit();
-//
-//
-//
-//        FragmentManager mapFragmentManager = getFragmentManager();
-//        FragmentTransaction mapFragmentTransaction = mapFragmentManager.beginTransaction();
-//        mapFragmentTransaction.replace(R.id.fragment_map_container, FragmentHelper.mapFragment);
-//        mapFragmentTransaction.commit();
-
-
         FragmentHelper.getIstance().showListFragment();
         FragmentHelper.getIstance().showMapFragment();
+        FragmentHelper.getIstance().showSeekbarHeaderFragment();
 
 
     }
@@ -117,9 +105,9 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
          mSlidingUpPanelLayout.setPanelSlideListener(new PanelSlideListener() {
 
 
-            SlidingBarExtensionAnimationManager slidingBarHeightAnimMan = new SlidingBarExtensionAnimationManager(mSlidingBar, mSlidingBarBg, context);
+            SlidingBarExtensionAnimationManager slidingBarHeightAnimMan = new SlidingBarExtensionAnimationManager(mSlidingBar, fragmentHeaderContainer, context);
             ObjectAnimator slidingBarHeightAnimation;
-            BackgroundColorChangerHSV slidingBarColorChanger = new BackgroundColorChangerHSV(mSlidingBarBg, 255, 152, 0);
+            BackgroundColorChangerHSV slidingBarColorChanger = new BackgroundColorChangerHSV(fragmentHeaderContainer, 255, 152, 0);
             ObjectAnimator slidingBarColorAnimation;
             ScrollViewResizer scrollViewResizer = new ScrollViewResizer(mSlidingUpPanelLayout, fragmentListContainer);
 
@@ -134,7 +122,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 scrollViewResizer.resizeScrollView(1-slideOffset);
 
                 if (slideOffset >= 0.002) {
-                    if (colorAnimationStarted != true) {
+                    if (colorAnimationStarted != true && FragmentHelper.isIndoorMode() == false && FragmentHelper.isOnMuseumDescrFragment() == false) {
 
                         slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", 0, slidingBarColorChanger.getS());
                         slidingBarHeightAnimation.setDuration(500);
@@ -144,7 +132,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 }
 
                 if (slideOffset <= 0.001) {
-                    if (colorAnimationStarted != false) {
+                    if (colorAnimationStarted != false && FragmentHelper.isIndoorMode() == false && FragmentHelper.isOnMuseumDescrFragment() == false) {
                         //slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
                         slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
                         slidingBarHeightAnimation.setDuration(200);
@@ -354,12 +342,13 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-    //TODO:chiamare qui la deselezione dei marker
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.popBackStack();
-    }
+
+
+
+
+
+
+
 
 
 
@@ -370,19 +359,23 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     {
         return this.mSlidingUpPanelLayout;
     }
+    public RelativeLayout getFragmentHeaderContainer()
+    {
+        return this.fragmentHeaderContainer;
+    }
+    public FloatingActionButton getMuseumButton() {
+        return museumButton;
+    }
 
 
-
-
-
-
-// * * * * * * * * * * * * * * *  ALTRI EVENT MANAGER CREATI BEACONAV * * * * * * * * * * * * * * *
+    // * * * * * * * * * * * * * * *  ALTRI EVENT MANAGER CREATI BEACONAV * * * * * * * * * * * * * * *
 
 
 
     @Override
     public void onClickMuseumMarker(MuseumRow museumRow) {
         FragmentHelper.getIstance().showMuseumDescrFragment(museumRow);
+        FragmentHelper.getIstance().showMuseumNameHeaderFragment(museumRow);
     }
 
 
@@ -390,6 +383,9 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     @Override
     public void onDeselectMuseumMarker() {
         FragmentHelper.getIstance().showListFragment();
+        FragmentHelper.getIstance().showSeekbarHeaderFragment();
+        fragmentHeaderContainer.setBackgroundColor(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(R.color.orange));
+        museumButton.setColorNormal(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(R.color.orange));
     }
 
 
@@ -403,6 +399,12 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         FragmentHelper.setMainActivity(this);
     }
 
+    OnBackPressedListener backPressedListener = new VoidOnBackPressedListener();
+
+    @Override
+    public void onBackPressed() {
+        backPressedListener.doBack();
+    }
 
 
 }
@@ -428,3 +430,4 @@ class SlidingBarExtensionAnimationManager {
         c2.setDpHeight(dpHeight);
     }
 }
+

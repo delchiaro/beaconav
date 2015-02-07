@@ -37,7 +37,7 @@
 
 
 
-            <!--FrameLayout ha solo un elemento, qui ci va la mappa-->
+            <!--Contenitore della mappa (outdoor, indoor)-->
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/fragment_map_container"
@@ -63,8 +63,10 @@
         </FrameLayout>
 
 
-        <!-- SLIDING LAYOUT -->
 
+
+
+        <!-- SLIDING LAYOUT -->
         <LinearLayout
             android:id="@+id/dragView"
             android:layout_width="match_parent"
@@ -91,21 +93,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@android:color/white"
-                    android:id="@+id/slidingBarBg"
+                    android:id="@+id/fragment_sliding_header_container"
                     > <!--Questo è il colore che deve cambiare-->
 
 
-
-                    <micc.beaconav.gui.seekBar.DiscreteSeekBar
-                        android:id="@+id/seekBar"
-                        android:layout_width="match_parent"
-                        android:layout_marginRight="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_alignParentBottom="true"
-                        app:dsb_min="1"
-                        app:dsb_max="15"
-                    />
+                    <!--Qui ci va un fragment per swappare la barra e il titolo-->
 
 
                 </RelativeLayout>
@@ -124,30 +116,18 @@
                 android:layout_marginTop="-75dp"
                 fab:fab_icon="@drawable/white_museum"
                 fab:fab_colorNormal="@color/orange"
-                fab:fab_colorPressed="@color/orange_pressed"
+                fab:fab_colorPressed="@color/white_pressed"
             />
 
 
-            <!--<ListView
-                android:id="@+id/list_container_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </ListView>-->
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/fragment_list_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="2dp">
 
-                <!--Questo è il fragment che verrà sosotituito a seconda della lista-->
-                <!--<fragment android:name="micc.beaconav.CustomList.ArtListFragment"
-                    android:id="@+id/fragment_art_list"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>-->
+                <!-- Qui ci finiscono i vari fragment -->
 
 
             </RelativeLayout>

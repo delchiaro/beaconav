@@ -223,7 +223,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         drawMarkers();
     }
 
-    private final void unsetMuseumMarker()
+    public final void unsetMuseumMarker()
     {
         if(selectedMuseumMarker != null)
         {

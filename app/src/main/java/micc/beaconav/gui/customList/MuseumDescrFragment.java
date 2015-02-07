@@ -11,13 +11,13 @@ import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.FragmentHelper;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 
 public class MuseumDescrFragment extends Fragment
 {
 
 
-    private TextView textViewMuseumName = null;
     private TextView textViewMuseumDescr = null;
     private MuseumRow museumRow = null;
     private FloatingActionButton toIndoorBtn = null;
@@ -35,16 +35,21 @@ public class MuseumDescrFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textViewMuseumName = (TextView)getView().findViewById(R.id.museumName);
         textViewMuseumDescr = (TextView)getView().findViewById(R.id.museumDescription);
         if(museumRow != null) {
             textViewMuseumDescr.setText(museumRow.getDescr());
-            textViewMuseumName.setText(museumRow.getName());
         }
+
+        FragmentHelper.getMainActivity().getFragmentHeaderContainer().setBackgroundColor(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(R.color.material_deep_purple));
+        FragmentHelper.getMainActivity().getMuseumButton().setColorNormal(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(R.color.material_deep_purple));
+
         toIndoorBtn = (FloatingActionButton)getView().findViewById(R.id.toIndoorBtn);
         toIndoorBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 FragmentHelper.showIndoorMapFragment();
+                FragmentHelper.getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                FragmentHelper.getMainActivity().getFragmentHeaderContainer().setBackgroundColor(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(android.R.color.holo_red_light));
+                FragmentHelper.getMainActivity().getMuseumButton().setColorNormal(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(android.R.color.holo_red_light));
             }
         });
 
@@ -56,7 +61,6 @@ public class MuseumDescrFragment extends Fragment
         this.museumRow = row;
         if(textViewMuseumDescr != null) {
             textViewMuseumDescr.setText(museumRow.getDescr());
-            textViewMuseumName.setText(museumRow.getName());
         }
     }
 
@@ -65,6 +69,8 @@ public class MuseumDescrFragment extends Fragment
 //        if(textViewMuseumDescr != null)
 //            textViewMuseumDescr.setText(newDescr);
 //    }
+
+
 
 
 
