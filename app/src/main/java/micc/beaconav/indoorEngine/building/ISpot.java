@@ -1,8 +1,6 @@
-package micc.beaconav.indoorEngine.spot;
+package micc.beaconav.indoorEngine.building;
 
 import micc.beaconav.indoorEngine.building.ConvexArea;
-import micc.beaconav.localization.IndoorPosition;
-import micc.beaconav.localization.Position;
 
 /**
  * Created by Nagash on 29/12/2014.

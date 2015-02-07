@@ -13,9 +13,9 @@ public class FloatSchema extends ColumnSchema<Float> {
         super(name);
     }
 
-
     @Override
-    protected FloatField generateField() {
-        return new FloatField();
+    public FloatField newField() {
+        return new FloatField(this);
     }
+
 }

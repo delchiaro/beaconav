@@ -14,7 +14,8 @@ public class BooleanSchema extends ColumnSchema<Boolean> {
     }
 
     @Override
-    protected BooleanField generateField() {
-        return new BooleanField();
+    public BooleanField newField() {
+        return new BooleanField(this);
     }
+
 }

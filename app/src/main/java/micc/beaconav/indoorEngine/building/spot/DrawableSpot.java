@@ -1,13 +1,11 @@
-package micc.beaconav.indoorEngine.spot;
+package micc.beaconav.indoorEngine.building.spot;
 
 import android.graphics.Canvas;
 import android.graphics.PointF;
 
 import micc.beaconav.indoorEngine.building.ConvexArea;
+import micc.beaconav.indoorEngine.building.Spot;
 import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.indoorEngine.drawable.DrawableImage;
-import micc.beaconav.localization.IndoorPosition;
-import micc.beaconav.localization.Position;
 
 /**
  * Created by Nagash on 29/12/2014.

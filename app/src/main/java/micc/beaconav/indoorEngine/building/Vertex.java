@@ -1,11 +1,6 @@
-package micc.beaconav.indoorEngine.spot;
+package micc.beaconav.indoorEngine.building;
 
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PointF;
-
-import micc.beaconav.localization.IndoorPosition;
-import micc.beaconav.localization.Position;
 
 /**
  * Created by nagash on 27/01/15.

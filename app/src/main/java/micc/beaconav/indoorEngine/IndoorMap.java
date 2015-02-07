@@ -7,16 +7,13 @@ import android.graphics.DrawFilter;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.localization.IndoorPosition;
 import micc.beaconav.localization.LocalizationManager;
-import micc.beaconav.indoorEngine.spot.Spot;
+import micc.beaconav.indoorEngine.building.Spot;
 
 /**
  * Created by Nagash on 22/12/2014.

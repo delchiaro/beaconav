@@ -13,9 +13,10 @@ public class StringSchema extends ColumnSchema<String> {
         super(name);
     }
 
-
     @Override
-    protected StringField generateField() {
-        return new StringField();
+    public StringField newField() {
+        return new StringField(this);
     }
+
+
 }

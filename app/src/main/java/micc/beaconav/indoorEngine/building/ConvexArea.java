@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.indoorEngine.spot.Spot;
-import micc.beaconav.indoorEngine.spot.Vertex;
 
 /**
  * Created by nagash on 24/01/15.
@@ -16,6 +14,8 @@ public class ConvexArea extends Drawable
 {
     private Room _containerRoom;
     private ArrayList<Ingress> ingresses;
+    private ArrayList<Spot> spots;
+
     private ArrayList<Vertex> _vertices = new ArrayList<Vertex>();
 
     public ConvexArea(Room containerRoom){
@@ -134,6 +134,22 @@ public class ConvexArea extends Drawable
     }
 
 
+
+
+    //gestione associazione bidirezionale ConvexArea - Spot
+    final public void addSpot( Spot  spot) {
+        spot.unsetContainerConvexArea();
+        spots.add(spot);
+        spot.setContainerConvexArea(this);
+
+    }
+    final public void removeSpot(Spot removedSpot) {
+        if(removedSpot.getContainerConvexArea() != null && removedSpot.getContainerConvexArea() == this)
+        {
+            this.spots.remove(removedSpot);
+            removedSpot.unsetContainerConvexArea();
+        }
+    }
 
 
 

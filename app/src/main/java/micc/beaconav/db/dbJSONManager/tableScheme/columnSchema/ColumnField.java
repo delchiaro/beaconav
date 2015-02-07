@@ -12,20 +12,9 @@ public abstract class ColumnField<T>
 
 
 
-    public ColumnField() {
-        this.schema = null;
+    public ColumnField(ColumnSchema<T> schema) {
+        this.schema = schema;
         initValue();
-    }
-
-    ColumnField<T> initSchema(ColumnSchema<T> finalSchema) {
-        if(this.schema == null) {
-            this.schema = finalSchema;
-            return this;
-        }
-        else return null;
-        // cannot be called 2 times, it's auto called from ColumnSchema.java
-        // if you try to call it it will cause to ColumnSchema to generate a null ColumnField
-        // when you call newField();
     }
 
     private void initValue(){
@@ -48,7 +37,9 @@ public abstract class ColumnField<T>
     public final String columnName(){
         return this.schema.name();
     }
-
+    public final ColumnSchema<T> getColumnSchema() {
+        return this.schema;
+    }
     public final T getValue() {
         if(!isImmutable()) return value;
         else return immutableValue;

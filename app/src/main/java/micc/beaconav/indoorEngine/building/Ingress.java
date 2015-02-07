@@ -3,8 +3,7 @@ package micc.beaconav.indoorEngine.building;
 import android.graphics.Canvas;
 
 import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.indoorEngine.spot.DrawableSpot;
-import micc.beaconav.indoorEngine.spot.Spot;
+import micc.beaconav.indoorEngine.building.spot.DrawableSpot;
 
 /**
  * Created by nagash on 24/01/15.

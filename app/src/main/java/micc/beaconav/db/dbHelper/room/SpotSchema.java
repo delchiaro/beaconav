@@ -2,23 +2,22 @@ package micc.beaconav.db.dbHelper.room;
 
 import micc.beaconav.db.dbJSONManager.tableScheme.TableSchema;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
-import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.DoubleSchema;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatSchema;
-import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongSchema;
-import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringSchema;
 
 /**
  * Created by nagash on 02/02/15.
  */
-public class VertexSchema extends TableSchema<VertexRow> {
+public class SpotSchema extends TableSchema<SpotRow> {
 
 
-    public static final String          tableName  = "Vertex";
+    public static final String          tableName  = "Spot";
 
     public static final LongSchema     ID  = new LongSchema("ID");
     public static final FloatSchema    x   = new FloatSchema("x");
     public static final FloatSchema    y   = new FloatSchema("y");
+    public static final LongSchema     ID_convexArea  = new LongSchema("ID_convexArea");
+
 
     private static final ColumnSchema[] columns = new ColumnSchema[]{ ID, x, y};
 
@@ -34,7 +33,7 @@ public class VertexSchema extends TableSchema<VertexRow> {
     }
 
     @Override
-    protected VertexRow generateRow() {
-        return new VertexRow(this);
+    protected SpotRow generateRow() {
+        return new SpotRow(this);
     }
 }

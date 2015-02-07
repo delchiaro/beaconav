@@ -14,7 +14,8 @@ public class IntegerSchema extends ColumnSchema<Integer> {
     }
 
     @Override
-    protected IntegerField generateField() {
-        return new IntegerField();
+    public IntegerField newField() {
+        return null;
     }
+
 }

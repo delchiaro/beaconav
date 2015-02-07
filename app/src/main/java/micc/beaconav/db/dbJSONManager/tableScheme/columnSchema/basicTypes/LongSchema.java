@@ -13,9 +13,10 @@ public class LongSchema extends ColumnSchema<Long> {
         super(name);
     }
 
-
     @Override
-    protected LongField generateField() {
-        return new LongField();
+    public LongField newField() {
+        return new LongField(this);
     }
+
+
 }

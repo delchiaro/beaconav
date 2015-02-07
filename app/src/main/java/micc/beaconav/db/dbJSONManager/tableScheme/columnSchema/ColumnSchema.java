@@ -13,14 +13,7 @@ public abstract class ColumnSchema<T>
         this.name = name;
     }
 
-
-    public ColumnField<T> newField() {
-        return generateField().initSchema(this);
-    }
-
-    protected abstract ColumnField<T> generateField();
-
-
+    public abstract ColumnField<T> newField();
 
     public final String name(){
         return this.name;

@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.indoorEngine.spot.Spot;
-import micc.beaconav.indoorEngine.spot.Vertex;
 
 /**
  * 

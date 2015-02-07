@@ -29,7 +29,6 @@ public class MuseumSchema extends TableSchema<MuseumRow>
 
     @Override
     protected ColumnSchema[] generateTableColumns() {
-
         return columns;
     }
 

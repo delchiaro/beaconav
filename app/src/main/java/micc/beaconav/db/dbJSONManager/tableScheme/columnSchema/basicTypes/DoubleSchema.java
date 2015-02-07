@@ -14,7 +14,8 @@ public class DoubleSchema extends ColumnSchema<Double> {
     }
 
     @Override
-    protected DoubleField generateField() {
-        return new DoubleField();
+    public DoubleField newField() {
+        return new DoubleField(this);
     }
+
 }

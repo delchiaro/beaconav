@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import java.util.*;
 
 import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.indoorEngine.spot.Spot;
+import micc.beaconav.indoorEngine.building.Spot;
 
 /**
  * 
