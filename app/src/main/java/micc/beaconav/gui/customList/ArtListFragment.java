@@ -96,7 +96,7 @@ public class ArtListFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(result[position] instanceof MuseumRow)
-                FragmentHelper.simulateMuseumOnMapClick((MuseumRow) result[position]);
+                FragmentHelper.istance().simulateMuseumOnMapClick((MuseumRow) result[position]);
 
             }
         });

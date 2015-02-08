@@ -19,21 +19,19 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 
-import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.gui.animationHelper.BackgroundColorChangerHSV;
 import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.gui.animationHelper.ScrollViewResizer;
 import micc.beaconav.gui.backPressedListeners.OnBackPressedListener;
 import micc.beaconav.gui.backPressedListeners.VoidOnBackPressedListener;
-import micc.beaconav.outdoorEngine.MuseumMarkerManager;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
-public class MainActivity extends ActionBarActivity implements MuseumMarkerManager
+public class MainActivity extends ActionBarActivity
 {
 
     private static final String TAG = "MainActivity";
@@ -62,45 +60,39 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private TextView t;
     private ScrollView scrollView;
     private SearchView mSearch;
-    private FloatingActionButton museumButton;
+    private FloatingActionButton floatingActionButton;
     private LinearLayout dragView;
 
 
-    private void initActivityAndXML()
-    {
+
+
+
+    private void initFragments(){
+        FragmentHelper.setMainActivity(this);
+        FragmentHelper.istance().showOutdoorFragment();
+    }
+
+    private void initActivityAndXML() {
     // FIND VIEW BY ID * * * * * * * * * * * * * * * * * * * * * * * *
         mSearch = (SearchView) findViewById(R.id.search_view);
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         //mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
 
 
-        museumButton = (FloatingActionButton) findViewById(R.id.museum_button);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.museum_button);
         fragmentHeaderContainer = (RelativeLayout) findViewById(R.id.fragment_sliding_header_container);
         mSlidingBar = (LinearLayout) findViewById(R.id.slidingBar);
         fragmentListContainer = (RelativeLayout) findViewById(R.id.fragment_list_container);
-
-
 
 
     // INIT * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
         mSlidingUpPanelLayout.setAnchorPoint(ANCHOR_POINT);
         mSlidingUpPanelLayout.setDragView(fragmentHeaderContainer);
         // sliding avviene solo se si scrolla sulla slidingBar e non se si scrolla il contenuto
-
-
-    //Setta il fragment della lista scorrevole
-
-
-        FragmentHelper.getIstance().showListFragment();
-        FragmentHelper.getIstance().showMapFragment();
-        FragmentHelper.getIstance().showSeekbarHeaderFragment();
-
-
     }
 
 
-    public void initEventListeners()
-    {
+    public void initEventListeners()  {
 
          mSlidingUpPanelLayout.setPanelSlideListener(new PanelSlideListener() {
 
@@ -122,7 +114,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 scrollViewResizer.resizeScrollView(1-slideOffset);
 
                 if (slideOffset >= 0.002) {
-                    if (colorAnimationStarted != true && FragmentHelper.isIndoorMode() == false && FragmentHelper.isOnMuseumDescrFragment() == false) {
+                    if (colorAnimationStarted != true && themeColor == ThemeColor.ORANGE) {
 
                         slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", 0, slidingBarColorChanger.getS());
                         slidingBarHeightAnimation.setDuration(500);
@@ -132,7 +124,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 }
 
                 if (slideOffset <= 0.001) {
-                    if (colorAnimationStarted != false && FragmentHelper.isIndoorMode() == false && FragmentHelper.isOnMuseumDescrFragment() == false) {
+                    if (colorAnimationStarted != false && themeColor == ThemeColor.ORANGE) {
                         //slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
                         slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
                         slidingBarHeightAnimation.setDuration(200);
@@ -253,7 +245,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         });
 
 
-        museumButton.setOnClickListener(new View.OnClickListener() {
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (panelAnchored == false) {
                     mSlidingUpPanelLayout.setPanelState(PanelState.ANCHORED);
@@ -280,10 +272,10 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         this.context = this;
         dpHelper = new DpHelper(this);
 
-        initFragments();
 
         initActivityAndXML();
         initEventListeners();
+        initFragments();
 
 
 
@@ -363,8 +355,8 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     {
         return this.fragmentHeaderContainer;
     }
-    public FloatingActionButton getMuseumButton() {
-        return museumButton;
+    public FloatingActionButton getFloatingActionButton() {
+        return floatingActionButton;
     }
 
 
@@ -372,35 +364,43 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
 
 
-    @Override
-    public void onClickMuseumMarker(MuseumRow museumRow) {
-        FragmentHelper.getIstance().showMuseumDescrFragment(museumRow);
-        FragmentHelper.getIstance().showMuseumNameHeaderFragment(museumRow);
+    public enum ThemeColor {  ORANGE, PURPLE, RED; }
+    private ThemeColor themeColor = ThemeColor.ORANGE;
+
+    public void setThemeColor(ThemeColor newColor) {
+        switch(newColor)
+        {
+            case ORANGE:
+                fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.orange));
+                floatingActionButton.setColorNormal(getResources().getColor(R.color.orange));
+                break;
+
+            case PURPLE:
+                fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.material_deep_purple));
+                floatingActionButton.setColorNormal(getResources().getColor(R.color.material_deep_purple));
+                break;
+
+            case RED:
+                fragmentHeaderContainer.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+                floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_light));
+                break;
+        }
+    }
+
+    public void hideFAB() {
+        // TODO
+    }
+    public void showFab() {
+        // TODO
     }
 
 
 
-    @Override
-    public void onDeselectMuseumMarker() {
-        FragmentHelper.getIstance().showListFragment();
-        FragmentHelper.getIstance().showSeekbarHeaderFragment();
-        fragmentHeaderContainer.setBackgroundColor(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(R.color.orange));
-        museumButton.setColorNormal(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(R.color.orange));
+    private OnBackPressedListener backPressedListener = new VoidOnBackPressedListener();
+
+    public void setOnBackPressedListener(OnBackPressedListener listener) {
+        this.backPressedListener = listener;
     }
-
-
-
-
-// * * * * * * * * * * * * * * *  GESTIONE DEI FRAGMENTS * * * * * * * * * * * * * * * * * * * * *
-
-
-    // * * * * * * * * * * * *  DEFINIZIONI DEI FRAGMENT
-    private void initFragments(){
-        FragmentHelper.setMainActivity(this);
-    }
-
-    OnBackPressedListener backPressedListener = new VoidOnBackPressedListener();
-
     @Override
     public void onBackPressed() {
         backPressedListener.doBack();

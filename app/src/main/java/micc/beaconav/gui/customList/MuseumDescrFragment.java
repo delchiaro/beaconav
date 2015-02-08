@@ -26,8 +26,7 @@ public class MuseumDescrFragment extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_museum_descr, container, false);
 
     }
@@ -40,16 +39,14 @@ public class MuseumDescrFragment extends Fragment
             textViewMuseumDescr.setText(museumRow.getDescr());
         }
 
-        FragmentHelper.getMainActivity().getFragmentHeaderContainer().setBackgroundColor(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(R.color.material_deep_purple));
-        FragmentHelper.getMainActivity().getMuseumButton().setColorNormal(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(R.color.material_deep_purple));
 
         toIndoorBtn = (FloatingActionButton)getView().findViewById(R.id.toIndoorBtn);
         toIndoorBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FragmentHelper.showIndoorMapFragment();
-                FragmentHelper.getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                FragmentHelper.getMainActivity().getFragmentHeaderContainer().setBackgroundColor(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(android.R.color.holo_red_light));
-                FragmentHelper.getMainActivity().getMuseumButton().setColorNormal(FragmentHelper.getMainActivity().getApplicationContext().getResources().getColor(android.R.color.holo_red_light));
+                FragmentHelper.istance().showIndoorFragment();
+                FragmentHelper.istance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                // TODO:    QUESTO CODIEC SAREBBE MEGLIO SE SI RIUSCISSE A PORTARLO NELL'HELPER E/O MAIN ACTIVITY RENDENDOLO FRUIBILE CON METODO PUBBLICO
+                // BASTEREBBE NEL FRAGMENT HELPER FARE DEI METODI CHE ALZANO E ABBASSANO IL PANEL DEL MAIN RICHIAMANDO UN METODO PUBBLICO DEL  MAIN CHE FA QUESTO.
             }
         });
 
