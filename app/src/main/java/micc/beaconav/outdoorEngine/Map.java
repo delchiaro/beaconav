@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import micc.beaconav.FragmentHelper;
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
@@ -95,7 +96,9 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     {
         this.gmap = mMap;
         this.gmap.setMyLocationEnabled(true);
-
+        this.gmap.getUiSettings().setZoomControlsEnabled(false);
+        FragmentHelper fh = FragmentHelper.instance();
+        this.gmap.setPadding(fh.dpToPx(5),  fh.dpToPx(50), fh.dpToPx(0), fh.dpToPx(5));
         proximityManager = new ProximityManager(this);
 
         this.markerManager = markerManager;

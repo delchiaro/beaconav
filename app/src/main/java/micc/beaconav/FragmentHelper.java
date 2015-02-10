@@ -3,6 +3,8 @@ package micc.beaconav;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -252,5 +254,11 @@ public class FragmentHelper  implements MuseumMarkerManager
     }
 
 
+
+    public static int dpToPx(int dimensionInDp)
+    {
+        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionInDp, mainActivity.getResources().getDisplayMetrics());
+        return px;
+    }
 
 }
