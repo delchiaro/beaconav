@@ -1,4 +1,4 @@
-package micc.beaconav.indoorEngine.building;
+package micc.beaconav.indoorEngine.vectorBuilding;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -6,6 +6,7 @@ import android.graphics.DrawFilter;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Path;
+import android.graphics.PointF;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,7 +41,7 @@ public class Room extends Drawable
 
 
     @Override
-    protected void _coreDraw(Canvas canvas) {
+    protected void _coreDraw(Canvas canvas, PointF padding) {
 
         final DrawFilter filter = new PaintFlagsDrawFilter(Paint.ANTI_ALIAS_FLAG, 0);
         canvas.setDrawFilter(filter);
@@ -78,7 +79,7 @@ public class Room extends Drawable
 
         Iterator<ConvexArea> areaIter = _convexAreas.iterator();
         while(areaIter.hasNext()) {
-            areaIter.next().draw(canvas); //delego disegno delle porte ad ogni convex area
+            areaIter.next().draw(canvas, new PointF(0, 0)); //delego disegno delle porte ad ogni convex area
         }
 
     }
@@ -144,7 +145,5 @@ public class Room extends Drawable
             removedArea.unsetContainerRoom();
         }
     }
-
-
 
 }

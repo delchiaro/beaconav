@@ -1,9 +1,11 @@
-package micc.beaconav.indoorEngine.building;
+package micc.beaconav.indoorEngine.bmpBuilding;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.PointF;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeMap;
 
 import micc.beaconav.indoorEngine.drawable.Drawable;
@@ -11,36 +13,38 @@ import micc.beaconav.indoorEngine.drawable.DrawableBitmap;
 import micc.beaconav.localization.Position;
 
 
-public class Floor extends Drawable
+public class Floor extends DrawableBitmap
 {
     private Integer _floorIndex = null;
     private TreeMap<String, Room> _rooms;
     private Building _containerBuilding;
 
+    public final SpotManager<DrawableSpot> drawableSpotManager = new SpotManager<>(this);
+    public final SpotManager<BeaconSpot> beaconSpotManager = new SpotManager<>(this);
 
 
 
-	public Floor(){
-        super(Long.MIN_VALUE);
+
+
+    public Floor(Bitmap bmp){
+        super(bmp, Long.MIN_VALUE);
         _rooms = new TreeMap<String, Room>();
         _containerBuilding = null;
     }
 
 
-
     @Override
-    protected void _coreDraw(Canvas canvas) {
-
-        Iterator<Room> roomIter = _rooms.values().iterator();
-        while(roomIter.hasNext())
+    protected void _coreDraw(Canvas canvas, PointF padding) {
+        super._coreDraw(canvas, padding);
+        Iterator<DrawableSpot> drawableSpotIter = drawableSpotManager.iterator();
+        while(drawableSpotIter.hasNext())
         {
-            roomIter.next().draw(canvas); //delego disegno ad ogni stanza
+            drawableSpotIter.next().draw(canvas);
         }
 
     }
 
-
-	public int getRooms(){
+    public int getRooms(){
 		return _rooms.size();
 	}
 	public Room getRoom(String roomNam)
@@ -78,7 +82,7 @@ public class Floor extends Drawable
 
 
     //gestione associazione bidirezionale Floor - Room
-    final public void addRoom(String roomName, Room  room) {
+    final public void addRoom(String roomName, Room room) {
         room.unsetContainerFloor();
         _rooms.put(roomName, room);
         room.setContainerFloor(this);

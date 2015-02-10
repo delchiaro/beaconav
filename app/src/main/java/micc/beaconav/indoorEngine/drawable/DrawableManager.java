@@ -1,6 +1,7 @@
 package micc.beaconav.indoorEngine.drawable;
 
 import android.graphics.Canvas;
+import android.graphics.PointF;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -77,7 +78,7 @@ public class DrawableManager
         Iterator<Drawable> iterator = this._drawableQueue.iterator();
         while(iterator.hasNext())
         {
-            iterator.next().draw(canvas);
+            iterator.next().draw(canvas, new PointF(0, 0));
         }
     }
 

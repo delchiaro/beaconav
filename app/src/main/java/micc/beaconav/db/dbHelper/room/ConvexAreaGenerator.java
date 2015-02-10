@@ -1,7 +1,7 @@
 package micc.beaconav.db.dbHelper.room;
 
-import micc.beaconav.indoorEngine.building.ConvexArea;
-import micc.beaconav.indoorEngine.building.Room;
+import micc.beaconav.indoorEngine.vectorBuilding.ConvexArea;
+import micc.beaconav.indoorEngine.vectorBuilding.Room;
 
 /**
  * Created by nagash on 06/02/15.
@@ -14,7 +14,8 @@ public class ConvexAreaGenerator {
     {
         if(vertexRows == null ) return null;
 
-        ConvexArea ret = new ConvexArea(containerRoom);
+        ConvexArea ret = new ConvexArea();
+        containerRoom.addConvexArea(ret);
         for(int i = 0; i < vertexRows.length; i++)
             ret.addCorner(vertexRows[i].toVertex(),i);
 

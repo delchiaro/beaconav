@@ -2,6 +2,7 @@ package micc.beaconav.indoorEngine.drawable;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.PointF;
 
 import micc.beaconav.localization.Position;
 
@@ -14,11 +15,11 @@ public class DrawableBitmap extends DrawableImage
     private android.graphics.Bitmap _bmp;
 
 
-    public DrawableBitmap(android.graphics.Bitmap bmp, long zIndex, Position position, ReferencePoint refPoint){
+    public DrawableBitmap(android.graphics.Bitmap bmp, long zIndex, PointF position, ReferencePoint refPoint){
         super(zIndex, position, refPoint);
         this._bmp = bmp;
     }
-    public DrawableBitmap(android.graphics.Bitmap bmp, Position position, long zIndex){
+    public DrawableBitmap(android.graphics.Bitmap bmp, long zIndex, PointF position){
         super(zIndex ,position);
         this._bmp = bmp;
     }
@@ -26,14 +27,17 @@ public class DrawableBitmap extends DrawableImage
         super(zIndex, refPoint);
         this._bmp = bmp;
     }
-
+    public DrawableBitmap(android.graphics.Bitmap bmp, long zIndex){
+        super(zIndex);
+        this._bmp = bmp;
+    }
 
 
     @Override
-    protected void _coreDraw(Canvas canvas)
+    protected void _coreDraw(Canvas canvas, PointF position)
     {
         if(this._bmp != null && this.getPosition() != null)
-            canvas.drawBitmap(_bmp, this.getUpLeftCorner().X(), this.getUpLeftCorner().Y(), null );
+            canvas.drawBitmap(_bmp, position.x + this.getUpLeftCorner().x, position.y + this.getUpLeftCorner().y, null );
     }
 
     @Override

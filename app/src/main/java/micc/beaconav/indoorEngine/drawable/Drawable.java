@@ -1,6 +1,7 @@
 package micc.beaconav.indoorEngine.drawable;
 
 import android.graphics.Canvas;
+import android.graphics.PointF;
 
 /**
  * Created by Nagash on 26/12/2014.
@@ -60,14 +61,14 @@ public abstract class Drawable
 
 
     //template method design pattern
-    public final void draw(Canvas canvas)
+    public final void draw(Canvas canvas, PointF position)
     {
         if(visible)
         {
-            this._coreDraw(canvas);
+            this._coreDraw(canvas, position);
         }
     }
-    protected abstract void _coreDraw(Canvas canvas);
+    protected abstract void _coreDraw(Canvas canvas, PointF position);
 
 
 

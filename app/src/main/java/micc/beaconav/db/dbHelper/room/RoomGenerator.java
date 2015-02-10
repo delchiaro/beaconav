@@ -2,8 +2,7 @@ package micc.beaconav.db.dbHelper.room;
 
 import java.util.List;
 
-import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
-import micc.beaconav.indoorEngine.building.Room;
+import micc.beaconav.indoorEngine.vectorBuilding.Room;
 
 /**
 * Created by nagash on 30/01/15.

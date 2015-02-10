@@ -3,11 +3,12 @@ package micc.beaconav.indoorEngine;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 
 import java.util.*;
 
 import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.indoorEngine.building.Spot;
+import micc.beaconav.indoorEngine.vectorBuilding.Spot;
 
 /**
  * 
@@ -56,7 +57,7 @@ public class IndoorPath extends Drawable
 
 
     @Override
-    protected void _coreDraw(Canvas canvas) {
+    protected void _coreDraw(Canvas canvas, PointF padding) {
         if( ! spotList.isEmpty() )
         {
             Iterator<Spot> spotIter = spotList.iterator();

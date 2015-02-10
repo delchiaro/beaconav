@@ -1,6 +1,4 @@
-package micc.beaconav.indoorEngine.building;
-
-import micc.beaconav.indoorEngine.building.ConvexArea;
+package micc.beaconav.indoorEngine.vectorBuilding;
 
 /**
  * Created by Nagash on 29/12/2014.

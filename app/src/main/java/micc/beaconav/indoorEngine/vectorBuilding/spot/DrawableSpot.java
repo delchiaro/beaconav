@@ -1,10 +1,10 @@
-package micc.beaconav.indoorEngine.building.spot;
+package micc.beaconav.indoorEngine.vectorBuilding.spot;
 
 import android.graphics.Canvas;
 import android.graphics.PointF;
 
-import micc.beaconav.indoorEngine.building.ConvexArea;
-import micc.beaconav.indoorEngine.building.Spot;
+import micc.beaconav.indoorEngine.vectorBuilding.ConvexArea;
+import micc.beaconav.indoorEngine.vectorBuilding.Spot;
 import micc.beaconav.indoorEngine.drawable.Drawable;
 
 /**
@@ -16,7 +16,7 @@ public class DrawableSpot extends Spot
 
 
     public DrawableSpot(ConvexArea convexAreaContainer, float x, float y, Drawable drawable){
-        super(convexAreaContainer, x, y);
+        super(x, y);
         this._drawable = drawable;
     }
     public DrawableSpot(ConvexArea convexAreaContainer, PointF position,  Drawable drawable){
@@ -24,7 +24,7 @@ public class DrawableSpot extends Spot
     }
 
     public void draw(Canvas canvas){
-        this._drawable.draw(canvas);
+        this._drawable.draw(canvas, new PointF(0,0));
     }
 
 

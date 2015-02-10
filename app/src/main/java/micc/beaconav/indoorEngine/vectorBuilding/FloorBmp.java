@@ -1,13 +1,4 @@
-package micc.beaconav.indoorEngine.building;
-
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-
-import java.util.Iterator;
-import java.util.TreeMap;
-
-import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.localization.Position;
+package micc.beaconav.indoorEngine.vectorBuilding;
 
 //
 //public class FloorBmp extends Drawable

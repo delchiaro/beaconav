@@ -6,10 +6,8 @@ package micc.beaconav;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -21,21 +19,19 @@ import android.widget.ImageView;
 
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.PriorityQueue;
 
 import micc.beaconav.db.dbHelper.DbManager;
-import micc.beaconav.db.dbHelper.room.RoomGenerator;
 import micc.beaconav.db.dbHelper.room.VertexRow;
 import micc.beaconav.db.dbHelper.room.VertexSchema;
 import micc.beaconav.db.dbJSONManager.JSONDownloader;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
-import micc.beaconav.indoorEngine.IndoorMap;
-import micc.beaconav.indoorEngine.building.Building;
-import micc.beaconav.indoorEngine.building.ConvexArea;
-import micc.beaconav.indoorEngine.building.Floor;
-import micc.beaconav.indoorEngine.building.Room;
-import micc.beaconav.localization.Position;
+
+import micc.beaconav.indoorEngine.IndoorMapBmp;
+import micc.beaconav.indoorEngine.bmpBuilding.ArtSpot;
+import micc.beaconav.indoorEngine.bmpBuilding.Building;
+import micc.beaconav.indoorEngine.bmpBuilding.Floor;
+import micc.beaconav.indoorEngine.bmpBuilding.Room;
 
 
 public class newTouchActivity extends Activity implements OnTouchListener, JSONHandler<VertexRow>
@@ -59,13 +55,13 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
 
     JSONDownloader<VertexRow, VertexSchema> vertexDownloader;
     Room roomToDisplay;
-    ConvexArea convexArea;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         vertexDownloader = DbManager.getVertexFromRoomDownloader(0);
+
         vertexDownloader.addHandler(this);
         vertexDownloader.startDownload();
 
@@ -80,25 +76,22 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
         imgView.setOnTouchListener(this);
 
 
-        Paint artworkPaint = new Paint();
-        artworkPaint.setColor(Color.RED);
-        Bitmap artworkMarkerBmp = Bitmap.createBitmap(20, 20, Bitmap.Config.ARGB_8888);
-        Canvas artworkMarkerCanv = new Canvas(artworkMarkerBmp);
-        artworkMarkerCanv.drawCircle(10,10,10, artworkPaint);
+        Bitmap indoorMapTest = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map_test);
 
-
-        Building building = new Building(500,500);
-        Floor floor0 = new Floor();
-        Floor floor1 = new Floor();
-
-        floor0.addRoom("MICC Room", roomToDisplay);
+        Building building = new Building(2800,2800);
+        Floor floor0 = new Floor(indoorMapTest);
         building.addFloor(floor0, 0);
-        building.addFloor(floor1, 1);
+
+        ArtSpot spot1 = new ArtSpot(new PointF(2000, 2000));
+        floor0.drawableSpotManager.addSpot(spot1);
 
 
-        IndoorMap indoorMap = new IndoorMap(building);
+
+
+        IndoorMapBmp indoorMap = new IndoorMapBmp(building);
         Bitmap frameBmp = indoorMap.drawMapBmp();
-        imgView.setImageDrawable(new BitmapDrawable(getResources(), frameBmp));
+        //imgView.setImageDrawable(new BitmapDrawable(getResources(), frameBmp));
+        imgView.setImageBitmap(frameBmp);
 
     }
 
@@ -276,9 +269,7 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
 
     @Override
     public void onJSONDownloadFinished(VertexRow[] result) {
-        roomToDisplay = RoomGenerator.generateRoomFromVertices(result);
-
-
+        //roomToDisplay = RoomGenerator.generateRoomFromVertices(result);
         generateFrame();
     }
 }

@@ -65,6 +65,13 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
     private LinearLayout dragView;
 
 
+
+
+
+    private void initFragments(){
+        FragmentHelper.setMainActivity(this);
+    }
+
     private void initActivityAndXML()
     {
     // FIND VIEW BY ID * * * * * * * * * * * * * * * * * * * * * * * *
@@ -291,11 +298,11 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         this.context = this;
         dpHelper = new DpHelper(this);
 
+
         initFragments();
 
         initActivityAndXML();
         initEventListeners();
-
 
 
     }
@@ -393,15 +400,6 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
 
 
-
-
-// * * * * * * * * * * * * * * *  GESTIONE DEI FRAGMENTS * * * * * * * * * * * * * * * * * * * * *
-
-
-    // * * * * * * * * * * * *  DEFINIZIONI DEI FRAGMENT
-    private void initFragments(){
-        FragmentHelper.setMainActivity(this);
-    }
 
 //
 //    //Metodo per lo swap di fragments

@@ -10,7 +10,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.String
 /**
  * Created by nagash on 01/02/15.
  */
-public class IngressSchema extends TableSchema<RoomRow>
+public class IngressSchema extends TableSchema<IngressRow>
 {
     public static final String          tableName  = "Room";
 
@@ -40,8 +40,8 @@ public class IngressSchema extends TableSchema<RoomRow>
     }
 
     @Override
-    protected RoomRow generateRow() {
-        return new RoomRow();
+    protected IngressRow generateRow() {
+        return new IngressRow();
     }
 
 }

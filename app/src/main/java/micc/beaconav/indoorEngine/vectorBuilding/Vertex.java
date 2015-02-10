@@ -1,4 +1,4 @@
-package micc.beaconav.indoorEngine.building;
+package micc.beaconav.indoorEngine.vectorBuilding;
 
 import android.graphics.PointF;
 

@@ -1,9 +1,10 @@
-package micc.beaconav.indoorEngine.building;
+package micc.beaconav.indoorEngine.vectorBuilding;
 
 import android.graphics.Canvas;
+import android.graphics.PointF;
 
 import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.indoorEngine.building.spot.DrawableSpot;
+import micc.beaconav.indoorEngine.vectorBuilding.spot.DrawableSpot;
 
 /**
  * Created by nagash on 24/01/15.
@@ -62,7 +63,7 @@ public class Ingress extends Drawable
 
 
     @Override
-    protected void _coreDraw(Canvas canvas)
+    protected void _coreDraw(Canvas canvas, PointF padding)
     {
         if(physicalDoor != null){
             physicalDoor.draw(canvas);

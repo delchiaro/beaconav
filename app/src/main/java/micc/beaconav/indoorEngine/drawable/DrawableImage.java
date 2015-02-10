@@ -1,5 +1,7 @@
 package micc.beaconav.indoorEngine.drawable;
 
+import android.graphics.PointF;
+
 import micc.beaconav.localization.Position;
 
 /**
@@ -7,20 +9,23 @@ import micc.beaconav.localization.Position;
  */
 public abstract class DrawableImage extends Drawable
 {
-    private Position _position;
+    private PointF _position;
     private ReferencePoint _referencePoint;
 
 
-    public DrawableImage(long zIndex, Position position, ReferencePoint refPoint){
+    public DrawableImage(long zIndex, PointF position, ReferencePoint refPoint){
         super(zIndex);
-        this._position = position.clone();
+        this._position = position;
         this._referencePoint = refPoint;
     }
     public DrawableImage(long zIndex, ReferencePoint refPoint){
-        this(zIndex, new Position(0,0), refPoint);
+        this(zIndex, new PointF(0,0), refPoint);
     }
-    public DrawableImage(long zIndex, Position position){
+    public DrawableImage(long zIndex, PointF position){
         this(zIndex, position, ReferencePoint.UP_LEFT_CORNER);
+    }
+    public DrawableImage(long zIndex){
+        this(zIndex, new PointF(0,0), ReferencePoint.UP_LEFT_CORNER);
     }
 
 
@@ -29,22 +34,22 @@ public abstract class DrawableImage extends Drawable
     public abstract float getHeight();
 
 
-    public Position getPosition(){
-        return _position;
-    }
-    public void setPosition(Position position) {
+    public void setPosition(PointF position) {
         this._position = position;
+    }
+    public PointF getPosition() {
+        return this._position;
     }
 
 
     public ReferencePoint getReferencePoint(){
         return _referencePoint;
     }
-    public Position getCenter()
+    public PointF getCenter()
     {
         if(this._referencePoint == ReferencePoint.UP_LEFT_CORNER)
         {
-            return new Position(this._position.X() + getWidth()/2, this._position.Y() + getHeight()/2);
+            return new PointF(this._position.x + getWidth()/2, this._position.y + getHeight()/2);
         }
         else if(this._referencePoint == ReferencePoint.CENTER)
         {
@@ -52,7 +57,7 @@ public abstract class DrawableImage extends Drawable
         }
         else return null;
     }
-    public Position getUpLeftCorner()
+    public PointF getUpLeftCorner()
     {
         if(this._referencePoint == ReferencePoint.UP_LEFT_CORNER)
         {
@@ -60,7 +65,7 @@ public abstract class DrawableImage extends Drawable
         }
         else if(this._referencePoint == ReferencePoint.CENTER)
         {
-            return new Position(this._position.X() - getWidth()/2, this._position.Y() - getHeight()/2);
+            return new PointF(this._position.x - getWidth()/2, this._position.y - getHeight()/2);
         }
         else return null;
     }

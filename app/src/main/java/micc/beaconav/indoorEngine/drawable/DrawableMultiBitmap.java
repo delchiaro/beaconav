@@ -1,6 +1,7 @@
 package micc.beaconav.indoorEngine.drawable;
 
 import android.graphics.Bitmap;
+import android.graphics.PointF;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,16 +17,16 @@ public class DrawableMultiBitmap extends DrawableBitmap
 
     Map<Integer, Bitmap> _bitmapList = new HashMap<Integer, Bitmap>();
 
-    public DrawableMultiBitmap(long zIndex, Position position, ReferencePoint refPoint) {
+    public DrawableMultiBitmap(long zIndex, PointF position, ReferencePoint refPoint) {
         super(null, zIndex, position, refPoint);
     }
 
-    public DrawableMultiBitmap(Position position, long zIndex) {
-        super(null, position, zIndex);
+    public DrawableMultiBitmap(PointF position, long zIndex) {
+        this(zIndex, position, ReferencePoint.UP_LEFT_CORNER);
     }
 
     public DrawableMultiBitmap(long zIndex, ReferencePoint refPoint) {
-        super(null, zIndex, refPoint);
+        this(zIndex, new PointF(0,0), refPoint);
     }
 
 

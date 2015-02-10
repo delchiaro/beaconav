@@ -7,13 +7,13 @@ import android.graphics.DrawFilter;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 
-import micc.beaconav.indoorEngine.building.Building;
-import micc.beaconav.indoorEngine.building.ConvexArea;
-import micc.beaconav.indoorEngine.building.Floor;
-import micc.beaconav.indoorEngine.building.Room;
+import micc.beaconav.indoorEngine.vectorBuilding.Building;
+import micc.beaconav.indoorEngine.vectorBuilding.ConvexArea;
+import micc.beaconav.indoorEngine.vectorBuilding.Floor;
+import micc.beaconav.indoorEngine.vectorBuilding.Room;
 import micc.beaconav.localization.IndoorPosition;
 import micc.beaconav.localization.LocalizationManager;
-import micc.beaconav.indoorEngine.building.Spot;
+import micc.beaconav.indoorEngine.vectorBuilding.Spot;
 
 /**
  * Created by Nagash on 22/12/2014.

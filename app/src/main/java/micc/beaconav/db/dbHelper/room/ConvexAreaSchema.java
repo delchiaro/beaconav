@@ -10,7 +10,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.String
 /**
  * Created by nagash on 01/02/15.
  */
-public class ConvexAreaSchema extends TableSchema<RoomRow>
+public class ConvexAreaSchema extends TableSchema<ConvexAreaRow>
 {
     public static final String          tableName  = "ConvexArea";
 
@@ -30,8 +30,8 @@ public class ConvexAreaSchema extends TableSchema<RoomRow>
     }
 
     @Override
-    protected RoomRow generateRow() {
-        return new RoomRow();
+    protected ConvexAreaRow generateRow() {
+        return new ConvexAreaRow();
     }
 
 }

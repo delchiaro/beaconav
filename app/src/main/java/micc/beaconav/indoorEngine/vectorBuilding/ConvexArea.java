@@ -1,6 +1,7 @@
-package micc.beaconav.indoorEngine.building;
+package micc.beaconav.indoorEngine.vectorBuilding;
 
 import android.graphics.Canvas;
+import android.graphics.PointF;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,17 +19,17 @@ public class ConvexArea extends Drawable
 
     private ArrayList<Vertex> _vertices = new ArrayList<Vertex>();
 
-    public ConvexArea(Room containerRoom){
+    public ConvexArea(){
         super(0);
-        this._containerRoom = containerRoom;
+        this._containerRoom = null;
     }
 
 
     @Override
-    protected void _coreDraw(Canvas canvas) {
+    protected void _coreDraw(Canvas canvas, PointF padding) {
         Iterator<Ingress> ingressIter = ingresses.iterator();
         while(ingressIter.hasNext()) {
-            ingressIter.next().draw(canvas); //delego disegno delle porte ad ogni convex area
+            ingressIter.next().draw(canvas, new PointF(0,0)); //delego disegno delle porte ad ogni convex area
         }
     }
 

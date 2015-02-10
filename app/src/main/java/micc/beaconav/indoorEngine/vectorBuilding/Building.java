@@ -1,8 +1,7 @@
-package micc.beaconav.indoorEngine.building;
+package micc.beaconav.indoorEngine.vectorBuilding;
 
 import android.graphics.Canvas;
-
-import com.google.android.gms.maps.model.LatLng;
+import android.graphics.PointF;
 
 import java.util.TreeMap;
 
@@ -69,7 +68,7 @@ public class Building
     }
 
     public void draw(Canvas canvas, int floorIndex) {
-        floorList.get(floorIndex).draw(canvas);
+        floorList.get(floorIndex).draw(canvas, new PointF(0,0));
     }
     public void draw(Canvas canvas)
     {
