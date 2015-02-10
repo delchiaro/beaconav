@@ -1,7 +1,6 @@
 package micc.beaconav;
 
 import android.animation.ObjectAnimator;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -20,19 +19,19 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 
-import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.gui.animationHelper.BackgroundColorChangerHSV;
 import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.gui.animationHelper.ScrollViewResizer;
-
-import micc.beaconav.outdoorEngine.MuseumMarkerManager;
+import micc.beaconav.gui.backPressedListeners.OnBackPressedListener;
+import micc.beaconav.gui.backPressedListeners.VoidOnBackPressedListener;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
-public class MainActivity extends ActionBarActivity implements MuseumMarkerManager
+public class MainActivity extends ActionBarActivity
 {
 
     private static final String TAG = "MainActivity";
@@ -50,18 +49,18 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 //* * * * * * * * * * * *  FLAGS  * * * * * * * * * * * * * * *
     private boolean fadeOutAnimationStarted = false;
     private boolean colorAnimationStarted = false;
-    private boolean panelAnchored = false;
+    public boolean panelAnchored = false;
     private boolean heightAnimationStarted = false;
 
 // * * * * * * * * * * * *  DEFINIZIONE E INIZIALIZZAZIONE LAYOUT * * * * * * * * * * * * * * * * *
-    private RelativeLayout mSlidingBarBg;
+    private RelativeLayout fragmentHeaderContainer;
     private LinearLayout mSlidingBar;
     private RelativeLayout fragmentListContainer;
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private TextView t;
     private ScrollView scrollView;
     private SearchView mSearch;
-    private FloatingActionButton mButton;
+    private FloatingActionButton floatingActionButton;
     private LinearLayout dragView;
 
 
@@ -70,62 +69,44 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
     private void initFragments(){
         FragmentHelper.setMainActivity(this);
+<<<<<<< HEAD
     }
 
     private void initActivityAndXML()
     {
+=======
+        FragmentHelper.instance().showOutdoorFragment();
+    }
+
+    private void initActivityAndXML() {
+>>>>>>> franco-revert
     // FIND VIEW BY ID * * * * * * * * * * * * * * * * * * * * * * * *
         mSearch = (SearchView) findViewById(R.id.search_view);
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         //mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
 
 
-        mButton = (FloatingActionButton) findViewById(R.id.museum_button);
-        mSlidingBarBg = (RelativeLayout) findViewById(R.id.slidingBarBg);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.floating_action_button);
+        fragmentHeaderContainer = (RelativeLayout) findViewById(R.id.fragment_sliding_header_container);
         mSlidingBar = (LinearLayout) findViewById(R.id.slidingBar);
         fragmentListContainer = (RelativeLayout) findViewById(R.id.fragment_list_container);
 
 
-
-
     // INIT * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
         mSlidingUpPanelLayout.setAnchorPoint(ANCHOR_POINT);
-        mSlidingUpPanelLayout.setDragView(mSlidingBarBg);
+        mSlidingUpPanelLayout.setDragView(fragmentHeaderContainer);
         // sliding avviene solo se si scrolla sulla slidingBar e non se si scrolla il contenuto
-
-
-    //Setta il fragment della lista scorrevole
-
-
-//        FragmentManager fragmentManager = getFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.fragment_list_container, FragmentHelper.artListFragment);
-//        fragmentTransaction.commit();
-//
-//
-//
-//        FragmentManager mapFragmentManager = getFragmentManager();
-//        FragmentTransaction mapFragmentTransaction = mapFragmentManager.beginTransaction();
-//        mapFragmentTransaction.replace(R.id.fragment_map_container, FragmentHelper.mapFragment);
-//        mapFragmentTransaction.commit();
-
-
-        FragmentHelper.getIstance().showListFragment();
-        FragmentHelper.getIstance().showMapFragment();
-
-
     }
 
 
-    public void initEventListeners()
-    {
+    public void initEventListeners()  {
 
          mSlidingUpPanelLayout.setPanelSlideListener(new PanelSlideListener() {
 
 
-            SlidingBarExtensionAnimationManager slidingBarHeightAnimMan = new SlidingBarExtensionAnimationManager(mSlidingBar, mSlidingBarBg, context);
+            SlidingBarExtensionAnimationManager slidingBarHeightAnimMan = new SlidingBarExtensionAnimationManager(mSlidingBar, fragmentHeaderContainer, context);
             ObjectAnimator slidingBarHeightAnimation;
-            BackgroundColorChangerHSV slidingBarColorChanger = new BackgroundColorChangerHSV(mSlidingBarBg, 255, 152, 0);
+            BackgroundColorChangerHSV slidingBarColorChanger = new BackgroundColorChangerHSV(fragmentHeaderContainer, 255, 152, 0);
             ObjectAnimator slidingBarColorAnimation;
             ScrollViewResizer scrollViewResizer = new ScrollViewResizer(mSlidingUpPanelLayout, fragmentListContainer);
 
@@ -135,24 +116,55 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 Log.i(TAG, "onPanelSlide, offset " + slideOffset);
                 scrollViewResizer.resizeScrollView(1-slideOffset);
 
+<<<<<<< HEAD
                 if (slideOffset >= 0.002) {
                     if (colorAnimationStarted != true) {
 
                         slidingBarColorAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", 0, slidingBarColorChanger.getS());
                         slidingBarColorAnimation.setDuration(500);
                         slidingBarColorAnimation.start();
+=======
+                if (slideOffset >= 0.002)
+                {
+                    if (colorAnimationStarted == false )
+                    {
+>>>>>>> franco-revert
                         colorAnimationStarted = true;
+
+                        if (themeColor == ThemeColor.ORANGE)
+                        {
+
+                            slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", 0, slidingBarColorChanger.getS());
+                            slidingBarHeightAnimation.setDuration(500);
+                            slidingBarHeightAnimation.start();
+                        }
                     }
                 }
 
+<<<<<<< HEAD
                 if (slideOffset <= 0.001) {
                     if (colorAnimationStarted != false) {
                         //slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
                         slidingBarColorAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
                         slidingBarColorAnimation.setDuration(200);
                         slidingBarColorAnimation.start();
+=======
+                if (slideOffset <= 0.001)
+                {
+                    if (colorAnimationStarted == true )
+                    {
+>>>>>>> franco-revert
                         colorAnimationStarted = false;
+
+                        if (themeColor == ThemeColor.ORANGE)
+                        {
+                            //slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
+                            slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
+                            slidingBarHeightAnimation.setDuration(200);
+                            slidingBarHeightAnimation.start();
+                        }
                     }
+
                 }
 
 
@@ -267,6 +279,7 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         });
 
 
+<<<<<<< HEAD
         mButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v)
             {
@@ -283,6 +296,20 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 
             }
         });
+=======
+//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                if (panelAnchored == false) {
+//                    mSlidingUpPanelLayout.setPanelState(PanelState.ANCHORED);
+//                    panelAnchored = true;
+//                } else {
+//                    mSlidingUpPanelLayout.setPanelState(PanelState.COLLAPSED);
+//                    panelAnchored = false;
+//                }
+//
+//            }
+//        });
+>>>>>>> franco-revert
 
     }
 
@@ -298,11 +325,15 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         this.context = this;
         dpHelper = new DpHelper(this);
 
+<<<<<<< HEAD
 
         initFragments();
+=======
+>>>>>>> franco-revert
 
         initActivityAndXML();
         initEventListeners();
+        initFragments();
 
 
     }
@@ -313,7 +344,11 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.action_toggle);
         if (mSlidingUpPanelLayout != null) {
+<<<<<<< HEAD
             if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.HIDDEN) {
+=======
+            if (mSlidingUpPanelLayout.getPanelState() == PanelState.HIDDEN) {
+>>>>>>> franco-revert
                 item.setTitle(R.string.action_show);
             } else {
                 item.setTitle(R.string.action_hide);
@@ -332,11 +367,19 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         switch (item.getItemId()){
             case R.id.action_toggle: {
                 if (mSlidingUpPanelLayout != null) {
+<<<<<<< HEAD
                     if (mSlidingUpPanelLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) {
                         mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                         item.setTitle(R.string.action_show);
                     } else {
                         mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+=======
+                    if (mSlidingUpPanelLayout.getPanelState() != PanelState.HIDDEN) {
+                        mSlidingUpPanelLayout.setPanelState(PanelState.HIDDEN);
+                        item.setTitle(R.string.action_show);
+                    } else {
+                        mSlidingUpPanelLayout.setPanelState(PanelState.EXPANDED);
+>>>>>>> franco-revert
                         item.setTitle(R.string.action_hide);
                     }
                 }
@@ -346,11 +389,19 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
                 if (mSlidingUpPanelLayout != null) {
                     if (mSlidingUpPanelLayout.getAnchorPoint() == 1.0f) {
                         mSlidingUpPanelLayout.setAnchorPoint(0.7f);
+<<<<<<< HEAD
                         mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
                         item.setTitle(R.string.action_anchor_enable);
                     } else {
                         mSlidingUpPanelLayout.setAnchorPoint(1.0f);
                         mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+=======
+                        mSlidingUpPanelLayout.setPanelState(PanelState.ANCHORED);
+                        item.setTitle(R.string.action_anchor_enable);
+                    } else {
+                        mSlidingUpPanelLayout.setAnchorPoint(1.0f);
+                        mSlidingUpPanelLayout.setPanelState(PanelState.COLLAPSED);
+>>>>>>> franco-revert
                         item.setTitle(R.string.action_anchor_disable);
                     }
                 }
@@ -360,47 +411,58 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-    //TODO:chiamare qui la deselezione dei marker
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.popBackStack();
+
+
+
+
+
+
+
+
+
+
+
+//* * * * * * * * * * * * GETTERS * * * * * * * * * * * * * * * * * * *
+
+    public SlidingUpPanelLayout getSlidingUpPanelLayout()
+    {
+        return this.mSlidingUpPanelLayout;
+    }
+    public RelativeLayout getFragmentHeaderContainer()
+    {
+        return this.fragmentHeaderContainer;
+    }
+    public FloatingActionButton getFloatingActionButton() {
+        return floatingActionButton;
     }
 
 
+    // * * * * * * * * * * * * * * *  ALTRI EVENT MANAGER CREATI BEACONAV * * * * * * * * * * * * * * *
 
 
 
+    public enum ThemeColor {  ORANGE, PURPLE, RED; }
+    private ThemeColor themeColor = ThemeColor.ORANGE;
 
+    public void setThemeColor(ThemeColor newColor) {
+        switch(newColor)
+        {
+            case ORANGE:
+                if(mSlidingUpPanelLayout.getPanelState() == PanelState.COLLAPSED )
+                    fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.white));
+                else fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.orange));
 
+                floatingActionButton.setColorNormal(getResources().getColor(R.color.orange));
+                this.themeColor = ThemeColor.ORANGE;
+                break;
 
+            case PURPLE:
+                fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.material_deep_purple));
+                floatingActionButton.setColorNormal(getResources().getColor(R.color.material_deep_purple));
+                this.themeColor = ThemeColor.PURPLE;
+                break;
 
-
-
-// * * * * * * * * * * * * * * *  ALTRI EVENT MANAGER CREATI BEACONAV * * * * * * * * * * * * * * *
-
-
-
-    @Override
-    public void onClickMuseumMarker(MuseumRow museumRow) {
-        FragmentHelper.getIstance().showMuseumDescrFragment(museumRow);
-    }
-
-
-
-    @Override
-    public void onDeselectMuseumMarker() {
-        FragmentHelper.getIstance().showListFragment();
-    }
-
-
-
-
-
-
-
-
-
+<<<<<<< HEAD
 //
 //    //Metodo per lo swap di fragments
 //    public final void swapFragment(int containerID, Fragment newFragment)
@@ -410,9 +472,39 @@ public class MainActivity extends ActionBarActivity implements MuseumMarkerManag
 //        transaction.addToBackStack(null);
 //        transaction.commit();
 //    }
+=======
+            case RED:
+                fragmentHeaderContainer.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+                floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_light));
+                this.themeColor = ThemeColor.RED;
+                break;
+        }
+    }
+
+    public void setFABListener(View.OnClickListener onClickListener)
+    {
+        floatingActionButton.setOnClickListener(onClickListener);
+    }
+
+    public void hideFAB() {
+        // TODO
+    }
+    public void showFab() {
+        // TODO
+    }
+>>>>>>> franco-revert
 
 
+    //Listener di default per il back, quando siamo nella lista di musei
+    private OnBackPressedListener backPressedListener = new VoidOnBackPressedListener();
 
+    public void setOnBackPressedListener(OnBackPressedListener listener) {
+        this.backPressedListener = listener;
+    }
+    @Override
+    public void onBackPressed() {
+        backPressedListener.doBack();
+    }
 
 
 
@@ -446,3 +538,4 @@ class SlidingBarExtensionAnimationManager {
         c2.setDpHeight(dpHeight);
     }
 }
+

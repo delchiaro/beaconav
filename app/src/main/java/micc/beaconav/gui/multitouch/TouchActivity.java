@@ -111,9 +111,9 @@ public class TouchActivity extends Activity implements OnTouchListener
     /*    Building building = new Building(500, 220);
         Bitmap floor0 = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
         building.addFloor(floor0, new Position(0,0));
-        IndoorMap indoorMap = new IndoorMap(building);
+        IndoorMap indoorMapHere = new IndoorMap(building);
 
-        Bitmap frameBmp = indoorMap.drawMapBmp();
+        Bitmap frameBmp = indoorMapHere.drawMapBmp();
 */
 
 //

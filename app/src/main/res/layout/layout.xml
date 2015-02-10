@@ -8,7 +8,7 @@
 
 
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/museum_button"
+        android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_icon="@drawable/ic_fab_star"

@@ -1,26 +1,27 @@
-package micc.beaconav;
-
-/**
- * Created by Nagash on 26/12/2014.
- */
+package micc.beaconav.indoorEngine;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.FloatMath;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
+import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.room.VertexRow;
 import micc.beaconav.db.dbHelper.room.VertexSchema;
@@ -34,7 +35,7 @@ import micc.beaconav.indoorEngine.bmpBuilding.Floor;
 import micc.beaconav.indoorEngine.bmpBuilding.Room;
 
 
-public class newTouchActivity extends Activity implements OnTouchListener, JSONHandler<VertexRow>
+public class IndoorMapFragment extends Fragment implements OnTouchListener, JSONHandler<VertexRow>
 {
 
     // these matrices will be used to move and zoom image
@@ -56,10 +57,17 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
     JSONDownloader<VertexRow, VertexSchema> vertexDownloader;
     Room roomToDisplay;
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.activity_canvas_test, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
+        super.onActivityCreated(savedInstanceState);
         vertexDownloader = DbManager.getVertexFromRoomDownloader(0);
 
         vertexDownloader.addHandler(this);
@@ -71,8 +79,7 @@ public class newTouchActivity extends Activity implements OnTouchListener, JSONH
 
     private void generateFrame()
     {
-        setContentView(R.layout.activity_canvas_test);
-        ImageView imgView = (ImageView) findViewById(R.id.imageView);
+        ImageView imgView = (ImageView) getView().findViewById(R.id.imageView);
         imgView.setOnTouchListener(this);
 
 

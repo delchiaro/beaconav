@@ -1,6 +1,7 @@
 package micc.beaconav.gui.customList;
 
 import micc.beaconav.R;
+import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
 /**
@@ -8,23 +9,22 @@ import micc.beaconav.db.dbHelper.museum.MuseumRow;
  */
 public class ArtListItem {
 
-    private MuseumRow _row;
+    private IArtRow _row;
     private String _name;
     private String _description;
-    private int _imageId = R.drawable.graphic;
 
-    public ArtListItem(MuseumRow row) {
+    public ArtListItem(IArtRow row) {
         this._row = row;
         this._name = row.getName();
-        this._description = row.getDescr();
+        this._description = row.getDescription();
     }
 
-    public MuseumRow getRow() {
+    public IArtRow getRow() {
         return _row;
     }
 
 
-    public void setRow(MuseumRow row) {
+    public void setRow(IArtRow row) {
         this._row = row;
     }
 
@@ -46,13 +46,4 @@ public class ArtListItem {
         this._description = description;
     }
 
-    public int getImageId()
-    {
-        return this._imageId;
-    }
-
-    public void setImageId(int id)
-    {
-        this._imageId = id;
-    }
 }

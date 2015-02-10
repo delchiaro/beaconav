@@ -19,7 +19,6 @@ import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
-import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 
 /**
 * Created by Mr_Holmes on 21/01/15.
@@ -97,7 +96,8 @@ public class ArtListFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(result[position] instanceof MuseumRow)
-                FragmentHelper.simulateMuseumOnMapClickOn((MuseumRow)result[position]);
+                FragmentHelper.instance().simulateMuseumOnMapClick((MuseumRow) result[position]);
+                //else se result[position] instanceof ArtPieceRow fai l'azione corrispondente all'indoor
 
             }
         });

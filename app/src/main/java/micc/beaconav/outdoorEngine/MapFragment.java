@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,18 +28,19 @@ public class MapFragment extends Fragment
 
     private Map map; // Might be null if Google Play services APK is not available.
     private Context context;
+<<<<<<< HEAD
     private View myFragmentView;
+=======
+
+    private View myFragmentView = null;
+>>>>>>> franco-revert
 
 
-    public MapFragment(){
-        super();
-    }
+    public MapFragment(){}
 
 
     private MuseumMarkerManager manager;
 
-    private Button buttonIndoor;
-    private Button buttonNavigate;
     private Button buttonProximity;
     private Button buttonJson;
     private Button buttonLocation;
@@ -52,11 +54,8 @@ public class MapFragment extends Fragment
         this.manager = manager;
     }
 
-    private void setUp()
-    {
+    private void setUp()  {
 
-        buttonIndoor         =  (Button) myFragmentView.findViewById(R.id.buttonIndoor);
-        buttonNavigate       =  (Button) myFragmentView.findViewById(R.id.buttonNavigate);
         buttonProximity      =  (Button) myFragmentView.findViewById(R.id.buttonProximity);
         buttonJson           =  (Button) myFragmentView.findViewById(R.id.buttonJson);
         buttonLocation       =  (Button) myFragmentView.findViewById(R.id.buttonLocation);
@@ -65,8 +64,7 @@ public class MapFragment extends Fragment
     }
 
 
-    private GoogleMap getGMapFromXML()
-    {
+    private GoogleMap getGMapFromXML() {
         // Try to obtain the map from the SupportMapFragment.
         return ((SupportMapFragment)((FragmentActivity)getActivity()).getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
         //return ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
@@ -80,18 +78,7 @@ public class MapFragment extends Fragment
 
 // * * * * SET UP EVENT LISTENER * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    public void setUpEventListeners()
-    {
-
-        buttonIndoor.setOnClickListener(new View.OnClickListener()
-        {
-            @Override public void onClick(View v) { onClickButtonIndoor(v); }
-        });
-
-        buttonNavigate.setOnClickListener(new View.OnClickListener()
-        {
-            @Override  public void onClick(View v) { onClickNavigate(v); }
-        });
+    public void setUpEventListeners() {
 
         buttonJson.setOnClickListener(new View.OnClickListener()
         {
@@ -128,26 +115,13 @@ public class MapFragment extends Fragment
     }
 
 
-    public void setFakeProximity(View view)
-    {
+    public void setFakeProximity(View view) {
         map.resetLastProxyMuseum();
         if(map.getFakeProximity() == false) {
             map.setFakeProximity(true);
         }
 
     }
-
-    public void onClickButtonIndoor(View view)
-    {
-        //Intent intent = new Intent(this, micc.beaconav.gui.multitouch.TouchActivity.class);
-        Intent intent = new Intent(this.context, micc.beaconav.newTouchActivity.class);
-        startActivity(intent);
-    }
-
-
-
-
-
 
 
 
@@ -159,31 +133,37 @@ public class MapFragment extends Fragment
 
 // * * * * OVERRIDE METHODS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        super.onCreateView(inflater, container, savedInstanceState);
-        myFragmentView = inflater.inflate(R.layout.fragment_map, container, false);
-        context = this.getActivity();
-        setUp();
-        setUpEventListeners();
-        map = Map.setupIstance(getGMapFromXML(), manager);
-        return myFragmentView;
-       //Button buttonIndoor = (Button) getView().findViewById(R.id.btnIndoor);
-    }
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+//    {
+//        //super.onCreateView(inflater, container, savedInstanceState);
+//        myFragmentView = inflater.inflate(R.layout.fragment_map, container, false);
+//        return myFragmentView;
+//    }
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (myFragmentView != null)
+        {
+            ViewGroup parent = (ViewGroup) myFragmentView.getParent();
+            if (parent != null) parent.removeView(myFragmentView);
+        }
+        try
+        {
+            myFragmentView = inflater.inflate(R.layout.fragment_map, container, false);
+        }
+        catch (InflateException e) { /* map is already there, just return view as it is */ }
 
+        return myFragmentView;
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getArguments();
+        context = this.getActivity();
+        setUp();
+        setUpEventListeners();
+        map = Map.setupIstance(getGMapFromXML(), manager);
     }
-
-
-
-
-
-
 
 
 }
