@@ -5,11 +5,10 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.view.View;
 
-import java.util.Stack;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.gui.backPressedListeners.OnBackPressedListener;
-import micc.beaconav.gui.backPressedListeners.VoidOnBackPressedListener;
 import micc.beaconav.gui.customList.ArtListFragment;
 import micc.beaconav.gui.customList.MuseumDescrFragment;
 import micc.beaconav.gui.customSlidingHeader.MuseumNameHeaderFragment;
@@ -31,7 +30,7 @@ public class FragmentHelper  implements MuseumMarkerManager
     private static FragmentHelper istance = null;
     private static MainActivity mainActivity = null;
 
-    public static FragmentHelper istance(){
+    public static FragmentHelper instance(){
         if(istance == null) istance = new FragmentHelper();
         return istance;
     }
@@ -39,7 +38,7 @@ public class FragmentHelper  implements MuseumMarkerManager
     public static void setMainActivity(MainActivity activity) {
         if(mainActivity == null) {
             mainActivity = activity;
-            mainActivity.setOnBackPressedListener(istance().getOnBackPressedListener());
+            mainActivity.setOnBackPressedListener(instance().getOnBackPressedListener());
         }
         // settabile solo 1 volta
     }
@@ -52,8 +51,6 @@ public class FragmentHelper  implements MuseumMarkerManager
 
 
 
-
-    Stack<OnBackPressedListener> backPressedListenerStack = new Stack<>();
 
     private MainFragment    activeMainFragment    = MainFragment.OUTDOOR;
     private SlidingFragment activeSlidingFragment = SlidingFragment.LIST;
@@ -116,7 +113,6 @@ public class FragmentHelper  implements MuseumMarkerManager
     }
 
 
-
     public MainActivity getMainActivity() {
         return mainActivity;
     }
@@ -143,13 +139,28 @@ public class FragmentHelper  implements MuseumMarkerManager
         activeMainFragment = MainFragment.OUTDOOR;
         mapFragment.setMuseumMarkerManager(this);
         showListFragment();
+        mainActivity.setFABListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mainActivity.panelAnchored == false) {
+                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+                    mainActivity.panelAnchored = true;
+                } else {
+                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    mainActivity.panelAnchored = false;
+                }
+            }
+        });
     }
+
+
     public final void showIndoorFragment() {
         swapFragment(R.id.fragment_map_container, indoorMapFragment);
         //TODO:fare qui lo swap alle liste di opere dentro il museo
         activeMainFragment = MainFragment.INDOOR;
         showListFragment();
         mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
+        mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
     }
 
 
@@ -160,7 +171,22 @@ public class FragmentHelper  implements MuseumMarkerManager
         swapFragment(R.id.fragment_list_container, artListFragment);
         showSeekbarHeaderFragment();
         mainActivity.setThemeColor(MainActivity.ThemeColor.ORANGE);
+        mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
+        mainActivity.setFABListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mainActivity.panelAnchored == false) {
+                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+                    mainActivity.panelAnchored = true;
+                } else {
+                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    mainActivity.panelAnchored = false;
+                }
+            }
+        });
     }
+
+
     public final void showMuseumDetailsFragment(final MuseumRow row) {
         activeSlidingFragment = SlidingFragment.DETAILS;
 
@@ -168,6 +194,8 @@ public class FragmentHelper  implements MuseumMarkerManager
         swapFragment(R.id.fragment_list_container, museumDescrFragment);
         museumDescrFragment.setMuseumRow(row);
         mainActivity.setThemeColor(MainActivity.ThemeColor.PURPLE);
+        mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.ic_directions_white_48dp));
+
     }
 
 
@@ -193,7 +221,6 @@ public class FragmentHelper  implements MuseumMarkerManager
     @Override
     public void onDeselectMuseumMarker() {
         showListFragment();
-        mainActivity.setThemeColor(MainActivity.ThemeColor.ORANGE);
     }
 
 
@@ -215,12 +242,13 @@ public class FragmentHelper  implements MuseumMarkerManager
 
     //Metodo per lo swap di fragments
     private final void swapFragment(int containerID, Fragment newFragment) {
-        FragmentManager fragmentManager = mainActivity.getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(containerID, newFragment);
-        //transaction.addToBackStack(null);
-        transaction.commit();
-
+        if( containerID !=  newFragment.getId()) {
+            FragmentManager fragmentManager = mainActivity.getFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(containerID, newFragment);
+            //transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
 

@@ -6,14 +6,58 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <micc.beaconav.gui.seekBar.DiscreteSeekBar
-        android:id="@+id/seekBar"
+
+
+        <micc.beaconav.gui.seekBar.DiscreteSeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_marginRight="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_alignParentBottom="true"
+            app:dsb_min="1"
+            app:dsb_max="15"/>
+
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_marginRight="80dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_alignParentBottom="true"
-        app:dsb_min="1"
-        app:dsb_max="15"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@id/seekBar">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/back_button"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="20dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_chevron_left_white_48dp"
+            android:text="Nearby"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/back_button"
+            android:orientation="horizontal">
+
+            <SearchView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/search_view_in_header"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>

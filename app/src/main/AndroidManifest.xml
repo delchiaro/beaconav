@@ -40,7 +40,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_map" >
+            android:label="@string/title_activity_map"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,10 +54,6 @@
         </activity>
         <activity
             android:name=".gui.multitouch.TouchActivity"
-            android:label="@string/title_activity_canvas_test" >
-        </activity>
-        <activity
-            android:name=".newTouchActivity"
             android:label="@string/title_activity_canvas_test" >
         </activity>
         <activity

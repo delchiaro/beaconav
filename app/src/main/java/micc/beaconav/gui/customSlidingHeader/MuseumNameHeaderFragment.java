@@ -1,14 +1,14 @@
 package micc.beaconav.gui.customSlidingHeader;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import micc.beaconav.FragmentHelper;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
@@ -16,6 +16,7 @@ public class MuseumNameHeaderFragment extends Fragment {
 
     private TextView textViewMuseumName = null;
     private MuseumRow museumRow = null;
+    private Button backBtn = null;
 
     public MuseumNameHeaderFragment() {
         // Required empty public constructor
@@ -35,6 +36,13 @@ public class MuseumNameHeaderFragment extends Fragment {
         if(museumRow != null) {
             textViewMuseumName.setText(museumRow.getName());
         }
+        backBtn = (Button)getView().findViewById(R.id.back_button2);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentHelper.instance().showListFragment();
+            }
+        });
 
     }
 

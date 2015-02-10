@@ -96,8 +96,8 @@ public class ListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if( currentRow instanceof MuseumRow)
-                    FragmentHelper.istance().navigateToMuseumOnBtnClick((MuseumRow)currentRow, v);
-                    FragmentHelper.istance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    FragmentHelper.instance().navigateToMuseumOnBtnClick((MuseumRow)currentRow, v);
+                    FragmentHelper.instance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
 
@@ -106,7 +106,7 @@ public class ListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                 if( currentRow instanceof MuseumRow)
-                    FragmentHelper.istance().simulateMuseumOnMapClick((MuseumRow) currentRow);
+                    FragmentHelper.instance().simulateMuseumOnMapClick((MuseumRow) currentRow);
                 }
         });
 

@@ -49,7 +49,7 @@ public class MainActivity extends ActionBarActivity
 //* * * * * * * * * * * *  FLAGS  * * * * * * * * * * * * * * *
     private boolean fadeOutAnimationStarted = false;
     private boolean colorAnimationStarted = false;
-    private boolean panelAnchored = false;
+    public boolean panelAnchored = false;
     private boolean heightAnimationStarted = false;
 
 // * * * * * * * * * * * *  DEFINIZIONE E INIZIALIZZAZIONE LAYOUT * * * * * * * * * * * * * * * * *
@@ -69,7 +69,7 @@ public class MainActivity extends ActionBarActivity
 
     private void initFragments(){
         FragmentHelper.setMainActivity(this);
-        FragmentHelper.istance().showOutdoorFragment();
+        FragmentHelper.instance().showOutdoorFragment();
     }
 
     private void initActivityAndXML() {
@@ -79,7 +79,7 @@ public class MainActivity extends ActionBarActivity
         //mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
 
 
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.museum_button);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.floating_action_button);
         fragmentHeaderContainer = (RelativeLayout) findViewById(R.id.fragment_sliding_header_container);
         mSlidingBar = (LinearLayout) findViewById(R.id.slidingBar);
         fragmentListContainer = (RelativeLayout) findViewById(R.id.fragment_list_container);
@@ -113,24 +113,37 @@ public class MainActivity extends ActionBarActivity
                 Log.i(TAG, "onPanelSlide, offset " + slideOffset);
                 scrollViewResizer.resizeScrollView(1-slideOffset);
 
-                if (slideOffset >= 0.002) {
-                    if (colorAnimationStarted != true && themeColor == ThemeColor.ORANGE) {
-
-                        slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", 0, slidingBarColorChanger.getS());
-                        slidingBarHeightAnimation.setDuration(500);
-                        slidingBarHeightAnimation.start();
+                if (slideOffset >= 0.002)
+                {
+                    if (colorAnimationStarted == false )
+                    {
                         colorAnimationStarted = true;
+
+                        if (themeColor == ThemeColor.ORANGE)
+                        {
+
+                            slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", 0, slidingBarColorChanger.getS());
+                            slidingBarHeightAnimation.setDuration(500);
+                            slidingBarHeightAnimation.start();
+                        }
                     }
                 }
 
-                if (slideOffset <= 0.001) {
-                    if (colorAnimationStarted != false && themeColor == ThemeColor.ORANGE) {
-                        //slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
-                        slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
-                        slidingBarHeightAnimation.setDuration(200);
-                        slidingBarHeightAnimation.start();
+                if (slideOffset <= 0.001)
+                {
+                    if (colorAnimationStarted == true )
+                    {
                         colorAnimationStarted = false;
+
+                        if (themeColor == ThemeColor.ORANGE)
+                        {
+                            //slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
+                            slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
+                            slidingBarHeightAnimation.setDuration(200);
+                            slidingBarHeightAnimation.start();
+                        }
                     }
+
                 }
 
 
@@ -245,18 +258,18 @@ public class MainActivity extends ActionBarActivity
         });
 
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (panelAnchored == false) {
-                    mSlidingUpPanelLayout.setPanelState(PanelState.ANCHORED);
-                    panelAnchored = true;
-                } else {
-                    mSlidingUpPanelLayout.setPanelState(PanelState.COLLAPSED);
-                    panelAnchored = false;
-                }
-
-            }
-        });
+//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                if (panelAnchored == false) {
+//                    mSlidingUpPanelLayout.setPanelState(PanelState.ANCHORED);
+//                    panelAnchored = true;
+//                } else {
+//                    mSlidingUpPanelLayout.setPanelState(PanelState.COLLAPSED);
+//                    panelAnchored = false;
+//                }
+//
+//            }
+//        });
 
     }
 
@@ -371,20 +384,31 @@ public class MainActivity extends ActionBarActivity
         switch(newColor)
         {
             case ORANGE:
-                fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.orange));
+                if(mSlidingUpPanelLayout.getPanelState() == PanelState.COLLAPSED )
+                    fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.white));
+                else fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.orange));
+
                 floatingActionButton.setColorNormal(getResources().getColor(R.color.orange));
+                this.themeColor = ThemeColor.ORANGE;
                 break;
 
             case PURPLE:
                 fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.material_deep_purple));
                 floatingActionButton.setColorNormal(getResources().getColor(R.color.material_deep_purple));
+                this.themeColor = ThemeColor.PURPLE;
                 break;
 
             case RED:
                 fragmentHeaderContainer.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
                 floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_light));
+                this.themeColor = ThemeColor.RED;
                 break;
         }
+    }
+
+    public void setFABListener(View.OnClickListener onClickListener)
+    {
+        floatingActionButton.setOnClickListener(onClickListener);
     }
 
     public void hideFAB() {
@@ -395,7 +419,7 @@ public class MainActivity extends ActionBarActivity
     }
 
 
-
+    //Listener di default per il back, quando siamo nella lista di musei
     private OnBackPressedListener backPressedListener = new VoidOnBackPressedListener();
 
     public void setOnBackPressedListener(OnBackPressedListener listener) {

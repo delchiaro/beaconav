@@ -88,6 +88,7 @@
                 <!--android:layout_height deve cambiare col android:layout_height del RelativeLayout qui sotto
                 nell'animazione a schermo intero-->
 
+
                 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="match_parent"
@@ -109,7 +110,7 @@
 
 
             <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/museum_button"
+                android:id="@+id/floating_action_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="275dp"

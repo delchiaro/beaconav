@@ -197,7 +197,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
             @Override
             public void onMapClick(LatLng point) {
-                unsetMuseumMarker();
+                    unsetMuseumMarker();
             }
         });
 
@@ -229,8 +229,8 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         {
             selectedMuseumMarker = null;
             drawMarkers();
+            markerManager.onDeselectMuseumMarker();
         }
-        markerManager.onDeselectMuseumMarker();
     }
 
     public final Marker getSelectedMuseumMarker() {
