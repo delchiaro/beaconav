@@ -242,7 +242,7 @@ public class FragmentHelper  implements MuseumMarkerManager
 
     //Metodo per lo swap di fragments
     private final void swapFragment(int containerID, Fragment newFragment) {
-        if( containerID !=  newFragment.getId()) {
+        if (containerID != newFragment.getId()) {
             FragmentManager fragmentManager = mainActivity.getFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(containerID, newFragment);
@@ -250,15 +250,6 @@ public class FragmentHelper  implements MuseumMarkerManager
             transaction.commit();
         }
     }
-
-
-
-
-
-
-
-
-
 
 
 

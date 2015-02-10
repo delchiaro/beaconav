@@ -97,6 +97,7 @@ public class ArtListFragment extends Fragment
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(result[position] instanceof MuseumRow)
                 FragmentHelper.instance().simulateMuseumOnMapClick((MuseumRow) result[position]);
+                //else se result[position] instanceof ArtPieceRow fai l'azione corrispondente all'indoor
 
             }
         });
