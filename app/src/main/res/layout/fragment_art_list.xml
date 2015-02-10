@@ -9,8 +9,8 @@
         android:id="@+id/descriptionList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="16dp">
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp">
     </ListView>
 
 </RelativeLayout>

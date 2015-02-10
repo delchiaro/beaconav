@@ -12,7 +12,11 @@
         android:layout_alignParentLeft="true"
         android:textColor="@android:color/black"
         android:layout_marginTop="16dp"
-        android:textSize="16dp"/>
+        android:textSize="16dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        />
+
 
     <!--Qualsiasi cosa si voglia infilare fra il nome dell'opera/museo va messa qui e
      gli va assegnato l'allineamento alla destra di artPieceName-->
@@ -25,7 +29,15 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/ic_directions_walk_black_48dp"
         android:background="@drawable/layout_rounded_nav_button"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"/>
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="5dp"
+
+        android:paddingTop      ="6dp"
+        android:paddingBottom   ="4dp"
+        android:paddingLeft     ="6dp"
+        android:paddingRight    ="4dp"
+
+        />
 
 </RelativeLayout>
