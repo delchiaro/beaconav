@@ -28,12 +28,8 @@ public class MapFragment extends Fragment
 
     private Map map; // Might be null if Google Play services APK is not available.
     private Context context;
-<<<<<<< HEAD
-    private View myFragmentView;
-=======
 
     private View myFragmentView = null;
->>>>>>> franco-revert
 
 
     public MapFragment(){}

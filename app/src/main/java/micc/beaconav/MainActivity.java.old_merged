@@ -69,10 +69,17 @@ public class MainActivity extends ActionBarActivity
 
     private void initFragments(){
         FragmentHelper.setMainActivity(this);
+<<<<<<< HEAD
+    }
+
+    private void initActivityAndXML()
+    {
+=======
         FragmentHelper.instance().showOutdoorFragment();
     }
 
     private void initActivityAndXML() {
+>>>>>>> franco-revert
     // FIND VIEW BY ID * * * * * * * * * * * * * * * * * * * * * * * *
         mSearch = (SearchView) findViewById(R.id.search_view);
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -103,20 +110,25 @@ public class MainActivity extends ActionBarActivity
             ObjectAnimator slidingBarColorAnimation;
             ScrollViewResizer scrollViewResizer = new ScrollViewResizer(mSlidingUpPanelLayout, fragmentListContainer);
 
-//            MarginChanger marginChanger = new MarginChanger((RelativeLayout.MarginLayoutParams) mSearch.getLayoutParams());
-//            ObjectAnimator searchBarAnimation;
-
-
 
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 Log.i(TAG, "onPanelSlide, offset " + slideOffset);
                 scrollViewResizer.resizeScrollView(1-slideOffset);
 
+<<<<<<< HEAD
+                if (slideOffset >= 0.002) {
+                    if (colorAnimationStarted != true) {
+
+                        slidingBarColorAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", 0, slidingBarColorChanger.getS());
+                        slidingBarColorAnimation.setDuration(500);
+                        slidingBarColorAnimation.start();
+=======
                 if (slideOffset >= 0.002)
                 {
                     if (colorAnimationStarted == false )
                     {
+>>>>>>> franco-revert
                         colorAnimationStarted = true;
 
                         if (themeColor == ThemeColor.ORANGE)
@@ -129,10 +141,19 @@ public class MainActivity extends ActionBarActivity
                     }
                 }
 
+<<<<<<< HEAD
+                if (slideOffset <= 0.001) {
+                    if (colorAnimationStarted != false) {
+                        //slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
+                        slidingBarColorAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
+                        slidingBarColorAnimation.setDuration(200);
+                        slidingBarColorAnimation.start();
+=======
                 if (slideOffset <= 0.001)
                 {
                     if (colorAnimationStarted == true )
                     {
+>>>>>>> franco-revert
                         colorAnimationStarted = false;
 
                         if (themeColor == ThemeColor.ORANGE)
@@ -202,7 +223,7 @@ public class MainActivity extends ActionBarActivity
                     }
                 }
 
-                if(slideOffset >= 0.95)
+                if(slideOffset >= 0.92)
                 {
                     if(heightAnimationStarted != true)
                     {
@@ -214,7 +235,7 @@ public class MainActivity extends ActionBarActivity
 
                 }
 
-                if(slideOffset <= 0.92)
+                if(slideOffset <= 0.90)
                 {
                     if(heightAnimationStarted != false)
                     {
@@ -258,6 +279,24 @@ public class MainActivity extends ActionBarActivity
         });
 
 
+<<<<<<< HEAD
+        mButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v)
+            {
+                if(panelAnchored == false)
+                {
+                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+                    panelAnchored = true;
+                }
+                else
+                {
+                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    panelAnchored = false;
+                }
+
+            }
+        });
+=======
 //        floatingActionButton.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {
 //                if (panelAnchored == false) {
@@ -270,6 +309,7 @@ public class MainActivity extends ActionBarActivity
 //
 //            }
 //        });
+>>>>>>> franco-revert
 
     }
 
@@ -285,11 +325,15 @@ public class MainActivity extends ActionBarActivity
         this.context = this;
         dpHelper = new DpHelper(this);
 
+<<<<<<< HEAD
+
+        initFragments();
+=======
+>>>>>>> franco-revert
 
         initActivityAndXML();
         initEventListeners();
         initFragments();
-
 
 
     }
@@ -300,7 +344,11 @@ public class MainActivity extends ActionBarActivity
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.action_toggle);
         if (mSlidingUpPanelLayout != null) {
+<<<<<<< HEAD
+            if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.HIDDEN) {
+=======
             if (mSlidingUpPanelLayout.getPanelState() == PanelState.HIDDEN) {
+>>>>>>> franco-revert
                 item.setTitle(R.string.action_show);
             } else {
                 item.setTitle(R.string.action_hide);
@@ -319,11 +367,19 @@ public class MainActivity extends ActionBarActivity
         switch (item.getItemId()){
             case R.id.action_toggle: {
                 if (mSlidingUpPanelLayout != null) {
+<<<<<<< HEAD
+                    if (mSlidingUpPanelLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) {
+                        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                        item.setTitle(R.string.action_show);
+                    } else {
+                        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+=======
                     if (mSlidingUpPanelLayout.getPanelState() != PanelState.HIDDEN) {
                         mSlidingUpPanelLayout.setPanelState(PanelState.HIDDEN);
                         item.setTitle(R.string.action_show);
                     } else {
                         mSlidingUpPanelLayout.setPanelState(PanelState.EXPANDED);
+>>>>>>> franco-revert
                         item.setTitle(R.string.action_hide);
                     }
                 }
@@ -333,11 +389,19 @@ public class MainActivity extends ActionBarActivity
                 if (mSlidingUpPanelLayout != null) {
                     if (mSlidingUpPanelLayout.getAnchorPoint() == 1.0f) {
                         mSlidingUpPanelLayout.setAnchorPoint(0.7f);
+<<<<<<< HEAD
+                        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+                        item.setTitle(R.string.action_anchor_enable);
+                    } else {
+                        mSlidingUpPanelLayout.setAnchorPoint(1.0f);
+                        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+=======
                         mSlidingUpPanelLayout.setPanelState(PanelState.ANCHORED);
                         item.setTitle(R.string.action_anchor_enable);
                     } else {
                         mSlidingUpPanelLayout.setAnchorPoint(1.0f);
                         mSlidingUpPanelLayout.setPanelState(PanelState.COLLAPSED);
+>>>>>>> franco-revert
                         item.setTitle(R.string.action_anchor_disable);
                     }
                 }
@@ -398,6 +462,17 @@ public class MainActivity extends ActionBarActivity
                 this.themeColor = ThemeColor.PURPLE;
                 break;
 
+<<<<<<< HEAD
+//
+//    //Metodo per lo swap di fragments
+//    public final void swapFragment(int containerID, Fragment newFragment)
+//    {
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        transaction.replace(containerID, newFragment);
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+//    }
+=======
             case RED:
                 fragmentHeaderContainer.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
                 floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_light));
@@ -417,6 +492,7 @@ public class MainActivity extends ActionBarActivity
     public void showFab() {
         // TODO
     }
+>>>>>>> franco-revert
 
 
     //Listener di default per il back, quando siamo nella lista di musei
@@ -429,6 +505,14 @@ public class MainActivity extends ActionBarActivity
     public void onBackPressed() {
         backPressedListener.doBack();
     }
+
+
+
+// * * * * * * * * * * * * * * *  COLORI  * * * * * * * * * * * * * * * * * * * * *
+
+private int slidePanleColor_down;
+private int slidePanleColor_up;
+
 
 
 }
