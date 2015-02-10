@@ -52,10 +52,10 @@ public class MapFragment extends Fragment
 
     private void setUp()  {
 
-        buttonProximity      =  (Button) myFragmentView.findViewById(R.id.buttonProximity);
-        buttonJson           =  (Button) myFragmentView.findViewById(R.id.buttonJson);
-        buttonLocation       =  (Button) myFragmentView.findViewById(R.id.buttonLocation);
-        buttonSingleLocation =  (Button) myFragmentView.findViewById(R.id.buttonSingleLocation);
+//        buttonProximity      =  (Button) myFragmentView.findViewById(R.id.buttonProximity);
+//        buttonJson           =  (Button) myFragmentView.findViewById(R.id.buttonJson);
+//        buttonLocation       =  (Button) myFragmentView.findViewById(R.id.buttonLocation);
+//        buttonSingleLocation =  (Button) myFragmentView.findViewById(R.id.buttonSingleLocation);
 
     }
 
@@ -76,33 +76,33 @@ public class MapFragment extends Fragment
 
     public void setUpEventListeners() {
 
-        buttonJson.setOnClickListener(new View.OnClickListener()
-        {
-            @Override  public void onClick(View v) {
-                Intent intent = new Intent(context, JSONTest.class);
-                startActivity(intent);
-            }
-        });
-
-        buttonLocation.setOnClickListener(new View.OnClickListener()
-        {
-            @Override  public void onClick(View v) {
-                Intent intent = new Intent(context, testAdaptedLocationActivity.class);
-                startActivity(intent);
-            }
-        });
-        buttonSingleLocation.setOnClickListener(new View.OnClickListener()
-        {
-            @Override  public void onClick(View v) {
-                Intent intent = new Intent(context, testLastLocationActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        buttonProximity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { setFakeProximity(v); }
-        });
+//        buttonJson.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override  public void onClick(View v) {
+//                Intent intent = new Intent(context, JSONTest.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        buttonLocation.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override  public void onClick(View v) {
+//                Intent intent = new Intent(context, testAdaptedLocationActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        buttonSingleLocation.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override  public void onClick(View v) {
+//                Intent intent = new Intent(context, testLastLocationActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        buttonProximity.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) { setFakeProximity(v); }
+//        });
     }
 
     public void onClickNavigate(View view)

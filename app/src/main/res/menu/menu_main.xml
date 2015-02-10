@@ -13,4 +13,28 @@
         sothree:showAsAction="never"
         android:title="@string/action_anchor_enable"/>
 
+    <item
+        android:id="@+id/json_test"
+        android:orderInCategory="300"
+        sothree:showAsAction="never"
+        android:title="Json Test"/>
+
+    <item
+        android:id="@+id/location_test"
+        android:orderInCategory="400"
+        sothree:showAsAction="never"
+        android:title="Location Test"/>
+
+    <item
+        android:id="@+id/single_location_test"
+        android:orderInCategory="500"
+        sothree:showAsAction="never"
+        android:title="Single Location Test"/>
+
+    <item
+        android:id="@+id/proximity_test"
+        android:orderInCategory="600"
+        sothree:showAsAction="never"
+        android:title="Proximity Test"/>
+
 </menu>
