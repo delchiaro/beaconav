@@ -1,55 +1,250 @@
 package micc.beaconav.indoorEngine;
 
-import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Picture;
 import android.graphics.PointF;
-import android.os.Bundle;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.util.FloatMath;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.PriorityQueue;
-
 import micc.beaconav.R;
-import micc.beaconav.db.dbHelper.DbManager;
-import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
-import micc.beaconav.db.dbHelper.artwork.ArtworkSchema;
-import micc.beaconav.db.dbHelper.museum.MuseumRow;
-import micc.beaconav.db.dbHelper.room.VertexRow;
-import micc.beaconav.db.dbHelper.room.VertexSchema;
-import micc.beaconav.db.dbJSONManager.HttpParam;
-import micc.beaconav.db.dbJSONManager.JSONDownloader;
-import micc.beaconav.db.dbJSONManager.JSONHandler;
-
-import micc.beaconav.indoorEngine.building.spot.ArtSpot;
-import micc.beaconav.indoorEngine.building.Building;
-import micc.beaconav.indoorEngine.building.Floor;
-import micc.beaconav.indoorEngine.building.Room;
 
 
-public class IndoorMapFragment extends Fragment
-        implements OnTouchListener
-{
-
-    MuseumRow museumRow = null;
-
-
-
-
-
+public class IndoorMapFragment extends Fragment implements View.OnTouchListener  {
 
     // these matrices will be used to move and zoom image
-    private Matrix matrix = new Matrix();
-    private Matrix savedMatrix = new Matrix();
+    private Matrix bgMatrix = new Matrix();
+    private Matrix bgSavedMatrix = new Matrix();
+    private Matrix fgMatrix = new Matrix();
+    private Matrix fgSavedMatrix = new Matrix();
+
+
+
+    ImageView backgroundImgView;
+    ImageView foregroundImgView;
+
+
+    Picture pictureBuilding;
+    Picture pictureMarkers;
+
+
+    private Matrix buildingMatrix = new Matrix();
+    private Matrix markersMatrix = new Matrix();
+
+
+
+
+
+    private class Ball extends Drawable {
+
+
+        private float old_final_scale_factor = 1;
+        private float real_time_scale_factor = 1;
+
+        private float init_x;
+        private float init_y;
+
+        private float scaled_init_x;
+        private float scaled_init_y;
+
+        public float x = 0;
+        public float y = 0;
+
+        public Ball(int x, int y) {
+            this.init_x = x;
+            this.init_y = y;
+            this.scaled_init_x = init_x;
+            this.scaled_init_y = init_y;
+        }
+
+        private final void setScaledInitCoords(){
+            scaled_init_x = init_x * old_final_scale_factor * real_time_scale_factor;
+            scaled_init_y = init_x * old_final_scale_factor * real_time_scale_factor;
+        }
+
+        /**
+         * Questo metodo deve essere richiamato mentre si sta eseguendo il pinch to zoom.
+         * Servirá per settare un fattore di scala momentaneo in tempo reale senza sovrascrivere
+         * il vecchio valore di scala settato per l'immagine (si andranno a moltiplicare in
+         * tempo reale).
+         * @param scale
+         */
+        public void setOnTouchRealTimeScaleFactor(float scale) {
+            real_time_scale_factor = scale;
+            setScaledInitCoords();
+
+        }
+
+        /**
+         * Questo metodo deve essere richiamato appena termina l'esecuzione del pinch to zoom
+         * (ovvero quando le dita sono staccate dallo schermo, evento ACTION_UP).
+         * Ingloberá il fattore di scala provvisorio nel fattore di scala totale dell'immagine
+         * (che adesso è ferma e non necessita di un costante aggiornamento del fattore di scala)
+         * e resetterá ad 1 (nullo) il fattore di scala in tempo reale.
+         */
+        public void setFinalTouchScaleFactor(){
+            this.old_final_scale_factor *= real_time_scale_factor;
+            this.real_time_scale_factor = 1;
+            setScaledInitCoords();
+        }
+
+
+
+
+
+        @Override
+        public void draw(Canvas canvas) {
+            //fgMatrix.postTranslate(100, 100);
+            Paint paintMarkers = new Paint();
+            paintMarkers.setColor(Color.RED);
+            canvas.drawCircle(scaled_init_x + x, scaled_init_y +y, 25, paintMarkers);
+        }
+
+        @Override
+        public void setAlpha(int alpha) {
+
+        }
+
+        @Override
+        public void setColorFilter(ColorFilter cf) {
+
+        }
+
+        @Override
+        public int getOpacity() {
+            return 0;
+        }
+    };
+
+    Ball ball = new Ball(100, 100);
+    Ball ball2 = new Ball(200, 200);
+    Drawable drawable;
+
+    ViewGroup container = null;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        this.container = container;
+        return inflater.inflate(R.layout.activity_canvas_test, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(container != null) {
+            backgroundImgView = (ImageView) container.findViewById(R.id.backgroundImageView);
+            backgroundImgView.setOnTouchListener(this);
+            backgroundImgView.setScaleType(ImageView.ScaleType.MATRIX);
+            foregroundImgView = (ImageView) container.findViewById(R.id.foregroundImageView);
+        }
+//        foregroundImgView.setOnTouchListener(this);
+//        foregroundImgView.setScaleType(ImageView.ScaleType.MATRIX);
+
+
+
+
+
+
+        pictureBuilding = new Picture();
+        Paint paintWalls = new Paint();
+        paintWalls.setColor(Color.BLUE);
+
+
+        Path path = new Path();
+        path.moveTo(1, 1);
+        path.lineTo(250, 1);
+        path.lineTo(250, 250);
+        path.lineTo(1, 250);
+        path.lineTo(1, 1);
+
+        Canvas canvasBuilding;
+        canvasBuilding = pictureBuilding.beginRecording(320, 320);
+        canvasBuilding.drawPath(path, paintWalls);
+        //canvasBuilding.restore();
+        pictureBuilding.endRecording();
+
+
+        pictureMarkers = new Picture();
+        Paint paintMarkers = new Paint();
+        paintMarkers.setColor(Color.RED);
+
+        Canvas canvasMarkers;
+        canvasMarkers = pictureMarkers.beginRecording(320, 320);
+        canvasMarkers.drawCircle(0, 0, 25, paintMarkers);
+
+        pictureMarkers.endRecording();
+
+
+
+        drawable = new Drawable() {
+            @Override
+            public void draw(Canvas canvas) {
+                ball2.draw(canvas);
+
+                ball.draw(canvas);
+            }
+
+            @Override
+            public void setAlpha(int alpha) {
+
+            }
+
+            @Override
+            public void setColorFilter(ColorFilter cf) {
+
+            }
+
+            @Override
+            public int getOpacity() {
+                return 0;
+            }
+        };
+
+
+        backgroundImgView.setImageBitmap(generateBackgroundBmp());
+
+        // foregroundImgView.setImageBitmap(generateForegroundBmp());
+        foregroundImgView.setImageDrawable(drawable);
+
+
+
+    }
+
+
+
+    public Bitmap generateBackgroundBmp() {
+
+        Bitmap frame =  Bitmap.createBitmap(320, 320, Bitmap.Config.ARGB_8888);
+
+        Canvas frameBuildingCanvas = new Canvas(frame);
+        frameBuildingCanvas.setMatrix(this.buildingMatrix);
+        pictureBuilding.draw(frameBuildingCanvas);
+
+        return frame;
+    }
+
+
+
+
+
+
+
     // we can be in one of these 3 states
     private static final int NONE = 0;
     private static final int DRAG = 1;
@@ -64,118 +259,20 @@ public class IndoorMapFragment extends Fragment
     private float[] lastEvent = null;
 
 
+    private float scaleFactor = 1;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.activity_canvas_test, container, false);
-    }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-//
-//    public void setMuseum(MuseumRow museumRow) {
-//        this.museumRow = museumRow;
-//        if(museumRow != null)
-//        {
-//            HttpParam param = new HttpParam("id_museum" , Long.toString(this.museumRow.ID.getValue()));
-//
-//            artworkDownloader = new JSONDownloader<>(new ArtworkSchema(),
-//                    "http://trinity.micc.unifi.it/museumapp/JSON_Artworks.php", param);
-//            artworkDownloader.addHandler(this);
-//            artworkDownloader.startDownload();
-//        }
-//    }
-
-
-
-
-
-    private void generateFrame()
-    {
-
-    }
-
-
-
-    public void priorityTest()
-    {
-
-        class Test{
-            int value;
-            Integer value2;
-
-            public Test()
-            {
-                setValue(0);
-            }
-            public Test(int value)
-            {
-                setValue(value);
-            }
-
-            public int getValue(){ return this.value; }
-            public int getValueRef(){ return this.value2; }
-            public void setValue(int val){ this.value = val; this.value2 = val; }
-
-        }
-
-        class ComparatorTest implements Comparator<Test> {
-            @Override
-            public int compare(Test lhs, Test rhs)
-            {
-                if( (lhs).getValue() > rhs.getValue() )
-                {
-                    return 1;
-                }
-                else if( (lhs).getValue() < rhs.getValue() )
-                {
-                    return -1;
-                }
-                else return 0;
-            }
-
-        };
-        ComparatorTest comparator = new ComparatorTest();
-
-        PriorityQueue<Test> queue = new PriorityQueue<Test>(1, comparator );
-
-        Test t1 = new Test(10);
-        Test t2 = new Test(20);
-
-        queue.add(t1);
-        queue.add(t2);
-
-        Iterator<Test> iter = queue.iterator();
-        while(iter.hasNext())
-        {
-            int val = iter.next().getValue();
-            int bb = val;
-        }
-        t2.setValue(0);
-        queue.remove(t2);
-        queue.add(t2);
-
-        iter = queue.iterator();
-        while(iter.hasNext())
-        {
-            int val = iter.next().getValue();
-            int bb = val;
-        }
-
-    }
-
     public boolean onTouch(View v, MotionEvent event)
     {
 
         ImageView view = (ImageView) v;
+
         switch (event.getAction() & MotionEvent.ACTION_MASK)
         {
             case MotionEvent.ACTION_DOWN:
-                savedMatrix.set(matrix);
+                bgSavedMatrix.set(bgMatrix);
+                fgSavedMatrix.set(fgMatrix);
                 start.set(event.getX(), event.getY());
                 mode = DRAG;
                 lastEvent = null;
@@ -184,7 +281,8 @@ public class IndoorMapFragment extends Fragment
             case MotionEvent.ACTION_POINTER_DOWN:
                 oldDist = spacing(event);
                 if (oldDist > 10f) {
-                    savedMatrix.set(matrix);
+                    bgSavedMatrix.set(bgMatrix);
+                    fgSavedMatrix.set(fgMatrix);
                     midPoint(mid, event);
                     mode = ZOOM;
                 }
@@ -193,48 +291,83 @@ public class IndoorMapFragment extends Fragment
                 lastEvent[1] = event.getX(1);
                 lastEvent[2] = event.getY(0);
                 lastEvent[3] = event.getY(1);
-                d = rotation(event);
+                //TODO: DISATTIVATA ROTAZIONE, riabilitarla gestendo spostamento marker (come in zoom)
+                // d = rotation(event);
+
                 break;
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
+                if(mode == ZOOM) {
+                    ball.setFinalTouchScaleFactor();
+                    ball2.setFinalTouchScaleFactor();
+                }
                 mode = NONE;
                 lastEvent = null;
+
+
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 if (mode == DRAG)
                 {
-                    matrix.set(savedMatrix);
+                    bgMatrix.set(bgSavedMatrix);
+                    fgMatrix.set(fgSavedMatrix);
                     float dx = event.getX() - start.x;
                     float dy = event.getY() - start.y;
-                    matrix.postTranslate(dx, dy);
+                    bgMatrix.postTranslate(dx, dy);
+                    fgMatrix.postTranslate(dx, dy);
                 }
                 else if (mode == ZOOM)
                 {
                     float newDist = spacing(event);
                     if (newDist > 10f) {
-                        matrix.set(savedMatrix);
-                        float scale = (newDist / oldDist);
-                        matrix.postScale(scale, scale, mid.x, mid.y);
+                        bgMatrix.set(bgSavedMatrix);
+                        fgMatrix.set(fgSavedMatrix);
+
+                        float newScale = (newDist / oldDist);
+                        bgMatrix.postScale(newScale, newScale, mid.x, mid.y);
+                        // scala la matrice dello sfondo (mappa)
+
+
+                        ball.setOnTouchRealTimeScaleFactor( newScale );
+                        ball2.setOnTouchRealTimeScaleFactor( newScale );
+                        // scala la posizione del marker dovuta allo zoom dello sfondo,
+                        // in tempo reale senza zoomarlo, in modo che il centro del marker
+                        // sia sempre nello stesso punto dello sfondo (mappa) scalato.
+
                     }
                     if (lastEvent != null && event.getPointerCount() == 3) {
                         newRot = rotation(event);
                         float r = newRot - d;
                         float[] values = new float[9];
-                        matrix.getValues(values);
+                        bgMatrix.getValues(values);
                         float tx = values[2];
                         float ty = values[5];
                         float sx = values[0];
                         float xc = (view.getWidth() / 2) * sx;
                         float yc = (view.getHeight() / 2) * sx;
-                        matrix.postRotate(r, tx + xc, ty + yc);
+
+                        //TODO: DISATTIVATA ROTAZIONE, riabilitarla gestendo spostamento marker (come in zoom)
+                        // bgMatrix.postRotate(r, tx + xc, ty + yc);
                     }
                 }
                 break;
         }
 
-        view.setImageMatrix(matrix);
+        this.backgroundImgView.setImageMatrix(bgMatrix);
+
+        float[] matrixVal = new float[9];
+        bgMatrix.getValues(matrixVal);
+
+        this.ball.x = matrixVal[2];
+        this.ball.y = matrixVal[5];
+
+        this.ball2.x = matrixVal[2];
+        this.ball2.y = matrixVal[5];
+        this.drawable.invalidateSelf();
+        this.foregroundImgView.setImageMatrix(fgMatrix);
+
         return true;
     }
 
