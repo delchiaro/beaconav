@@ -31,4 +31,5 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.google.guava:guava:16.0.1'
+    compile files('libs/estimote-sdk-preview.jar')
 }

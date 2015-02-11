@@ -16,6 +16,8 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <!--
             The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -23,6 +25,9 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <service android:name="com.estimote.sdk.service.BeaconService"
+        android:exported="false"/>
 
     <application
         android:allowBackup="true"
