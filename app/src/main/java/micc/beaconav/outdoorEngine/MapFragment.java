@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 import micc.beaconav.test.JSONTest;
 import micc.beaconav.R;
@@ -25,6 +26,8 @@ import micc.beaconav.test.testLastLocationActivity;
 public class MapFragment extends Fragment
 {
 
+    private static final LatLng startLatLng = new LatLng(42.2226192,12.55);
+    private static final float  startZoom = 5.4f;
 
     private Map map; // Might be null if Google Play services APK is not available.
     private Context context;
@@ -51,12 +54,13 @@ public class MapFragment extends Fragment
     }
 
     private void setUp()  {
-
-        buttonProximity      =  (Button) myFragmentView.findViewById(R.id.buttonProximity);
-        buttonJson           =  (Button) myFragmentView.findViewById(R.id.buttonJson);
-        buttonLocation       =  (Button) myFragmentView.findViewById(R.id.buttonLocation);
-        buttonSingleLocation =  (Button) myFragmentView.findViewById(R.id.buttonSingleLocation);
-
+//        buttonProximity      =  (Button) myFragmentView.findViewById(R.id.buttonProximity);
+//        buttonJson           =  (Button) myFragmentView.findViewById(R.id.buttonJson);
+//        buttonLocation       =  (Button) myFragmentView.findViewById(R.id.buttonLocation);
+//        buttonSingleLocation =  (Button) myFragmentView.findViewById(R.id.buttonSingleLocation);
+    }
+    private void setUpMap() {
+        map.setCamera(startLatLng, startZoom);
     }
 
 
@@ -76,33 +80,33 @@ public class MapFragment extends Fragment
 
     public void setUpEventListeners() {
 
-        buttonJson.setOnClickListener(new View.OnClickListener()
-        {
-            @Override  public void onClick(View v) {
-                Intent intent = new Intent(context, JSONTest.class);
-                startActivity(intent);
-            }
-        });
-
-        buttonLocation.setOnClickListener(new View.OnClickListener()
-        {
-            @Override  public void onClick(View v) {
-                Intent intent = new Intent(context, testAdaptedLocationActivity.class);
-                startActivity(intent);
-            }
-        });
-        buttonSingleLocation.setOnClickListener(new View.OnClickListener()
-        {
-            @Override  public void onClick(View v) {
-                Intent intent = new Intent(context, testLastLocationActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        buttonProximity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { setFakeProximity(v); }
-        });
+//        buttonJson.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override  public void onClick(View v) {
+//                Intent intent = new Intent(context, JSONTest.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        buttonLocation.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override  public void onClick(View v) {
+//                Intent intent = new Intent(context, testAdaptedLocationActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        buttonSingleLocation.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override  public void onClick(View v) {
+//                Intent intent = new Intent(context, testLastLocationActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        buttonProximity.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) { toggleFakeProximity(v); }
+//        });
     }
 
     public void onClickNavigate(View view)
@@ -111,11 +115,11 @@ public class MapFragment extends Fragment
     }
 
 
-    public void setFakeProximity(View view) {
+    public void toggleFakeProximity() {
         map.resetLastProxyMuseum();
-        if(map.getFakeProximity() == false) {
+        if(map.getFakeProximity() == false)
             map.setFakeProximity(true);
-        }
+        else map.setFakeProximity(false);
 
     }
 
@@ -136,7 +140,8 @@ public class MapFragment extends Fragment
 //        myFragmentView = inflater.inflate(R.layout.fragment_map, container, false);
 //        return myFragmentView;
 //    }
-    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (myFragmentView != null)
         {
             ViewGroup parent = (ViewGroup) myFragmentView.getParent();
@@ -158,7 +163,10 @@ public class MapFragment extends Fragment
         context = this.getActivity();
         setUp();
         setUpEventListeners();
-        map = Map.setupIstance(getGMapFromXML(), manager);
+        if(map == null) {
+            map = Map.setupIstance(getGMapFromXML(), manager);
+            setUpMap();
+        }
     }
 
 

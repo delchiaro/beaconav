@@ -2,6 +2,7 @@ package micc.beaconav;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -25,6 +26,9 @@ import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.gui.animationHelper.ScrollViewResizer;
 import micc.beaconav.gui.backPressedListeners.OnBackPressedListener;
 import micc.beaconav.gui.backPressedListeners.VoidOnBackPressedListener;
+import micc.beaconav.test.JSONTest;
+import micc.beaconav.test.testAdaptedLocationActivity;
+import micc.beaconav.test.testLastLocationActivity;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -316,8 +320,10 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_toggle: {
+        switch (item.getItemId())
+        {
+            case R.id.action_toggle:
+            {
                 if (mSlidingUpPanelLayout != null) {
                     if (mSlidingUpPanelLayout.getPanelState() != PanelState.HIDDEN) {
                         mSlidingUpPanelLayout.setPanelState(PanelState.HIDDEN);
@@ -329,7 +335,8 @@ public class MainActivity extends ActionBarActivity
                 }
                 return true;
             }
-            case R.id.action_anchor: {
+            case R.id.action_anchor:
+            {
                 if (mSlidingUpPanelLayout != null) {
                     if (mSlidingUpPanelLayout.getAnchorPoint() == 1.0f) {
                         mSlidingUpPanelLayout.setAnchorPoint(0.7f);
@@ -342,6 +349,30 @@ public class MainActivity extends ActionBarActivity
                     }
                 }
                 return true;
+            }
+            case R.id.json_test:
+            {
+                Intent intent = new Intent(MainActivity.this, JSONTest.class);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.location_test:
+            {
+                Intent intent = new Intent(MainActivity.this, testAdaptedLocationActivity.class);
+                startActivity(intent);
+                return true;
+
+            }
+            case R.id.single_location_test:
+            {
+                Intent intent = new Intent(MainActivity.this, testLastLocationActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.proximity_test:
+            {
+               FragmentHelper.instance().mapFragment.toggleFakeProximity();
+               return true;
             }
         }
         return super.onOptionsItemSelected(item);
