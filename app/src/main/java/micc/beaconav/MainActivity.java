@@ -12,12 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 
 import micc.beaconav.gui.animationHelper.BackgroundColorChangerHSV;
@@ -29,6 +26,7 @@ import micc.beaconav.gui.backPressedListeners.VoidOnBackPressedListener;
 import micc.beaconav.test.JSONTest;
 import micc.beaconav.test.testAdaptedLocationActivity;
 import micc.beaconav.test.testLastLocationActivity;
+
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -53,7 +51,6 @@ public class MainActivity extends ActionBarActivity
 //* * * * * * * * * * * *  FLAGS  * * * * * * * * * * * * * * *
     private boolean fadeOutAnimationStarted = false;
     private boolean colorAnimationStarted = false;
-    public boolean panelAnchored = false;
     private boolean heightAnimationStarted = false;
 
 // * * * * * * * * * * * *  DEFINIZIONE E INIZIALIZZAZIONE LAYOUT * * * * * * * * * * * * * * * * *
@@ -61,11 +58,8 @@ public class MainActivity extends ActionBarActivity
     private LinearLayout mSlidingBar;
     private RelativeLayout fragmentListContainer;
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
-    private TextView t;
-    private ScrollView scrollView;
     private SearchView mSearch;
     private FloatingActionButton floatingActionButton;
-    private LinearLayout dragView;
 
 
 
@@ -237,7 +231,6 @@ public class MainActivity extends ActionBarActivity
                 Log.i(TAG, "onPanelExpanded");
                 
                 scrollViewResizer.resizeScrollView(0.0f);
-                panelAnchored = false; //è considerato true solo se fermo a metà
 
             }
 
@@ -261,19 +254,6 @@ public class MainActivity extends ActionBarActivity
             }
         });
 
-
-//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                if (panelAnchored == false) {
-//                    mSlidingUpPanelLayout.setPanelState(PanelState.ANCHORED);
-//                    panelAnchored = true;
-//                } else {
-//                    mSlidingUpPanelLayout.setPanelState(PanelState.COLLAPSED);
-//                    panelAnchored = false;
-//                }
-//
-//            }
-//        });
 
     }
 

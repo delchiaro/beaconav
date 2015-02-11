@@ -225,6 +225,10 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
     }
 
+    public void setCircleRadius(int radius)
+    {
+        circle.setRadius(radius);
+    }
 
 
 
