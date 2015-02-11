@@ -21,7 +21,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.estimote.sdk.Beacon;
+
+import java.util.List;
+
 import micc.beaconav.R;
+import micc.beaconav.indoorEngine.beaconHelper.BeaconHelper;
+import micc.beaconav.indoorEngine.beaconHelper.BeaconProximityListener;
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.indoorEngine.building.Floor;
@@ -32,7 +38,9 @@ import micc.beaconav.indoorEngine.building.spot.DrawableSpot;
 import micc.beaconav.indoorEngine.building.spot.DrawableSpotManager;
 
 
-public class IndoorMapFragment extends Fragment implements View.OnTouchListener  {
+public class IndoorMapFragment extends Fragment
+        implements View.OnTouchListener, BeaconProximityListener
+{
 
 
     private static int PPM = ProportionsHelper.PPM; // pixel per meter
@@ -53,6 +61,9 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
     DrawableSpotManager drawableSpotManager;
 
     ViewGroup container = null;
+    ArtSpot spot1;
+    ArtSpot spot2;
+    ArtSpot spot3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -103,9 +114,9 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
 
         // DRAWABLES DEFINITION
         drawableSpotManager = new DrawableSpotManager(area);
-        ArtSpot spot1 = new ArtSpot(5.5f,   2    );
-        ArtSpot spot2 = new ArtSpot(4.4f,   4.9f );
-        ArtSpot spot3 = new ArtSpot(2f,     2f   );
+        spot1 = new ArtSpot(5.5f,   2    );
+        spot2 = new ArtSpot(4.4f,   4.9f );
+        spot3 = new ArtSpot(2f,     2f   );
         drawableSpotManager.add(spot1);
         drawableSpotManager.add(spot2);
         drawableSpotManager.add(spot3);
@@ -113,6 +124,9 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
         spot1.toggleSelection();
 
 
+        BeaconHelper.init(this.getActivity());
+        BeaconHelper.instance().addProximityListener(this);
+        BeaconHelper.instance().execute();
 
 
 
@@ -121,6 +135,14 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
         backgroundImgView.setImageBitmap(bmp );
         foregroundImgView.setImageDrawable(drawableSpotManager.newWrapperDrawable());
 
+    }
+
+    @Override
+    public void OnBeaconProximity(List<Beacon> proximityBeacons) {
+        if(BeaconHelper.isInProximity(proximityBeacons.get(0) ))
+        {
+            spot2.setSelected(true);
+        }
     }
 
 

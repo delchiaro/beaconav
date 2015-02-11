@@ -68,6 +68,9 @@ public class ArtSpot extends DrawableSpot
 //    Picture selectedPicture = null;
 //    PictureDrawable selectedPictureDrawable = null;
 
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
     public boolean toggleSelection() {
         selected = !selected;
         return selected;
