@@ -103,9 +103,14 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
 
         // DRAWABLES DEFINITION
         drawableSpotManager = new DrawableSpotManager(area);
-        drawableSpotManager.add(new ArtSpot(5.5f,   2    ));
-        drawableSpotManager.add(new ArtSpot(4.4f,   4.9f ));
-        drawableSpotManager.add(new ArtSpot(2f,     2f   ));
+        ArtSpot spot1 = new ArtSpot(5.5f,   2    );
+        ArtSpot spot2 = new ArtSpot(4.4f,   4.9f );
+        ArtSpot spot3 = new ArtSpot(2f,     2f   );
+        drawableSpotManager.add(spot1);
+        drawableSpotManager.add(spot2);
+        drawableSpotManager.add(spot3);
+
+        spot1.toggleSelection();
 
 
 
@@ -162,7 +167,24 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
 
         ImageView view = (ImageView) v;
 
-        switch (event.getAction() & MotionEvent.ACTION_MASK)
+        // TODO: adesso disabilitiamo il gestore di eventi touch quando rileviamo 3 o più tocchi!!
+        // in futuro dovremo riabilitarlo. Lo abbiamo disabilitato per evitare un fastidioso bug,
+        // cioè che zoomando con 2 dita e poi toccando con un terzo la posizione degli spot
+        // veniva modificata erroneamente, come se il terzo dito avesse introdotto un altro zoom
+        // che però in realtá non introduce!
+        // Poichè non zooma il bg non dovrebbe influenzare nemmeno il foreground, ma invece lo fa,
+        // verificare perchè lo fa e fare in modo che non influenzi il foreground come non influenza
+        // il background.
+        if (lastEvent != null && event.getPointerCount() >= 3)
+        {
+            if( mode == ZOOM )
+            {
+                drawableSpotManager.holdScalingFactor();
+            }
+            mode = NONE;
+            lastEvent = null;
+        }
+        else switch (event.getAction() & MotionEvent.ACTION_MASK)
         {
             case MotionEvent.ACTION_DOWN:
                 bgSavedMatrix.set(bgMatrix);
@@ -226,29 +248,26 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
 
 
                         drawableSpotManager.translateByRealtimeScaling(newScale);
-                        //TODO: real time scaling foreground objects
-                        // ball.setOnTouchRealTimeScaleFactor( newScale );
-                        // ball2.setOnTouchRealTimeScaleFactor( newScale );
-
                         // scala la posizione del marker dovuta allo zoom dello sfondo,
                         // in tempo reale senza zoomarlo, in modo che il centro del marker
                         // sia sempre nello stesso punto dello sfondo (mappa) scalato.
 
                     }
-                    if (lastEvent != null && event.getPointerCount() == 3) {
-                        newRot = rotation(event);
-                        float r = newRot - d;
-                        float[] values = new float[9];
-                        bgMatrix.getValues(values);
-                        float tx = values[2];
-                        float ty = values[5];
-                        float sx = values[0];
-                        float xc = (view.getWidth() / 2) * sx;
-                        float yc = (view.getHeight() / 2) * sx;
-
-                        //TODO: DISATTIVATA ROTAZIONE, riabilitarla gestendo spostamento marker (come in zoom)
-                        // bgMatrix.postRotate(r, tx + xc, ty + yc);
-                    }
+//
+//                    if (lastEvent != null && event.getPointerCount() == 3) {
+//                        newRot = rotation(event);
+//                        float r = newRot - d;
+//                        float[] values = new float[9];
+//                        bgMatrix.getValues(values);
+//                        float tx = values[2];
+//                        float ty = values[5];
+//                        float sx = values[0];
+//                        float xc = (view.getWidth() / 2) * sx;
+//                        float yc = (view.getHeight() / 2) * sx;
+//
+//                        //TODO: DISATTIVATA ROTAZIONE, riabilitarla gestendo spostamento marker (come in zoom)
+//                        // bgMatrix.postRotate(r, tx + xc, ty + yc);
+//                    }
                 }
                 break;
         }
