@@ -320,8 +320,10 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_toggle: {
+        switch (item.getItemId())
+        {
+            case R.id.action_toggle:
+            {
                 if (mSlidingUpPanelLayout != null) {
                     if (mSlidingUpPanelLayout.getPanelState() != PanelState.HIDDEN) {
                         mSlidingUpPanelLayout.setPanelState(PanelState.HIDDEN);
@@ -333,7 +335,8 @@ public class MainActivity extends ActionBarActivity
                 }
                 return true;
             }
-            case R.id.action_anchor: {
+            case R.id.action_anchor:
+            {
                 if (mSlidingUpPanelLayout != null) {
                     if (mSlidingUpPanelLayout.getAnchorPoint() == 1.0f) {
                         mSlidingUpPanelLayout.setAnchorPoint(0.7f);
@@ -347,45 +350,30 @@ public class MainActivity extends ActionBarActivity
                 }
                 return true;
             }
-            case R.id.json_test: {
-                item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Intent intent = new Intent(MainActivity.this, JSONTest.class);
-                        startActivity(intent);
-                        return true;
-                    }
-                });
+            case R.id.json_test:
+            {
+                Intent intent = new Intent(MainActivity.this, JSONTest.class);
+                startActivity(intent);
+                return true;
             }
-            case R.id.location_test: {
-                item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Intent intent = new Intent(MainActivity.this, testAdaptedLocationActivity.class);
-                        startActivity(intent);
-                        return true;
-                    }
-                });
+            case R.id.location_test:
+            {
+                Intent intent = new Intent(MainActivity.this, testAdaptedLocationActivity.class);
+                startActivity(intent);
+                return true;
+
             }
-            case R.id.single_location_test: {
-                item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Intent intent = new Intent(MainActivity.this, testLastLocationActivity.class);
-                        startActivity(intent);
-                        return true;
-                    }
-                });
+            case R.id.single_location_test:
+            {
+                Intent intent = new Intent(MainActivity.this, testLastLocationActivity.class);
+                startActivity(intent);
+                return true;
             }
-//            case R.id.proximity_test: {
-//                item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        //FragmentHelper.instance().mapFragment.setFakeProximity();
-//                        return true;
-//                    }
-//                });
-//            }
+            case R.id.proximity_test:
+            {
+               FragmentHelper.instance().mapFragment.setFakeProximity();
+               return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

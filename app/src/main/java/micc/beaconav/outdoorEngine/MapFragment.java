@@ -111,7 +111,7 @@ public class MapFragment extends Fragment
     }
 
 
-    public void setFakeProximity(View view) {
+    public void setFakeProximity() {
         map.resetLastProxyMuseum();
         if(map.getFakeProximity() == false) {
             map.setFakeProximity(true);
