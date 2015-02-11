@@ -95,7 +95,7 @@ public class JSONTest extends ActionBarActivity {
          * */
         protected String doInBackground(String... args) {
 
-            String url ="http://whitelight.altervista.org/JSONTest.php";
+            String url ="http://trinity.micc.unifi.it/museumapp/JSON_Museums.php";
             JSONParser jParser = new JSONParser();
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -103,7 +103,7 @@ public class JSONTest extends ActionBarActivity {
             JSONArray museumArray = null;
 
             try {
-                museumArray = json.getJSONArray("museums");
+                museumArray = json.getJSONArray("Museum");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
