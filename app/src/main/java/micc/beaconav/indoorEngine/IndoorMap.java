@@ -13,7 +13,7 @@ import micc.beaconav.indoorEngine.vectorBuilding.Floor;
 import micc.beaconav.indoorEngine.vectorBuilding.Room;
 import micc.beaconav.localization.IndoorPosition;
 import micc.beaconav.localization.LocalizationManager;
-import micc.beaconav.indoorEngine.vectorBuilding.Spot;
+import micc.beaconav.indoorEngine.vectorBuilding.spot.Spot;
 
 /**
  * Created by Nagash on 22/12/2014.

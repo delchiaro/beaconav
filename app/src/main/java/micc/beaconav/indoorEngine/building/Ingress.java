@@ -1,30 +1,31 @@
-package micc.beaconav.indoorEngine.vectorBuilding;
+package micc.beaconav.indoorEngine.building;
 
 import android.graphics.Canvas;
 import android.graphics.PointF;
 
+import micc.beaconav.indoorEngine.building.spot.Spot;
 import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.indoorEngine.vectorBuilding.spot.DrawableSpot;
 
 /**
  * Created by nagash on 24/01/15.
  */
-public class Ingress extends Drawable
+public class Ingress
 {
     private final Spot virtualDoorA;
     private final Spot virtualDoorB;
-    private final DrawableSpot physicalDoor;
+    private final android.graphics.drawable.Drawable physicalDoorDrawable;
 
     private final ConvexArea areaA;
     private final ConvexArea areaB;
 
 
 
-    public Ingress(ConvexArea area_A, ConvexArea area_B, Spot virtualDoor_A, Spot virtualDoor_B, DrawableSpot physicalDoor) {
-        super(0);
+    public Ingress(ConvexArea area_A, ConvexArea area_B, Spot virtualDoor_A, Spot virtualDoor_B,
+                   android.graphics.drawable.Drawable physicalDoor)
+    {
         this.virtualDoorA = virtualDoor_A;
         this.virtualDoorB = virtualDoor_B;
-        this.physicalDoor = physicalDoor;
+        this.physicalDoorDrawable = physicalDoor;
         this.areaA = area_A;
         this.areaB = area_B;
 
@@ -36,9 +37,6 @@ public class Ingress extends Drawable
     public Ingress(ConvexArea area_A, ConvexArea area_B, Spot virtualDoor) {
         this(area_A, area_B, virtualDoor, virtualDoor, null);
     }
-    public Ingress(ConvexArea area_A, ConvexArea area_B, DrawableSpot physicalDoor) {
-        this(area_A, area_B, physicalDoor, physicalDoor, physicalDoor);
-    }
 
 
     public Spot getVirtualDoorA() {
@@ -49,8 +47,8 @@ public class Ingress extends Drawable
         return virtualDoorB;
     }
 
-    public DrawableSpot getPhysicalDoor() {
-        return physicalDoor;
+    public android.graphics.drawable.Drawable getPhysicalDoor() {
+        return this.physicalDoorDrawable;
     }
 
     public ConvexArea getAreaA() {
@@ -62,12 +60,9 @@ public class Ingress extends Drawable
     }
 
 
-    @Override
-    protected void _coreDraw(Canvas canvas, PointF padding)
-    {
-        if(physicalDoor != null){
-            physicalDoor.draw(canvas);
+    protected void draw(Canvas canvas) {
+        if(physicalDoorDrawable != null){
+            physicalDoorDrawable.draw(canvas);
         }
-
     }
 }

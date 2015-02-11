@@ -1,12 +1,10 @@
 package micc.beaconav.indoorEngine;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PointF;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.FloatMath;
@@ -28,8 +26,7 @@ import micc.beaconav.db.dbHelper.room.VertexSchema;
 import micc.beaconav.db.dbJSONManager.JSONDownloader;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 
-import micc.beaconav.indoorEngine.IndoorMapBmp;
-import micc.beaconav.indoorEngine.bmpBuilding.ArtSpot;
+import micc.beaconav.indoorEngine.building.building.spot.ArtSpot;
 import micc.beaconav.indoorEngine.bmpBuilding.Building;
 import micc.beaconav.indoorEngine.bmpBuilding.Floor;
 import micc.beaconav.indoorEngine.bmpBuilding.Room;

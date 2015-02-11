@@ -8,7 +8,7 @@ import android.graphics.PointF;
 import java.util.*;
 
 import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.indoorEngine.vectorBuilding.Spot;
+import micc.beaconav.indoorEngine.vectorBuilding.spot.Spot;
 
 /**
  * 
