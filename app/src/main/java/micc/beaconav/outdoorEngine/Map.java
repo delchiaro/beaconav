@@ -142,6 +142,13 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
 
 
+    public void setCamera(LatLng newLatLng, float newZoom){
+       gmap.moveCamera( CameraUpdateFactory.newLatLngZoom( newLatLng , newZoom) );
+    }
+    public void setCamera(LatLng newLatLng){
+        gmap.moveCamera( CameraUpdateFactory.newLatLng( newLatLng) );
+    }
+
     public void zoomOnLatLng(LatLng latLng, float zoom)
     {
         gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
