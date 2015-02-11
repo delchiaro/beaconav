@@ -17,6 +17,7 @@ import micc.beaconav.FragmentHelper;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.IArtRow;
+import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 
@@ -26,11 +27,13 @@ import micc.beaconav.db.dbJSONManager.JSONHandler;
 public class ArtListFragment extends Fragment
 {
 
+    private boolean listInflated = false;
+
     private AdapterView.OnItemClickListener listItemNameOnClickListener = null;
     private AdapterView.OnItemClickListener listItemBtnOnClickListener = null;
 
-    private ListView listView;
-    private List<IArtRow> artListItems;
+    private ListView listView = null;
+    private List<IArtRow> artListItems = null;
 
 
     public ArtListFragment() {}
@@ -50,22 +53,12 @@ public class ArtListFragment extends Fragment
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
 
-        DbManager.museumDownloader.startDownload();
-
-
-        DbManager.museumDownloader.addHandler(new JSONHandler<MuseumRow>() {
-
-            @Override
-            public void onJSONDownloadFinished(MuseumRow[] result) {
-                IArtRow[] artRows = result;
-                inflateList(artRows);
-            }
-        });
-
+        listView = (ListView) getView().findViewById(R.id.descriptionList);
+        refreshList();
     }
+
 
 
     public void setListItemNameOnClickListener(AdapterView.OnItemClickListener onItemClickListener) {
@@ -80,31 +73,47 @@ public class ArtListFragment extends Fragment
 
 // * * * * * * * * * * * * * * *  HELPERS * * * * * * * * * * * * * * * * * * * * *
 
-    private void inflateList(final IArtRow[] result) {
+    public void insertRows(final IArtRow[] result) {
 
         artListItems = new ArrayList<>();
-        for(int i = 0; i < result.length; i++)
-        {
+        for (int i = 0; i < result.length; i++) {
             artListItems.add(result[i]);
         }
-
-        listView = (ListView) getView().findViewById(R.id.descriptionList);
-        ListAdapter adapter = new ListAdapter(getActivity(), artListItems);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(result[position] instanceof MuseumRow)
-                FragmentHelper.instance().simulateMuseumOnMapClick((MuseumRow) result[position]);
-                //else se result[position] instanceof ArtPieceRow fai l'azione corrispondente all'indoor
-
-            }
-        });
-        // questi 2 metodi settano i listener per ogni elemento della lista
-        // sanno già a che positione si trova
-        listView.setItemsCanFocus(true);
-
+        inflateList();
     }
+
+    public void refreshList() {
+        listInflated = false;
+        inflateList();
+    }
+
+    private void inflateList()
+    {
+        if(artListItems != null && listView != null && listInflated == false)
+        {
+            ListAdapter adapter = new ListAdapter(getActivity(), artListItems);
+            listView.setAdapter(adapter);
+
+            listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    IArtRow artRow = artListItems.get(position);
+
+                    if (artRow instanceof MuseumRow) {
+                        FragmentHelper.instance().simulateMuseumOnMapClick((MuseumRow) artRow);
+                    } else if (artRow instanceof ArtworkRow) {
+                        //TODO: fai l'azione corrispondente nell'indoor
+                    }
+
+                }
+            });
+            // questi 2 metodi settano i listener per ogni elemento della lista
+            // sanno già a che positione si trova
+            listView.setItemsCanFocus(true);
+
+            listInflated = true;
+        }
+    }
+
 
 }

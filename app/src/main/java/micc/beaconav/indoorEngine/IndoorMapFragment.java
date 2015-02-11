@@ -21,8 +21,12 @@ import java.util.PriorityQueue;
 
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.DbManager;
+import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
+import micc.beaconav.db.dbHelper.artwork.ArtworkSchema;
+import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbHelper.room.VertexRow;
 import micc.beaconav.db.dbHelper.room.VertexSchema;
+import micc.beaconav.db.dbJSONManager.HttpParam;
 import micc.beaconav.db.dbJSONManager.JSONDownloader;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 
@@ -32,8 +36,16 @@ import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
 
 
-public class IndoorMapFragment extends Fragment implements OnTouchListener, JSONHandler<VertexRow>
+public class IndoorMapFragment extends Fragment
+        implements OnTouchListener
 {
+
+    MuseumRow museumRow = null;
+
+
+
+
+
 
     // these matrices will be used to move and zoom image
     private Matrix matrix = new Matrix();
@@ -51,8 +63,7 @@ public class IndoorMapFragment extends Fragment implements OnTouchListener, JSON
     private float newRot = 0f;
     private float[] lastEvent = null;
 
-    JSONDownloader<VertexRow, VertexSchema> vertexDownloader;
-    Room roomToDisplay;
+
 
     @Nullable
     @Override
@@ -62,40 +73,29 @@ public class IndoorMapFragment extends Fragment implements OnTouchListener, JSON
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        vertexDownloader = DbManager.getVertexFromRoomDownloader(0);
-
-        vertexDownloader.addHandler(this);
-        vertexDownloader.startDownload();
-
     }
+//
+//    public void setMuseum(MuseumRow museumRow) {
+//        this.museumRow = museumRow;
+//        if(museumRow != null)
+//        {
+//            HttpParam param = new HttpParam("id_museum" , Long.toString(this.museumRow.ID.getValue()));
+//
+//            artworkDownloader = new JSONDownloader<>(new ArtworkSchema(),
+//                    "http://trinity.micc.unifi.it/museumapp/JSON_Artworks.php", param);
+//            artworkDownloader.addHandler(this);
+//            artworkDownloader.startDownload();
+//        }
+//    }
+
+
 
 
 
     private void generateFrame()
     {
-//        ImageView imgView = (ImageView) getView().findViewById(R.id.imageView);
-//        imgView.setOnTouchListener(this);
-//
-//
-//        Bitmap indoorMapTest = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map_test);
-//
-//        Building building = new Building(2800,2800);
-//        Floor floor0 = new Floor(indoorMapTest);
-//        building.add(floor0);
-//
-//        ArtSpot spot1 = new ArtSpot(new PointF(2000, 2000));
-//        floor0.drawableSpotManager.addSpot(spot1);
-//
-//
-//
-//
-//        IndoorMapBmp indoorMap = new IndoorMapBmp(building);
-//        Bitmap frameBmp = indoorMap.drawMapBmp();
-//        //imgView.setImageDrawable(new BitmapDrawable(getResources(), frameBmp));
-//        imgView.setImageBitmap(frameBmp);
 
     }
 
@@ -271,9 +271,4 @@ public class IndoorMapFragment extends Fragment implements OnTouchListener, JSON
 
 
 
-    @Override
-    public void onJSONDownloadFinished(VertexRow[] result) {
-        //roomToDisplay = RoomGenerator.generateRoomFromVertices(result);
-        generateFrame();
-    }
 }

@@ -44,7 +44,7 @@ public class MuseumDescrFragment extends Fragment
         toIndoorBtn = (FloatingActionButton)getView().findViewById(R.id.toIndoorBtn);
         toIndoorBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FragmentHelper.instance().showIndoorFragment();
+                FragmentHelper.instance().showIndoorFragment(museumRow);
                 FragmentHelper.instance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 // TODO:    QUESTO CODIEC SAREBBE MEGLIO SE SI RIUSCISSE A PORTARLO NELL'HELPER E/O MAIN ACTIVITY RENDENDOLO FRUIBILE CON METODO PUBBLICO
                 // BASTEREBBE NEL FRAGMENT HELPER FARE DEI METODI CHE ALZANO E ABBASSANO IL PANEL DEL MAIN RICHIAMANDO UN METODO PUBBLICO DEL  MAIN CHE FA QUESTO.

@@ -6,6 +6,8 @@ import micc.beaconav.db.dbJSONManager.tableScheme.TableSchema;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.Type;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.DoubleSchema;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatSchema;
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongField;
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongSchema;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringSchema;
 
 /**
@@ -15,7 +17,7 @@ public class MuseumSchema extends TableSchema<MuseumRow>
 {
     static final String          tableName  = "Museum";
 
-    static final StringSchema    ID          = new StringSchema("ID");
+    static final LongSchema    ID            = new LongSchema("ID");
     static final StringSchema    name        = new StringSchema("name");
     static final StringSchema    descr       = new StringSchema("descr");
     static final DoubleSchema    latitude    = new DoubleSchema("latitude");

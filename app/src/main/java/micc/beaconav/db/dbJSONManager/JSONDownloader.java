@@ -3,6 +3,7 @@ package micc.beaconav.db.dbJSONManager;
 import android.os.AsyncTask;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,12 +38,18 @@ public class JSONDownloader<TR extends TableRow, TS extends TableSchema<TR>> ext
 
 
 
-    public JSONDownloader(TS schema, String url) {
+
+    HttpParam[] httpParams = null;
+
+
+
+
+    public JSONDownloader(TS schema, String url, HttpParam... params ) {
         this.schema = schema;
         this.downloadedRows = null;
         this.handlerList = new ArrayList<>();
-
         this.URL = url;
+        this.httpParams = params;
     }
 
     public void addHandler(JSONHandler newHandler){
@@ -113,6 +120,11 @@ public class JSONDownloader<TR extends TableRow, TS extends TableSchema<TR>> ext
 
         JSONParser jParser = new JSONParser();
         List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+        for(int i = 0; i < httpParams.length; i++)
+            params.add(this.httpParams[i]);
+
+
         JSONObject json = jParser.makeHttpRequest(url, "GET", params);
 
 

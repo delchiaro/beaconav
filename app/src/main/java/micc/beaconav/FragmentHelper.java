@@ -3,13 +3,15 @@ package micc.beaconav;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.util.TypedValue;
 import android.view.View;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import micc.beaconav.db.dbHelper.DbManager;
+import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
+import micc.beaconav.db.dbJSONManager.JSONHandler;
 import micc.beaconav.gui.backPressedListeners.OnBackPressedListener;
 import micc.beaconav.gui.customList.ArtListFragment;
 import micc.beaconav.gui.customList.MuseumDescrFragment;
@@ -37,6 +39,10 @@ public class FragmentHelper  implements MuseumMarkerManager
         return istance;
     }
 
+    private FragmentHelper() {
+
+    }
+
     public static void setMainActivity(MainActivity activity) {
         if(mainActivity == null) {
             mainActivity = activity;
@@ -52,18 +58,18 @@ public class FragmentHelper  implements MuseumMarkerManager
 
 
 
-
-
     private MainFragment    activeMainFragment    = MainFragment.OUTDOOR;
     private SlidingFragment activeSlidingFragment = SlidingFragment.LIST;
 
 
-
-
-    public MapFragment mapFragment = new MapFragment();
+    public MapFragment       mapFragment = new MapFragment();
     public IndoorMapFragment indoorMapFragment = new IndoorMapFragment();
 
-    public ArtListFragment artListFragment = new ArtListFragment();
+
+    public ArtListFragment museumListFragment = new ArtListFragment();
+    public ArtListFragment artworkListFragment = new ArtListFragment();
+    private MuseumRow artworkList_museumRow = null;
+
     public MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
     public SeekBarHeaderFragment seekBarHeaderFragment = new SeekBarHeaderFragment();
     public MuseumNameHeaderFragment museumNameHeaderFragment = new MuseumNameHeaderFragment();
@@ -85,7 +91,7 @@ public class FragmentHelper  implements MuseumMarkerManager
 
                         case DETAILS:
                             simulateDeselectMuseumOnMapClick();
-                            showListFragment();
+                            showMuseumListFragment();
                             break;
 
                         case LIST:
@@ -102,6 +108,7 @@ public class FragmentHelper  implements MuseumMarkerManager
                             break;
 
                         case DETAILS:
+                            showArtworkListFragment(artworkList_museumRow);
                             break;
 
                         case LIST:
@@ -140,7 +147,7 @@ public class FragmentHelper  implements MuseumMarkerManager
         swapFragment(R.id.fragment_map_container, mapFragment);
         activeMainFragment = MainFragment.OUTDOOR;
         mapFragment.setMuseumMarkerManager(this);
-        showListFragment();
+        showMuseumListFragment();
         mainActivity.setFABListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,11 +163,11 @@ public class FragmentHelper  implements MuseumMarkerManager
     }
 
 
-    public final void showIndoorFragment() {
+    public final void showIndoorFragment(MuseumRow museum) {
         swapFragment(R.id.fragment_map_container, indoorMapFragment);
-        //TODO:fare qui lo swap alle liste di opere dentro il museo
         activeMainFragment = MainFragment.INDOOR;
-        showListFragment();
+        showArtworkListFragment(museum);
+        //indoorMapFragment.setMuseum(museum);
         mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
     }
@@ -168,10 +175,61 @@ public class FragmentHelper  implements MuseumMarkerManager
 
 
 
-    public final void showListFragment() {
+
+    public final void showArtworkListFragment(MuseumRow museum) {
+
+        if(museum != this.artworkList_museumRow)
+        {
+            artworkListFragment = new ArtListFragment();
+            artworkList_museumRow = museum;
+            DbManager.getArtworkDownloader(museum, new JSONHandler<ArtworkRow>() {
+                @Override
+                public void onJSONDownloadFinished(ArtworkRow[] result) {
+                    artworkListFragment.insertRows(result);
+                }
+            });
+        }
+
+
         activeSlidingFragment = SlidingFragment.LIST;
-        swapFragment(R.id.fragment_list_container, artListFragment);
+        swapFragment(R.id.fragment_list_container, artworkListFragment);
         showSeekbarHeaderFragment();
+        mainActivity.setThemeColor(MainActivity.ThemeColor.ORANGE);
+        mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
+        mainActivity.setFABListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mainActivity.panelAnchored == false) {
+                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+                    mainActivity.panelAnchored = true;
+                } else {
+                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    mainActivity.panelAnchored = false;
+                }
+            }
+        });
+    }
+
+    public final void showMuseumListFragment() {
+
+        if(DbManager.museumDownloader.isDownloadStarted() == false) {
+            DbManager.museumDownloader.startDownload();
+            DbManager.museumDownloader.addHandler(new JSONHandler<MuseumRow>() {
+                @Override
+                public void onJSONDownloadFinished(MuseumRow[] result) {
+                    museumListFragment.insertRows(result);
+                }
+            });
+
+        }
+
+        simulateDeselectMuseumOnMapClick();
+
+        activeSlidingFragment = SlidingFragment.LIST;
+        swapFragment(R.id.fragment_list_container, museumListFragment);
+        showSeekbarHeaderFragment();
+
+
         mainActivity.setThemeColor(MainActivity.ThemeColor.ORANGE);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
         mainActivity.setFABListener(new View.OnClickListener() {
@@ -222,12 +280,14 @@ public class FragmentHelper  implements MuseumMarkerManager
 
     @Override
     public void onDeselectMuseumMarker() {
-        showListFragment();
+        showMuseumListFragment();
     }
 
 
     public final void simulateDeselectMuseumOnMapClick() {
-        Map.getIstance().simulateUnselectMarker();
+        Map istance = Map.getIstance();
+        if(istance != null)
+            istance.simulateUnselectMarker();
     }
 
     public final void simulateMuseumOnMapClick(final MuseumRow row){

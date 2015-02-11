@@ -4,6 +4,7 @@ import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.DoubleField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatField;
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringField;
 import micc.beaconav.localization.proximity.ProximityObject;
 
@@ -14,7 +15,7 @@ public class MuseumRow extends TableRow<MuseumSchema> implements ProximityObject
 {
     static MuseumSchema schema = new MuseumSchema();
 
-    public final StringField ID          = (StringField) field(schema.ID);
+    public final LongField ID          = (LongField) field(schema.ID);
     public final StringField name        = (StringField) field(schema.name);
     public final StringField descr       = (StringField) field(schema.descr);
     public final DoubleField latitude    = (DoubleField) field(schema.latitude);
@@ -29,7 +30,7 @@ public class MuseumRow extends TableRow<MuseumSchema> implements ProximityObject
 
 
 
-    public final String getID(){
+    public final long getID(){
          return ID.getValue();
     }
     public final String getName()

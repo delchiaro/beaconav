@@ -40,7 +40,7 @@ public class MuseumNameHeaderFragment extends Fragment {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentHelper.instance().showListFragment();
+                FragmentHelper.instance().showMuseumListFragment();
             }
         });
 
