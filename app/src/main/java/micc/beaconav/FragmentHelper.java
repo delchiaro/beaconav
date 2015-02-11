@@ -193,8 +193,8 @@ public class FragmentHelper  implements MuseumMarkerManager
 
         activeSlidingFragment = SlidingFragment.LIST;
         swapFragment(R.id.fragment_list_container, artworkListFragment);
-        showSeekbarHeaderFragment();
-        mainActivity.setThemeColor(MainActivity.ThemeColor.ORANGE);
+        showMuseumNameHeaderFragment(museum);
+        mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
         mainActivity.setFABListener(new View.OnClickListener() {
             @Override
