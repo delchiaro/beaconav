@@ -46,8 +46,8 @@ public class ArtSpot extends DrawableSpot
         return new Drawable() {
             @Override
             public void draw(Canvas canvas) {
-                canvas.drawCircle(x(), y(), radius, bluePaint);
-                canvas.drawCircle(x(), y(), radius, whitePaint);
+                canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, bluePaint);
+                canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, whitePaint);
             }
 
             @Override

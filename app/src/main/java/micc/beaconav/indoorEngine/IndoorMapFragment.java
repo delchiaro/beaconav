@@ -1,55 +1,145 @@
 package micc.beaconav.indoorEngine;
 
-import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Picture;
 import android.graphics.PointF;
-import android.os.Bundle;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.util.FloatMath;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.PriorityQueue;
-
 import micc.beaconav.R;
-import micc.beaconav.db.dbHelper.DbManager;
-import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
-import micc.beaconav.db.dbHelper.artwork.ArtworkSchema;
-import micc.beaconav.db.dbHelper.museum.MuseumRow;
-import micc.beaconav.db.dbHelper.room.VertexRow;
-import micc.beaconav.db.dbHelper.room.VertexSchema;
-import micc.beaconav.db.dbJSONManager.HttpParam;
-import micc.beaconav.db.dbJSONManager.JSONDownloader;
-import micc.beaconav.db.dbJSONManager.JSONHandler;
-
-import micc.beaconav.indoorEngine.building.spot.ArtSpot;
 import micc.beaconav.indoorEngine.building.Building;
+import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
+import micc.beaconav.indoorEngine.building.Vertex;
+import micc.beaconav.indoorEngine.building.spot.ArtSpot;
+import micc.beaconav.indoorEngine.building.spot.DrawableSpot;
+import micc.beaconav.indoorEngine.building.spot.DrawableSpotManager;
 
 
-public class IndoorMapFragment extends Fragment
-        implements OnTouchListener
-{
-
-    MuseumRow museumRow = null;
+public class IndoorMapFragment extends Fragment implements View.OnTouchListener  {
 
 
-
-
-
-
+    private static int PPM = ProportionsHelper.PPM; // pixel per meter
     // these matrices will be used to move and zoom image
-    private Matrix matrix = new Matrix();
-    private Matrix savedMatrix = new Matrix();
+    private Matrix bgMatrix = new Matrix();
+    private Matrix bgSavedMatrix = new Matrix();
+    private Matrix fgMatrix = new Matrix();
+    private Matrix fgSavedMatrix = new Matrix();
+
+
+
+    ImageView backgroundImgView;
+    ImageView foregroundImgView;
+
+
+    private Matrix buildingMatrix = new Matrix();
+
+    DrawableSpotManager drawableSpotManager;
+
+    ViewGroup container = null;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        this.container = container;
+        return inflater.inflate(R.layout.activity_canvas_test, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(container != null) {
+            backgroundImgView = (ImageView) container.findViewById(R.id.backgroundImageView);
+            backgroundImgView.setOnTouchListener(this);
+            backgroundImgView.setScaleType(ImageView.ScaleType.MATRIX);
+            foregroundImgView = (ImageView) container.findViewById(R.id.foregroundImageView);
+        }
+
+        // BUILDING DEFINITION
+        Building building = new Building(9*PPM, 9*PPM);
+
+        // FLOOR DEFINITION
+        Floor floor = new Floor(0);
+        building.add(floor);
+
+
+        // ROOM DEFINITION
+        Room room = new Room();
+        floor.add(room);
+        room.addVertex(new Vertex(1,  1),       0);
+        room.addVertex(new Vertex(6,  1),       1);
+        room.addVertex(new Vertex(6,  5),       2);
+        room.addVertex(new Vertex(5,  5.5f),    3);
+        room.addVertex(new Vertex(2,  5.5f),    4);
+        room.addVertex(new Vertex(1,  5),       5);
+
+        // CONVEX AREA DEFINITION
+        ConvexArea area = new ConvexArea();
+        room.add(area);
+        area.addRoomVertex(0);
+        area.addRoomVertex(1);
+        area.addRoomVertex(2);
+        area.addRoomVertex(3);
+        area.addRoomVertex(4);
+        area.addRoomVertex(5);
+        area.isConvex(); // dimostrativo: controllo utilizzabile, adesso non lo utilizziamo.
+
+        // DRAWABLES DEFINITION
+        drawableSpotManager = new DrawableSpotManager(area);
+        drawableSpotManager.add(new ArtSpot(5.5f,   2    ));
+        drawableSpotManager.add(new ArtSpot(4.4f,   4.9f ));
+        drawableSpotManager.add(new ArtSpot(2f,     2f   ));
+
+
+
+
+
+        // DRAWING:
+        Bitmap bmp = generateBackgroundBmp(building);
+        backgroundImgView.setImageBitmap(bmp );
+        foregroundImgView.setImageDrawable(drawableSpotManager.newWrapperDrawable());
+
+    }
+
+
+
+    public Bitmap generateBackgroundBmp(Building building) {
+
+        Bitmap frame =  Bitmap.createBitmap((int)building.getWidth(), (int)building.getHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas frameBuildingCanvas = new Canvas(frame);
+        frameBuildingCanvas.setMatrix(this.buildingMatrix);
+        building.draw(frameBuildingCanvas);
+
+        return frame;
+    }
+
+
+
+
+
+
+
+
+
+
     // we can be in one of these 3 states
     private static final int NONE = 0;
     private static final int DRAG = 1;
@@ -64,118 +154,19 @@ public class IndoorMapFragment extends Fragment
     private float[] lastEvent = null;
 
 
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.activity_canvas_test, container, false);
-    }
+    private float scaleFactor = 1;
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-//
-//    public void setMuseum(MuseumRow museumRow) {
-//        this.museumRow = museumRow;
-//        if(museumRow != null)
-//        {
-//            HttpParam param = new HttpParam("id_museum" , Long.toString(this.museumRow.ID.getValue()));
-//
-//            artworkDownloader = new JSONDownloader<>(new ArtworkSchema(),
-//                    "http://trinity.micc.unifi.it/museumapp/JSON_Artworks.php", param);
-//            artworkDownloader.addHandler(this);
-//            artworkDownloader.startDownload();
-//        }
-//    }
-
-
-
-
-
-    private void generateFrame()
-    {
-
-    }
-
-
-
-    public void priorityTest()
-    {
-
-        class Test{
-            int value;
-            Integer value2;
-
-            public Test()
-            {
-                setValue(0);
-            }
-            public Test(int value)
-            {
-                setValue(value);
-            }
-
-            public int getValue(){ return this.value; }
-            public int getValueRef(){ return this.value2; }
-            public void setValue(int val){ this.value = val; this.value2 = val; }
-
-        }
-
-        class ComparatorTest implements Comparator<Test> {
-            @Override
-            public int compare(Test lhs, Test rhs)
-            {
-                if( (lhs).getValue() > rhs.getValue() )
-                {
-                    return 1;
-                }
-                else if( (lhs).getValue() < rhs.getValue() )
-                {
-                    return -1;
-                }
-                else return 0;
-            }
-
-        };
-        ComparatorTest comparator = new ComparatorTest();
-
-        PriorityQueue<Test> queue = new PriorityQueue<Test>(1, comparator );
-
-        Test t1 = new Test(10);
-        Test t2 = new Test(20);
-
-        queue.add(t1);
-        queue.add(t2);
-
-        Iterator<Test> iter = queue.iterator();
-        while(iter.hasNext())
-        {
-            int val = iter.next().getValue();
-            int bb = val;
-        }
-        t2.setValue(0);
-        queue.remove(t2);
-        queue.add(t2);
-
-        iter = queue.iterator();
-        while(iter.hasNext())
-        {
-            int val = iter.next().getValue();
-            int bb = val;
-        }
-
-    }
-
     public boolean onTouch(View v, MotionEvent event)
     {
 
         ImageView view = (ImageView) v;
+
         switch (event.getAction() & MotionEvent.ACTION_MASK)
         {
             case MotionEvent.ACTION_DOWN:
-                savedMatrix.set(matrix);
+                bgSavedMatrix.set(bgMatrix);
+                fgSavedMatrix.set(fgMatrix);
                 start.set(event.getX(), event.getY());
                 mode = DRAG;
                 lastEvent = null;
@@ -184,7 +175,8 @@ public class IndoorMapFragment extends Fragment
             case MotionEvent.ACTION_POINTER_DOWN:
                 oldDist = spacing(event);
                 if (oldDist > 10f) {
-                    savedMatrix.set(matrix);
+                    bgSavedMatrix.set(bgMatrix);
+                    fgSavedMatrix.set(fgMatrix);
                     midPoint(mid, event);
                     mode = ZOOM;
                 }
@@ -193,48 +185,96 @@ public class IndoorMapFragment extends Fragment
                 lastEvent[1] = event.getX(1);
                 lastEvent[2] = event.getY(0);
                 lastEvent[3] = event.getY(1);
-                d = rotation(event);
+                //TODO: DISATTIVATA ROTAZIONE, riabilitarla gestendo spostamento marker (come in zoom)
+                // d = rotation(event);
+
                 break;
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
+                if(mode == ZOOM) {
+                    //TODO
+                    drawableSpotManager.holdScalingFactor();
+                }
                 mode = NONE;
                 lastEvent = null;
+
+
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 if (mode == DRAG)
                 {
-                    matrix.set(savedMatrix);
+                    bgMatrix.set(bgSavedMatrix);
+                    fgMatrix.set(fgSavedMatrix);
                     float dx = event.getX() - start.x;
                     float dy = event.getY() - start.y;
-                    matrix.postTranslate(dx, dy);
+                    bgMatrix.postTranslate(dx, dy);
+                    fgMatrix.postTranslate(dx, dy);
                 }
                 else if (mode == ZOOM)
                 {
                     float newDist = spacing(event);
                     if (newDist > 10f) {
-                        matrix.set(savedMatrix);
-                        float scale = (newDist / oldDist);
-                        matrix.postScale(scale, scale, mid.x, mid.y);
+                        bgMatrix.set(bgSavedMatrix);
+                        fgMatrix.set(fgSavedMatrix);
+
+                        float newScale = (newDist / oldDist);
+                        bgMatrix.postScale(newScale, newScale, mid.x, mid.y);
+                        // scala la matrice dello sfondo (mappa)
+
+
+
+                        drawableSpotManager.translateByRealtimeScaling(newScale);
+                        //TODO: real time scaling foreground objects
+                        // ball.setOnTouchRealTimeScaleFactor( newScale );
+                        // ball2.setOnTouchRealTimeScaleFactor( newScale );
+
+                        // scala la posizione del marker dovuta allo zoom dello sfondo,
+                        // in tempo reale senza zoomarlo, in modo che il centro del marker
+                        // sia sempre nello stesso punto dello sfondo (mappa) scalato.
+
                     }
                     if (lastEvent != null && event.getPointerCount() == 3) {
                         newRot = rotation(event);
                         float r = newRot - d;
                         float[] values = new float[9];
-                        matrix.getValues(values);
+                        bgMatrix.getValues(values);
                         float tx = values[2];
                         float ty = values[5];
                         float sx = values[0];
                         float xc = (view.getWidth() / 2) * sx;
                         float yc = (view.getHeight() / 2) * sx;
-                        matrix.postRotate(r, tx + xc, ty + yc);
+
+                        //TODO: DISATTIVATA ROTAZIONE, riabilitarla gestendo spostamento marker (come in zoom)
+                        // bgMatrix.postRotate(r, tx + xc, ty + yc);
                     }
                 }
                 break;
         }
 
-        view.setImageMatrix(matrix);
+        this.backgroundImgView.setImageMatrix(bgMatrix);
+
+        float[] matrixVal = new float[9];
+        bgMatrix.getValues(matrixVal);
+
+
+
+
+        drawableSpotManager.translate(matrixVal[2], matrixVal[5]);
+        drawableSpotManager.invalidate();
+        drawableSpotManager.storedWrapperDrawable().invalidateSelf();
+        drawableSpotManager.get(0).drawable().invalidateSelf();
+        //TODO: traslating foreground objects, invalidate foreground object container
+
+//        this.ball.x = matrixVal[2];
+//        this.ball.y = matrixVal[5];
+//
+//        this.ball2.x = matrixVal[2];
+//        this.ball2.y = matrixVal[5];
+//        this.drawable.invalidateSelf();
+        //this.foregroundImgView.setImageMatrix(fgMatrix);
+
         return true;
     }
 
