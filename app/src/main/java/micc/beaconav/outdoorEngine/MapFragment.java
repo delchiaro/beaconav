@@ -60,7 +60,6 @@ public class MapFragment extends Fragment
 //        buttonSingleLocation =  (Button) myFragmentView.findViewById(R.id.buttonSingleLocation);
     }
     private void setUpMap() {
-
         map.setCamera(startLatLng, startZoom);
     }
 
@@ -164,8 +163,10 @@ public class MapFragment extends Fragment
         context = this.getActivity();
         setUp();
         setUpEventListeners();
-        map = Map.setupIstance(getGMapFromXML(), manager);
-        setUpMap();
+        if(map == null) {
+            map = Map.setupIstance(getGMapFromXML(), manager);
+            setUpMap();
+        }
     }
 
 
