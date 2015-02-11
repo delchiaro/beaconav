@@ -1,8 +1,6 @@
 package micc.beaconav.indoorEngine.building.spot;
 
 
-import android.graphics.PointF;
-
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.indoorEngine.building.Floor;
@@ -18,18 +16,20 @@ public class Spot extends Contained<SpotManager>
     private float _last_final_scale_factor = 1;
     private float _realtime_scale_factor   = 1;
 
-    private float _translation_indipendent_x = 0;
-    private float _translation_indipendent_y = 0;
+    private float _absolute_x = 0;
+    private float _absolute_y = 0;
 
-    private float _scaled_translation_indipendent_x = _translation_indipendent_x;
-    private float _scaled_translation_indipendent_y = _translation_indipendent_y;
 
-    private float _x = 0;
-    private float _y = 0;
+    private float _translation_x = 0;
+    private float _translation_y = 0;
+
+    private float _scaled_translation_indipendent_x = _absolute_x;
+    private float _scaled_translation_indipendent_y = _absolute_y;
+
 
     private final void _setScaledCoords(){
-        _scaled_translation_indipendent_x = _translation_indipendent_x * _last_final_scale_factor * _realtime_scale_factor;
-        _scaled_translation_indipendent_y = _translation_indipendent_x * _last_final_scale_factor * _realtime_scale_factor;
+        _scaled_translation_indipendent_x = _absolute_x * _last_final_scale_factor * _realtime_scale_factor;
+        _scaled_translation_indipendent_y = _absolute_x * _last_final_scale_factor * _realtime_scale_factor;
     }
 
     /**
@@ -65,22 +65,26 @@ public class Spot extends Contained<SpotManager>
 
     public Spot(){}
     public Spot(float x, float y){
-        this._translation_indipendent_x = x;
-        this._translation_indipendent_y = y;
+        this._absolute_x = x;
+        this._absolute_y = y;
     }
 
 
-    public float x(){ return _translation_indipendent_x; }
-    public float y(){ return _translation_indipendent_y; }
+    public float x(){ return _absolute_x; }
+    public float y(){ return _absolute_y; }
 
     public void x(float x){
-        this._translation_indipendent_x = x;
+        this._absolute_x = x;
     }
     public void y(float y){
-        this._translation_indipendent_y = y;
+        this._absolute_y = y;
     }
 
 
+    public void translate(float x, float y) {
+        this._translation_x += x;
+        this._translation_x += y;
+    }
 
 
 
