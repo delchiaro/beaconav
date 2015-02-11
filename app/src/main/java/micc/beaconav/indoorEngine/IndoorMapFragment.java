@@ -22,10 +22,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import micc.beaconav.R;
+import micc.beaconav.indoorEngine.building.Building;
+import micc.beaconav.indoorEngine.building.ConvexArea;
+import micc.beaconav.indoorEngine.building.Floor;
+import micc.beaconav.indoorEngine.building.Room;
+import micc.beaconav.indoorEngine.building.Vertex;
+import micc.beaconav.indoorEngine.building.spot.ArtSpot;
+import micc.beaconav.indoorEngine.building.spot.DrawableSpot;
+import micc.beaconav.indoorEngine.building.spot.DrawableSpotManager;
 
 
 public class IndoorMapFragment extends Fragment implements View.OnTouchListener  {
 
+
+    private static int PPM = ProportionsHelper.PPM; // pixel per meter
     // these matrices will be used to move and zoom image
     private Matrix bgMatrix = new Matrix();
     private Matrix bgSavedMatrix = new Matrix();
@@ -38,101 +48,9 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
     ImageView foregroundImgView;
 
 
-    Picture pictureBuilding;
-    Picture pictureMarkers;
-
-
     private Matrix buildingMatrix = new Matrix();
-    private Matrix markersMatrix = new Matrix();
 
-
-
-
-
-    private class Ball extends Drawable {
-
-
-        private float old_final_scale_factor = 1;
-        private float real_time_scale_factor = 1;
-
-        private float init_x;
-        private float init_y;
-
-        private float scaled_init_x;
-        private float scaled_init_y;
-
-        public float x = 0;
-        public float y = 0;
-
-        public Ball(int x, int y) {
-            this.init_x = x;
-            this.init_y = y;
-            this.scaled_init_x = init_x;
-            this.scaled_init_y = init_y;
-        }
-
-        private final void setScaledInitCoords(){
-            scaled_init_x = init_x * old_final_scale_factor * real_time_scale_factor;
-            scaled_init_y = init_x * old_final_scale_factor * real_time_scale_factor;
-        }
-
-        /**
-         * Questo metodo deve essere richiamato mentre si sta eseguendo il pinch to zoom.
-         * Servirá per settare un fattore di scala momentaneo in tempo reale senza sovrascrivere
-         * il vecchio valore di scala settato per l'immagine (si andranno a moltiplicare in
-         * tempo reale).
-         * @param scale
-         */
-        public void setOnTouchRealTimeScaleFactor(float scale) {
-            real_time_scale_factor = scale;
-            setScaledInitCoords();
-
-        }
-
-        /**
-         * Questo metodo deve essere richiamato appena termina l'esecuzione del pinch to zoom
-         * (ovvero quando le dita sono staccate dallo schermo, evento ACTION_UP).
-         * Ingloberá il fattore di scala provvisorio nel fattore di scala totale dell'immagine
-         * (che adesso è ferma e non necessita di un costante aggiornamento del fattore di scala)
-         * e resetterá ad 1 (nullo) il fattore di scala in tempo reale.
-         */
-        public void setFinalTouchScaleFactor(){
-            this.old_final_scale_factor *= real_time_scale_factor;
-            this.real_time_scale_factor = 1;
-            setScaledInitCoords();
-        }
-
-
-
-
-
-        @Override
-        public void draw(Canvas canvas) {
-            //fgMatrix.postTranslate(100, 100);
-            Paint paintMarkers = new Paint();
-            paintMarkers.setColor(Color.RED);
-            canvas.drawCircle(scaled_init_x + x, scaled_init_y +y, 25, paintMarkers);
-        }
-
-        @Override
-        public void setAlpha(int alpha) {
-
-        }
-
-        @Override
-        public void setColorFilter(ColorFilter cf) {
-
-        }
-
-        @Override
-        public int getOpacity() {
-            return 0;
-        }
-    };
-
-    Ball ball = new Ball(100, 100);
-    Ball ball2 = new Ball(200, 200);
-    Drawable drawable;
+    DrawableSpotManager drawableSpotManager;
 
     ViewGroup container = null;
 
@@ -153,91 +71,68 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
             backgroundImgView.setScaleType(ImageView.ScaleType.MATRIX);
             foregroundImgView = (ImageView) container.findViewById(R.id.foregroundImageView);
         }
-//        foregroundImgView.setOnTouchListener(this);
-//        foregroundImgView.setScaleType(ImageView.ScaleType.MATRIX);
+
+        // BUILDING DEFINITION
+        Building building = new Building(9*PPM, 9*PPM);
+
+        // FLOOR DEFINITION
+        Floor floor = new Floor(0);
+        building.add(floor);
+
+
+        // ROOM DEFINITION
+        Room room = new Room();
+        floor.add(room);
+        room.addVertex(new Vertex(1,  1),       0);
+        room.addVertex(new Vertex(6,  1),       1);
+        room.addVertex(new Vertex(6,  5),       2);
+        room.addVertex(new Vertex(5,  5.5f),    3);
+        room.addVertex(new Vertex(2,  5.5f),    4);
+        room.addVertex(new Vertex(1,  5),       5);
+
+        // CONVEX AREA DEFINITION
+        ConvexArea area = new ConvexArea();
+        room.add(area);
+        area.addRoomVertex(0);
+        area.addRoomVertex(1);
+        area.addRoomVertex(2);
+        area.addRoomVertex(3);
+        area.addRoomVertex(4);
+        area.addRoomVertex(5);
+        area.isConvex(); // dimostrativo: controllo utilizzabile, adesso non lo utilizziamo.
+
+        // DRAWABLES DEFINITION
+        drawableSpotManager = new DrawableSpotManager(area);
+        drawableSpotManager.add(new ArtSpot(5.5f,   2    ));
+        drawableSpotManager.add(new ArtSpot(4.4f,   4.9f ));
+        drawableSpotManager.add(new ArtSpot(2f,     2f   ));
 
 
 
 
 
-
-        pictureBuilding = new Picture();
-        Paint paintWalls = new Paint();
-        paintWalls.setColor(Color.BLUE);
-
-
-        Path path = new Path();
-        path.moveTo(1, 1);
-        path.lineTo(250, 1);
-        path.lineTo(250, 250);
-        path.lineTo(1, 250);
-        path.lineTo(1, 1);
-
-        Canvas canvasBuilding;
-        canvasBuilding = pictureBuilding.beginRecording(320, 320);
-        canvasBuilding.drawPath(path, paintWalls);
-        //canvasBuilding.restore();
-        pictureBuilding.endRecording();
-
-
-        pictureMarkers = new Picture();
-        Paint paintMarkers = new Paint();
-        paintMarkers.setColor(Color.RED);
-
-        Canvas canvasMarkers;
-        canvasMarkers = pictureMarkers.beginRecording(320, 320);
-        canvasMarkers.drawCircle(0, 0, 25, paintMarkers);
-
-        pictureMarkers.endRecording();
-
-
-
-        drawable = new Drawable() {
-            @Override
-            public void draw(Canvas canvas) {
-                ball2.draw(canvas);
-
-                ball.draw(canvas);
-            }
-
-            @Override
-            public void setAlpha(int alpha) {
-
-            }
-
-            @Override
-            public void setColorFilter(ColorFilter cf) {
-
-            }
-
-            @Override
-            public int getOpacity() {
-                return 0;
-            }
-        };
-
-
-        backgroundImgView.setImageBitmap(generateBackgroundBmp());
-
-        // foregroundImgView.setImageBitmap(generateForegroundBmp());
-        foregroundImgView.setImageDrawable(drawable);
-
-
+        // DRAWING:
+        Bitmap bmp = generateBackgroundBmp(building);
+        backgroundImgView.setImageBitmap(bmp );
+        foregroundImgView.setImageDrawable(drawableSpotManager.newWrapperDrawable());
 
     }
 
 
 
-    public Bitmap generateBackgroundBmp() {
+    public Bitmap generateBackgroundBmp(Building building) {
 
-        Bitmap frame =  Bitmap.createBitmap(320, 320, Bitmap.Config.ARGB_8888);
+        Bitmap frame =  Bitmap.createBitmap((int)building.getWidth(), (int)building.getHeight(), Bitmap.Config.ARGB_8888);
 
         Canvas frameBuildingCanvas = new Canvas(frame);
         frameBuildingCanvas.setMatrix(this.buildingMatrix);
-        pictureBuilding.draw(frameBuildingCanvas);
+        building.draw(frameBuildingCanvas);
 
         return frame;
     }
+
+
+
 
 
 
@@ -260,7 +155,6 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
 
 
     private float scaleFactor = 1;
-
 
     @Override
     public boolean onTouch(View v, MotionEvent event)
@@ -299,8 +193,8 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
                 if(mode == ZOOM) {
-                    ball.setFinalTouchScaleFactor();
-                    ball2.setFinalTouchScaleFactor();
+                    //TODO
+                    drawableSpotManager.holdScalingFactor();
                 }
                 mode = NONE;
                 lastEvent = null;
@@ -330,8 +224,12 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
                         // scala la matrice dello sfondo (mappa)
 
 
-                        ball.setOnTouchRealTimeScaleFactor( newScale );
-                        ball2.setOnTouchRealTimeScaleFactor( newScale );
+
+                        drawableSpotManager.translateByRealtimeScaling(newScale);
+                        //TODO: real time scaling foreground objects
+                        // ball.setOnTouchRealTimeScaleFactor( newScale );
+                        // ball2.setOnTouchRealTimeScaleFactor( newScale );
+
                         // scala la posizione del marker dovuta allo zoom dello sfondo,
                         // in tempo reale senza zoomarlo, in modo che il centro del marker
                         // sia sempre nello stesso punto dello sfondo (mappa) scalato.
@@ -360,13 +258,22 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
         float[] matrixVal = new float[9];
         bgMatrix.getValues(matrixVal);
 
-        this.ball.x = matrixVal[2];
-        this.ball.y = matrixVal[5];
 
-        this.ball2.x = matrixVal[2];
-        this.ball2.y = matrixVal[5];
-        this.drawable.invalidateSelf();
-        this.foregroundImgView.setImageMatrix(fgMatrix);
+
+
+        drawableSpotManager.translate(matrixVal[2], matrixVal[5]);
+        drawableSpotManager.invalidate();
+        drawableSpotManager.storedWrapperDrawable().invalidateSelf();
+        drawableSpotManager.get(0).drawable().invalidateSelf();
+        //TODO: traslating foreground objects, invalidate foreground object container
+
+//        this.ball.x = matrixVal[2];
+//        this.ball.y = matrixVal[5];
+//
+//        this.ball2.x = matrixVal[2];
+//        this.ball2.y = matrixVal[5];
+//        this.drawable.invalidateSelf();
+        //this.foregroundImgView.setImageMatrix(fgMatrix);
 
         return true;
     }

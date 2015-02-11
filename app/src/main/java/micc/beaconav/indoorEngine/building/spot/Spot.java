@@ -1,6 +1,7 @@
 package micc.beaconav.indoorEngine.building.spot;
 
 
+import micc.beaconav.indoorEngine.ProportionsHelper;
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.indoorEngine.building.Floor;
@@ -13,23 +14,34 @@ import micc.beaconav.util.containerContained.Contained;
 public class Spot extends Contained<SpotManager>
 {
 
+    private static float PPM = ProportionsHelper.PPM;
     private float _last_final_scale_factor = 1;
     private float _realtime_scale_factor   = 1;
 
-    private float _absolute_x = 0;
-    private float _absolute_y = 0;
+    private float _absolute_x; //in meters
+    private float _absolute_y;
 
 
     private float _translation_x = 0;
     private float _translation_y = 0;
 
-    private float _scaled_translation_indipendent_x = _absolute_x;
-    private float _scaled_translation_indipendent_y = _absolute_y;
+    private float _scaled_translation_indipendent_x ;
+    private float _scaled_translation_indipendent_y ;
+
+
+    public final float x_for_drawing() {
+        return _scaled_translation_indipendent_x + _translation_x;
+    }
+    public final float y_for_drawing() {
+        return _scaled_translation_indipendent_y + _translation_y;
+    }
+
+
 
 
     private final void _setScaledCoords(){
-        _scaled_translation_indipendent_x = _absolute_x * _last_final_scale_factor * _realtime_scale_factor;
-        _scaled_translation_indipendent_y = _absolute_x * _last_final_scale_factor * _realtime_scale_factor;
+        _scaled_translation_indipendent_x = x_pixel() * _last_final_scale_factor * _realtime_scale_factor;
+        _scaled_translation_indipendent_y = y_pixel() * _last_final_scale_factor * _realtime_scale_factor;
     }
 
     /**
@@ -63,10 +75,16 @@ public class Spot extends Contained<SpotManager>
     //protected IndoorPosition _indoorPosition;
     private ConvexArea _containerConvexArea = null;
 
-    public Spot(){}
+    public Spot(){
+        this(0,0);
+    }
     public Spot(float x, float y){
         this._absolute_x = x;
         this._absolute_y = y;
+        _scaled_translation_indipendent_x = x_pixel();
+        _scaled_translation_indipendent_y = y_pixel();
+
+
     }
 
 
@@ -80,10 +98,12 @@ public class Spot extends Contained<SpotManager>
         this._absolute_y = y;
     }
 
+    public float x_pixel(){ return _absolute_x * PPM; }
+    public float y_pixel(){ return _absolute_y * PPM; }
 
-    public void translate(float x, float y) {
-        this._translation_x += x;
-        this._translation_x += y;
+    public void setTranslation(float x, float y) {
+        this._translation_x = x;
+        this._translation_y = y;
     }
 
 

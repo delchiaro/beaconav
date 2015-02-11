@@ -46,7 +46,7 @@ public class Building extends Container<Floor>
 
 
     public void draw(Canvas canvas, int floorIndex) {
-        floorList.get(floorIndex).draw(canvas);
+        super.get(floorIndex).draw(canvas);
     }
     public void draw(Canvas canvas)
     {

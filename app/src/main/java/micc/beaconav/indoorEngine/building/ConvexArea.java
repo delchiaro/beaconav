@@ -18,7 +18,6 @@ import micc.beaconav.util.containerContained.ContainerContained;
 public class ConvexArea extends ContainerContained<Room, SpotManager<Spot>>
         //extends Drawable
 {
-    private Room _containerRoom;
     private ArrayList<Ingress> _ingresses = new ArrayList<>();
     private ArrayList<Vertex> _vertices = new ArrayList<Vertex>();
 
@@ -28,7 +27,7 @@ public class ConvexArea extends ContainerContained<Room, SpotManager<Spot>>
 
 
     public ConvexArea(){
-        this._containerRoom = null;
+
     }
 
 
@@ -70,8 +69,8 @@ public class ConvexArea extends ContainerContained<Room, SpotManager<Spot>>
         return this._vertices.indexOf(corner);
     }
     public Vertex addRoomVertex(int roomVertexIndex) {
-        Vertex corner = _containerRoom.getVertex(roomVertexIndex);
-        this._vertices.add(_containerRoom.getVertex(roomVertexIndex));
+        Vertex corner = super.getContainer().getVertex(roomVertexIndex);
+        this._vertices.add(super.getContainer().getVertex(roomVertexIndex));
         return corner;
     }
 

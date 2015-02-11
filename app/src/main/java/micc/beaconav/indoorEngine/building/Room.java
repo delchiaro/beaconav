@@ -11,6 +11,7 @@ import android.graphics.PointF;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import micc.beaconav.indoorEngine.ProportionsHelper;
 import micc.beaconav.indoorEngine.drawable.Drawable;
 import micc.beaconav.util.containerContained.ContainerContained;
 
@@ -20,24 +21,25 @@ import micc.beaconav.util.containerContained.ContainerContained;
 public class Room  extends ContainerContained<Floor, ConvexArea>
         //extends Drawable
 {
-    private static final int DPI = 300;
+    private static final int PPM = ProportionsHelper.PPM; // Pixel Per Miter
+    private static final int WALL_WIDTH_CM = 15;
     private Paint wallsPaint;
+    private Paint floorPaint;
 
     private ArrayList<Vertex> _vertices = new ArrayList<Vertex>();
     private ArrayList<ConvexArea> _convexAreas = new ArrayList<>();
-    private Floor _containerFloor;
 
 
 
 	public Room() {
-
-        this._containerFloor = null;
         this.wallsPaint = new Paint();
-
-        wallsPaint.setColor(Color.RED);
-        wallsPaint.setStrokeWidth(DPI/100);
+        wallsPaint.setColor(Color.rgb(94, 97, 76));
+        wallsPaint.setStrokeWidth((PPM*WALL_WIDTH_CM)/100);
         wallsPaint.setStyle(Paint.Style.STROKE);
 
+        this.floorPaint = new Paint();
+        floorPaint.setColor(Color.rgb(228, 232, 202));
+        floorPaint.setStyle(Paint.Style.FILL);
     }
 
 
@@ -59,23 +61,31 @@ public class Room  extends ContainerContained<Floor, ConvexArea>
         {
 
             Vertex firstVertex  = vertexIter.next();
-            wallpath.moveTo(firstVertex.getX(), firstVertex.getY()); // used for first point
+            wallpath.moveTo(firstVertex.getX()* PPM, firstVertex.getY()* PPM); // used for first point
 
-            while (vertexIter.hasNext())
+            if(vertexIter.hasNext())
             {
-                vertex = vertexIter.next();
-                wallpath.lineTo(vertex.getX()* DPI, vertex.getY() * DPI);
+                Vertex secondVertex = vertexIter.next();
+                wallpath.lineTo(secondVertex.getX() * PPM, secondVertex.getY() * PPM);
+
+                while (vertexIter.hasNext()) {
+                    vertex = vertexIter.next();
+                    wallpath.lineTo(vertex.getX() * PPM, vertex.getY() * PPM);
+                }
+                wallpath.lineTo(firstVertex.getX() * PPM, firstVertex.getY() * PPM);
+                wallpath.lineTo(secondVertex.getX() * PPM, secondVertex.getY() * PPM);
+                canvas.drawPath(wallpath, floorPaint);
+                canvas.drawPath(wallpath, wallsPaint);
+
+
+
+                /* Vecchio modo di disegnare: peggio perchè non collega in modo decente gli angoli delle linee
+                    ma ha di pro che ogni linea può avere un suo spessore in teoria, e un suo stile.
+
+                    canvas.drawLine(oldVertex.getX() * DPI, oldVertex.getY() * DPI,
+                    vertex.getX() * DPI, vertex.getY() * DPI, wallsPaint);
+                */
             }
-            wallpath.lineTo(firstVertex.getX()* DPI, firstVertex.getY() * DPI);
-
-            canvas.drawPath(wallpath, wallsPaint);
-
-            /* Vecchio modo di disegnare: peggio perchè non collega in modo decente gli angoli delle linee
-                ma ha di pro che ogni linea può avere un suo spessore in teoria, e un suo stile.
-
-                canvas.drawLine(oldVertex.getX() * DPI, oldVertex.getY() * DPI,
-                vertex.getX() * DPI, vertex.getY() * DPI, wallsPaint);
-            */
         }
 
 

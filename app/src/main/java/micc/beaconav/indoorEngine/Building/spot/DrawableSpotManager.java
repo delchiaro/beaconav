@@ -22,11 +22,7 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
         super(containerConvexArea);
     }
 
-    private final void draw(Canvas canvas) {
-        Iterator<DrawableSpot> spotIter =  super.iterator();
-        while(spotIter.hasNext())
-            spotIter.next().drawable().draw(canvas);
-    }
+
 
     /**
      *  Da richiamare quando si termina il pinch to zoom. Setta la translazione dovuta allo zoom
@@ -34,7 +30,7 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
      *  settato.
      */
     public final void holdScalingFactor() {
-        Iterator<DrawableSpot> spotIter =  super.iterator();
+        Iterator<DrawableSpot> spotIter =  super.getIterator();
         while(spotIter.hasNext())
             spotIter.next().setFinalTouchScaleFactor();
 
@@ -49,7 +45,7 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
      *  che non è influenzata in alcun modo dallo scale factor.
      */
     public final void translateByRealtimeScaling(float realtimeScaleFactor) {
-        Iterator<DrawableSpot> spotIter =  super.iterator();
+        Iterator<DrawableSpot> spotIter =  super.getIterator();
         while(spotIter.hasNext())
             spotIter.next().setOnTouchRealTimeScaleFactor(realtimeScaleFactor);
 
@@ -70,9 +66,9 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
      * @param translation_y
      */
     public final void translate(float translation_x, float translation_y) {
-        Iterator<DrawableSpot> spotIter =  super.iterator();
+        Iterator<DrawableSpot> spotIter =  super.getIterator();
         while(spotIter.hasNext())
-            spotIter.next().translate(translation_x, translation_y);
+            spotIter.next().setTranslation(translation_x, translation_y);
 
         this.invalidate();
     }
@@ -83,11 +79,18 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
     }
 
 
+
     public Drawable newWrapperDrawable(){
         return _wrapperDrawable = new Drawable() {
             @Override
             public void draw(Canvas canvas) {
-                draw(canvas);
+                Iterator<DrawableSpot> spotIter = getIterator();
+                while(spotIter.hasNext())
+                {
+                    Spot spot = spotIter.next();
+                    DrawableSpot dSpot = (DrawableSpot) spot;
+                    dSpot.drawable().draw(canvas);
+                }
             }
 
             @Override
