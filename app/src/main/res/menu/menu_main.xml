@@ -35,6 +35,6 @@
         android:id="@+id/proximity_test"
         android:orderInCategory="600"
         sothree:showAsAction="never"
-        android:title="Proximity Test"/>
+        android:title="Toggle Proximity Test"/>
 
 </menu>

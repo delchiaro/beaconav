@@ -153,12 +153,13 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     @Override
     public void handleProximityNotification(ProximityObject object)
     {
-        if(this.lastProxyMuseum == null || this.lastProxyMuseum != null && this.lastProxyMuseum != object)
+        if(this.fakeProximity)
         {
-            zoomOnLatLng(new LatLng(object.getLatitude(), object.getLongitude()), 16);
-            this.lastProxyMuseum = object;
+            if (this.lastProxyMuseum == null || this.lastProxyMuseum != null && this.lastProxyMuseum != object) {
+                zoomOnLatLng(new LatLng(object.getLatitude(), object.getLongitude()), 16);
+                this.lastProxyMuseum = object;
+            } else lastProxyMuseum = object;
         }
-        else lastProxyMuseum = object;
     }
     public void setFakeProximity(boolean val){
         this.fakeProximity = val;

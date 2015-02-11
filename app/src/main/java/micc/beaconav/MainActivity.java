@@ -371,7 +371,7 @@ public class MainActivity extends ActionBarActivity
             }
             case R.id.proximity_test:
             {
-               FragmentHelper.instance().mapFragment.setFakeProximity();
+               FragmentHelper.instance().mapFragment.toggleFakeProximity();
                return true;
             }
         }

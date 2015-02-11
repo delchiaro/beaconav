@@ -101,7 +101,7 @@ public class MapFragment extends Fragment
 //
 //        buttonProximity.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onClick(View v) { setFakeProximity(v); }
+//            public void onClick(View v) { toggleFakeProximity(v); }
 //        });
     }
 
@@ -111,11 +111,11 @@ public class MapFragment extends Fragment
     }
 
 
-    public void setFakeProximity() {
+    public void toggleFakeProximity() {
         map.resetLastProxyMuseum();
-        if(map.getFakeProximity() == false) {
+        if(map.getFakeProximity() == false)
             map.setFakeProximity(true);
-        }
+        else map.setFakeProximity(false);
 
     }
 
