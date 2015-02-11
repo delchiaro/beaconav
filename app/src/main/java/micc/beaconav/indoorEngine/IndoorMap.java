@@ -7,13 +7,13 @@ import android.graphics.DrawFilter;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 
-import micc.beaconav.indoorEngine.vectorBuilding.Building;
-import micc.beaconav.indoorEngine.vectorBuilding.ConvexArea;
-import micc.beaconav.indoorEngine.vectorBuilding.Floor;
-import micc.beaconav.indoorEngine.vectorBuilding.Room;
+import micc.beaconav.indoorEngine.building.Building;
+import micc.beaconav.indoorEngine.building.ConvexArea;
+import micc.beaconav.indoorEngine.building.Floor;
+import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.localization.IndoorPosition;
 import micc.beaconav.localization.LocalizationManager;
-import micc.beaconav.indoorEngine.vectorBuilding.spot.Spot;
+import micc.beaconav.indoorEngine.building.spot.Spot;
 
 /**
  * Created by Nagash on 22/12/2014.
@@ -83,8 +83,8 @@ public class IndoorMap
     {
         if(destination.getBuildingContainer() == this.building)
         {
-            Floor destinationFloor = destination.getFloorContainer();
-            Room destinationRoom = destination.getRoomContainer();
+            Floor destinationFloor = destination.getContainerFloor();
+            Room destinationRoom = destination.getContainerRoom();
 
 
 

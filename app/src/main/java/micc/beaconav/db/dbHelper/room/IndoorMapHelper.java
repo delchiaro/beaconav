@@ -9,10 +9,10 @@ import java.util.TreeSet;
 
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONDownloader;
-import micc.beaconav.indoorEngine.vectorBuilding.Building;
-import micc.beaconav.indoorEngine.vectorBuilding.ConvexArea;
-import micc.beaconav.indoorEngine.vectorBuilding.Floor;
-import micc.beaconav.indoorEngine.vectorBuilding.Room;
+import micc.beaconav.indoorEngine.building.Building;
+import micc.beaconav.indoorEngine.building.ConvexArea;
+import micc.beaconav.indoorEngine.building.Floor;
+import micc.beaconav.indoorEngine.building.Room;
 
 /**
  * Created by nagash on 08/02/15.
@@ -65,7 +65,7 @@ public class IndoorMapHelper {
                 floors.add(new Floor());
             }
             Room currentRoom = rooms[r].toRoom();
-            roomFloor.addRoom(rooms[r].name.getValue(), currentRoom);
+            roomFloor.add( currentRoom);
 
 
             Iterator<ConvexAreaRow> areaIter = convexAreaSet.iterator();
@@ -76,7 +76,7 @@ public class IndoorMapHelper {
                 else if(areaRow.ID_room.getValue() < rooms[r].ID.getValue()) break;
 
                 ConvexArea currentConvexArea = areaRow.toConvexArea();
-                currentRoom.addConvexArea(currentConvexArea);
+                currentRoom.add(currentConvexArea);
 
                 // TODO: iterare anche su vertex, spot e ingresses.
 

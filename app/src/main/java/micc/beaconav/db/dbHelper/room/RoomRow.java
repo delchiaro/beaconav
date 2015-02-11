@@ -5,7 +5,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatF
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.IntegerField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringField;
-import micc.beaconav.indoorEngine.vectorBuilding.Room;
+import micc.beaconav.indoorEngine.building.Room;
 
 /**
  * Created by nagash on 22/01/15.

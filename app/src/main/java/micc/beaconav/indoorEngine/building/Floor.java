@@ -45,12 +45,4 @@ public class Floor extends ContainerContained<Building, Room>  // extends Drawab
         return super.getContainer();
     }
 
-
-
-
-
-
-
-
-
 }

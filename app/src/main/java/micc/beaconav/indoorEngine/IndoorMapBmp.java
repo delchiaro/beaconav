@@ -7,7 +7,7 @@ import android.graphics.DrawFilter;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 
-import micc.beaconav.indoorEngine.bmpBuilding.Building;
+import micc.beaconav.indoorEngine.building.Building;
 
 /**
  * Created by nagash on 09/02/15.

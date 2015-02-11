@@ -16,8 +16,8 @@ import android.widget.ImageView;
 
 import micc.beaconav.R;
 import micc.beaconav.indoorEngine.IndoorMap;
-import micc.beaconav.indoorEngine.vectorBuilding.Building;
-import micc.beaconav.indoorEngine.vectorBuilding.Floor;
+import micc.beaconav.indoorEngine.building.Building;
+import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.gui.multitouch.gesturedetectors.MoveGestureDetector;
 import micc.beaconav.gui.multitouch.gesturedetectors.RotateGestureDetector;
 
@@ -88,8 +88,8 @@ public class TouchActivity extends Activity implements OnTouchListener
         Floor floor0 = new Floor();
         Floor floor1 = new Floor();
 
-        building.addFloor(floor0, 0);
-        building.addFloor(floor1, 1);
+        building.add(floor0);
+        building.add(floor1);
 
 
         IndoorMap indoorMap = new IndoorMap(building);
@@ -163,8 +163,8 @@ public class TouchActivity extends Activity implements OnTouchListener
         Floor floor0 = new Floor( );
         Floor floor1 = new Floor( );
 
-        building.addFloor(floor0, 0);
-        building.addFloor(floor1, 1);
+        building.add(0, floor0);
+        building.add(1, floor1);
 
 
         IndoorMap indoorMap = new IndoorMap(building);

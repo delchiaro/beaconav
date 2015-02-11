@@ -8,7 +8,7 @@ import android.graphics.PointF;
 import java.util.*;
 
 import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.indoorEngine.vectorBuilding.spot.Spot;
+import micc.beaconav.indoorEngine.building.spot.Spot;
 
 /**
  * 
@@ -66,7 +66,7 @@ public class IndoorPath extends Drawable
             while (spotIter.hasNext())
             {
                 sp2 = spotIter.next();
-                canvas.drawLine(sp1.getX(), sp1.getY(), sp2.getX(), sp2.getY(), this.paint);
+                canvas.drawLine(sp1.x(), sp1.y(), sp2.x(), sp2.y(), this.paint);
                 sp1 = sp2;
             }
         }

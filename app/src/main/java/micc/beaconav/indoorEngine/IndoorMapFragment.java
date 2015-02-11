@@ -26,10 +26,10 @@ import micc.beaconav.db.dbHelper.room.VertexSchema;
 import micc.beaconav.db.dbJSONManager.JSONDownloader;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 
-import micc.beaconav.indoorEngine.building.building.spot.ArtSpot;
-import micc.beaconav.indoorEngine.bmpBuilding.Building;
-import micc.beaconav.indoorEngine.bmpBuilding.Floor;
-import micc.beaconav.indoorEngine.bmpBuilding.Room;
+import micc.beaconav.indoorEngine.building.spot.ArtSpot;
+import micc.beaconav.indoorEngine.building.Building;
+import micc.beaconav.indoorEngine.building.Floor;
+import micc.beaconav.indoorEngine.building.Room;
 
 
 public class IndoorMapFragment extends Fragment implements OnTouchListener, JSONHandler<VertexRow>
@@ -76,26 +76,26 @@ public class IndoorMapFragment extends Fragment implements OnTouchListener, JSON
 
     private void generateFrame()
     {
-        ImageView imgView = (ImageView) getView().findViewById(R.id.imageView);
-        imgView.setOnTouchListener(this);
-
-
-        Bitmap indoorMapTest = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map_test);
-
-        Building building = new Building(2800,2800);
-        Floor floor0 = new Floor(indoorMapTest);
-        building.addFloor(floor0, 0);
-
-        ArtSpot spot1 = new ArtSpot(new PointF(2000, 2000));
-        floor0.drawableSpotManager.addSpot(spot1);
-
-
-
-
-        IndoorMapBmp indoorMap = new IndoorMapBmp(building);
-        Bitmap frameBmp = indoorMap.drawMapBmp();
-        //imgView.setImageDrawable(new BitmapDrawable(getResources(), frameBmp));
-        imgView.setImageBitmap(frameBmp);
+//        ImageView imgView = (ImageView) getView().findViewById(R.id.imageView);
+//        imgView.setOnTouchListener(this);
+//
+//
+//        Bitmap indoorMapTest = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map_test);
+//
+//        Building building = new Building(2800,2800);
+//        Floor floor0 = new Floor(indoorMapTest);
+//        building.add(floor0);
+//
+//        ArtSpot spot1 = new ArtSpot(new PointF(2000, 2000));
+//        floor0.drawableSpotManager.addSpot(spot1);
+//
+//
+//
+//
+//        IndoorMapBmp indoorMap = new IndoorMapBmp(building);
+//        Bitmap frameBmp = indoorMap.drawMapBmp();
+//        //imgView.setImageDrawable(new BitmapDrawable(getResources(), frameBmp));
+//        imgView.setImageBitmap(frameBmp);
 
     }
 

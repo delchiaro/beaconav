@@ -2,7 +2,7 @@ package micc.beaconav.db.dbHelper.room;
 
 import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongField;
-import micc.beaconav.indoorEngine.vectorBuilding.ConvexArea;
+import micc.beaconav.indoorEngine.building.ConvexArea;
 
 /**
  * Created by nagash on 22/01/15.
