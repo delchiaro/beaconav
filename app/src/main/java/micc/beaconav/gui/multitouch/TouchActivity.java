@@ -66,7 +66,7 @@
 //	public void onCreate(Bundle savedInstanceState)
 //    {
 //		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_canvas_test);
+//		setContentView(R.layout.fragment_indoor_map);
 //
 //		// Determine the center of the screen to center 'earth'
 //		Display display = getWindowManager().getDefaultDisplay();
@@ -152,7 +152,7 @@
 //
 //    private void generateFrame()
 //    {
-//        setContentView(R.layout.activity_canvas_test);
+//        setContentView(R.layout.fragment_indoor_map);
 //        ImageView imgView = (ImageView) findViewById(R.id.imageView);
 //        imgView.setOnTouchListener(this);
 //

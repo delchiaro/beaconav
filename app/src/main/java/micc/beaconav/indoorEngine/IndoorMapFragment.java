@@ -2,17 +2,10 @@ package micc.beaconav.indoorEngine;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Picture;
 import android.graphics.PointF;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.FloatMath;
 import android.view.LayoutInflater;
@@ -21,18 +14,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.estimote.sdk.Beacon;
+
+import java.util.List;
+
 import micc.beaconav.R;
+import micc.beaconav.indoorEngine.beaconHelper.BeaconHelper;
+import micc.beaconav.indoorEngine.beaconHelper.BeaconProximityListener;
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.indoorEngine.building.Vertex;
 import micc.beaconav.indoorEngine.building.spot.ArtSpot;
-import micc.beaconav.indoorEngine.building.spot.DrawableSpot;
 import micc.beaconav.indoorEngine.building.spot.DrawableSpotManager;
 
 
-public class IndoorMapFragment extends Fragment implements View.OnTouchListener  {
+public class IndoorMapFragment extends Fragment
+        implements View.OnTouchListener, BeaconProximityListener
+{
 
 
     private static int PPM = ProportionsHelper.PPM; // pixel per meter
@@ -50,15 +50,19 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
 
     private Matrix buildingMatrix = new Matrix();
 
+    IndoorMap indoorMap;
     DrawableSpotManager drawableSpotManager;
 
     ViewGroup container = null;
+    ArtSpot spot1;
+    ArtSpot spot2;
+    ArtSpot spot3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         this.container = container;
-        return inflater.inflate(R.layout.activity_canvas_test, container, false);
+        return inflater.inflate(R.layout.fragment_indoor_map, container, false);
     }
 
     @Override
@@ -103,19 +107,42 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
 
         // DRAWABLES DEFINITION
         drawableSpotManager = new DrawableSpotManager(area);
-        drawableSpotManager.add(new ArtSpot(5.5f,   2    ));
-        drawableSpotManager.add(new ArtSpot(4.4f,   4.9f ));
-        drawableSpotManager.add(new ArtSpot(2f,     2f   ));
+        spot1 = new ArtSpot(5.5f,   2    );
+        spot2 = new ArtSpot(4.4f,   4.9f );
+        spot3 = new ArtSpot(2f,     2f   );
+        drawableSpotManager.add(spot1);
+        drawableSpotManager.add(spot2);
+        drawableSpotManager.add(spot3);
+
+        spot1.toggleSelection();
 
 
+        BeaconHelper beaconHelper = new BeaconHelper(this.getActivity());
+        beaconHelper.addProximityListener(this);
+        beaconHelper.execute();
 
 
 
         // DRAWING:
         Bitmap bmp = generateBackgroundBmp(building);
+
+
+        // disegno background stampando il vettoriale su un bitmap
         backgroundImgView.setImageBitmap(bmp );
+
+        indoorMap = new IndoorMap(building);
+        //backgroundImgView.setImageDrawable(indoorMap); // disegno background in vettoriale
         foregroundImgView.setImageDrawable(drawableSpotManager.newWrapperDrawable());
 
+        translateAll(200, 200);
+    }
+
+    @Override
+    public void OnBeaconProximity(List<Beacon> proximityBeacons) {
+        if(BeaconHelper.isInProximity(proximityBeacons.get(0) ))
+        {
+            spot2.setSelected(true);
+        }
     }
 
 
@@ -134,6 +161,13 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
 
 
 
+    private void translateAll(int x, int y) {
+
+        bgMatrix.postTranslate(x, y);
+        this.backgroundImgView.setImageMatrix(bgMatrix);
+        drawableSpotManager.translate(x, y);
+
+    }
 
 
 
@@ -162,7 +196,24 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
 
         ImageView view = (ImageView) v;
 
-        switch (event.getAction() & MotionEvent.ACTION_MASK)
+        // TODO: adesso disabilitiamo il gestore di eventi touch quando rileviamo 3 o più tocchi!!
+        // in futuro dovremo riabilitarlo. Lo abbiamo disabilitato per evitare un fastidioso bug,
+        // cioè che zoomando con 2 dita e poi toccando con un terzo la posizione degli spot
+        // veniva modificata erroneamente, come se il terzo dito avesse introdotto un altro zoom
+        // che però in realtá non introduce!
+        // Poichè non zooma il bg non dovrebbe influenzare nemmeno il foreground, ma invece lo fa,
+        // verificare perchè lo fa e fare in modo che non influenzi il foreground come non influenza
+        // il background.
+        if (lastEvent != null && event.getPointerCount() >= 3)
+        {
+            if( mode == ZOOM )
+            {
+                drawableSpotManager.holdScalingFactor();
+            }
+            mode = NONE;
+            lastEvent = null;
+        }
+        else switch (event.getAction() & MotionEvent.ACTION_MASK)
         {
             case MotionEvent.ACTION_DOWN:
                 bgSavedMatrix.set(bgMatrix);
@@ -226,29 +277,26 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
 
 
                         drawableSpotManager.translateByRealtimeScaling(newScale);
-                        //TODO: real time scaling foreground objects
-                        // ball.setOnTouchRealTimeScaleFactor( newScale );
-                        // ball2.setOnTouchRealTimeScaleFactor( newScale );
-
                         // scala la posizione del marker dovuta allo zoom dello sfondo,
                         // in tempo reale senza zoomarlo, in modo che il centro del marker
                         // sia sempre nello stesso punto dello sfondo (mappa) scalato.
 
                     }
-                    if (lastEvent != null && event.getPointerCount() == 3) {
-                        newRot = rotation(event);
-                        float r = newRot - d;
-                        float[] values = new float[9];
-                        bgMatrix.getValues(values);
-                        float tx = values[2];
-                        float ty = values[5];
-                        float sx = values[0];
-                        float xc = (view.getWidth() / 2) * sx;
-                        float yc = (view.getHeight() / 2) * sx;
-
-                        //TODO: DISATTIVATA ROTAZIONE, riabilitarla gestendo spostamento marker (come in zoom)
-                        // bgMatrix.postRotate(r, tx + xc, ty + yc);
-                    }
+//
+//                    if (lastEvent != null && event.getPointerCount() == 3) {
+//                        newRot = rotation(event);
+//                        float r = newRot - d;
+//                        float[] values = new float[9];
+//                        bgMatrix.getValues(values);
+//                        float tx = values[2];
+//                        float ty = values[5];
+//                        float sx = values[0];
+//                        float xc = (view.getWidth() / 2) * sx;
+//                        float yc = (view.getHeight() / 2) * sx;
+//
+//                        //TODO: DISATTIVATA ROTAZIONE, riabilitarla gestendo spostamento marker (come in zoom)
+//                        // bgMatrix.postRotate(r, tx + xc, ty + yc);
+//                    }
                 }
                 break;
         }
@@ -262,10 +310,9 @@ public class IndoorMapFragment extends Fragment implements View.OnTouchListener 
 
 
         drawableSpotManager.translate(matrixVal[2], matrixVal[5]);
-        drawableSpotManager.invalidate();
-        drawableSpotManager.storedWrapperDrawable().invalidateSelf();
-        drawableSpotManager.get(0).drawable().invalidateSelf();
-        //TODO: traslating foreground objects, invalidate foreground object container
+        //drawableSpotManager.invalidate();
+
+        //indoorMap.invalidateSelf(); //per disegno mappa indoor in vettoriale
 
 //        this.ball.x = matrixVal[2];
 //        this.ball.y = matrixVal[5];

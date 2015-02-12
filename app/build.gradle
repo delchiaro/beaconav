@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     //compile files('libs/mixarelib.jar')
     compile 'com.getbase:floatingactionbutton:1.7.0'
     compile 'com.android.support:support-v4:21.0.0'
