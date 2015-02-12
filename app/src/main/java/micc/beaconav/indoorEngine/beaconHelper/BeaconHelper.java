@@ -31,6 +31,10 @@ public class BeaconHelper extends AsyncTask<String, String, Void>
     private static BeaconManager  beaconManager = null;
 
 
+    public static boolean isInstanziated() {
+        return (instance != null );
+    }
+
     public static BeaconHelper instance() {
         if(instance == null) instance = new BeaconHelper();
         return instance;
@@ -41,12 +45,35 @@ public class BeaconHelper extends AsyncTask<String, String, Void>
     }
 
 
+
+
     private BeaconHelper() {
         beaconManager = new BeaconManager(context);
     }
 
 
-    private List<BeaconProximityListener> proximityListeners = new ArrayList<>();
+
+    private boolean executionStarted = false;
+
+    public void startScan(){
+        if(executionStarted == true) {
+            stopScan();
+            instance.startScan();
+        }
+        else {
+            executionStarted = true;
+            execute();
+        }
+    }
+    public void stopScan(){
+        Context context = instance.context;
+        instance = new BeaconHelper();
+        init(context);
+
+    }
+
+
+    private static List<BeaconProximityListener> proximityListeners = new ArrayList<>();
     public static List<Beacon> foundBeacons;
 
 

@@ -125,8 +125,9 @@ public class IndoorMapFragment extends Fragment
 
 
         BeaconHelper.init(this.getActivity());
+        BeaconHelper.instance().startScan();
         BeaconHelper.instance().addProximityListener(this);
-        BeaconHelper.instance().execute();
+
 
 
 
