@@ -37,8 +37,6 @@ public class JSONDownloader<TR extends TableRow, TS extends TableSchema<TR>> ext
     long downloadIstant = DOWNLOAD_NOT_STARTED;
 
 
-
-
     HttpParam[] httpParams = null;
 
 
@@ -125,13 +123,29 @@ public class JSONDownloader<TR extends TableRow, TS extends TableSchema<TR>> ext
             params.add(this.httpParams[i]);
 
 
-        JSONObject json = jParser.makeHttpRequest(url, "GET", params);
+        JSONObject json = null;
+        while(json == null)
+        {
+            json = jParser.makeHttpRequest(url, "GET", params);
 
+            if(json == null)
+            {
+                // TODO: notifica l'utente che la connessione internet è assente o il server non è reperibile
+                try
+                {
+                    Thread.sleep(3000); //blocca il thread per 3 secondi prima di riprovare a scaricare
+                }
+                catch (InterruptedException e) { e.printStackTrace(); }
+            }
+        }
 
-        try {
-            jsonArray = json.getJSONArray(schemaName);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if(json != null)
+        {
+            try {
+                jsonArray = json.getJSONArray(schemaName);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -172,15 +186,25 @@ public class JSONDownloader<TR extends TableRow, TS extends TableSchema<TR>> ext
 
 
     protected final void onPostExecute(TR[] result) {
-        this.downloadedRows = result;
-        // this.downloadedRowsList = new ArrayList<TR>(Arrays.asList(result));
 
-        downloadIstant = System.nanoTime();
+        if(result != null) {
+            this.downloadedRows = result;
+            // this.downloadedRowsList = new ArrayList<TR>(Arrays.asList(result));
 
-        Iterator<JSONHandler<TR>> iter = this.handlerList.iterator();
-        while(iter.hasNext())
-            iter.next().onJSONDownloadFinished(result);
+            downloadIstant = System.nanoTime();
+
+            Iterator<JSONHandler<TR>> iter = this.handlerList.iterator();
+            while (iter.hasNext())
+                iter.next().onJSONDownloadFinished(result);
             // richiama i gestori di tutti gli handler
+        }
+        else
+        {
+            // gestire eccezione, notificare utente che non si trova la connessione internet
+            // e riprovare
+            // non dovrebbe mai accadere, il download riprova in loop adesso.
+
+        }
     }
 
 }

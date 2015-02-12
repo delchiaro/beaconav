@@ -65,6 +65,7 @@ public class BeaconHelper extends AsyncTask<String, String, Void>
             }
         });
 
+        if(foundBeacons!= null)
         while(foundBeacons.isEmpty())
         {
             beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
@@ -89,7 +90,7 @@ public class BeaconHelper extends AsyncTask<String, String, Void>
     @Override
     protected Void doInBackground(String... params) {
         try {
-            wait(wait_time_between_scan);
+            Thread.sleep(wait_time_between_scan);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

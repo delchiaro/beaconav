@@ -63,7 +63,7 @@ public class FragmentHelper  implements MuseumMarkerManager
 
 
     public MapFragment       mapFragment = new MapFragment();
-    public IndoorMapFragment indoorMapFragment = new IndoorMapFragment();
+    public IndoorMapFragment indoorMapFragment;
 
 
     public ArtListFragment museumListFragment = new ArtListFragment();
@@ -164,6 +164,7 @@ public class FragmentHelper  implements MuseumMarkerManager
 
 
     public final void showIndoorFragment(MuseumRow museum) {
+        IndoorMapFragment indoorMapFragment = new IndoorMapFragment();// gli dovremmo passare il building, o il museo, o il file json del building
         swapFragment(R.id.fragment_map_container, indoorMapFragment);
         activeMainFragment = MainFragment.INDOOR;
         showArtworkListFragment(museum);
