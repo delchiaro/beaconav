@@ -22,21 +22,13 @@
             android:paddingLeft="12dp"
             android:paddingRight="16dp">
 
-            <!--<TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/museumName"
-                android:layout_alignParentStart="true"
-                android:paddingTop="2dp"
-                android:textColor="@android:color/black"
-                android:textSize="24dp"/>-->
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/descr"
                 android:text="Description"
-                android:textColor="@android:color/darker_gray"/>
+                android:textColor="@android:color/darker_gray"
+                android:paddingTop="8dp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -57,9 +49,80 @@
                 android:id="@+id/gallery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="***Gallery of artpieces here***"
+                android:text="Artpieces Gallery"
                 android:layout_below="@id/museumDescription"
-                android:padding="12dp"/>
+                android:paddingTop="8dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_below="@id/gallery"
+                android:id="@+id/separator2"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/museumArtPieceGallery"
+                android:layout_gravity="center_horizontal"
+                android:layout_below="@id/separator2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/galleryImage"
+                        android:src="@drawable/graphic"
+                        android:padding="2dp"
+                        android:contentDescription="Image"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/galleryImage1"
+                        android:src="@drawable/primavera"
+                        android:padding="2dp"
+                        android:contentDescription="Image 1"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/galleryImage2"
+                        android:src="@drawable/graphic"
+                        android:padding="2dp"
+                        android:contentDescription="Image 2"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/galleryImage3"
+                        android:src="@drawable/primavera"
+                        android:padding="2dp"
+                        android:contentDescription="Image 3"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/galleryImage4"
+                        android:src="@drawable/graphic"
+                        android:padding="2dp"
+                        android:contentDescription="Image 4"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/galleryImage5"
+                        android:src="@drawable/primavera"
+                        android:padding="2dp"
+                        android:contentDescription="Image 5"/>
+
+                </LinearLayout>
+
+
+            </HorizontalScrollView>
 
             <TextView
                 android:id="@+id/indoorMapHere"
@@ -67,21 +130,22 @@
                 android:layout_height="wrap_content"
                 android:text="Museum Map"
                 android:textColor="@android:color/darker_gray"
-                android:layout_below="@id/gallery"/>
+                android:layout_below="@id/museumArtPieceGallery"
+                android:paddingTop="8dp"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"
                 android:layout_below="@id/indoorMapHere"
-                android:id="@+id/separator2"/>
+                android:id="@+id/separator3"/>
 
             <!--in futuro questa immagine dovrà essere presa dal db-->
             <ImageView
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:id="@+id/indoorMapImg"
-                android:layout_below="@id/separator2"
+                android:layout_below="@id/separator3"
                 android:layout_alignParentStart="true"
                 android:layout_marginRight="80dp"
                 android:src="@drawable/indoor_map"/>

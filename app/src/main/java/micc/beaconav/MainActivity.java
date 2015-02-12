@@ -127,7 +127,7 @@ public class MainActivity extends ActionBarActivity
                     }
                 }
 
-                if (slideOffset <= 0.001)
+                if (slideOffset < 0.002)
                 {
                     if (colorAnimationStarted == true )
                     {
@@ -173,7 +173,7 @@ public class MainActivity extends ActionBarActivity
 
                     }
                 }
-                else if (slideOffset <= 0.3)
+                else if (slideOffset < 0.4)
                 {
                     if (fadeOutAnimationStarted == true)
                     {
@@ -212,7 +212,7 @@ public class MainActivity extends ActionBarActivity
 
                 }
 
-                if(slideOffset <= 0.92)
+                if(slideOffset < 0.95)
                 {
                     if(heightAnimationStarted != false)
                     {
