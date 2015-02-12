@@ -6,7 +6,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    android:paddingBottom="32dp"
+    android:paddingBottom="0dp"
     tools:context="micc.beaconav.test.canvasTest.canvasTestActivity">
 
 
@@ -18,7 +18,7 @@
 
 
         <ImageView
-            android:background="#FFB2D4D9"
+            android:background="#FFBF8888"
 
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

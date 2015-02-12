@@ -36,10 +36,13 @@ public class Room  extends ContainerContained<Floor, ConvexArea>
         wallsPaint.setColor(Color.rgb(94, 97, 76));
         wallsPaint.setStrokeWidth((PPM*WALL_WIDTH_CM)/100);
         wallsPaint.setStyle(Paint.Style.STROKE);
+        wallsPaint.setAntiAlias(true);
 
         this.floorPaint = new Paint();
-        floorPaint.setColor(Color.rgb(228, 232, 202));
+        floorPaint.setColor(Color.rgb(255, 248, 176));
         floorPaint.setStyle(Paint.Style.FILL);
+        floorPaint.setAntiAlias(true);
+
     }
 
 

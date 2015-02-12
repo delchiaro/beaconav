@@ -3,9 +3,11 @@ package micc.beaconav.indoorEngine;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.DrawFilter;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
+import android.graphics.drawable.Drawable;
 
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.ConvexArea;
@@ -18,7 +20,7 @@ import micc.beaconav.indoorEngine.building.spot.Spot;
 /**
  * Created by Nagash on 22/12/2014.
  */
-public class IndoorMap
+public class IndoorMap extends Drawable
 {
     private static int PPM = 300; // Pixel Per Meter
 
@@ -58,6 +60,25 @@ public class IndoorMap
         return tempBmp;
     }
 
+    @Override
+    public void draw(Canvas canvas) {
+        building.draw(canvas);
+    }
+
+    @Override
+    public void setAlpha(int alpha) {
+
+    }
+
+    @Override
+    public void setColorFilter(ColorFilter cf) {
+
+    }
+
+    @Override
+    public int getOpacity() {
+        return 0;
+    }
 
 
     class DijkstraSolver {

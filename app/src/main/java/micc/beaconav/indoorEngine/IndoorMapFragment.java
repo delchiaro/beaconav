@@ -2,17 +2,10 @@ package micc.beaconav.indoorEngine;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Picture;
 import android.graphics.PointF;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.FloatMath;
 import android.view.LayoutInflater;
@@ -34,7 +27,6 @@ import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.indoorEngine.building.Vertex;
 import micc.beaconav.indoorEngine.building.spot.ArtSpot;
-import micc.beaconav.indoorEngine.building.spot.DrawableSpot;
 import micc.beaconav.indoorEngine.building.spot.DrawableSpotManager;
 
 
@@ -58,6 +50,7 @@ public class IndoorMapFragment extends Fragment
 
     private Matrix buildingMatrix = new Matrix();
 
+    IndoorMap indoorMap;
     DrawableSpotManager drawableSpotManager;
 
     ViewGroup container = null;
@@ -69,7 +62,7 @@ public class IndoorMapFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         this.container = container;
-        return inflater.inflate(R.layout.activity_canvas_test, container, false);
+        return inflater.inflate(R.layout.fragment_indoor_map, container, false);
     }
 
     @Override
@@ -132,9 +125,16 @@ public class IndoorMapFragment extends Fragment
 
         // DRAWING:
         Bitmap bmp = generateBackgroundBmp(building);
+
+
+        // disegno background stampando il vettoriale su un bitmap
         backgroundImgView.setImageBitmap(bmp );
+
+        indoorMap = new IndoorMap(building);
+        //backgroundImgView.setImageDrawable(indoorMap); // disegno background in vettoriale
         foregroundImgView.setImageDrawable(drawableSpotManager.newWrapperDrawable());
 
+        translateAll(200, 200);
     }
 
     @Override
@@ -161,6 +161,13 @@ public class IndoorMapFragment extends Fragment
 
 
 
+    private void translateAll(int x, int y) {
+
+        bgMatrix.postTranslate(x, y);
+        this.backgroundImgView.setImageMatrix(bgMatrix);
+        drawableSpotManager.translate(x, y);
+
+    }
 
 
 
@@ -303,10 +310,9 @@ public class IndoorMapFragment extends Fragment
 
 
         drawableSpotManager.translate(matrixVal[2], matrixVal[5]);
-        drawableSpotManager.invalidate();
-        drawableSpotManager.storedWrapperDrawable().invalidateSelf();
-        drawableSpotManager.get(0).drawable().invalidateSelf();
-        //TODO: traslating foreground objects, invalidate foreground object container
+        //drawableSpotManager.invalidate();
+
+        //indoorMap.invalidateSelf(); //per disegno mappa indoor in vettoriale
 
 //        this.ball.x = matrixVal[2];
 //        this.ball.y = matrixVal[5];

@@ -28,25 +28,30 @@ public class ArtSpot extends DrawableSpot
             borderPaint.setColor(Color.BLUE);
             borderPaint.setStyle(Paint.Style.STROKE);
             borderPaint.setStrokeWidth(FragmentHelper.dpToPx(4));
+            borderPaint.setAntiAlias(true);
 
             fillPaint = new Paint();
             fillPaint.setColor(Color.WHITE);
             fillPaint.setStyle(Paint.Style.FILL);
+            fillPaint.setAntiAlias(true);
 
 
             borderPaintSelected = new Paint();
             borderPaintSelected.setColor(Color.BLUE);
             borderPaintSelected.setStyle(Paint.Style.STROKE);
             borderPaintSelected.setStrokeWidth(FragmentHelper.dpToPx(7));
+            borderPaintSelected.setAntiAlias(true);
 
             borderPaintSelected2 = new Paint();
             borderPaintSelected2.setColor(Color.WHITE);
             borderPaintSelected2.setStyle(Paint.Style.STROKE);
             borderPaintSelected2.setStrokeWidth(FragmentHelper.dpToPx(4));
+            borderPaintSelected2.setAntiAlias(true);
 
             fillPaintSelected = new Paint();
             fillPaintSelected.setColor(Color.BLUE);
             fillPaintSelected.setStyle(Paint.Style.FILL);
+            fillPaintSelected.setAntiAlias(true);
 //
 //            selectedPicture = new Picture();
 //            Canvas selectedArtSpotCanvas = selectedPicture.beginRecording(900,900);
