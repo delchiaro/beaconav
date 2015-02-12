@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/museumName"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         android:layout_marginLeft="8dp"
         android:textColor="@android:color/white"
         android:textSize="24dp"/>
@@ -29,9 +29,11 @@
             android:id="@+id/back_button2"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="20dp"
+            android:layout_marginLeft="8dp"
             android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/ic_arrow_back_white_48dp"
+            android:drawableLeft="@drawable/ic_arrow_back_white_36dp"
             />
+
 
     </RelativeLayout>
 

@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity
 // * * * * * * * * * * * * COSTANTI (evitiamo i numeri magici) * * * * * * * * * * * * * * * * * *
     final float ANCHOR_POINT = 0.5f;
     final int SLIDING_BAR_EXPANDED_HEIGHT_DP = 120;
-    final int SLIDING_BAR_HEIGHT_DP = 48;
+    final int SLIDING_BAR_HEIGHT_DP = 64;
     final int SEARCH_BAR_PADDING_DP = 8;
     final  int SEARCH_BAR_HIDED_PADDING_DP = -60;
 

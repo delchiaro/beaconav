@@ -18,6 +18,15 @@
             app:dsb_min="1"
             app:dsb_max="15"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search Range:"
+            android:id="@+id/search_radius"
+            android:layout_above="@id/seekBar"
+            android:layout_marginLeft="8dp"
+            android:textColor="@android:color/black"/>
+
 
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_above="@id/seekBar">
+        android:layout_above="@id/search_radius">
 
         <Button
             android:layout_width="wrap_content"
