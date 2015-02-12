@@ -11,6 +11,7 @@ import android.widget.TextView;
 import micc.beaconav.FragmentHelper;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
+import micc.beaconav.outdoorEngine.Map;
 
 public class MuseumNameHeaderFragment extends Fragment {
 
@@ -19,7 +20,7 @@ public class MuseumNameHeaderFragment extends Fragment {
     private Button backBtn = null;
 
     public MuseumNameHeaderFragment() {
-        // Required empty public constructor
+        // Required empty public constructor.
     }
 
     @Override
@@ -40,7 +41,44 @@ public class MuseumNameHeaderFragment extends Fragment {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentHelper.instance().showMuseumListFragment();
+                if(FragmentHelper.instance().getActiveMainFragment() == FragmentHelper.MainFragment.OUTDOOR)
+                {
+                    switch(FragmentHelper.instance().getActiveSlidingFragment()){
+                        case NAVIGATE:
+                            MuseumRow selectedMuseumRow = Map.getIstance().getSelectedMuseumRow();
+                            FragmentHelper.instance().simulateDeselectMuseumOnMapClick();
+                            FragmentHelper.instance().simulateMuseumOnMapClick(selectedMuseumRow);
+                            break;
+
+                        case DETAILS:
+                            FragmentHelper.instance().simulateDeselectMuseumOnMapClick();
+                            FragmentHelper.instance().showMuseumListFragment();
+                            break;
+
+                        case LIST:
+                            // void. Nothing to do!
+                            break;
+
+                    }
+
+                }
+                else if(FragmentHelper.instance().getActiveMainFragment() == FragmentHelper.MainFragment.INDOOR)
+                {
+                    switch(FragmentHelper.instance().getActiveSlidingFragment()){
+                        case NAVIGATE:
+                            break;
+
+                        case DETAILS:
+                            FragmentHelper.instance().showArtworkListFragment(museumRow);
+                            break;
+
+                        case LIST:
+                            FragmentHelper.instance().showOutdoorFragment();
+                            break;
+
+                    }
+                }
+
             }
         });
 

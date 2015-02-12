@@ -148,18 +148,7 @@ public class FragmentHelper  implements MuseumMarkerManager
         activeMainFragment = MainFragment.OUTDOOR;
         mapFragment.setMuseumMarkerManager(this);
         showMuseumListFragment();
-        mainActivity.setFABListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mainActivity.panelAnchored == false) {
-                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
-                    mainActivity.panelAnchored = true;
-                } else {
-                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    mainActivity.panelAnchored = false;
-                }
-            }
-        });
+        mainActivity.setFABListener(defaultFABOnClickListener);
     }
 
 
@@ -196,18 +185,7 @@ public class FragmentHelper  implements MuseumMarkerManager
         showMuseumNameHeaderFragment(museum);
         mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
-        mainActivity.setFABListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mainActivity.panelAnchored == false) {
-                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
-                    mainActivity.panelAnchored = true;
-                } else {
-                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    mainActivity.panelAnchored = false;
-                }
-            }
-        });
+        mainActivity.setFABListener(defaultFABOnClickListener);
     }
 
     public final void showMuseumListFragment() {
@@ -232,18 +210,7 @@ public class FragmentHelper  implements MuseumMarkerManager
 
         mainActivity.setThemeColor(MainActivity.ThemeColor.ORANGE);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
-        mainActivity.setFABListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mainActivity.panelAnchored == false) {
-                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
-                    mainActivity.panelAnchored = true;
-                } else {
-                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    mainActivity.panelAnchored = false;
-                }
-            }
-        });
+        mainActivity.setFABListener(defaultFABOnClickListener);
     }
 
 
@@ -300,6 +267,27 @@ public class FragmentHelper  implements MuseumMarkerManager
         mapFragment.onClickNavigate(v);
     }
 
+    private View.OnClickListener defaultFABOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            switch (mainActivity.getSlidingUpPanelLayout().getPanelState())
+            {
+
+                case COLLAPSED:
+                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+
+                case ANCHORED:
+                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+
+                case EXPANDED:
+                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+
+            }
+        }
+
+    };
+
 
 
     //Metodo per lo swap di fragments
@@ -321,4 +309,12 @@ public class FragmentHelper  implements MuseumMarkerManager
         return px;
     }
 
+
+    public MainFragment getActiveMainFragment() {
+        return activeMainFragment;
+    }
+
+    public SlidingFragment getActiveSlidingFragment() {
+        return activeSlidingFragment;
+    }
 }
