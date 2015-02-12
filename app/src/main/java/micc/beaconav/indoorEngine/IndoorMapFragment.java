@@ -124,10 +124,9 @@ public class IndoorMapFragment extends Fragment
         spot1.toggleSelection();
 
 
-        BeaconHelper.init(this.getActivity());
-        BeaconHelper.instance().startScan();
-        BeaconHelper.instance().addProximityListener(this);
-
+        BeaconHelper beaconHelper = new BeaconHelper(this.getActivity());
+        beaconHelper.addProximityListener(this);
+        beaconHelper.execute();
 
 
 

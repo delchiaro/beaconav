@@ -26,28 +26,15 @@ public class BeaconHelper extends AsyncTask<String, String, Void>
     private static final Region ALL_ESTIMOTE_BEACONS = new Region("rid", ESTIMOTE_PROXIMITY_UUID, null, null);
 
 
-    private static BeaconHelper instance = null;
-    private static Context context = null;
-    private static BeaconManager  beaconManager = null;
-
-
-    public static boolean isInstanziated() {
-        return (instance != null );
-    }
-
-    public static BeaconHelper instance() {
-        if(instance == null) instance = new BeaconHelper();
-        return instance;
-    }
-    public static void init(Context context) {
-        if(BeaconHelper.context == null)
-            BeaconHelper.context = context;
-    }
+    private BeaconHelper instance = null;
+    private Context context = null;
+    private BeaconManager  beaconManager = null;
 
 
 
 
-    private BeaconHelper() {
+    public BeaconHelper(Context context) {
+        this.context = context;
         beaconManager = new BeaconManager(context);
     }
 
@@ -55,26 +42,10 @@ public class BeaconHelper extends AsyncTask<String, String, Void>
 
     private boolean executionStarted = false;
 
-    public void startScan(){
-        if(executionStarted == true) {
-            stopScan();
-            instance.startScan();
-        }
-        else {
-            executionStarted = true;
-            execute();
-        }
-    }
-    public void stopScan(){
-        Context context = instance.context;
-        instance = new BeaconHelper();
-        init(context);
-
-    }
 
 
-    private static List<BeaconProximityListener> proximityListeners = new ArrayList<>();
-    public static List<Beacon> foundBeacons;
+    private List<BeaconProximityListener> proximityListeners = new ArrayList<>();
+    public List<Beacon> foundBeacons;
 
 
 
