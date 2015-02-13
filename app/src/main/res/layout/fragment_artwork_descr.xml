@@ -21,13 +21,22 @@
             android:paddingLeft="12dp"
             android:paddingRight="16dp">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/artworkImage"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="8dp"
+                android:src="@drawable/raphael_madonna_goldfinch"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/descr1"
                 android:text="Description"
                 android:textColor="@android:color/darker_gray"
-                android:paddingTop="8dp"/>
+                android:paddingTop="8dp"
+                android:layout_below="@id/artworkImage"/>
 
             <View
                 android:layout_width="match_parent"
@@ -71,6 +80,5 @@
         </RelativeLayout>
 
     </ScrollView>
-
 
 </RelativeLayout>
