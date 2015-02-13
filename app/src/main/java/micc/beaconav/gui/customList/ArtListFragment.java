@@ -24,6 +24,8 @@ import micc.beaconav.db.dbJSONManager.JSONHandler;
 /**
 * Created by Mr_Holmes on 21/01/15.
 */
+
+
 public class ArtListFragment extends Fragment
 {
 
@@ -100,6 +102,5 @@ public class ArtListFragment extends Fragment
             listInflated = true;
         }
     }
-
 
 }
