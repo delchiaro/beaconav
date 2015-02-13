@@ -18,7 +18,7 @@
 
 
         <ImageView
-            android:background="#FFBF8888"
+            android:background="#FFB6D6C8"
 
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

@@ -10,7 +10,6 @@ import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.drawable.Drawable;
 
 import micc.beaconav.indoorEngine.building.Building;
-import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.localization.IndoorPosition;
@@ -54,7 +53,7 @@ public class IndoorMap extends Drawable
         while(iter.hasNext())
         {
 
-            iter.next().draw(tempCanvas);
+            iter.next().drawWalls(tempCanvas);
         }
 */
         return tempBmp;
@@ -88,12 +87,12 @@ public class IndoorMap extends Drawable
     }
 
     class DijkstraArea {
-        ConvexArea area;
+        Room room;
         float pesoMinimo = Float.MAX_VALUE;
         DijkstraArea predecessor = null;
 
-        public DijkstraArea(ConvexArea area) {
-            this.area = area;
+        public DijkstraArea(Room room) {
+            this.room = room;
         }
 
 

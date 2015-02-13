@@ -22,7 +22,6 @@ import micc.beaconav.R;
 import micc.beaconav.indoorEngine.beaconHelper.BeaconHelper;
 import micc.beaconav.indoorEngine.beaconHelper.BeaconProximityListener;
 import micc.beaconav.indoorEngine.building.Building;
-import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.indoorEngine.building.Vertex;
@@ -77,7 +76,7 @@ public class IndoorMapFragment extends Fragment
         }
 
         // BUILDING DEFINITION
-        Building building = new Building(9*PPM, 9*PPM);
+        Building building = new Building(50*PPM, 50*PPM);
 
         // FLOOR DEFINITION
         Floor floor = new Floor(0);
@@ -85,28 +84,38 @@ public class IndoorMapFragment extends Fragment
 
 
         // ROOM DEFINITION
-        Room room = new Room();
-        floor.add(room);
-        room.addVertex(new Vertex(1,  1),       0);
-        room.addVertex(new Vertex(6,  1),       1);
-        room.addVertex(new Vertex(6,  5),       2);
-        room.addVertex(new Vertex(5,  5.5f),    3);
-        room.addVertex(new Vertex(2,  5.5f),    4);
-        room.addVertex(new Vertex(1,  5),       5);
+        Room corridoio = new Room();
+        floor.add(corridoio);
 
-        // CONVEX AREA DEFINITION
-        ConvexArea area = new ConvexArea();
-        room.add(area);
-        area.addRoomVertex(0);
-        area.addRoomVertex(1);
-        area.addRoomVertex(2);
-        area.addRoomVertex(3);
-        area.addRoomVertex(4);
-        area.addRoomVertex(5);
-        area.isConvex(); // dimostrativo: controllo utilizzabile, adesso non lo utilizziamo.
+        corridoio.pushWall(new PointF(1f,   1f));
+        corridoio.pushWall(new PointF(4.5f, 1f));
+        corridoio.pushWall(new PointF(4.5f, 30f));
+        corridoio.pushWall(new PointF(1f,   30f));
+
+        Room ingresso1 = new Room();
+        floor.add(ingresso1);
+        ingresso1.pushWall(new PointF(4.5f, 25f));
+        ingresso1.pushWall(new PointF(7.5f, 25f));
+            ingresso1.pushAperture(new PointF(7.5f, 26f));
+            ingresso1.pushWall(new PointF(7.5f, 27.5f));
+        ingresso1.pushWall(new PointF(7.5f, 30f));
+        ingresso1.pushWall(new PointF(4.5f, 30f));
+            ingresso1.pushAperture(new PointF(4.5f, 27.5f));
+            ingresso1.pushWall(new PointF(4.5f, 26f));
+
+
+
+        Room stanzaFerracani = new Room();
+        floor.add(stanzaFerracani);
+        stanzaFerracani.pushWall(new PointF(7.5f, 25f));
+        stanzaFerracani.pushWall(new PointF(13f,  25f));
+        stanzaFerracani.pushWall(new PointF(13f,  30f));
+        stanzaFerracani.pushWall(new PointF(7.5f, 30f));
+
+
 
         // DRAWABLES DEFINITION
-        drawableSpotManager = new DrawableSpotManager(area);
+        drawableSpotManager = new DrawableSpotManager(corridoio);
         spot1 = new ArtSpot(5.5f,   2    );
         spot2 = new ArtSpot(4.4f,   4.9f );
         spot3 = new ArtSpot(2f,     2f   );
@@ -119,7 +128,8 @@ public class IndoorMapFragment extends Fragment
 
         BeaconHelper beaconHelper = new BeaconHelper(this.getActivity());
         beaconHelper.addProximityListener(this);
-        beaconHelper.execute();
+        beaconHelper.scanBeacons();
+        //beaconHelper.execute();
 
 
 
@@ -138,10 +148,12 @@ public class IndoorMapFragment extends Fragment
     }
 
     @Override
-    public void OnBeaconProximity(List<Beacon> proximityBeacons) {
+    public void OnBeaconProximity(List<Beacon> proximityBeacons)
+    {
         if(BeaconHelper.isInProximity(proximityBeacons.get(0) ))
         {
             spot2.setSelected(true);
+            spot2.drawable().invalidateSelf();
         }
     }
 

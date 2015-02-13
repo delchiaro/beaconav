@@ -24,7 +24,7 @@ import android.support.annotation.NonNull;
 
 /**
  * Simple {@link org.adw.library.widgets.discreteseekbar.internal.drawable.StateDrawable} implementation
- * to draw circles/ovals
+ * to drawWalls circles/ovals
  *
  * @hide
  */

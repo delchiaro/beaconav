@@ -111,7 +111,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         // Instantiates a new CircleOptions object and defines the center and radius
         circleOptions = new CircleOptions()
                 .center(new LatLng(37.4, -122.1))
-                .radius(1000)// In meters
+                .radius(0)// In meters
                 .strokeColor(Color.parseColor("#FF9800"))
                 .strokeWidth(5)
                 .fillColor(Color.parseColor("#20FFA726"));
@@ -342,11 +342,6 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
     }
 
-    public Map setRadius(int radius)
-    {
-        circle.setRadius(radius);
-        return this;
-    }
 
 
 

@@ -20,7 +20,6 @@ public abstract class DrawableSpot extends Spot
     public Drawable drawable(){ return this._drawable; }
 
 
-
     protected abstract Drawable generateDrawable();
 
 }

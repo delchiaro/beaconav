@@ -15,7 +15,7 @@ import micc.beaconav.FragmentHelper;
 /**
  * Created by nagash on 09/02/15.
  */
-public class ArtSpot extends DrawableSpot
+public class ArtSpot extends MarkerSpot
 {
     private boolean selected = false;
 

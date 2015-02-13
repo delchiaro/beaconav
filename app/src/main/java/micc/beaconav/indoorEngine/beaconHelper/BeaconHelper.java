@@ -1,9 +1,13 @@
 package micc.beaconav.indoorEngine.beaconHelper;
 
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.RemoteException;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
@@ -19,33 +23,68 @@ import micc.beaconav.FragmentHelper;
  * Created by Mr_Holmes on 11/02/15.
  */
 
-public class BeaconHelper extends AsyncTask<String, String, Void>
+public class BeaconHelper
 {
     private static final int wait_time_between_scan = 1000;
     private static final String ESTIMOTE_PROXIMITY_UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
-    private static final Region ALL_ESTIMOTE_BEACONS = new Region("rid", ESTIMOTE_PROXIMITY_UUID, null, null);
+    private static final Region ALL_ESTIMOTE_BEACONS = new Region("rid", null, null, null);
 
 
     private BeaconHelper instance = null;
-    private Context context = null;
+    private final Context context;
+    private final Activity activity;
     private BeaconManager  beaconManager = null;
-
-
-
-
-    public BeaconHelper(Context context) {
-        this.context = context;
-        beaconManager = new BeaconManager(context);
-    }
-
-
-
-    private boolean executionStarted = false;
-
 
 
     private List<BeaconProximityListener> proximityListeners = new ArrayList<>();
     public List<Beacon> foundBeacons;
+
+
+    private static final int REQUEST_ENABLE_BT = 1234;
+
+    public BeaconHelper(Activity activity) {
+        this.context = activity;
+        this.activity = activity;
+        beaconManager = new BeaconManager(activity);
+
+
+
+
+
+        final Activity myActivity = activity;
+
+
+        beaconManager.setRangingListener(new BeaconManager.RangingListener()
+        {
+
+            @Override
+            public void onBeaconsDiscovered(Region region, final List<Beacon> beacons) {
+                myActivity.runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        foundBeacons = beacons;
+                        if (beacons != null && beacons.size() > 0)
+                        {
+                            int nListeners = proximityListeners.size();
+                            for (int i = 0; i < nListeners; i++)
+                            {
+                                proximityListeners.get(i).OnBeaconProximity(beacons);
+                            }
+                        }
+                    }
+                });
+
+            }
+        });
+
+
+
+    }
+
+
+
 
 
 
@@ -54,56 +93,42 @@ public class BeaconHelper extends AsyncTask<String, String, Void>
         this.proximityListeners.add(listener);
     }
 
-    public List<Beacon> scanBeacons() {
+    public void scanBeacons()
+    {
 
-        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
-            @Override
-            public void onBeaconsDiscovered(Region region, List<Beacon> beacons) {
-                foundBeacons = beacons;
-            }
-        });
 
-        if(foundBeacons!= null)
-        while(foundBeacons.isEmpty())
-        {
-            beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-                @Override
-                public void onServiceReady() {
-                    try {
-                        beaconManager.startRanging(ALL_ESTIMOTE_BEACONS);
-                    } catch (RemoteException e) {
-                        Log.e("TAG", "Cannot start ranging", e);
-                    }
-                }
-            });
+        if(! beaconManager.hasBluetooth()) {
+            Toast.makeText(context, "Device does not have bluetooth low energy", Toast.LENGTH_LONG).show();
         }
-        beaconManager.disconnect();
-        return foundBeacons;
+        if(!beaconManager.isBluetoothEnabled())
+        {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+        else
+        {
+            connect();
+        }
+
+
     }
 
-
-
-
-
-    @Override
-    protected Void doInBackground(String... params) {
-        try {
-            Thread.sleep(wait_time_between_scan);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        List<Beacon> scannedBeacons = scanBeacons();
-
-        if(scannedBeacons != null && scannedBeacons.size() > 0 )
-        {
-            int nListeners = proximityListeners.size();
-            for(int i = 0; i < nListeners; i++ )
-            {
-                proximityListeners.get(i).OnBeaconProximity(scannedBeacons);
+    private void connect()
+    {
+        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                try {
+                    beaconManager.startRanging(ALL_ESTIMOTE_BEACONS);
+                } catch (RemoteException e) {
+                    Log.e("TAG", "Cannot start ranging", e);
+                }
             }
-        }
+        });
+    }
 
-        return null;
+    public void stopScan() {
+        beaconManager.disconnect();
     }
 
 

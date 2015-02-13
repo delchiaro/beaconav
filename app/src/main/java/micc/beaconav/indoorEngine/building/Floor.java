@@ -1,13 +1,10 @@
 package micc.beaconav.indoorEngine.building;
 
 import android.graphics.Canvas;
-import android.graphics.ColorFilter;
 import android.graphics.PointF;
 
 import java.util.Iterator;
-import java.util.TreeMap;
 
-import micc.beaconav.indoorEngine.drawable.Drawable;
 import micc.beaconav.util.containerContained.ContainerContained;
 
 
@@ -35,10 +32,21 @@ public class Floor extends ContainerContained<Building, Room>  // extends Drawab
 
 
     public void draw(Canvas canvas) {
+
         Iterator<Room> roomIter = super.getIterator();
-        while(roomIter.hasNext()) {
-            roomIter.next().draw(canvas, padding); //delego disegno ad ogni stanza
+        while(roomIter.hasNext())
+        {
+            roomIter.next().drawWalls(canvas, padding); //delego disegno ad ogni stanza
         }
+
+
+        roomIter = super.getIterator();
+        while(roomIter.hasNext())
+        {
+            roomIter.next().drawDoorsAndAperture(canvas, padding); //delego disegno ad ogni stanza
+        }
+
+
     }
 
     public final Building getContainerBuilding() {

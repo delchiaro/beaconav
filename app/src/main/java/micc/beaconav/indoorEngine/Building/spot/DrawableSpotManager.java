@@ -6,20 +6,21 @@ import android.graphics.drawable.Drawable;
 
 import java.util.Iterator;
 
-import micc.beaconav.indoorEngine.building.ConvexArea;
+import micc.beaconav.indoorEngine.building.Room;
+
 
 /**
  * Created by nagash on 11/02/15.
  */
-public class DrawableSpotManager extends SpotManager<DrawableSpot>
+public class DrawableSpotManager<DS extends DrawableSpot> extends SpotManager<DS>
 {
 
 
     private Drawable _wrapperDrawable = null;
 
 
-    public DrawableSpotManager(ConvexArea containerConvexArea) {
-        super(containerConvexArea);
+    public DrawableSpotManager(Room containerRoom) {
+        super(containerRoom);
     }
 
 
@@ -30,7 +31,7 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
      *  settato.
      */
     public final void holdScalingFactor() {
-        Iterator<DrawableSpot> spotIter =  super.getIterator();
+        Iterator<DS> spotIter =  super.getIterator();
         while(spotIter.hasNext())
             spotIter.next().setFinalTouchScaleFactor();
 
@@ -45,7 +46,7 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
      *  che non è influenzata in alcun modo dallo scale factor.
      */
     public final void translateByRealtimeScaling(float realtimeScaleFactor) {
-        Iterator<DrawableSpot> spotIter =  super.getIterator();
+        Iterator<DS> spotIter =  super.getIterator();
         while(spotIter.hasNext())
             spotIter.next().setOnTouchRealTimeScaleFactor(realtimeScaleFactor);
 
@@ -66,7 +67,7 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
      * @param translation_y
      */
     public final void translate(float translation_x, float translation_y) {
-        Iterator<DrawableSpot> spotIter =  super.getIterator();
+        Iterator<DS> spotIter =  super.getIterator();
         while(spotIter.hasNext())
             spotIter.next().setTranslation(translation_x, translation_y);
 
@@ -84,7 +85,7 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
         return _wrapperDrawable = new Drawable() {
             @Override
             public void draw(Canvas canvas) {
-                Iterator<DrawableSpot> spotIter = getIterator();
+                Iterator<DS> spotIter = getIterator();
                 while(spotIter.hasNext())
                 {
                     Spot spot = spotIter.next();

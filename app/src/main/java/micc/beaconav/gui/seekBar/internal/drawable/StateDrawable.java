@@ -89,7 +89,7 @@ public abstract class StateDrawable extends Drawable {
     /**
      * Subclasses should implement this method to do the actual drawing
      *
-     * @param canvas The current {@link android.graphics.Canvas} to draw into
+     * @param canvas The current {@link android.graphics.Canvas} to drawWalls into
      * @param paint  The {@link android.graphics.Paint} preconfigurred with the current
      *               {@link android.content.res.ColorStateList} color
      */

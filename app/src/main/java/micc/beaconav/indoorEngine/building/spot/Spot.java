@@ -3,7 +3,6 @@ package micc.beaconav.indoorEngine.building.spot;
 
 import micc.beaconav.indoorEngine.ProportionsHelper;
 import micc.beaconav.indoorEngine.building.Building;
-import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.util.containerContained.Contained;
@@ -71,10 +70,6 @@ public class Spot extends Contained<SpotManager>
 
 
 
-
-    //protected IndoorPosition _indoorPosition;
-    private ConvexArea _containerConvexArea = null;
-
     public Spot(){
         this(0,0);
     }
@@ -109,8 +104,7 @@ public class Spot extends Contained<SpotManager>
 
 
     public SpotManager<Spot> getContainerManager()    { return super.getContainer(); }
-    public ConvexArea        getConvexAreaContainer() { return getContainerManager().getContainer(); }
-    public Room              getContainerRoom()       { return getConvexAreaContainer().getContainerRoom(); }
+    public Room              getContainerRoom()       { return getContainerManager().getContainerRoom(); }
     public Floor             getContainerFloor()      { return getContainerRoom().getContainerFloor(); }
     public Building          getBuildingContainer()   { return getContainerFloor().getContainerBuilding(); }
 
