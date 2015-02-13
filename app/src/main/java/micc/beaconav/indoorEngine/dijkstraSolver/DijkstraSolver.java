@@ -55,16 +55,19 @@ public class DijkstraSolver< NC extends DijkstraNodeAdapter> {
 
         start.getDijkstraStatistic().setAsStartPoint();
 
-        List<DijkstraNodeAdapter> adjacent = start.getAdjacent();
+        List<? extends DijkstraNodeAdapter> adjacent = start.getAdjacent();
         for(DijkstraNodeAdapter node : adjacent)
         {
+            if(nodeAdapterVisited.contains(node)==false)
+            {
+                nodeAdapterVisited.add(node);
+                node.getDijkstraStatistic().reset();
+            }
             if( trySetPredecessor(node, start) )
             {
                 frontiera.add(node);
-                nodeAdapterVisited.add(node);
             }
-            else return null;
-            // dovrebbe essere sempre true alla partenza, altrimenti significa che le statistiche sono state manomesse
+            else return null;   // dovrebbe essere sempre true alla partenza
         }
 
 
@@ -75,6 +78,12 @@ public class DijkstraSolver< NC extends DijkstraNodeAdapter> {
 
             for(DijkstraNodeAdapter node : bestInFrontiera.getAdjacent())
             {
+                if(nodeAdapterVisited.contains(node)==false)
+                {
+                    nodeAdapterVisited.add(node);
+                    node.getDijkstraStatistic().reset();
+                }
+
                 if( trySetPredecessor(node, bestInFrontiera) ) {
                     frontiera.add(node);
                     nodeAdapterVisited.add(node);

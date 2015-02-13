@@ -8,7 +8,7 @@ import java.util.List;
 public interface DijkstraNodeAdapter {
 
     public double getArchWeight(DijkstraNodeAdapter adjacentNodeAdapter);
-    public List<DijkstraNodeAdapter> getAdjacent();
+    public List<? extends DijkstraNodeAdapter> getAdjacent();
 
 
     public DijkstraStatistics getDijkstraStatistic();
