@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,49 +74,43 @@
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:id="@+id/galleryImage"
-                        android:src="@drawable/graphic"
-                        android:padding="2dp"
-                        android:contentDescription="Image"/>
+                        android:src="@drawable/caravaggio_bacco"
+                        android:padding="2dp"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:id="@+id/galleryImage1"
                         android:src="@drawable/primavera"
-                        android:padding="2dp"
-                        android:contentDescription="Image 1"/>
+                        android:padding="2dp"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:id="@+id/galleryImage2"
-                        android:src="@drawable/graphic"
-                        android:padding="2dp"
-                        android:contentDescription="Image 2"/>
+                        android:src="@drawable/ognissanti_giotto"
+                        android:padding="2dp"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:id="@+id/galleryImage3"
-                        android:src="@drawable/primavera"
-                        android:padding="2dp"
-                        android:contentDescription="Image 3"/>
+                        android:src="@drawable/lippi_madonna_child_angels"
+                        android:padding="2dp"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:id="@+id/galleryImage4"
-                        android:src="@drawable/graphic"
-                        android:padding="2dp"
-                        android:contentDescription="Image 4"/>
+                        android:src="@drawable/raphael_madonna_goldfinch"
+                        android:padding="2dp"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:id="@+id/galleryImage5"
-                        android:src="@drawable/primavera"
-                        android:padding="2dp"
-                        android:contentDescription="Image 5"/>
+                        android:src="@drawable/graphic"
+                        android:padding="2dp"/>
 
                 </LinearLayout>
 

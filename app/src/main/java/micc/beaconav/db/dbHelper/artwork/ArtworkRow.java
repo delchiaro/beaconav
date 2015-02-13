@@ -28,11 +28,18 @@ public class ArtworkRow extends TableRow<ArtworkSchema> implements IArtRow
 
     @Override
     public String getName() {
-        return title.getValue();
+        //return title.getValue();
+        return "Nome Opera";
     }
     @Override
     public String getDescription() {
-        return descr.getValue();
+        //return descr.getValue();
+        return "Cecì n'est pas une description.";
+    }
+
+    public String getArtistName()
+    {
+        return "Nome Artista";
     }
 
     @Override

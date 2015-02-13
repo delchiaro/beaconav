@@ -9,13 +9,15 @@ import android.view.View;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import micc.beaconav.db.dbHelper.DbManager;
+import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 import micc.beaconav.gui.backPressedListeners.OnBackPressedListener;
 import micc.beaconav.gui.customList.ArtListFragment;
+import micc.beaconav.gui.customList.ArtworkDescrFragment;
 import micc.beaconav.gui.customList.MuseumDescrFragment;
-import micc.beaconav.gui.customSlidingHeader.MuseumNameHeaderFragment;
+import micc.beaconav.gui.customSlidingHeader.NameHeaderFragment;
 import micc.beaconav.gui.customSlidingHeader.SeekBarHeaderFragment;
 import micc.beaconav.indoorEngine.IndoorMapFragment;
 import micc.beaconav.outdoorEngine.Map;
@@ -68,11 +70,12 @@ public class FragmentHelper  implements MuseumMarkerManager
 
     public ArtListFragment museumListFragment = new ArtListFragment();
     public ArtListFragment artworkListFragment = new ArtListFragment();
-    private MuseumRow artworkList_museumRow = null;
+    public MuseumRow artworkList_museumRow = null;
 
     public MuseumDescrFragment museumDescrFragment = new MuseumDescrFragment();
+    public ArtworkDescrFragment artworkDescrFragment = new ArtworkDescrFragment();
     public SeekBarHeaderFragment seekBarHeaderFragment = new SeekBarHeaderFragment();
-    public MuseumNameHeaderFragment museumNameHeaderFragment = new MuseumNameHeaderFragment();
+    public NameHeaderFragment nameHeaderFragment = new NameHeaderFragment();
 
 
 
@@ -183,7 +186,7 @@ public class FragmentHelper  implements MuseumMarkerManager
 
         activeSlidingFragment = SlidingFragment.LIST;
         swapFragment(R.id.fragment_list_container, artworkListFragment);
-        showMuseumNameHeaderFragment(museum);
+        showNameHeaderFragment(museum);
         mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
         mainActivity.setFABListener(defaultFABOnClickListener);
@@ -212,17 +215,30 @@ public class FragmentHelper  implements MuseumMarkerManager
         mainActivity.setThemeColor(MainActivity.ThemeColor.ORANGE);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
         mainActivity.setFABListener(defaultFABOnClickListener);
+
     }
 
 
     public final void showMuseumDetailsFragment(final MuseumRow row) {
         activeSlidingFragment = SlidingFragment.DETAILS;
 
-        showMuseumNameHeaderFragment(row);
+        showNameHeaderFragment(row);
         swapFragment(R.id.fragment_list_container, museumDescrFragment);
         museumDescrFragment.setMuseumRow(row);
         mainActivity.setThemeColor(MainActivity.ThemeColor.PURPLE);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.ic_directions_white_48dp));
+
+    }
+
+    public final void showArtworkDetailsFragment(final ArtworkRow row)
+    {
+        activeSlidingFragment = SlidingFragment.DETAILS;
+
+        showNameHeaderFragment(row);
+        swapFragment(R.id.fragment_list_container, artworkDescrFragment);
+        artworkDescrFragment.setArtworkRow(row);
+        mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
+        //settare il bottone per la navigazione verso l'opera
 
     }
 
@@ -231,10 +247,11 @@ public class FragmentHelper  implements MuseumMarkerManager
     private final void showSeekbarHeaderFragment() {
         swapFragment(R.id.fragment_sliding_header_container, seekBarHeaderFragment);
     }
-    private final void showMuseumNameHeaderFragment(final MuseumRow row) {
-        swapFragment(R.id.fragment_sliding_header_container, museumNameHeaderFragment);
-        museumNameHeaderFragment.setMuseumRow(row);
+    private final void showNameHeaderFragment(final IArtRow row) {
+        swapFragment(R.id.fragment_sliding_header_container, nameHeaderFragment);
+        nameHeaderFragment.setArtRow(row);
     }
+
 
 
     //+++++++++++++++++++++++++METODI BEHAVIORAL+++++++++++++++++++++++++++++++//
@@ -260,7 +277,7 @@ public class FragmentHelper  implements MuseumMarkerManager
 
     public final void simulateMuseumOnMapClick(final MuseumRow row){
         Map.getIstance().simulateMuseumClick(row);
-        // showMuseumNameHeaderFragment(row);
+        // showNameHeaderFragment(row);
     }
 
     public final void navigateToMuseumOnBtnClick(final MuseumRow row, View v) {
