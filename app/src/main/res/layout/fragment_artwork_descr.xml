@@ -26,8 +26,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/artworkImage"
                 android:layout_centerHorizontal="true"
-                android:paddingTop="8dp"
-                android:src="@drawable/raphael_madonna_goldfinch"/>
+                android:paddingTop="8dp"/>
 
             <TextView
                 android:layout_width="wrap_content"

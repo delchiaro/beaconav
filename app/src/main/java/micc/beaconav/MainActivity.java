@@ -15,6 +15,8 @@ import android.view.animation.Transformation;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import micc.beaconav.gui.animationHelper.BackgroundColorChangerHSV;
@@ -32,6 +34,8 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 public class MainActivity extends ActionBarActivity
 {
@@ -39,6 +43,10 @@ public class MainActivity extends ActionBarActivity
     private static final String TAG = "MainActivity";
     private DpHelper dpHelper;
     private Context context;
+
+
+    private TextView textViewFormat, textViewContent;
+    private String scanFormat, scanContent; //variabili per i risultati della scan
 
 
 // * * * * * * * * * * * * COSTANTI (evitiamo i numeri magici) * * * * * * * * * * * * * * * * * *
@@ -60,7 +68,7 @@ public class MainActivity extends ActionBarActivity
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private SearchView mSearch;
     private FloatingActionButton floatingActionButton;
-
+    private FloatingActionButton floatingActionButtonQRScanBtn;
 
 
 
@@ -78,9 +86,12 @@ public class MainActivity extends ActionBarActivity
 
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floating_action_button);
+        floatingActionButtonQRScanBtn = (FloatingActionButton) findViewById(R.id.scanCodeBtn);
         fragmentHeaderContainer = (RelativeLayout) findViewById(R.id.fragment_sliding_header_container);
         mSlidingBar = (LinearLayout) findViewById(R.id.slidingBar);
         fragmentListContainer = (RelativeLayout) findViewById(R.id.fragment_list_container);
+        textViewContent = (TextView) findViewById(R.id.scan_format);
+        textViewFormat = (TextView) findViewById(R.id.scan_content);
 
 
     // INIT * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -89,10 +100,9 @@ public class MainActivity extends ActionBarActivity
         // sliding avviene solo se si scrolla sulla slidingBar e non se si scrolla il contenuto
     }
 
-
     public void initEventListeners()  {
 
-         mSlidingUpPanelLayout.setPanelSlideListener(new PanelSlideListener() {
+        mSlidingUpPanelLayout.setPanelSlideListener(new PanelSlideListener() {
 
 
             SlidingBarExtensionAnimationManager slidingBarHeightAnimMan = new SlidingBarExtensionAnimationManager(mSlidingBar, fragmentHeaderContainer, context);
@@ -254,6 +264,17 @@ public class MainActivity extends ActionBarActivity
             }
         });
 
+        floatingActionButtonQRScanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.getId()==R.id.scanCodeBtn)
+                {
+                    IntentIntegrator scanIntegrator = new IntentIntegrator(MainActivity.this);
+                    scanIntegrator.initiateScan();
+                }
+            }
+        });
+
 
     }
 
@@ -276,6 +297,20 @@ public class MainActivity extends ActionBarActivity
 
 
 
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanningResult != null) {
+            scanContent = scanningResult.getContents();
+            scanFormat = scanningResult.getFormatName();
+            textViewFormat.setText("FORMAT: " + scanFormat);
+            textViewContent.setText("CONTENT: " + scanContent);
+        }
+        else{
+            Toast toast = Toast.makeText(getApplicationContext(), "No scan data received!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     @Override
@@ -362,13 +397,6 @@ public class MainActivity extends ActionBarActivity
 
 
 
-
-
-
-
-
-
-
 //* * * * * * * * * * * * GETTERS * * * * * * * * * * * * * * * * * * *
 
     public SlidingUpPanelLayout getSlidingUpPanelLayout()
@@ -382,9 +410,12 @@ public class MainActivity extends ActionBarActivity
     public FloatingActionButton getFloatingActionButton() {
         return floatingActionButton;
     }
+    public FloatingActionButton getFloatingActionButtonQRScanBtn() {
+        return floatingActionButtonQRScanBtn;
+    }
 
 
-    // * * * * * * * * * * * * * * *  ALTRI EVENT MANAGER CREATI BEACONAV * * * * * * * * * * * * * * *
+// * * * * * * * * * * * * * * *  ALTRI EVENT MANAGER CREATI BEACONAV * * * * * * * * * * * * * * *
 
 
 

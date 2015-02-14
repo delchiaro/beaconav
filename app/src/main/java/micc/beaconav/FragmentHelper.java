@@ -152,6 +152,7 @@ public class FragmentHelper  implements MuseumMarkerManager
         mapFragment.setMuseumMarkerManager(this);
         showMuseumListFragment();
         mainActivity.setFABListener(defaultFABOnClickListener);
+        mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.INVISIBLE);
     }
 
 
@@ -163,6 +164,7 @@ public class FragmentHelper  implements MuseumMarkerManager
         //indoorMapFragment.setMuseum(museum);
         mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
+        mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.VISIBLE);
     }
 
 

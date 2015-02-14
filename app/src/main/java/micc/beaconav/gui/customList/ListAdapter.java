@@ -68,7 +68,7 @@ public class ListAdapter extends BaseAdapter {
         final IArtRow artRow = (IArtRow) getItem(position);
 
         holder._artPieceName.setText(artRow.getName());
-        holder._navButton.setImageResource(artRow.getImageId());
+        //holder._navButton.setImageResource(artRow.getImageId());
 
 
         final IArtRow currentRow = list.get(position);

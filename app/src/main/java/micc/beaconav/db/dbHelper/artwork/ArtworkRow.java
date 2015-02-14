@@ -1,10 +1,15 @@
 package micc.beaconav.db.dbHelper.artwork;
 
+import android.content.Context;
+
+import micc.beaconav.FragmentHelper;
+import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.DoubleField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringField;
+import micc.beaconav.indoorEngine.drawable.Drawable;
 import micc.beaconav.localization.proximity.ProximityObject;
 
 /**
@@ -13,6 +18,7 @@ import micc.beaconav.localization.proximity.ProximityObject;
 public class ArtworkRow extends TableRow<ArtworkSchema> implements IArtRow
 {
     static ArtworkSchema schema = new ArtworkSchema();
+    private Context context;
 
     public final StringField ID          = (StringField) field(schema.ID);
     public final StringField title       = (StringField) field(schema.title);
@@ -23,6 +29,7 @@ public class ArtworkRow extends TableRow<ArtworkSchema> implements IArtRow
 
     public ArtworkRow() {
         super(schema);
+        context = FragmentHelper.instance().getMainActivity();
     }
 
 
@@ -42,9 +49,10 @@ public class ArtworkRow extends TableRow<ArtworkSchema> implements IArtRow
 
     @Override
     public int getImageId() {
-        return 0;
-        //TODO: setter oppure meglio, ritornare un bitmap direttamente e fare un downloader
-        // del bitmap.
+
+        return context.getResources().getIdentifier("raphael_madonna_goldfinch", "drawable", context.getPackageName());
+        //qui va presa la stringa per l'id di ogni opera
     }
+
 }
 

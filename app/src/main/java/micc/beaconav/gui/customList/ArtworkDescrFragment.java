@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -23,6 +24,7 @@ public class ArtworkDescrFragment extends Fragment {
     private TextView textViewArtistName = null;
     private ArtworkRow artworkRow = null;
     private FloatingActionButton navToArtworkBtn = null;
+    private ImageView imageViewArtwork;
 
     public ArtworkDescrFragment() {
     }
@@ -54,6 +56,9 @@ public class ArtworkDescrFragment extends Fragment {
 
         textViewArtistName = (TextView)getView().findViewById(R.id.artistName);
         textViewArtistName.setText(artworkRow.getArtistName());
+
+        imageViewArtwork = (ImageView)getView().findViewById(R.id.artworkImage);
+        imageViewArtwork.setImageDrawable(FragmentHelper.instance().getMainActivity().getResources().getDrawable(artworkRow.getImageId()));
 
     }
 
