@@ -34,4 +34,5 @@ dependencies {
     compile files('libs/estimote-sdk-preview.jar')
     compile 'com.google.zxing:core:3.+'
     compile 'com.google.zxing:android-integration:3.+'
+    compile 'com.google.maps.android:android-maps-utils:0.3+'
 }
