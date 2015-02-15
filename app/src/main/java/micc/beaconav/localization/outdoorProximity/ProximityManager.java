@@ -1,4 +1,4 @@
-package micc.beaconav.localization.proximity;
+package micc.beaconav.localization.outdoorProximity;
 
 import com.google.android.gms.maps.model.LatLng;
 

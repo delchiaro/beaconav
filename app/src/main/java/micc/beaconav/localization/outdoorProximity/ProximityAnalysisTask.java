@@ -1,4 +1,4 @@
-package micc.beaconav.localization.proximity;
+package micc.beaconav.localization.outdoorProximity;
 
 import android.os.AsyncTask;
 

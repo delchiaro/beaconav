@@ -23,7 +23,6 @@ import com.google.common.collect.HashBiMap;
 
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,9 +32,9 @@ import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 import micc.beaconav.outdoorEngine.navigation.GMapRouteManager;
 import micc.beaconav.outdoorEngine.navigation.Navigation;
-import micc.beaconav.localization.proximity.ProximityManager;
-import micc.beaconav.localization.proximity.ProximityNotificationHandler;
-import micc.beaconav.localization.proximity.ProximityObject;
+import micc.beaconav.localization.outdoorProximity.ProximityManager;
+import micc.beaconav.localization.outdoorProximity.ProximityNotificationHandler;
+import micc.beaconav.localization.outdoorProximity.ProximityObject;
 
 
 /**

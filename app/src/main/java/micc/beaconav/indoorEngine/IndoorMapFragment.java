@@ -181,6 +181,7 @@ public class IndoorMapFragment extends Fragment
     @Override
     public void OnBeaconProximity(List<Beacon> proximityBeacons)
     {
+
         if(BeaconHelper.isInProximity(proximityBeacons.get(0) ))
         {
             //spot2.sele;
