@@ -14,17 +14,21 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import micc.beaconav.FragmentHelper;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
-import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
 
 public class ArtworkDescrFragment extends Fragment {
 
 
-    private TextView textViewArtworkDescr = null;
-    private TextView textViewArtistName = null;
     private ArtworkRow artworkRow = null;
     private FloatingActionButton navToArtworkBtn = null;
     private ImageView imageViewArtwork;
+    private TextView textViewArtworkDescr = null;
+    private TextView textViewArtistDescr = null;
+    private TextView textViewYear = null;
+    private TextView textViewLocation = null;
+    private TextView textViewArtistName = null;
+    private TextView textViewDimensions = null;
+    private TextView textViewType = null;
 
     public ArtworkDescrFragment() {
     }
@@ -38,9 +42,31 @@ public class ArtworkDescrFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         textViewArtworkDescr = (TextView)getView().findViewById(R.id.artworkDescription);
+        imageViewArtwork = (ImageView)getView().findViewById(R.id.artworkImage);
+        textViewArtistName = (TextView)getView().findViewById(R.id.artistName);
+        textViewYear = (TextView)getView().findViewById(R.id.year);
+        textViewLocation = (TextView)getView().findViewById(R.id.location);
+        textViewArtistDescr = (TextView)getView().findViewById(R.id.artistDescription);
+        textViewDimensions = (TextView)getView().findViewById(R.id.dimensions);
+        textViewType = (TextView)getView().findViewById(R.id.type);
+
+
+
         if(artworkRow != null) {
+
+
             textViewArtworkDescr.setText(artworkRow.getDescription());
+            imageViewArtwork.setImageDrawable(FragmentHelper.instance().getMainActivity().getResources().getDrawable(artworkRow.getImageId()));
+            textViewArtistName.setText("Artista: " + artworkRow.getArtistName());
+            textViewYear.setText("Anno: " + artworkRow.getCreationYear());
+            textViewLocation.setText("Locazione: " + artworkRow.getLocation());
+            textViewArtistDescr.setText(artworkRow.getArtistDescr());
+            textViewDimensions.setText("Dimensioni: "+artworkRow.getDimensions());
+            textViewType.setText("Tecnica: "+artworkRow.getType());
+
+
         }
 
 
@@ -53,12 +79,6 @@ public class ArtworkDescrFragment extends Fragment {
                 FragmentHelper.instance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
-
-        textViewArtistName = (TextView)getView().findViewById(R.id.artistName);
-        textViewArtistName.setText(artworkRow.getArtistName());
-
-        imageViewArtwork = (ImageView)getView().findViewById(R.id.artworkImage);
-        imageViewArtwork.setImageDrawable(FragmentHelper.instance().getMainActivity().getResources().getDrawable(artworkRow.getImageId()));
 
     }
 

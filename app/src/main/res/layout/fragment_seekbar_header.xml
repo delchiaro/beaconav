@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search Range:"
+            android:text="Raggio di ricerca:"
             android:id="@+id/search_radius"
             android:layout_above="@id/seekBar"
             android:layout_marginLeft="8dp"
@@ -45,7 +45,7 @@
             android:layout_marginBottom="20dp"
             android:background="@android:color/transparent"
             android:drawableLeft="@drawable/ic_chevron_left_white_48dp"
-            android:text="Nearby"
+            android:text="Nelle vicinanze"
             android:textColor="@color/white"
             android:textSize="24dp"
             />

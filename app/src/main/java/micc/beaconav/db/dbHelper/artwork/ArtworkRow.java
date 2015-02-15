@@ -25,6 +25,12 @@ public class ArtworkRow extends TableRow<ArtworkSchema> implements IArtRow
     public final StringField descr       = (StringField) field(schema.descr);
     public final FloatField x            = (FloatField) field(schema.x);
     public final FloatField y            = (FloatField) field(schema.y);
+    public final StringField creationYear = (StringField) field(schema.creationYear);
+    public final StringField ID_artworkImage     = (StringField) field(schema.ID_artworkImage);
+    public final StringField dimensions     = (StringField) field(schema.dimensions);
+    public final StringField name     = (StringField) field(schema.name);
+    public final StringField biography     = (StringField) field(schema.biography);
+    public final StringField type     = (StringField) field(schema.type);
 
 
     public ArtworkRow() {
@@ -42,16 +48,41 @@ public class ArtworkRow extends TableRow<ArtworkSchema> implements IArtRow
         return descr.getValue();
     }
 
-    public String getArtistName()
+    public String getArtistDescr()
     {
-        return "Nome Artista";
+        return biography.getValue();
     }
 
     @Override
     public int getImageId() {
 
-        return context.getResources().getIdentifier("raphael_madonna_goldfinch", "drawable", context.getPackageName());
+        return context.getResources().getIdentifier(ID_artworkImage.getValue() , "drawable", context.getPackageName());
         //qui va presa la stringa per l'id di ogni opera
+    }
+
+    public String getCreationYear()
+    {
+        return creationYear.getValue();
+    }
+
+    public String getArtistName()
+    {
+        return name.getValue();
+    }
+
+    public String getLocation()
+    {
+        return "Piano x, Stanza y";
+    }
+
+    public String getType()
+    {
+        return type.getValue();
+    }
+
+    public String getDimensions()
+    {
+        return dimensions.getValue();
     }
 
 }

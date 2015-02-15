@@ -31,8 +31,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/descr1"
-                android:text="Description"
+                android:id="@+id/artworkInfos"
+                android:text="Informazioni"
                 android:textColor="@android:color/darker_gray"
                 android:paddingTop="8dp"
                 android:layout_below="@id/artworkImage"/>
@@ -41,15 +41,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"
-                android:layout_below="@id/descr1"
+                android:layout_below="@id/artworkInfos"
                 android:id="@+id/separatorArtwork"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:id="@+id/artistName"
+                android:layout_below="@id/separatorArtwork"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:id="@+id/year"
+                android:layout_below="@id/artistName"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:id="@+id/type"
+                android:layout_below="@id/year"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:id="@+id/dimensions"
+                android:layout_below="@id/type"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:id="@+id/location"
+                android:layout_below="@id/dimensions"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/descr1"
+                android:text="Descrizione"
+                android:textColor="@android:color/darker_gray"
+                android:paddingTop="8dp"
+                android:layout_below="@id/location"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_below="@id/descr1"
+                android:id="@+id/separatorArtwork2"/>
 
 
             <TextView
                 android:id="@+id/artworkDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/descr1"
+                android:layout_below="@id/separatorArtwork2"
                 android:textColor="@android:color/black"/>
 
             <TextView
@@ -57,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/artworkDescription"
-                android:text="Artist Info"
+                android:text="Informazioni sull'artista"
                 android:textColor="@android:color/darker_gray"
                 android:paddingTop="8dp"/>
 
@@ -66,13 +117,13 @@
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"
                 android:layout_below="@id/artist"
-                android:id="@+id/separator2Artwork"/>
+                android:id="@+id/separatorArtwork3"/>
 
             <TextView
-                android:id="@+id/artistName"
+                android:id="@+id/artistDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/separator2Artwork"
+                android:layout_below="@id/separatorArtwork3"
                 android:textColor="@android:color/black"/>
 
 

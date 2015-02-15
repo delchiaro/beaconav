@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/descr"
-                android:text="Description"
+                android:text="Descrizione"
                 android:textColor="@android:color/darker_gray"
                 android:paddingTop="8dp"/>
 
@@ -48,7 +48,7 @@
                 android:id="@+id/gallery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Artpieces Gallery"
+                android:text="Opere nel museo"
                 android:layout_below="@id/museumDescription"
                 android:paddingTop="8dp"/>
 
@@ -121,7 +121,7 @@
                 android:id="@+id/indoorMapHere"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Museum Map"
+                android:text="Mappa del museo"
                 android:textColor="@android:color/darker_gray"
                 android:layout_below="@id/museumArtPieceGallery"
                 android:paddingTop="8dp"/>
@@ -157,7 +157,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Switch to indoor"
+                android:text="Vai all'indoor"
                 android:id="@+id/textView5"
                 android:layout_below="@id/toIndoorBtn"
                 android:layout_alignParentRight="true"/>
