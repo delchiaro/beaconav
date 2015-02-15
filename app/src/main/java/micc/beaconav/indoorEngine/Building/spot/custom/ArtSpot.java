@@ -1,27 +1,32 @@
-package micc.beaconav.indoorEngine.building.spot;
+package micc.beaconav.indoorEngine.building.spot.custom;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import android.graphics.Picture;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PictureDrawable;
 
 import micc.beaconav.FragmentHelper;
+import micc.beaconav.indoorEngine.building.Room;
+import micc.beaconav.indoorEngine.building.spot.marker.Collidable;
+import micc.beaconav.indoorEngine.building.spot.marker.CollidableCircle;
+import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
 
 /**
  * Created by nagash on 09/02/15.
  */
 public class ArtSpot extends MarkerSpot
 {
-    private boolean selected = false;
-
     public ArtSpot() { this(0, 0); }
     public ArtSpot(float x, float y) {
-        super(x, y);
+        this(x, y, null);
+
+    }
+
+    public ArtSpot(float x, float y, Room room_container) {
+        super(x, y, room_container);
+
+
         if(borderPaint == null)
         {
             borderPaint = new Paint();
@@ -52,16 +57,10 @@ public class ArtSpot extends MarkerSpot
             fillPaintSelected.setColor(Color.BLUE);
             fillPaintSelected.setStyle(Paint.Style.FILL);
             fillPaintSelected.setAntiAlias(true);
-//
-//            selectedPicture = new Picture();
-//            Canvas selectedArtSpotCanvas = selectedPicture.beginRecording(900,900);
-//            selectedArtSpotCanvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, borderPaintSelected);
-//            selectedArtSpotCanvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, borderPaintSelected2);
-//            selectedArtSpotCanvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, fillPaintSelected);
-//            selectedPicture.endRecording();
-//            selectedPictureDrawable = new PictureDrawable(selectedPicture);
+
         }
     }
+
 
 
     private static Paint borderPaint = null;
@@ -70,19 +69,16 @@ public class ArtSpot extends MarkerSpot
     private static Paint borderPaintSelected = null;
     private static Paint borderPaintSelected2 = null;
     private static Paint fillPaintSelected = null;
-//    Picture selectedPicture = null;
-//    PictureDrawable selectedPictureDrawable = null;
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-    public boolean toggleSelection() {
-        selected = !selected;
-        return selected;
-    }
+
     private static final float bluePaintStroke = 4;
-    private final static int radius_DP = 10;
-    private final static int radius = FragmentHelper.dpToPx(radius_DP);
+    private final static int radius_DP           = 5;
+    private final static int radius_selected_DP  = 8;
+    private final static int radius_collision_DP = 15;
+
+    private final static int radius         = FragmentHelper.dpToPx(radius_DP);
+    private final static int radius_selected = FragmentHelper.dpToPx(radius_selected_DP);
+    private final static int radius_collision = FragmentHelper.dpToPx(radius_collision_DP);
 
 
     @Override
@@ -90,10 +86,10 @@ public class ArtSpot extends MarkerSpot
         return new Drawable() {
             @Override
             public void draw(Canvas canvas) {
-                if(selected){
-                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, borderPaintSelected);
-                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, borderPaintSelected2);
-                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, fillPaintSelected);
+                if(isSelected()){
+                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, borderPaintSelected);
+                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, borderPaintSelected2);
+                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, fillPaintSelected);
                 }
                 else
                 {
@@ -118,4 +114,28 @@ public class ArtSpot extends MarkerSpot
             }
         };
     }
+
+
+
+    @Override
+    protected void onReselected() {
+
+    }
+
+    @Override
+    protected void onSelected() {
+        //drawable().invalidateSelf();
+    }
+
+    @Override
+    protected void onDeselected() {
+        //drawable().invalidateSelf();
+    }
+
+    @Override
+    protected Collidable generateCollidable(float x, float y) {
+        return new CollidableCircle(x, y, radius_collision);
+    }
+
+
 }

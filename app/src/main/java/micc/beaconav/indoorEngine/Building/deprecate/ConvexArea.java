@@ -7,7 +7,7 @@
 //import java.util.Iterator;
 //import java.util.List;
 //
-//import micc.beaconav.indoorEngine.building.spot.DrawableSpot;
+//import micc.beaconav.indoorEngine.building.spot.draw.DrawableSpot;
 //import micc.beaconav.indoorEngine.building.spot.Spot;
 //import micc.beaconav.indoorEngine.building.spot.SpotManager;
 //import micc.beaconav.util.containerContained.ContainerContained;

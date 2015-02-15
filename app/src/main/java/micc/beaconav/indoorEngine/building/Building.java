@@ -1,11 +1,16 @@
 package micc.beaconav.indoorEngine.building;
 
 import android.graphics.Canvas;
-import android.graphics.PointF;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.TreeMap;
 
-import micc.beaconav.indoorEngine.drawable.DrawableManager;
+import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
+import micc.beaconav.indoorEngine.building.spot.path.PathSpot;
+import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpotManager;
+import micc.beaconav.indoorEngine.building.spot.path.PathSpotManager;
+import micc.beaconav.indoorEngine.dijkstraSolver.DijkstraSolver;
 import micc.beaconav.util.containerContained.Container;
 
 
@@ -20,14 +25,21 @@ public class Building extends Container<Floor>
     private TreeMap<Integer, Floor> floorList;
     private int _activeFloor;
 
-    private final DrawableManager _drawableManager = new DrawableManager();
+    DijkstraSolver<PathSpot> dijkstraSolver = new DijkstraSolver<>();
+    PathSpotManager<PathSpot> dijkstraPath = null;
 
-	public Building(int width, int height)  {
+
+
+
+
+
+    public Building(int width, int height)  {
         this.width = width;
         this.height = height;
         _activeFloor = 0;
         floorList = new TreeMap<Integer, Floor>();
 	}
+
 
 
     public float    getWidth(){
@@ -38,10 +50,32 @@ public class Building extends Container<Floor>
     }
 
 
-    public DrawableManager getDrawableManager()
-    {
-        return this._drawableManager;
+
+
+    public Floor getActiveFloor() {
+        return get(this._activeFloor);
     }
+
+
+    public MarkerSpotManager getActiveMarkerManager() {
+        return this.getActiveFloor().getMarkerManager();
+    }
+    public PathSpotManager getActivePathSpotManager() {
+        return this.getActiveFloor().getPathSpotManager();
+    }
+
+
+
+
+    public PathSpotManager<PathSpot> drawBestPath( PathSpot startSpot, PathSpot goalSpot) {
+        dijkstraPath = new PathSpotManager( dijkstraSolver.solve(startSpot, goalSpot));
+
+        return dijkstraPath;
+    }
+
+
+
+
 
 
 

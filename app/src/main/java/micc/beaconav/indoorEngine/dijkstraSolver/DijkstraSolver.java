@@ -1,15 +1,17 @@
 package micc.beaconav.indoorEngine.dijkstraSolver;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
  * Created by nagash on 05/02/15.
  */
-public class DijkstraSolver< NC extends DijkstraNodeAdapter> {
+public class DijkstraSolver< DNA extends DijkstraNodeAdapter> {
 
 
 
@@ -39,7 +41,7 @@ public class DijkstraSolver< NC extends DijkstraNodeAdapter> {
 
 
 
-    public LinkedList<DijkstraNodeAdapter> solve( NC start, NC goal)
+    public ArrayList<DijkstraNodeAdapter> solve( DNA start, DNA goal)
     {
         start.getDijkstraStatistic().reset();
         goal.getDijkstraStatistic().reset();
@@ -56,6 +58,7 @@ public class DijkstraSolver< NC extends DijkstraNodeAdapter> {
         start.getDijkstraStatistic().setAsStartPoint();
 
         List<? extends DijkstraNodeAdapter> adjacent = start.getAdjacent();
+        nodeAdapterVisited.add(start);
         for(DijkstraNodeAdapter node : adjacent)
         {
             if(nodeAdapterVisited.contains(node)==false)
@@ -73,7 +76,7 @@ public class DijkstraSolver< NC extends DijkstraNodeAdapter> {
 
         while(frontiera.isEmpty() == false && goal.getDijkstraStatistic().isPermanentNode() == false)
         {
-            DijkstraNodeAdapter bestInFrontiera = frontiera.pollFirst();
+            DijkstraNodeAdapter<DNA> bestInFrontiera = frontiera.pollFirst();
             bestInFrontiera.getDijkstraStatistic().setAsPermanent();
 
             for(DijkstraNodeAdapter node : bestInFrontiera.getAdjacent())
@@ -83,10 +86,12 @@ public class DijkstraSolver< NC extends DijkstraNodeAdapter> {
                     nodeAdapterVisited.add(node);
                     node.getDijkstraStatistic().reset();
                 }
-
-                if( trySetPredecessor(node, bestInFrontiera) ) {
-                    frontiera.add(node);
-                    nodeAdapterVisited.add(node);
+                if(node.getDijkstraStatistic().isPermanentNode() == false)
+                {
+                    if (trySetPredecessor(node, bestInFrontiera))
+                    {
+                        frontiera.add(node);
+                    }
                 }
             }
         }
@@ -95,19 +100,24 @@ public class DijkstraSolver< NC extends DijkstraNodeAdapter> {
 
 
         // creo la lista da ritornare, il risultato
-        LinkedList<DijkstraNodeAdapter> bestPath = new LinkedList<>();
+        int nSteps = goal.getDijkstraStatistic().get_nPredecessor();
+        int nNodes = nSteps + 1;
+        ArrayList<DijkstraNodeAdapter> bestPath = new ArrayList<>(nNodes);
         DijkstraNodeAdapter iter = goal;
-        while(iter.getDijkstraStatistic().getBestPredecessor() != null)
-        {
-            bestPath.push(iter);
-            iter = goal.getDijkstraStatistic().getBestPredecessor();
-        }
+        int index = nNodes-1;
+        do {
+            iter.setPathIndex(index);
+            bestPath.add(iter);
+            iter = iter.getDijkstraStatistic().getBestPredecessor();
+            index--;
+        }while(iter != null);
 
+        Collections.reverse(bestPath);
 
-        for( DijkstraNodeAdapter node : nodeAdapterVisited )
-        {
-            node.getDijkstraStatistic().reset();
-        }
+//        for( DijkstraNodeAdapter node : nodeAdapterVisited )
+//        {
+//            node.getDijkstraStatistic().reset();
+//        }
         // resetto tutte le statistiche dei nodi toccati
 
         return bestPath;

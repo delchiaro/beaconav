@@ -48,14 +48,6 @@ public class IndoorMap extends Drawable
 
 
         building.draw(tempCanvas);
-
-       /* Iterator<Drawable> iter = Drawable.getDrawableQueue().iterator();
-        while(iter.hasNext())
-        {
-
-            iter.next().drawWalls(tempCanvas);
-        }
-*/
         return tempBmp;
     }
 
@@ -80,37 +72,7 @@ public class IndoorMap extends Drawable
     }
 
 
-    class DijkstraSolver {
 
-
-
-    }
-
-    class DijkstraArea {
-        Room room;
-        float pesoMinimo = Float.MAX_VALUE;
-        DijkstraArea predecessor = null;
-
-        public DijkstraArea(Room room) {
-            this.room = room;
-        }
-
-
-    }
-
-
-    public void drawPath(Spot myPosition, Spot destination)
-    {
-        if(destination.getBuildingContainer() == this.building)
-        {
-            Floor destinationFloor = destination.getContainerFloor();
-            Room destinationRoom = destination.getContainerRoom();
-
-
-
-        }
-
-    }
 
 
 

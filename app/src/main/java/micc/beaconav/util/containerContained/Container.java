@@ -1,8 +1,12 @@
 package micc.beaconav.util.containerContained;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by nagash on 10/02/15.
@@ -13,6 +17,22 @@ public class Container<CONTAINED extends IContained>  implements IContainer<CONT
 
     public static class Key { private Key() {} }
     private static Key key = new Key();
+
+
+    public Container(){}
+
+    /**
+     * ATTENZIONE: Copia per riferimento, la lista interna della classe Container
+     * fará riferimento alla classe initList!!!
+     * @param initList
+     */
+    public Container(List<CONTAINED> initList) {
+        this._containedObjects = initList;
+    }
+
+    public void addAll(List<CONTAINED> objectList) {
+        this._containedObjects.addAll(objectList);
+    }
 
     @Override
     public void add(CONTAINED newObject) {

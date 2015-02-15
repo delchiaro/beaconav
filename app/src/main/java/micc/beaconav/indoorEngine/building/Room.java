@@ -1,27 +1,26 @@
 package micc.beaconav.indoorEngine.building;
 
 import android.graphics.Canvas;
-import android.graphics.DrawFilter;
 import android.graphics.Paint;
-import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Path;
 import android.graphics.PointF;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 import micc.beaconav.indoorEngine.ProportionsHelper;
-import micc.beaconav.indoorEngine.building.spot.DrawableSpotManager;
-import micc.beaconav.indoorEngine.building.spot.MarkerSpot;
-import micc.beaconav.indoorEngine.building.spot.PathSpot;
-import micc.beaconav.indoorEngine.building.spot.RoomSpot;
-import micc.beaconav.indoorEngine.building.spot.SpotManager;
+import micc.beaconav.indoorEngine.building.painting.MapPaint;
+import micc.beaconav.indoorEngine.building.spot.path.DoorSpot;
+import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
+import micc.beaconav.indoorEngine.building.spot.path.PathSpot;
+import micc.beaconav.indoorEngine.building.spot.path.RoomSpot;
+import micc.beaconav.indoorEngine.building.spot.Spot;
 import micc.beaconav.util.containerContained.ContainerContained;
 
 /**
  * 
  */
-public class Room  extends ContainerContained<Floor, SpotManager>
+public class Room  extends ContainerContained<Floor, Spot>
         //extends Drawable
 {
     private static final int PPM = ProportionsHelper.PPM; // Pixel Per Miter
@@ -32,44 +31,95 @@ public class Room  extends ContainerContained<Floor, SpotManager>
     private Paint floorPaint;
 
 
-    private DrawableSpotManager<PathSpot> _pathSpotManager = new DrawableSpotManager<>(this);
+
+    //private DrawableSpotManager<DrawableSpot> _drawableSpotManager = new DrawableSpotManager<>();
+
     private ArrayList<Vertex> _vertices = new ArrayList<Vertex>();
 
     private boolean autogenRoomSpot = false;
-    private RoomSpot _roomSpot;
+    private boolean _roomSpot_needs_refresh = false;
+    private final RoomSpot _roomSpot;
 
 
-    public Room(final RoomSpot roomSpot) {
+
+
+
+    public Room(float roomSpot_x, float roomSpot_y) {
         this.wallsPaint = MapPaint.wall_default_25.getPaint();
         this.doorPaint = MapPaint.door_default_25.getPaint();
         this.floorPaint = MapPaint.floor_default.getPaint();
         this.aperturePaint = new Paint(wallsPaint);
         aperturePaint.setColor(floorPaint.getColor());
-
-        this._roomSpot = roomSpot;
+        this._roomSpot = new RoomSpot(roomSpot_x, roomSpot_y, null);
     }
-
-	public Room(float roomSpot_x, float roomSpot_y) {
-        this(new RoomSpot(roomSpot_x, roomSpot_y) );
-    }
-
     public Room() {
-        this(null);
+        this(0, 0);
         autogenRoomSpot = true;
     }
 
+    @Override
+    public void setContainer(Floor container, Key key) {
+        super.setContainer(container, key);
+        this.add(_roomSpot);
+    }
+
+// * * * * * * * *  S P O T S  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+    private void tryAddToManager(Spot newSpot ) {
+        if(newSpot instanceof PathSpot)
+        {
+            this.getContainerFloor().addPathSpot((PathSpot) newSpot);
+        }
+        else if( newSpot instanceof MarkerSpot)
+        {
+            this.getContainerFloor().addMarker((MarkerSpot) newSpot);
+        }
+    }
+
+    @Override
+    public void addAll(List<Spot> spotList) {
+        super.addAll(spotList);
+        for(Spot s : spotList)
+        {
+            tryAddToManager(s);
+        }
+    }
+
+
+    @Override
+    public void add(Spot newSpot) {
+        super.add(newSpot);
+        tryAddToManager(newSpot);
+    }
+
+    @Override
+    public void add(int location, Spot newSpot) {
+        super.add(location, newSpot);
+        tryAddToManager(newSpot);
+    }
+
+
+    public void addPathSpot(PathSpot pathSpot, boolean linkToRoomSpot) {
+        this.add(pathSpot);
+        if(linkToRoomSpot) pathSpot.addLinkBidirectional(this.getRoomSpot());
+    }
+
+    public void addMarker(MarkerSpot marker) {
+        this.add(marker);
+    }
+
+
 
     public RoomSpot getRoomSpot() {
-        if(_roomSpot != null) return _roomSpot;
-        else if(autogenRoomSpot == true )
+
+        if(autogenRoomSpot == true && _roomSpot_needs_refresh )
         {
-            return this._roomSpot = generateRoomSpot();
+            generateRoomSpot();
         }
-        else return null; // generate exeption
+        return _roomSpot;
     }
-    private RoomSpot generateRoomSpot() {
-        if(this._vertices.size() == 0) return null;
-        else
+    private void generateRoomSpot() {
+        if(this._vertices.size() != 0)
         {
             float x = 0f;
             float y = 0f;
@@ -85,26 +135,54 @@ public class Room  extends ContainerContained<Floor, SpotManager>
             x = x/pointCount;
             y = y/pointCount;
 
-            return new RoomSpot(x, y);
-
+            _roomSpot.setPosition(x, y);
         }
 
+        _roomSpot_needs_refresh = false;
     }
 
 
-    public void addMarkerSpot( MarkerSpot marker) {
-        _pathSpotManager.add(marker);
+//    public void addPathSpot(PathSpot pathSpot, PathSpot... linkedSpot) {
+//        addPathSpot(pathSpot, false, linkedSpot);
+//    }
+//    public void addPathSpotNet(PathSpot pathSpot, boolean linkToRoomSpot, PathSpot... netLinkedSpot) {
+//        this._pathSpotManager.add(pathSpot);
+//        if(linkToRoomSpot) pathSpot.addLinkBidirectional(this.getRoomSpot());
+//        int netSize = netLinkedSpot.length;
+//        pathSpot.addLinkNet(netLinkedSpot);\\
+//    }
+//    public void addPathSpotNet(PathSpot pathSpot, PathSpot... netLinkedSpot) {
+//        addPathSpotNet(pathSpot, false, netLinkedSpot );
+//    }
+//    public void addPathSpotSequence(PathSpot pathSpot, boolean linkToRoomSpot, PathSpot... netLinkedSpot) {
+//        this._pathSpotManager.add(pathSpot);
+//        if(linkToRoomSpot) pathSpot.addLinkBidirectional(this.getRoomSpot());
+//        int netSize = netLinkedSpot.length;
+//        pathSpot.addLinkNet(netLinkedSpot);
+//    }
+//    public void addPathSpotNet(PathSpot pathSpot, PathSpot... netLinkedSpot) {
+//        addPathSpotNet(pathSpot, false, netLinkedSpot );
+//    }
+
+
+    public static void addDoorSpot(Room r1, float x1, float y1, boolean linkRoom1Spot,
+                                   Room r2, float x2, float y2, boolean linkRoom2Spot) {
+
+        DoorSpot d1 = new DoorSpot(x1, y1, null);
+        DoorSpot d2 = new DoorSpot(x2, y2, d1);
+        r1.addPathSpot(d1, linkRoom1Spot);
+        r2.addPathSpot(d2, linkRoom2Spot);
     }
-    public void addPathSpot( PathSpot pathSpot) {
-        _pathSpotManager.add(pathSpot);
-    }
 
 
 
 
+
+
+    // * * * * * * * * *  VERTICES - ( PAINTING: WALLS, DOORS, APERTURE ) * * * * * * * * * * * * *
     private void addVertex(Vertex vertex){
         this._vertices.add(vertex);
-        if(this.autogenRoomSpot == true ) this._roomSpot = null;
+        if(this.autogenRoomSpot == true ) this._roomSpot_needs_refresh = true;
     }
     public void pushVertex(Vertex newVertex){
         addVertex(newVertex);
@@ -133,6 +211,9 @@ public class Room  extends ContainerContained<Floor, SpotManager>
 
 
 
+
+
+    // * * * * * * * * * C O N T A I N E R S * * * * * * * * * * * * * * * * * * * * * * * * * * *
     final public Building getCointainerBuilding() {
         return super.getContainer().getContainerBuilding();
     }
@@ -217,6 +298,10 @@ public class Room  extends ContainerContained<Floor, SpotManager>
         }
 
     }
+
+
+
+
 
 
 }
