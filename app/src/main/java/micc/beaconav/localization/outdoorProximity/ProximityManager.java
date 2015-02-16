@@ -40,7 +40,7 @@ public class ProximityManager
         this(proximityRadius, skimmingRadius, handler, null);
     }
 
-    public boolean startProximityAnalysis(double myLat, double myLong, float proximityRadius, float skimmingRadius)
+    public boolean startProximityAnalysis(double myLat, double myLong)
     {
         Location myLoc = new Location("myLocation");
         myLoc.setLatitude(myLat);
@@ -54,12 +54,12 @@ public class ProximityManager
 
         if(task == null && skimmedProxyObjects != null && skimmedProxyObjects.size() > 0)
         {
-            task = new ProximityAnalysisTask(this, new LatLng(myLat, myLong),
+            task = new ProximityAnalysisTask(proximityRadius, this, new LatLng(myLat, myLong),
                     skimmedProxyObjects.toArray(new ProximityObject[skimmedProxyObjects.size()]));
             task.startAnalysis();
             return true;
         }
-        
+
         else return false;
     }
 

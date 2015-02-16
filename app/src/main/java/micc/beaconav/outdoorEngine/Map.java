@@ -107,7 +107,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         this.gmap.getUiSettings().setZoomControlsEnabled(false);
         FragmentHelper fh = FragmentHelper.instance();
         this.gmap.setPadding(fh.dpToPx(5),  fh.dpToPx(50), fh.dpToPx(0), fh.dpToPx(5));
-        proximityManager = new ProximityManager(this);
+        proximityManager = new ProximityManager( PROXIMITY_RADIUS, PROXIMITY_SQUARE_SIDE, this);
 
         this.markerManager = markerManager;
 
@@ -226,7 +226,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
             public void onMyLocationChange(Location location) {
                 lastLocation = new LatLng( location.getLatitude(), location.getLongitude());
                 circle.setCenter(lastLocation);
-                proximityManager.startProximityAnalysis(location.getLatitude(), location.getLongitude(), PROXIMITY_RADIUS, PROXIMITY_SQUARE_SIDE );
+                proximityManager.startProximityAnalysis(location.getLatitude(), location.getLongitude() );
 
             }
         });
