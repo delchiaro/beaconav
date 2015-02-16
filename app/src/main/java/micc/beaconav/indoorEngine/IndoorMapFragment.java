@@ -29,6 +29,7 @@ import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.indoorEngine.building.spot.custom.ArtSpot;
 import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
 import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpotManager;
+import micc.beaconav.indoorEngine.building.spot.marker.OnSpotMarkerSelectedListener;
 import micc.beaconav.indoorEngine.building.spot.path.PathSpot;
 import micc.beaconav.indoorEngine.building.spot.path.PathSpotManager;
 import micc.beaconav.localization.beaconHelper.BeaconBestProximityListener;
@@ -36,7 +37,8 @@ import micc.beaconav.localization.beaconHelper.GoodBadBeaconProximityManager;
 
 
 public class IndoorMapFragment extends Fragment
-        implements View.OnTouchListener, BeaconProximityListener, BeaconBestProximityListener
+        implements View.OnTouchListener, BeaconProximityListener, BeaconBestProximityListener,
+        OnSpotMarkerSelectedListener<ArtSpot>
 {
 
 
@@ -108,6 +110,9 @@ public class IndoorMapFragment extends Fragment
         }
 
 
+        markerManager.setOnMarkerSpotSelectedListener(this);
+
+
 
 
         // BUILDING DEFINITION
@@ -136,9 +141,9 @@ public class IndoorMapFragment extends Fragment
         ArtSpot spot3;
 
 
-        spot1 = new ArtSpot(2f,     2f);
-        spot2 = new ArtSpot(8f,     28);
-        spot3 = new ArtSpot(11f,   27f);
+        spot1 = new ArtSpot(null, 2f,     2f);
+        spot2 = new ArtSpot(null, 8f,     28);
+        spot3 = new ArtSpot(null, 11f,   27f);
 
         corridoio.add(spot1);
         stanzaFerracani.add(spot2);
@@ -209,9 +214,41 @@ public class IndoorMapFragment extends Fragment
     }
 
 
+    ArtSpot selectedMarker = null;
     MarkerSpot proximityMarker = null;
     PathSpot   lastLocalizedPathSpot = null;
 
+
+    // GESTIONE MARKER SELEZIONATO:
+    @Override
+    public void onMarkerSpotSelected(ArtSpot newSelectedMarker) {
+
+        boolean wasOldMarkerSelected = false;
+        MarkerSpot oldSelectedMarker = selectedMarker;
+        if(oldSelectedMarker != null)
+        {
+            if( oldSelectedMarker.isSelected() )
+            {
+                oldSelectedMarker.deselect();
+                wasOldMarkerSelected = true;
+            }
+        }
+        selectedMarker = newSelectedMarker;
+        selectedMarker.select();
+
+
+        // TODO: gestire interfaccia grafica
+        if(wasOldMarkerSelected)
+        {
+
+        }
+
+
+
+    }
+
+
+    // GESTIONE MARKER PIÙ VICINO (BEACON)
     @Override
     public void OnNewBeaconBestProximity(Beacon bestProximity, Beacon oldBestProximity) {
 

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.graphics.Color;
 import android.util.Log;
 
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -45,6 +46,10 @@ import micc.beaconav.localization.outdoorProximity.ProximityObject;
  */
 public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 {
+
+    private final static int PROXIMITY_RADIUS = 100; // in  metri
+    private final static int PROXIMITY_SQUARE_SIDE = 2000; // in metri
+
 
 
     private static Map istance = null;
@@ -221,7 +226,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
             public void onMyLocationChange(Location location) {
                 lastLocation = new LatLng( location.getLatitude(), location.getLongitude());
                 circle.setCenter(lastLocation);
-                proximityManager.startProximityAnalysis(location.getLatitude(), location.getLatitude(), 10, 500);
+                proximityManager.startProximityAnalysis(location.getLatitude(), location.getLongitude(), PROXIMITY_RADIUS, PROXIMITY_SQUARE_SIDE );
 
             }
         });
@@ -432,6 +437,8 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
         this.polyline = true;
     }
+
+
 
 
 

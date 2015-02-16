@@ -20,6 +20,14 @@ public class MarkerSpotManager<MS extends  MarkerSpot> extends DrawableSpotManag
     private static final int MAX_CLICK_DURATION = 200;
     private long startClickTime;
 
+    OnSpotMarkerSelectedListener<MS> listener = null;
+
+
+    public void setOnMarkerSpotSelectedListener( OnSpotMarkerSelectedListener<MS> listener) {
+        this.listener = listener;
+    }
+
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
@@ -41,7 +49,11 @@ public class MarkerSpotManager<MS extends  MarkerSpot> extends DrawableSpotManag
                     long clickDuration = Calendar.getInstance().getTimeInMillis() - startClickTime;
                     if (clickDuration < MAX_CLICK_DURATION)
                     {
-                        tapEvent(event);
+                        MS selectedMarker = tapEvent(event);
+                        if(selectedMarker != null && this.listener != null )
+                        {
+                            listener.onMarkerSpotSelected(selectedMarker);
+                        }
 
                     }
 
@@ -53,7 +65,7 @@ public class MarkerSpotManager<MS extends  MarkerSpot> extends DrawableSpotManag
         return true;
     }
 
-    public void tapEvent(MotionEvent event) {
+    public MS tapEvent(MotionEvent event) {
 
         MotionEvent.PointerCoords pointerCoords = new MotionEvent.PointerCoords();
         event.getPointerCoords(0, pointerCoords);
@@ -75,6 +87,7 @@ public class MarkerSpotManager<MS extends  MarkerSpot> extends DrawableSpotManag
                 selectedMarker.select();
             }
         }
+        return collidedMarker;
     }
 
     public MS getCollidedMarker(float x, float y) {
