@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.estimote.sdk.Beacon;
+import com.estimote.sdk.BeaconManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,16 +28,19 @@ import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
+import micc.beaconav.gui.seekBar.internal.Marker;
 import micc.beaconav.indoorEngine.beaconHelper.BeaconProximityListener;
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
+import micc.beaconav.indoorEngine.building.spot.Spot;
 import micc.beaconav.indoorEngine.building.spot.custom.ArtSpot;
 import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
 import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpotManager;
 import micc.beaconav.indoorEngine.building.spot.marker.OnSpotMarkerSelectedListener;
 import micc.beaconav.indoorEngine.building.spot.path.PathSpot;
 import micc.beaconav.indoorEngine.building.spot.path.PathSpotManager;
+import micc.beaconav.localization.beaconHelper.ABeaconProximityManager;
 import micc.beaconav.localization.beaconHelper.BeaconBestProximityListener;
 import micc.beaconav.localization.beaconHelper.GoodBadBeaconProximityManager;
 
@@ -63,6 +67,7 @@ public class IndoorMapFragment extends Fragment
     private Matrix buildingMatrix = new Matrix();
 
     IndoorMap indoorMap;
+    Building building;
     MarkerSpotManager markerManager;
     PathSpotManager pathSpotManager;
 
@@ -71,9 +76,10 @@ public class IndoorMapFragment extends Fragment
 
     GoodBadBeaconProximityManager proximityManager;
 
-    HashMap<Integer, MarkerSpot> marker_beacon_map = new HashMap<>();
-    HashMap<Integer, PathSpot>   pathSpot_beacon_map = new HashMap<>();
+//    HashMap<Integer, MarkerSpot> marker_beacon_map = new HashMap<>();
+//    HashMap<Integer, PathSpot>   pathSpot_beacon_map = new HashMap<>();
 
+    HashMap<Integer, Spot> spot_beacon_map = new HashMap<>();
 
 
     @Override
@@ -120,7 +126,7 @@ public class IndoorMapFragment extends Fragment
 
 
         // BUILDING DEFINITION
-        Building building = new Building(50*PPM, 50*PPM);
+        building = new Building(50*PPM, 50*PPM);
 
         // FLOOR DEFINITION
         Floor floor = new Floor(0);
@@ -152,16 +158,17 @@ public class IndoorMapFragment extends Fragment
         stanzaFerracani.add(spot3);
 
 
-        marker_beacon_map.put(GoodBadBeaconProximityManager.getID(31950, 39427), spot1);
 
 
         DbManager.getLastArtworkDownloader().addHandler(new JSONHandler<ArtworkRow>() {
             @Override
             public void onJSONDownloadFinished(ArtworkRow[] result) {
-                if(result.length > 3) {
+                if (result.length > 3) {
                     spot1.setArtworkRow(result[2]);
                     spot2.setArtworkRow(result[3]);
                     spot3.setArtworkRow(result[4]);
+                    spot_beacon_map.put(GoodBadBeaconProximityManager.getID(31950, 39427), spot1);
+
                 }
             }
         });
@@ -226,6 +233,7 @@ public class IndoorMapFragment extends Fragment
         //foregroundImgView.setOnTouchListener(markerManager);
 
         pathSpotManager = building.drawBestPath(corridoio.getRoomSpot(), stanzaFerracani.getRoomSpot());
+
         navigationImgView.setImageDrawable(pathSpotManager.newWrapperDrawable());
 
 
@@ -235,9 +243,10 @@ public class IndoorMapFragment extends Fragment
     }
 
 
-    ArtSpot selectedMarker = null;
-    MarkerSpot proximityMarker = null;
-    PathSpot   lastLocalizedPathSpot = null;
+    ArtSpot     selectedMarker = null;
+    ArtSpot  proximityMarker = null;
+    PathSpot    currentLocalizedSpot = null;
+    PathSpot    lastLocalizedPathSpot = null;
 
 
     // GESTIONE MARKER SELEZIONATO:
@@ -253,23 +262,49 @@ public class IndoorMapFragment extends Fragment
             }
         }
         selectedMarker = newSelectedMarker;
-        selectedMarker.select();
 
         if(selectedMarker != null)
         {
-            FragmentHelper.instance().showArtworkDetailsFragment(selectedMarker.getArtworkRow());
+            selectedMarker.select();
+            if(selectedMarker.getArtworkRow() == null)
+                DbManager.getLastArtworkDownloader().addHandler( new JSONHandler<ArtworkRow>() {
+                    @Override
+                    public void onJSONDownloadFinished(ArtworkRow[] result) {
+                        if(selectedMarker.getArtworkRow() != null)
+                           FragmentHelper.instance().showArtworkDetailsFragment((selectedMarker).getArtworkRow());
+                    }
+                });
+            else FragmentHelper.instance().showArtworkDetailsFragment((selectedMarker).getArtworkRow());
         }
 
 
 
     }
 
-
     // GESTIONE MARKER PIÙ VICINO (BEACON)
     @Override
     public void OnNewBeaconBestProximity(Beacon bestProximity, Beacon oldBestProximity) {
 
-        proximityMarker = marker_beacon_map.get(GoodBadBeaconProximityManager.getID(bestProximity));
+        Spot beaconAssociatedSpot  = spot_beacon_map.get(ABeaconProximityManager.getID(bestProximity));
+
+        if( beaconAssociatedSpot instanceof ArtSpot )
+        {
+            this.proximityMarker = (ArtSpot) beaconAssociatedSpot;
+            if( proximityMarker.getNearestPathSpot() != null)
+            {
+                this.currentLocalizedSpot= proximityMarker.getNearestPathSpot();
+                this.lastLocalizedPathSpot = this.currentLocalizedSpot;
+
+            }
+        }
+        else if( beaconAssociatedSpot instanceof  PathSpot )
+        {
+            this.proximityMarker = null;
+            this.currentLocalizedSpot = this.lastLocalizedPathSpot = (PathSpot) beaconAssociatedSpot;
+        }
+
+
+
 
         Toast toast;
         if(proximityMarker != null)
@@ -279,33 +314,46 @@ public class IndoorMapFragment extends Fragment
             FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.VISIBLE);
             toast = Toast.makeText(getActivity(), "BEACON VICINO!!!", Toast.LENGTH_LONG);
 
+            FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onMarkerSpotSelected(proximityMarker);
+                    markerManager.invalidate();
+                }
+            });
+
         }
         else
         {
             // TODO: rimuovi la notifica di una opera d'arte vicina. Nascondi pulsante per visualizzare l'opera
             FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.INVISIBLE);
             toast = Toast.makeText(getActivity(), "BEACON LONTANO ...", Toast.LENGTH_LONG);
+            FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
         }
-
-        PathSpot newPathBest = pathSpot_beacon_map.get(GoodBadBeaconProximityManager.getID(bestProximity));
-
-        if(newPathBest != null)
-        {
-            lastLocalizedPathSpot = newPathBest;
-        }
-
         toast.show();
 
     }
-
     @Override
     public void OnNoneBeaconBestProximity(Beacon oldBestProximity) {
-        proximityMarker = null;
+
+        this.proximityMarker = null;
+        this.currentLocalizedSpot = null;
+
+        FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         // TODO: rimuovi la notifica di una opera d'arte vicina. Nascondi pulsante per visualizzare l'opera
         FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.INVISIBLE);
         Toast toast = Toast.makeText(getActivity(), "BEACON LONTANO ...", Toast.LENGTH_SHORT);
-
         toast.show();
     }
 
@@ -332,6 +380,34 @@ public class IndoorMapFragment extends Fragment
         building.draw(frameBuildingCanvas);
 
         return frame;
+    }
+
+
+    public int navigateToSelectedMarker() {
+        if(this.lastLocalizedPathSpot != null && selectedMarker != null)
+        {
+            if(selectedMarker.getNearestPathSpot() != null)
+            {
+                pathSpotManager =  building.drawBestPath(lastLocalizedPathSpot, selectedMarker.getNearestPathSpot());
+                navigationImgView.setImageDrawable(pathSpotManager.generateWrapperDrawable());
+                return 1;
+            }
+            else
+            {
+                Toast toast = Toast.makeText(getActivity(),
+                        "Purtroppo l'opera d'arte selezionata non è stata localizzata sulla mappa...", Toast.LENGTH_SHORT);
+                toast.show();
+                return -1;
+            }
+        }
+        else
+        {
+            Toast toast = Toast.makeText(getActivity(),
+                    "Purtroppo non siamo riusciti a localizzarti.. avvicinati ad un beacon o scannerizza un QR code", Toast.LENGTH_LONG);
+            toast.show();
+            return 0;
+        }
+
     }
 
 

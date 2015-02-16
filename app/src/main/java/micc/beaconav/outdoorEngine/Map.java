@@ -176,6 +176,8 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
             } else lastProxyMuseum = object;
         }
     }
+
+    
     public void setFakeProximity(boolean val){
         this.fakeProximity = val;
     }
