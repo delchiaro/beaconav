@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
 import micc.beaconav.FragmentHelper;
+import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.indoorEngine.building.spot.marker.Collidable;
 import micc.beaconav.indoorEngine.building.spot.marker.CollidableCircle;
@@ -17,15 +18,15 @@ import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
  */
 public class ArtSpot extends MarkerSpot
 {
-    public ArtSpot() { this(0, 0); }
-    public ArtSpot(float x, float y) {
-        this(x, y, null);
+    private final ArtworkRow artworkRow;
 
+    public ArtSpot(ArtworkRow artworkRow) { this(artworkRow, 0, 0); }
+    public ArtSpot(ArtworkRow artworkRow, float x, float y) {
+        this(artworkRow, x, y, null);
     }
-
-    public ArtSpot(float x, float y, Room room_container) {
+    public ArtSpot(ArtworkRow artworkRow, float x, float y, Room room_container) {
         super(x, y, room_container);
-
+        this.artworkRow = artworkRow;
 
         if(borderPaint == null)
         {
@@ -81,6 +82,11 @@ public class ArtSpot extends MarkerSpot
     private final static int radius_collision = FragmentHelper.dpToPx(radius_collision_DP);
 
 
+
+
+    public ArtworkRow getArtworkRow() {
+        return this.artworkRow;
+    }
     @Override
     protected Drawable generateDrawable() {
         return new Drawable() {
