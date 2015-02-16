@@ -37,6 +37,7 @@ public class NameHeaderFragment extends Fragment {
         textViewName = (TextView)getView().findViewById(R.id.name);
         if(artRow != null) {
             textViewName.setText(artRow.getName());
+            textViewName.setSelected(true);
         }
         backBtn = (Button)getView().findViewById(R.id.back_button2);
         backBtn.setOnClickListener(new View.OnClickListener() {

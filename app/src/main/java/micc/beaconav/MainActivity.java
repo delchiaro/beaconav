@@ -73,6 +73,7 @@ public class MainActivity extends ActionBarActivity
     private FloatingActionButton floatingActionButton;
     private FloatingActionButton floatingActionButtonQRScanBtn;
     private FloatingActionButton floatingActionButtonNotifyBeaconProximity;
+    private FloatingActionButton floatingActionButtonNotifyToIndoor;
 
 
 
@@ -92,6 +93,7 @@ public class MainActivity extends ActionBarActivity
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floating_action_button);
         floatingActionButtonQRScanBtn = (FloatingActionButton) findViewById(R.id.scanCodeBtn);
         floatingActionButtonNotifyBeaconProximity = (FloatingActionButton) findViewById(R.id.notifyArtworkProximity);
+        floatingActionButtonNotifyToIndoor = (FloatingActionButton) findViewById(R.id.notifyToIndoor);
         fragmentHeaderContainer = (RelativeLayout) findViewById(R.id.fragment_sliding_header_container);
         mSlidingBar = (LinearLayout) findViewById(R.id.slidingBar);
         fragmentListContainer = (RelativeLayout) findViewById(R.id.fragment_list_container);
@@ -426,6 +428,10 @@ public class MainActivity extends ActionBarActivity
     public FloatingActionButton getFloatingActionButtonNotifyBeaconProximity() {
         return floatingActionButtonNotifyBeaconProximity;
     }
+    public FloatingActionButton getFloatingActionButtonNotifyToIndoor() {
+        return floatingActionButtonNotifyToIndoor;
+    }
+
     // * * * * * * * * * * * * * * *  ALTRI EVENT MANAGER CREATI BEACONAV * * * * * * * * * * * * * * *
 
 

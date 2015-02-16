@@ -241,7 +241,14 @@ public class FragmentHelper  implements MuseumMarkerManager
         swapFragment(R.id.fragment_list_container, artworkDescrFragment);
         artworkDescrFragment.setArtworkRow(row);
         mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
-        mainActivity.setFABListener(defaultFABOnClickListener);
+        mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.ic_directions_white_48dp));
+        mainActivity.setFABListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //indoorMapFragment.
+            }
+        });
+
 
         //settare il bottone per la navigazione verso l'opera
 
