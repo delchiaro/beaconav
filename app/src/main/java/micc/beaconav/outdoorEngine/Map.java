@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.graphics.Color;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
@@ -15,11 +16,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.maps.android.SphericalUtil;
 
 
 import java.util.Arrays;
@@ -82,6 +85,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
     private Circle circle;
     private CircleOptions circleOptions;
+    private LatLngBounds latLngBounds;
 
 
     private ProximityManager proximityManager;
@@ -227,6 +231,13 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     public void setCircleRadius(int radius)
     {
         circle.setRadius(radius);
+        latLngBounds = new LatLngBounds.Builder().
+                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 0)).
+                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 90)).
+                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 180)).
+                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 270)).build();
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, 3);
+        gmap.animateCamera(cameraUpdate);
     }
 
 

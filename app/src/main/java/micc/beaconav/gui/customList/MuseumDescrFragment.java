@@ -82,12 +82,4 @@ public class MuseumDescrFragment extends Fragment
 
 
 
-
-
-
-
-
-
-
-
 }

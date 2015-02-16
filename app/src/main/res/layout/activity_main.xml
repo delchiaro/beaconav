@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sothree:umanoPanelHeight="48dp"
+        sothree:umanoPanelHeight="64dp"
         sothree:umanoShadowHeight="0dp"
         sothree:umanoParalaxOffset="100dp"
         sothree:umanoDragView="@+id/dragView"
@@ -32,9 +32,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
-
-
-
 
 
             <!--Contenitore della mappa (outdoor, indoor)-->
@@ -57,6 +54,29 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/layout_searchbar_corners"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/scanCodeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:layout_marginTop="64dp"
+                sothree:fab_colorNormal="@color/black_semi_transparent"
+                sothree:fab_colorPressed="@color/white_pressed"
+                sothree:fab_icon="@mipmap/ic_qr_code"/>
+
+            <!--Questi 2 textView vanno tolti, servono solo per testare-->
+            <TextView
+                android:id="@+id/scan_format"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp" />
+            <TextView
+                android:id="@+id/scan_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
 
 
@@ -82,7 +102,7 @@
             <LinearLayout
                 android:id="@+id/slidingBar"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="64dp"
                 android:orientation="horizontal"
                 >
                 <!--android:layout_height deve cambiare col android:layout_height del RelativeLayout qui sotto
@@ -92,7 +112,7 @@
                 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="64dp"
                     android:background="@android:color/white"
                     android:id="@+id/fragment_sliding_header_container"
                     > <!--Questo è il colore che deve cambiare-->
@@ -114,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="275dp"
-                android:layout_marginTop="-75dp"
+                android:layout_marginTop="-91dp"
                 fab:fab_icon="@drawable/white_museum"
                 fab:fab_colorNormal="@color/orange"
                 fab:fab_colorPressed="@color/white_pressed"
@@ -126,7 +146,7 @@
                 android:id="@+id/fragment_list_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="2dp">
+                android:paddingTop="18dp">
 
                 <!-- Qui ci finiscono i vari fragment -->
 
