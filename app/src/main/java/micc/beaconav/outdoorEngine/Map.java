@@ -160,6 +160,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     {
         gmap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
     }
+
     @Override
     public void handleProximityNotification(ProximityObject object)
     {

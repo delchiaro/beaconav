@@ -1,5 +1,6 @@
 package micc.beaconav.localization.outdoorProximity;
 
+import android.location.Location;
 import android.os.AsyncTask;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -64,10 +65,34 @@ public class ProximityAnalysisTask extends AsyncTask<ProximityObject, String, Pr
          */
 
 
-        // FAKE PROXIMITY
-        if(proximityObjects != null)
+
+        if(proximityObjects != null && proximityObjects.length >= 1)
         {
-            return proximityObjects[0];
+            Location currentLocation = new Location("currentLocation");
+            currentLocation.setLatitude(myPosition.latitude);
+            currentLocation.setLongitude(myPosition.longitude);
+
+            Location testLocation = new Location("testLocation");
+            testLocation.setLatitude(proximityObjects[0].getLatitude());
+            testLocation.setLatitude(proximityObjects[0].getLongitude());
+
+            ProximityObject best = proximityObjects[0];
+            float bestDistance = currentLocation.distanceTo(testLocation);
+            float testDistance;
+
+            for(int i = 1 ; i < proximityObjects.length ; i++)
+            {
+                testLocation.setLatitude(proximityObjects[i].getLatitude());
+                testLocation.setLongitude(proximityObjects[i].getLongitude());
+                testDistance = currentLocation.distanceTo(testLocation);
+                if(testDistance < bestDistance)
+                {
+                    bestDistance = testDistance;
+                    best = proximityObjects[i];
+                }
+            }
+
+            return best;
         }
         else return null;
     }

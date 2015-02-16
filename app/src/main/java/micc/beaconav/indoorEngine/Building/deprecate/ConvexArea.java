@@ -50,7 +50,7 @@
 //    public final Floor getContainerFloor() {
 //        return getContainerRoom().getContainerFloor();
 //    }
-//    public final Building getContainerBuilding() {
+//    public final building getContainerBuilding() {
 //        return getContainerFloor().getContainerBuilding();
 //    }
 //

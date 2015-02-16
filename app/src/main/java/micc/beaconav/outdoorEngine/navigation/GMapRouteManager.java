@@ -76,13 +76,13 @@ public class GMapRouteManager
             }
         }
 
-        // Building the parameters to the web service
+        // building the parameters to the web service
         String parameters = str_origin + "&" + str_dest+ "&" + str_key + "&" + sensor + "&" + str_waypoints;
 
         // Output format
         String output = "json";
 
-        // Building the url to the web service
+        // building the url to the web service
         String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
         return url;
     }

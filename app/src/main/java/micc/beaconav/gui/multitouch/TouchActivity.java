@@ -16,7 +16,7 @@
 //
 //import micc.beaconav.R;
 //import micc.beaconav.indoorEngine.IndoorMap;
-//import micc.beaconav.indoorEngine.building.Building;
+//import micc.beaconav.indoorEngine.building.building;
 //import micc.beaconav.indoorEngine.building.Floor;
 //import micc.beaconav.gui.multitouch.gesturedetectors.MoveGestureDetector;
 //import micc.beaconav.gui.multitouch.gesturedetectors.RotateGestureDetector;
@@ -84,7 +84,7 @@
 //
 //
 //        Bitmap floor0_bmp = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
-//        Building building = new Building(500,500);
+//        building building = new building(500,500);
 //        Floor floor0 = new Floor();
 //        Floor floor1 = new Floor();
 //
@@ -108,7 +108,7 @@
 //
 //    //Create a new image bitmap and setManager a brand new canvas to it
 //
-//    /*    Building building = new Building(500, 220);
+//    /*    building building = new building(500, 220);
 //        Bitmap floor0 = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
 //        building.addFloor(floor0, new Position(0,0));
 //        IndoorMap indoorMapHere = new IndoorMap(building);
@@ -159,7 +159,7 @@
 //
 //
 //        Bitmap floor0_bmp = BitmapFactory.decodeResource(getResources(), R.drawable.indoor_map);
-//        Building building = new Building(500,500);
+//        building building = new building(500,500);
 //        Floor floor0 = new Floor( );
 //        Floor floor1 = new Floor( );
 //
