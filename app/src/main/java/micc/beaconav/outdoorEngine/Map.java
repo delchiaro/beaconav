@@ -381,6 +381,10 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     {
         if(getCurrentLatLng() != null && getSelectedMuseumLatLng() != null) {
             route(getCurrentLatLng(), getSelectedMuseumLatLng());
+            latLngBounds = new LatLngBounds.Builder().include(getCurrentLatLng())
+                                                     .include(getSelectedMuseumLatLng()).build();
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, 300);// questo int rappresenta il padding, sarebbe buono ottimizzarlo a seconda della lunghezza del percorso
+            gmap.animateCamera(cameraUpdate);
         }
     }
 
