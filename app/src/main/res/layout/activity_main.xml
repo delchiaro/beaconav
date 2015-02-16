@@ -65,6 +65,15 @@
                 sothree:fab_colorPressed="@color/white_pressed"
                 sothree:fab_icon="@mipmap/ic_qr_code"/>
 
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/notifyArtworkProximity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:layout_marginTop="136dp"
+                sothree:fab_colorNormal="@color/white"
+                sothree:fab_colorPressed="@color/white_pressed"/>
+
             <!--Questi 2 textView vanno tolti, servono solo per testare-->
             <TextView
                 android:id="@+id/scan_format"

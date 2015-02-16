@@ -153,6 +153,7 @@ public class FragmentHelper  implements MuseumMarkerManager
         showMuseumListFragment();
         mainActivity.setFABListener(defaultFABOnClickListener);
         mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.INVISIBLE);
+        mainActivity.getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.INVISIBLE);
     }
 
 
@@ -240,6 +241,8 @@ public class FragmentHelper  implements MuseumMarkerManager
         swapFragment(R.id.fragment_list_container, artworkDescrFragment);
         artworkDescrFragment.setArtworkRow(row);
         mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
+        mainActivity.setFABListener(defaultFABOnClickListener);
+
         //settare il bottone per la navigazione verso l'opera
 
     }

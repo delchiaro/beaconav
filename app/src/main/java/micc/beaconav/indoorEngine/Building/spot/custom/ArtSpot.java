@@ -18,15 +18,14 @@ import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
  */
 public class ArtSpot extends MarkerSpot
 {
-    private final ArtworkRow artworkRow;
+    private  ArtworkRow artworkRow;
 
-    public ArtSpot(ArtworkRow artworkRow) { this(artworkRow, 0, 0); }
-    public ArtSpot(ArtworkRow artworkRow, float x, float y) {
-        this(artworkRow, x, y, null);
+    public ArtSpot() { this( 0, 0); }
+    public ArtSpot(float x, float y) {
+        this(x, y, null);
     }
-    public ArtSpot(ArtworkRow artworkRow, float x, float y, Room room_container) {
+    public ArtSpot(float x, float y, Room room_container) {
         super(x, y, room_container);
-        this.artworkRow = artworkRow;
 
         if(borderPaint == null)
         {
@@ -63,6 +62,13 @@ public class ArtSpot extends MarkerSpot
     }
 
 
+    public void setArtworkRow(ArtworkRow row) {
+        this.artworkRow = row;
+    }
+    public ArtworkRow getArtworkRow() {
+        return this.artworkRow;
+    }
+
 
     private static Paint borderPaint = null;
     private static Paint fillPaint = null;
@@ -83,10 +89,6 @@ public class ArtSpot extends MarkerSpot
 
 
 
-
-    public ArtworkRow getArtworkRow() {
-        return this.artworkRow;
-    }
     @Override
     protected Drawable generateDrawable() {
         return new Drawable() {

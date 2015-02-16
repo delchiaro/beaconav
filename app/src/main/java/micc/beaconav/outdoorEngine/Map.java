@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.graphics.Color;
 import android.util.Log;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -48,7 +47,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 {
 
     private final static int PROXIMITY_RADIUS = 100; // in  metri
-    private final static int PROXIMITY_SQUARE_SIDE = 2000; // in metri
+    private final static int PROXIMITY_SKIMMING_RADIUS = 2000; // in metri
 
 
 
@@ -107,7 +106,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         this.gmap.getUiSettings().setZoomControlsEnabled(false);
         FragmentHelper fh = FragmentHelper.instance();
         this.gmap.setPadding(fh.dpToPx(5),  fh.dpToPx(50), fh.dpToPx(0), fh.dpToPx(5));
-        proximityManager = new ProximityManager(this);
+        proximityManager = new ProximityManager(PROXIMITY_RADIUS, PROXIMITY_SKIMMING_RADIUS, this);
 
         this.markerManager = markerManager;
 
@@ -151,10 +150,10 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
 
     public void setCamera(LatLng newLatLng, float newZoom){
-       gmap.moveCamera( CameraUpdateFactory.newLatLngZoom( newLatLng , newZoom) );
+       gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLatLng, newZoom));
     }
     public void setCamera(LatLng newLatLng){
-        gmap.moveCamera( CameraUpdateFactory.newLatLng( newLatLng) );
+        gmap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
     }
 
     public void zoomOnLatLng(LatLng latLng, float zoom)
@@ -208,8 +207,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         gmap.setOnMapLongClickListener(new OnMapLongClickListener() {
 
             @Override
-            public void onMapLongClick(LatLng point)
-            {
+            public void onMapLongClick(LatLng point) {
                 unsetMuseumMarker();
             }
         });
@@ -226,7 +224,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
             public void onMyLocationChange(Location location) {
                 lastLocation = new LatLng( location.getLatitude(), location.getLongitude());
                 circle.setCenter(lastLocation);
-                proximityManager.startProximityAnalysis(location.getLatitude(), location.getLongitude(), PROXIMITY_RADIUS, PROXIMITY_SQUARE_SIDE );
+                proximityManager.startProximityAnalysis(location.getLatitude(), location.getLongitude(), PROXIMITY_RADIUS, PROXIMITY_SKIMMING_RADIUS);
 
             }
         });

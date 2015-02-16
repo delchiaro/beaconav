@@ -26,7 +26,9 @@ public class DbManager
 
 
 
+
     static private final String artworkJSONLink = "http://trinity.micc.unifi.it/museumapp/JSON_Artworks.php";
+    static public JSONDownloader<ArtworkRow, ArtworkSchema> lastArtworkDownloader = null;
     public static JSONDownloader<ArtworkRow, ArtworkSchema> getArtworkDownloader(MuseumRow museum,
                                                                                  JSONHandler<ArtworkRow> handler) {
 
@@ -35,7 +37,12 @@ public class DbManager
                                         new JSONDownloader<>(new ArtworkSchema(), artworkJSONLink, param );
         artworkDownloader.addHandler(handler);
         artworkDownloader.startDownload();
+        lastArtworkDownloader = artworkDownloader;
         return artworkDownloader;
+    }
+
+    public static JSONDownloader<ArtworkRow, ArtworkSchema> getLastArtworkDownloader() {
+        return lastArtworkDownloader;
     }
 
 

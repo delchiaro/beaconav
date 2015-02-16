@@ -46,7 +46,7 @@ public class ProximityManager
         myLoc.setLatitude(myLat);
         myLoc.setLongitude(myLong);
 
-        if(myLoc.distanceTo(skimmingLocation) > skimmingRadius - proximityRadius)
+        if(skimmingLocation == null || myLoc.distanceTo(skimmingLocation) > skimmingRadius - proximityRadius)
         {
             makeNewSkimming(myLoc);
         }
@@ -77,6 +77,7 @@ public class ProximityManager
                 if (newSkimmingLoc.distanceTo(loc) < this.skimmingRadius)
                 {
                     skimmedProxyObjects.add(po);
+                    this.skimmingLocation = newSkimmingLoc;
                 }
             }
         }
