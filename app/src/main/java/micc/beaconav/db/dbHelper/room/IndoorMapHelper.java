@@ -9,7 +9,7 @@
 //
 //import micc.beaconav.db.dbHelper.museum.MuseumRow;
 //import micc.beaconav.db.dbJSONManager.JSONDownloader;
-//import micc.beaconav.indoorEngine.building.Building;
+//import micc.beaconav.indoorEngine.building.building;
 //import micc.beaconav.indoorEngine.building.ConvexArea;
 //import micc.beaconav.indoorEngine.building.Floor;
 //import micc.beaconav.indoorEngine.building.Room;
@@ -26,14 +26,14 @@
 //    JSONDownloader<SpotRow, SpotSchema>             spotDownloader;
 //    JSONDownloader<IngressRow, IngressSchema>       ingressDownloader;
 //
-//    Building generatedBuilding = null;
+//    building generatedBuilding = null;
 //
 //    public IndoorMapHelper(MuseumRow museum) {
 //        this.museumRow = museum;
 //        // fai partire tutti i download
 //    }
 //
-//    public Building getBuilding() {
+//    public building getBuilding() {
 //
 //        roomDownloader.startDownload();
 //        // TODO: da fare su un altro thread
@@ -54,7 +54,7 @@
 //
 //
 //
-//        Building building = new Building(museumRow.width.getValue().intValue(), museumRow.height.getValue().intValue());
+//        building building = new building(museumRow.width.getValue().intValue(), museumRow.height.getValue().intValue());
 //        List<Floor> floors = new ArrayList<>();
 //        for(int r = 0; r < rooms.length; r++)
 //        {

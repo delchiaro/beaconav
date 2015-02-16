@@ -18,7 +18,7 @@ public class Building extends Container<Floor>
 {
 
   //  LatLng p1;
-  //  LatLng p2; // Il Building è un rettangolo definito tra due punti p1 e p2
+  //  LatLng p2; // Il building è un rettangolo definito tra due punti p1 e p2
 
 	private float width; // in  metri
     private float height; // in metri
