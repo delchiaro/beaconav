@@ -6,7 +6,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.Double
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringField;
-import micc.beaconav.localization.proximity.ProximityObject;
+import micc.beaconav.localization.outdoorProximity.ProximityObject;
 
 /**
  * Created by nagash on 22/01/15.

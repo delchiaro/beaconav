@@ -6,7 +6,6 @@ import android.graphics.PointF;
 import java.util.HashMap;
 import java.util.Map;
 
-import micc.beaconav.localization.Position;
 
 /**
  * Created by Nagash on 29/12/2014.

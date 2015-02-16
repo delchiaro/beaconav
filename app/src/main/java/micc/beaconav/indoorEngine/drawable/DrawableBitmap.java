@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 
-import micc.beaconav.localization.Position;
 
 /**
  * Created by Nagash on 23/12/2014.

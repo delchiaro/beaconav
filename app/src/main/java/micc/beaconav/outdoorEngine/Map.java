@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.graphics.Color;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
@@ -15,15 +16,16 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.maps.android.SphericalUtil;
 
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,9 +35,9 @@ import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 import micc.beaconav.outdoorEngine.navigation.GMapRouteManager;
 import micc.beaconav.outdoorEngine.navigation.Navigation;
-import micc.beaconav.localization.proximity.ProximityManager;
-import micc.beaconav.localization.proximity.ProximityNotificationHandler;
-import micc.beaconav.localization.proximity.ProximityObject;
+import micc.beaconav.localization.outdoorProximity.ProximityManager;
+import micc.beaconav.localization.outdoorProximity.ProximityNotificationHandler;
+import micc.beaconav.localization.outdoorProximity.ProximityObject;
 
 
 /**
@@ -83,6 +85,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
     private Circle circle;
     private CircleOptions circleOptions;
+    private LatLngBounds latLngBounds;
 
 
     private ProximityManager proximityManager;
@@ -111,7 +114,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         // Instantiates a new CircleOptions object and defines the center and radius
         circleOptions = new CircleOptions()
                 .center(new LatLng(37.4, -122.1))
-                .radius(1000)// In meters
+                .radius(0)// In meters
                 .strokeColor(Color.parseColor("#FF9800"))
                 .strokeWidth(5)
                 .fillColor(Color.parseColor("#20FFA726"));
@@ -228,6 +231,16 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     public void setCircleRadius(int radius)
     {
         circle.setRadius(radius);
+        if( getCurrentLatLng() != null)
+        {
+            latLngBounds = new LatLngBounds.Builder().
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 0)).
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 90)).
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 180)).
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 270)).build();
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, 3);
+            gmap.animateCamera(cameraUpdate);
+        }
     }
 
 
@@ -342,11 +355,6 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
     }
 
-    public Map setRadius(int radius)
-    {
-        circle.setRadius(radius);
-        return this;
-    }
 
 
 
@@ -373,6 +381,10 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     {
         if(getCurrentLatLng() != null && getSelectedMuseumLatLng() != null) {
             route(getCurrentLatLng(), getSelectedMuseumLatLng());
+            latLngBounds = new LatLngBounds.Builder().include(getCurrentLatLng())
+                                                     .include(getSelectedMuseumLatLng()).build();
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, 300);// questo int rappresenta il padding, sarebbe buono ottimizzarlo a seconda della lunghezza del percorso
+            gmap.animateCamera(cameraUpdate);
         }
     }
 

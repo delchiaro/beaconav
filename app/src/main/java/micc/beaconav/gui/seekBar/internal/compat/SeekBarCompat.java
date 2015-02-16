@@ -50,7 +50,7 @@ public class SeekBarCompat {
 
     /**
      * Our DiscreteSeekBar implementation uses a circular drawable on API < 21
-     * because we don't set it as Background, but draw it ourselves
+     * because we don't set it as Background, but drawWalls it ourselves
      *
      * @param colorStateList
      * @return

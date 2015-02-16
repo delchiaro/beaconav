@@ -1,13 +1,15 @@
 package micc.beaconav.indoorEngine.building;
 
 import android.graphics.Canvas;
-import android.graphics.ColorFilter;
 import android.graphics.PointF;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.TreeMap;
 
-import micc.beaconav.indoorEngine.drawable.Drawable;
+import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
+import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpotManager;
+import micc.beaconav.indoorEngine.building.spot.path.PathSpot;
+import micc.beaconav.indoorEngine.building.spot.path.PathSpotManager;
 import micc.beaconav.util.containerContained.ContainerContained;
 
 
@@ -17,6 +19,14 @@ public class Floor extends ContainerContained<Building, Room>  // extends Drawab
 
     // not used for now
     private PointF padding = new PointF(0,0);
+
+
+    private PathSpotManager<PathSpot> _pathSpotManager = new PathSpotManager<>();
+    private MarkerSpotManager<MarkerSpot> _markerSpotManager = new MarkerSpotManager<>();
+
+
+
+
 
     public Floor() {}
 	public Floor(int floorIndex) {
@@ -34,11 +44,54 @@ public class Floor extends ContainerContained<Building, Room>  // extends Drawab
 
 
 
+
+
+
+    public void addMarker(MarkerSpot marker) {
+        this._markerSpotManager.add(marker);
+    }
+    public void addAllMarkers(Collection<MarkerSpot> markers) {
+        this._markerSpotManager.addAll(markers);
+    }
+    public MarkerSpotManager getMarkerManager() {
+        return this._markerSpotManager;
+    }
+
+
+
+
+    public void addPathSpot(PathSpot pathSpot) {
+        this._pathSpotManager.add(pathSpot);
+    }
+    public void addAllPathSpot(Collection<PathSpot> pathSpot) {
+        this._pathSpotManager.addAll(pathSpot);
+    }
+    public PathSpotManager getPathSpotManager() {
+        return this._pathSpotManager;
+    }
+
+
+
+
+
+
+
     public void draw(Canvas canvas) {
+
         Iterator<Room> roomIter = super.getIterator();
-        while(roomIter.hasNext()) {
-            roomIter.next().draw(canvas, padding); //delego disegno ad ogni stanza
+        while(roomIter.hasNext())
+        {
+            roomIter.next().drawWalls(canvas, padding); //delego disegno ad ogni stanza
         }
+
+
+        roomIter = super.getIterator();
+        while(roomIter.hasNext())
+        {
+            roomIter.next().drawDoorsAndAperture(canvas, padding); //delego disegno ad ogni stanza
+        }
+
+
     }
 
     public final Building getContainerBuilding() {

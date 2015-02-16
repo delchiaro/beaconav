@@ -31,8 +31,7 @@ public class ListAdapter extends BaseAdapter {
 
 
     private Context context;
-    private List<IArtRow> list; //lista di oggetti base della lista (sono questi che si possono modificare a piacimento)
-    //private ArtDescrFragment artDescrFragment;
+    private List<IArtRow> list;
 
     private class ViewHolder
     {
@@ -69,7 +68,7 @@ public class ListAdapter extends BaseAdapter {
         final IArtRow artRow = (IArtRow) getItem(position);
 
         holder._artPieceName.setText(artRow.getName());
-        holder._navButton.setImageResource(artRow.getImageId());
+        //holder._navButton.setImageResource(artRow.getImageId());
 
 
         final IArtRow currentRow = list.get(position);
@@ -87,17 +86,18 @@ public class ListAdapter extends BaseAdapter {
             }
         });
 
-        holder._artPieceName.setOnClickListener( new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if( currentRow instanceof MuseumRow)
-                {
-                    FragmentHelper.instance().simulateMuseumOnMapClick((MuseumRow) currentRow);
-                }
-                //else {setta il listener per l'indoor per il focus sull'opera d'arte voluta}
-            }
-        });
+        //Questo listener è inutile, è già settato nell'artListFragment
+//        holder._artPieceName.setOnClickListener( new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                if( currentRow instanceof MuseumRow)
+//                {
+//                    FragmentHelper.instance().simulateMuseumOnMapClick((MuseumRow) currentRow);
+//                }
+//                //else {setta il listener per l'indoor per il focus sull'opera d'arte voluta}
+//            }
+//        });
 
         return convertView;
 

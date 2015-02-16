@@ -31,7 +31,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 /**
- * Implementation of {@link StateDrawable} to draw a morphing marker symbol.
+ * Implementation of {@link StateDrawable} to drawWalls a morphing marker symbol.
  * <p>
  * It's basically an implementation of an {@link android.graphics.drawable.Animatable} Drawable with the following details:
  * </p>
