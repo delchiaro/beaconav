@@ -1,4 +1,4 @@
-package micc.beaconav.localization.proximity;
+package micc.beaconav.localization.outdoorProximity;
 
 /**
  * Created by nagash on 23/01/15.

@@ -1,5 +1,6 @@
 package micc.beaconav.indoorEngine;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -13,25 +14,29 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.estimote.sdk.Beacon;
 
+import java.util.HashMap;
 import java.util.List;
 
 import micc.beaconav.R;
-import micc.beaconav.indoorEngine.beaconHelper.BeaconHelper;
 import micc.beaconav.indoorEngine.beaconHelper.BeaconProximityListener;
 import micc.beaconav.indoorEngine.building.Building;
-import micc.beaconav.indoorEngine.building.ConvexArea;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
-import micc.beaconav.indoorEngine.building.Vertex;
-import micc.beaconav.indoorEngine.building.spot.ArtSpot;
-import micc.beaconav.indoorEngine.building.spot.DrawableSpotManager;
+import micc.beaconav.indoorEngine.building.spot.custom.ArtSpot;
+import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
+import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpotManager;
+import micc.beaconav.indoorEngine.building.spot.path.PathSpot;
+import micc.beaconav.indoorEngine.building.spot.path.PathSpotManager;
+import micc.beaconav.localization.beaconHelper.BeaconBestProximityListener;
+import micc.beaconav.localization.beaconHelper.GoodBadBeaconProximityManager;
 
 
 public class IndoorMapFragment extends Fragment
-        implements View.OnTouchListener, BeaconProximityListener
+        implements View.OnTouchListener, BeaconProximityListener, BeaconBestProximityListener
 {
 
 
@@ -46,38 +51,67 @@ public class IndoorMapFragment extends Fragment
 
     ImageView backgroundImgView;
     ImageView foregroundImgView;
-
+    ImageView navigationImgView;
 
     private Matrix buildingMatrix = new Matrix();
 
     IndoorMap indoorMap;
-    DrawableSpotManager drawableSpotManager;
+    MarkerSpotManager markerManager;
+    PathSpotManager pathSpotManager;
+
 
     ViewGroup container = null;
-    ArtSpot spot1;
-    ArtSpot spot2;
-    ArtSpot spot3;
+
+    GoodBadBeaconProximityManager proximityManager;
+
+    HashMap<Integer, MarkerSpot> marker_beacon_map = new HashMap<>();
+    HashMap<Integer, PathSpot>   pathSpot_beacon_map = new HashMap<>();
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         this.container = container;
+        proximityManager = new GoodBadBeaconProximityManager(this.getActivity(), this);
+
         return inflater.inflate(R.layout.fragment_indoor_map, container, false);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        proximityManager.scan();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        proximityManager.stopScan();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if(container != null) {
+        if(container != null)
+        {
             backgroundImgView = (ImageView) container.findViewById(R.id.backgroundImageView);
             backgroundImgView.setOnTouchListener(this);
             backgroundImgView.setScaleType(ImageView.ScaleType.MATRIX);
+
             foregroundImgView = (ImageView) container.findViewById(R.id.foregroundImageView);
+            navigationImgView = (ImageView) container.findViewById(R.id.navigationLayerImageView);
         }
 
+
+
+
         // BUILDING DEFINITION
-        Building building = new Building(9*PPM, 9*PPM);
+        Building building = new Building(50*PPM, 50*PPM);
 
         // FLOOR DEFINITION
         Floor floor = new Floor(0);
@@ -85,64 +119,149 @@ public class IndoorMapFragment extends Fragment
 
 
         // ROOM DEFINITION
-        Room room = new Room();
-        floor.add(room);
-        room.addVertex(new Vertex(1,  1),       0);
-        room.addVertex(new Vertex(6,  1),       1);
-        room.addVertex(new Vertex(6,  5),       2);
-        room.addVertex(new Vertex(5,  5.5f),    3);
-        room.addVertex(new Vertex(2,  5.5f),    4);
-        room.addVertex(new Vertex(1,  5),       5);
+        Room corridoio = new Room();
+        floor.add(corridoio);
 
-        // CONVEX AREA DEFINITION
-        ConvexArea area = new ConvexArea();
-        room.add(area);
-        area.addRoomVertex(0);
-        area.addRoomVertex(1);
-        area.addRoomVertex(2);
-        area.addRoomVertex(3);
-        area.addRoomVertex(4);
-        area.addRoomVertex(5);
-        area.isConvex(); // dimostrativo: controllo utilizzabile, adesso non lo utilizziamo.
+        Room ingresso1 = new Room();
+        floor.add(ingresso1);
+
+        Room stanzaFerracani = new Room();
+        floor.add(stanzaFerracani);
+
+
+
+        // SPOT DEFINITIONS
+        ArtSpot spot1;
+        ArtSpot spot2;
+        ArtSpot spot3;
+
+
+        spot1 = new ArtSpot(2f,     2f);
+        spot2 = new ArtSpot(8f,     28);
+        spot3 = new ArtSpot(11f,   27f);
+
+        corridoio.add(spot1);
+        stanzaFerracani.add(spot2);
+        stanzaFerracani.add(spot3);
+
+        marker_beacon_map.put(GoodBadBeaconProximityManager.getID(31950, 39427), spot1);
+
+
+
+        // VertexDefinitions and Spot Definitions
+        corridoio.pushWall(new PointF(1f,   1f));
+        corridoio.pushWall(new PointF(4.5f, 1f));
+        corridoio.pushWall(new PointF(4.5f, 30f));
+        corridoio.pushWall(new PointF(1f,   30f));
+
+
+
+
+        ingresso1.pushWall(new PointF(4.5f, 25f));
+        ingresso1.pushWall(new PointF(7.5f, 25f));
+            ingresso1.pushAperture(new PointF(7.5f, 26f));
+            Room.addDoorSpot(ingresso1, 7f, 27, true, stanzaFerracani, 8f, 27, true );
+            ingresso1.pushWall(new PointF(7.5f, 28f));
+
+        ingresso1.pushWall(new PointF(7.5f, 30f));
+        ingresso1.pushWall(new PointF(4.5f, 30f));
+            ingresso1.pushAperture(new PointF(4.5f, 28f));
+            Room.addDoorSpot(ingresso1, 4f, 27, true, corridoio, 5f, 27, true );
+            ingresso1.pushWall(new PointF(4.5f, 26f));
+
+
+
+        stanzaFerracani.pushWall(new PointF(7.5f, 25f));
+        stanzaFerracani.pushWall(new PointF(13f,  25f));
+        stanzaFerracani.pushWall(new PointF(13f,  30f));
+        stanzaFerracani.pushWall(new PointF(7.5f, 30f));
+
+
 
         // DRAWABLES DEFINITION
-        drawableSpotManager = new DrawableSpotManager(area);
-        spot1 = new ArtSpot(5.5f,   2    );
-        spot2 = new ArtSpot(4.4f,   4.9f );
-        spot3 = new ArtSpot(2f,     2f   );
-        drawableSpotManager.add(spot1);
-        drawableSpotManager.add(spot2);
-        drawableSpotManager.add(spot3);
-
-        spot1.toggleSelection();
 
 
-        BeaconHelper beaconHelper = new BeaconHelper(this.getActivity());
-        beaconHelper.addProximityListener(this);
-        beaconHelper.execute();
+//        BeaconHelper beaconHelper = new BeaconHelper(this.getActivity());
+//        beaconHelper.addProximityListener(this);
+//        beaconHelper.scanBeacons();
 
 
 
         // DRAWING:
         Bitmap bmp = generateBackgroundBmp(building);
-
-
+        //backgroundImgView.setImageDrawable(indoorMap); // disegno background in vettoriale
         // disegno background stampando il vettoriale su un bitmap
         backgroundImgView.setImageBitmap(bmp );
 
-        indoorMap = new IndoorMap(building);
-        //backgroundImgView.setImageDrawable(indoorMap); // disegno background in vettoriale
-        foregroundImgView.setImageDrawable(drawableSpotManager.newWrapperDrawable());
+
+        //indoorMap = new IndoorMap(building);
+        markerManager = building.getActiveMarkerManager();
+        foregroundImgView.setImageDrawable(markerManager.newWrapperDrawable());
+        //foregroundImgView.setOnTouchListener(markerManager);
+
+        pathSpotManager = building.drawBestPath(corridoio.getRoomSpot(), stanzaFerracani.getRoomSpot());
+        navigationImgView.setImageDrawable(pathSpotManager.newWrapperDrawable());
+
 
         translateAll(200, 200);
+        navigationImgView.invalidate();
+
+    }
+
+
+    MarkerSpot proximityMarker = null;
+    PathSpot   lastLocalizedPathSpot = null;
+
+    @Override
+    public void OnNewBeaconBestProximity(Beacon bestProximity, Beacon oldBestProximity) {
+
+        proximityMarker = marker_beacon_map.get(GoodBadBeaconProximityManager.getID(bestProximity));
+
+        Toast toast;
+        if(proximityMarker != null)
+        {
+            lastLocalizedPathSpot = proximityMarker.getNearestPathSpot();
+            // TODO: Notifica l'utente !!
+            toast = Toast.makeText(getActivity(), "BEACON VICINO!!!", Toast.LENGTH_LONG);
+
+        }
+        else
+        {
+            // TODO: rimuovi la notifica di una opera d'arte vician
+            toast = Toast.makeText(getActivity(), "BEACON LONTANO ...", Toast.LENGTH_LONG);
+
+        }
+
+        PathSpot newPathBest = pathSpot_beacon_map.get(GoodBadBeaconProximityManager.getID(bestProximity));
+
+        if(newPathBest != null)
+        {
+            lastLocalizedPathSpot = newPathBest;
+        }
+
+        toast.show();
+
     }
 
     @Override
-    public void OnBeaconProximity(List<Beacon> proximityBeacons) {
-        if(BeaconHelper.isInProximity(proximityBeacons.get(0) ))
-        {
-            spot2.setSelected(true);
-        }
+    public void OnNoneBeaconBestProximity(Beacon oldBestProximity) {
+        proximityMarker = null;
+        // TODO: rimuovi la notifica di una opera d'arte vician
+        Toast toast = Toast.makeText(getActivity(), "BEACON LONTANO ...", Toast.LENGTH_SHORT);
+
+        toast.show();
+    }
+
+    @Override
+    public void OnBeaconProximity(List<Beacon> proximityBeacons)
+    {
+//
+//        if(BeaconHelper.isInProximity(proximityBeacons.get(0) ))
+//        {
+//            //spot2.sele;
+//            spot2.drawable().invalidateSelf();
+//            foregroundImgView.invalidate();
+//        }
     }
 
 
@@ -165,7 +284,8 @@ public class IndoorMapFragment extends Fragment
 
         bgMatrix.postTranslate(x, y);
         this.backgroundImgView.setImageMatrix(bgMatrix);
-        drawableSpotManager.translate(x, y);
+        markerManager.translate(x, y);
+        pathSpotManager.translate(x, y);
 
     }
 
@@ -208,7 +328,8 @@ public class IndoorMapFragment extends Fragment
         {
             if( mode == ZOOM )
             {
-                drawableSpotManager.holdScalingFactor();
+                markerManager.holdScalingFactor();
+                pathSpotManager.holdScalingFactor();
             }
             mode = NONE;
             lastEvent = null;
@@ -244,8 +365,9 @@ public class IndoorMapFragment extends Fragment
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
                 if(mode == ZOOM) {
-                    //TODO
-                    drawableSpotManager.holdScalingFactor();
+                    markerManager.holdScalingFactor();
+                    pathSpotManager.holdScalingFactor();
+
                 }
                 mode = NONE;
                 lastEvent = null;
@@ -276,7 +398,8 @@ public class IndoorMapFragment extends Fragment
 
 
 
-                        drawableSpotManager.translateByRealtimeScaling(newScale);
+                        markerManager.translateByRealtimeScaling(newScale);
+                        pathSpotManager.translateByRealtimeScaling(newScale);
                         // scala la posizione del marker dovuta allo zoom dello sfondo,
                         // in tempo reale senza zoomarlo, in modo che il centro del marker
                         // sia sempre nello stesso punto dello sfondo (mappa) scalato.
@@ -309,8 +432,9 @@ public class IndoorMapFragment extends Fragment
 
 
 
-        drawableSpotManager.translate(matrixVal[2], matrixVal[5]);
-        //drawableSpotManager.invalidate();
+        markerManager.translate(matrixVal[2], matrixVal[5]);
+        pathSpotManager.translate(matrixVal[2], matrixVal[5]);
+        //markerManager.invalidate();
 
         //indoorMap.invalidateSelf(); //per disegno mappa indoor in vettoriale
 
@@ -322,6 +446,7 @@ public class IndoorMapFragment extends Fragment
 //        this.drawable.invalidateSelf();
         //this.foregroundImgView.setImageMatrix(fgMatrix);
 
+        markerManager.onTouch(view, event);
         return true;
     }
 
@@ -355,7 +480,6 @@ public class IndoorMapFragment extends Fragment
         double radians = Math.atan2(delta_y, delta_x);
         return (float) Math.toDegrees(radians);
     }
-
 
 
 }

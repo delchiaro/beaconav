@@ -28,7 +28,7 @@ import android.support.annotation.NonNull;
  * <h1>HACK</h1>
  * <p>
  * Special {@link org.adw.library.widgets.discreteseekbar.internal.drawable.StateDrawable} implementation
- * to draw the Thumb circle.
+ * to drawWalls the Thumb circle.
  * </p>
  * <p>
  * It's special because it will stop drawing once the state is pressed/focused BUT only after a small delay.

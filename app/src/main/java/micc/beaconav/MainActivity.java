@@ -1,10 +1,13 @@
 package micc.beaconav;
 
 import android.animation.ObjectAnimator;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -393,8 +396,13 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private static final int REQUEST_ENABLE_BT = 1234;
 
-
+    @Override
+    public View onCreateView(String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+        View view =  super.onCreateView(name, context, attrs);
+        return view;
+    }
 
 
 //* * * * * * * * * * * * GETTERS * * * * * * * * * * * * * * * * * * *

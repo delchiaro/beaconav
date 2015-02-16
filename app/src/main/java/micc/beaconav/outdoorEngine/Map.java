@@ -26,7 +26,6 @@ import com.google.maps.android.SphericalUtil;
 
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,9 +35,9 @@ import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 import micc.beaconav.outdoorEngine.navigation.GMapRouteManager;
 import micc.beaconav.outdoorEngine.navigation.Navigation;
-import micc.beaconav.localization.proximity.ProximityManager;
-import micc.beaconav.localization.proximity.ProximityNotificationHandler;
-import micc.beaconav.localization.proximity.ProximityObject;
+import micc.beaconav.localization.outdoorProximity.ProximityManager;
+import micc.beaconav.localization.outdoorProximity.ProximityNotificationHandler;
+import micc.beaconav.localization.outdoorProximity.ProximityObject;
 
 
 /**
@@ -115,7 +114,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         // Instantiates a new CircleOptions object and defines the center and radius
         circleOptions = new CircleOptions()
                 .center(new LatLng(37.4, -122.1))
-                .radius(1000)// In meters
+                .radius(0)// In meters
                 .strokeColor(Color.parseColor("#FF9800"))
                 .strokeWidth(5)
                 .fillColor(Color.parseColor("#20FFA726"));
@@ -232,13 +231,16 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     public void setCircleRadius(int radius)
     {
         circle.setRadius(radius);
-        latLngBounds = new LatLngBounds.Builder().
-                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 0)).
-                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 90)).
-                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 180)).
-                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 270)).build();
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, 3);
-        gmap.animateCamera(cameraUpdate);
+        if( getCurrentLatLng() != null)
+        {
+            latLngBounds = new LatLngBounds.Builder().
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 0)).
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 90)).
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 180)).
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 270)).build();
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, 3);
+            gmap.animateCamera(cameraUpdate);
+        }
     }
 
 
@@ -353,11 +355,6 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
     }
 
-    public Map setRadius(int radius)
-    {
-        circle.setRadius(radius);
-        return this;
-    }
 
 
 

@@ -2,7 +2,6 @@ package micc.beaconav.indoorEngine.drawable;
 
 import android.graphics.PointF;
 
-import micc.beaconav.localization.Position;
 
 /**
  * 

@@ -309,6 +309,11 @@ public class FragmentHelper  implements MuseumMarkerManager
     };
 
 
+    //  HELPER PER INTERFACCIA GRAFICA
+    public void resetInitialSeekBarRadius() {
+        seekBarHeaderFragment.resetInitialSeekBarRadius();
+    }
+
 
     //Metodo per lo swap di fragments
     private final void swapFragment(int containerID, Fragment newFragment) {

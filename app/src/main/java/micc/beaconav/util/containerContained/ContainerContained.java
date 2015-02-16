@@ -14,6 +14,22 @@ public class ContainerContained<MY_CONTAINER extends IContainer, CONTAINED exten
 
 {
 
+    public ContainerContained() {  }
+    public ContainerContained(MY_CONTAINER _container) {
+        _container.add(this);
+    }
+
+
+    /**
+     * ATTENZIONE: Copia per riferimento, la lista interna della classe Container
+     * fará riferimento alla classe initList!!!
+     * @param initList
+     */
+    public ContainerContained( MY_CONTAINER _container, List<CONTAINED> initList) {
+        super(initList);
+        _container.add(this);
+    }
+
     private MY_CONTAINER _container = null;
 
     @Override

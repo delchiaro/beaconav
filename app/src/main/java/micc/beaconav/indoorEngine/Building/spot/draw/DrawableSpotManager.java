@@ -1,28 +1,33 @@
-package micc.beaconav.indoorEngine.building.spot;
+package micc.beaconav.indoorEngine.building.spot.draw;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 
 import java.util.Iterator;
+import java.util.List;
 
-import micc.beaconav.indoorEngine.building.ConvexArea;
+import micc.beaconav.indoorEngine.building.spot.SpotManager;
+
 
 /**
  * Created by nagash on 11/02/15.
  */
-public class DrawableSpotManager extends SpotManager<DrawableSpot>
+public class DrawableSpotManager<DS extends DrawableSpot> extends SpotManager<DS>
 {
 
 
     private Drawable _wrapperDrawable = null;
 
 
-    public DrawableSpotManager(ConvexArea containerConvexArea) {
-        super(containerConvexArea);
+    public DrawableSpotManager() {
+        super();
     }
 
 
+    public DrawableSpotManager( List<DS> initList) {
+        super( initList);
+    }
 
     /**
      *  Da richiamare quando si termina il pinch to zoom. Setta la translazione dovuta allo zoom
@@ -30,9 +35,9 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
      *  settato.
      */
     public final void holdScalingFactor() {
-        Iterator<DrawableSpot> spotIter =  super.getIterator();
+        Iterator<DS> spotIter =  super.iterator();
         while(spotIter.hasNext())
-            spotIter.next().setFinalTouchScaleFactor();
+            spotIter.next().setFinalScaleTranlationFactor();
 
         this.invalidate();
     }
@@ -45,9 +50,9 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
      *  che non è influenzata in alcun modo dallo scale factor.
      */
     public final void translateByRealtimeScaling(float realtimeScaleFactor) {
-        Iterator<DrawableSpot> spotIter =  super.getIterator();
+        Iterator<DS> spotIter =  super.iterator();
         while(spotIter.hasNext())
-            spotIter.next().setOnTouchRealTimeScaleFactor(realtimeScaleFactor);
+            spotIter.next().setRealtimeScaleTranslationFactor(realtimeScaleFactor);
 
         this.invalidate();
     }
@@ -66,7 +71,7 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
      * @param translation_y
      */
     public final void translate(float translation_x, float translation_y) {
-        Iterator<DrawableSpot> spotIter =  super.getIterator();
+        Iterator<DS> spotIter =  super.iterator();
         while(spotIter.hasNext())
             spotIter.next().setTranslation(translation_x, translation_y);
 
@@ -79,17 +84,15 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
     }
 
 
-
-    public Drawable newWrapperDrawable(){
-        return _wrapperDrawable = new Drawable() {
+    protected Drawable generateWrapperDrawable() {
+        return new Drawable() {
             @Override
             public void draw(Canvas canvas) {
-                Iterator<DrawableSpot> spotIter = getIterator();
+                Iterator<DS> spotIter = iterator();
                 while(spotIter.hasNext())
                 {
-                    Spot spot = spotIter.next();
-                    DrawableSpot dSpot = (DrawableSpot) spot;
-                    dSpot.drawable().draw(canvas);
+                    DS spot = spotIter.next();
+                    spot.drawable().draw(canvas);
                 }
             }
 
@@ -110,7 +113,11 @@ public class DrawableSpotManager extends SpotManager<DrawableSpot>
         };
     }
 
-    public Drawable storedWrapperDrawable() {
+    public final Drawable newWrapperDrawable(){
+        return _wrapperDrawable = generateWrapperDrawable();
+    }
+
+    public final Drawable storedWrapperDrawable() {
         return this._wrapperDrawable;
     }
 

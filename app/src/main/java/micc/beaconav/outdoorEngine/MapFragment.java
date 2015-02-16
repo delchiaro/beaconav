@@ -15,6 +15,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import micc.beaconav.FragmentHelper;
 import micc.beaconav.test.JSONTest;
 import micc.beaconav.R;
 import micc.beaconav.test.testAdaptedLocationActivity;

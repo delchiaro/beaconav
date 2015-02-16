@@ -3,14 +3,11 @@ package micc.beaconav.db.dbHelper.artwork;
 import android.content.Context;
 
 import micc.beaconav.FragmentHelper;
-import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
-import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.DoubleField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringField;
-import micc.beaconav.indoorEngine.drawable.Drawable;
-import micc.beaconav.localization.proximity.ProximityObject;
+
 
 /**
  * Created by nagash on 22/01/15.
