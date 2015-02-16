@@ -249,7 +249,6 @@ public class FragmentHelper  implements MuseumMarkerManager
             }
         });
 
-
         //settare il bottone per la navigazione verso l'opera
 
     }
