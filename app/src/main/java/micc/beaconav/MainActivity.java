@@ -398,6 +398,12 @@ public class MainActivity extends ActionBarActivity
 
     private static final int REQUEST_ENABLE_BT = 1234;
 
+    @Override
+    public View onCreateView(String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+        View view =  super.onCreateView(name, context, attrs);
+        return view;
+    }
+
 
 //* * * * * * * * * * * * GETTERS * * * * * * * * * * * * * * * * * * *
 

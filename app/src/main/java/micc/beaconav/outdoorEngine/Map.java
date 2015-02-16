@@ -231,13 +231,16 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     public void setCircleRadius(int radius)
     {
         circle.setRadius(radius);
-        latLngBounds = new LatLngBounds.Builder().
-                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 0)).
-                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 90)).
-                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 180)).
-                include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 270)).build();
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, 3);
-        gmap.animateCamera(cameraUpdate);
+        if( getCurrentLatLng() != null)
+        {
+            latLngBounds = new LatLngBounds.Builder().
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 0)).
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 90)).
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 180)).
+                    include(SphericalUtil.computeOffset(getCurrentLatLng(), radius, 270)).build();
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, 3);
+            gmap.animateCamera(cameraUpdate);
+        }
     }
 
 
