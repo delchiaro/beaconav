@@ -10,16 +10,17 @@ import android.widget.TextView;
 
 import micc.beaconav.FragmentHelper;
 import micc.beaconav.R;
+import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.outdoorEngine.Map;
 
-public class MuseumNameHeaderFragment extends Fragment {
+public class NameHeaderFragment extends Fragment {
 
-    private TextView textViewMuseumName = null;
-    private MuseumRow museumRow = null;
+    private TextView textViewName = null;
+    private IArtRow artRow = null;
     private Button backBtn = null;
 
-    public MuseumNameHeaderFragment() {
+    public NameHeaderFragment() {
         // Required empty public constructor.
     }
 
@@ -27,15 +28,15 @@ public class MuseumNameHeaderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_museum_name_header, container, false);
+        return inflater.inflate(R.layout.fragment_name_header, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textViewMuseumName = (TextView)getView().findViewById(R.id.museumName);
-        if(museumRow != null) {
-            textViewMuseumName.setText(museumRow.getName());
+        textViewName = (TextView)getView().findViewById(R.id.name);
+        if(artRow != null) {
+            textViewName.setText(artRow.getName());
         }
         backBtn = (Button)getView().findViewById(R.id.back_button2);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +70,7 @@ public class MuseumNameHeaderFragment extends Fragment {
                             break;
 
                         case DETAILS:
-                            FragmentHelper.instance().showArtworkListFragment(museumRow);
+                            FragmentHelper.instance().showArtworkListFragment(FragmentHelper.instance().artworkList_museumRow);
                             break;
 
                         case LIST:
@@ -84,11 +85,15 @@ public class MuseumNameHeaderFragment extends Fragment {
 
     }
 
-    public void setMuseumRow(MuseumRow row){
-        this.museumRow = row;
-        if(textViewMuseumName != null) {
-            textViewMuseumName.setText(museumRow.getName());
+    public void setArtRow(IArtRow row){
+        this.artRow = row;
+        if(textViewName != null) {
+            textViewName.setText(artRow.getName());
         }
+    }
+
+    public Button getBackBtn() {
+        return backBtn;
     }
 
 }

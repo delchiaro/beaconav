@@ -24,14 +24,12 @@ import micc.beaconav.db.dbJSONManager.JSONHandler;
 /**
 * Created by Mr_Holmes on 21/01/15.
 */
+
+
 public class ArtListFragment extends Fragment
 {
 
     private boolean listInflated = false;
-
-    private AdapterView.OnItemClickListener listItemNameOnClickListener = null;
-    private AdapterView.OnItemClickListener listItemBtnOnClickListener = null;
-
     private ListView listView = null;
     private List<IArtRow> artListItems = null;
 
@@ -59,15 +57,6 @@ public class ArtListFragment extends Fragment
         refreshList();
     }
 
-
-
-    public void setListItemNameOnClickListener(AdapterView.OnItemClickListener onItemClickListener) {
-        this.listItemNameOnClickListener = onItemClickListener;
-    }
-
-    public void setListItemBtnOnClickListener(AdapterView.OnItemClickListener onItemClickListener) {
-        this.listItemBtnOnClickListener = onItemClickListener;
-    }
 
 
 
@@ -102,18 +91,16 @@ public class ArtListFragment extends Fragment
                     if (artRow instanceof MuseumRow) {
                         FragmentHelper.instance().simulateMuseumOnMapClick((MuseumRow) artRow);
                     } else if (artRow instanceof ArtworkRow) {
-                        //TODO: fai l'azione corrispondente nell'indoor
+                        FragmentHelper.instance().showArtworkDetailsFragment((ArtworkRow) artRow);
                     }
 
                 }
             });
-            // questi 2 metodi settano i listener per ogni elemento della lista
-            // sanno già a che positione si trova
+
             listView.setItemsCanFocus(true);
 
             listInflated = true;
         }
     }
-
 
 }

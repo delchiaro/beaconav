@@ -14,14 +14,21 @@ public class ArtworkSchema extends TableSchema<ArtworkRow>
     static final String          tableName  = "artwork";
 
     static final StringSchema    ID          = new StringSchema("ID");
-    static final StringSchema    title        = new StringSchema("title");
+    static final StringSchema    title       = new StringSchema("title");
     static final StringSchema    descr       = new StringSchema("descr");
     static final FloatSchema     x           = new FloatSchema("x");
     static final FloatSchema     y           = new FloatSchema("y");
+    static final StringSchema    creationYear = new StringSchema("creationYear");
+    static final StringSchema    ID_artworkImage     = new StringSchema("ID_artworkImage");
+    static final StringSchema    dimensions  = new StringSchema("dimensions");
+    static final StringSchema    name  = new StringSchema("name");
+    static final StringSchema    biography  = new StringSchema("biography");
+    static final StringSchema    type  = new StringSchema("type");
 
 
 
-    private static final ColumnSchema[] columns = new ColumnSchema[]{ ID, title, descr, x, y };
+    private static final ColumnSchema[] columns = new ColumnSchema[]{ ID, title, descr, x, y, creationYear, ID_artworkImage, dimensions,
+                                                                        name, biography, type };
 
     @Override
     protected String generateTableName() {
