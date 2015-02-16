@@ -240,7 +240,6 @@ public class IndoorMapFragment extends Fragment
         // TODO: gestire interfaccia grafica
         if(wasOldMarkerSelected)
         {
-
         }
 
 
