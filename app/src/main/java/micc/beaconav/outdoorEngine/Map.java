@@ -224,7 +224,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
             public void onMyLocationChange(Location location) {
                 lastLocation = new LatLng( location.getLatitude(), location.getLongitude());
                 circle.setCenter(lastLocation);
-                proximityManager.startProximityAnalysis(location.getLatitude(), location.getLongitude(), PROXIMITY_RADIUS, PROXIMITY_SKIMMING_RADIUS);
+                proximityManager.startProximityAnalysis(location.getLatitude(), location.getLongitude() );
 
             }
         });

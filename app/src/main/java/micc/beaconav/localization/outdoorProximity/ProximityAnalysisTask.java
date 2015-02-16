@@ -17,12 +17,14 @@ public class ProximityAnalysisTask extends AsyncTask<ProximityObject, String, Pr
     private ProximityManager manager;
     private LatLng myPosition;
     private ProximityObject[] proxObjects;
+    private int radius;
 
-    ProximityAnalysisTask(ProximityManager manager, LatLng myPosition, ProximityObject... proximityObjects)
+    ProximityAnalysisTask(int radius, ProximityManager manager, LatLng myPosition, ProximityObject... proximityObjects)
     {
         this.manager = manager;
         this.proxObjects = proximityObjects;
         this.myPosition = myPosition;
+        this.radius = radius;
     }
 
     public void startAnalysis()
@@ -92,9 +94,10 @@ public class ProximityAnalysisTask extends AsyncTask<ProximityObject, String, Pr
                 }
             }
 
-            return best;
+            if(bestDistance<radius)
+                return best;
         }
-        else return null;
+        return null;
     }
 
     @Override
