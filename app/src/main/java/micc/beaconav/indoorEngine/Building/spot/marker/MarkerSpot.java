@@ -18,9 +18,9 @@ public abstract class MarkerSpot extends DrawableSpot {
     // TODO: meccanismo per renderlo cliccabile
 
 
-   // private PathSpot _generatedPathSpot;
+    private PathSpot _nearestPathSpot = null;
     // per punto di arrivo o punto di partenza del cammino verso/da il marker
-    //per ora usiamo come punto di partenza il RoomSpot
+    // se è null usiamo come punto di partenza il RoomSpot
 
 
 
@@ -34,6 +34,17 @@ public abstract class MarkerSpot extends DrawableSpot {
        // _generatedPathSpot = new PathSpot(x, y);
     }
 
+
+    public void setNearestPathSpot(PathSpot nearestPathSpot) {
+        if(nearestPathSpot != null)
+          this._nearestPathSpot = nearestPathSpot;
+    }
+
+    public PathSpot getNearestPathSpot() {
+        if(_nearestPathSpot != null)
+            return _nearestPathSpot;
+        else return getContainerRoom().getRoomSpot();
+    }
 
     public void select() {
         if(this.isSelected())
@@ -64,6 +75,7 @@ public abstract class MarkerSpot extends DrawableSpot {
     public boolean checkCollision(float x, float y) {
         return generateCollidable(x_for_drawing(), y_for_drawing()) . checkCollision(x, y);
     }
+
 
 
 

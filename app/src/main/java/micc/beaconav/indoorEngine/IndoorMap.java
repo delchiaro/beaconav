@@ -12,8 +12,6 @@ import android.graphics.drawable.Drawable;
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
-import micc.beaconav.localization.IndoorPosition;
-import micc.beaconav.localization.LocalizationManager;
 import micc.beaconav.indoorEngine.building.spot.Spot;
 
 /**
@@ -24,7 +22,7 @@ public class IndoorMap extends Drawable
     private static int PPM = 300; // Pixel Per Meter
 
     private Building building;
-    private LocalizationSpotManager _localizationSpot;
+    //private LocalizationSpotManager _localizationSpot;
 
 
     public IndoorMap( Building building )
@@ -81,42 +79,42 @@ public class IndoorMap extends Drawable
 
 
 
-
-
-    private class LocalizationSpotManager
-    {
-        Spot _goodPosition; // will load blue icon
-        Spot _badPosition; // will load gray icon, indicates that you can not be localized :(
-        LocalizationManager _locManager;
-
-        LocalizationSpotManager(LocalizationManager locManager, Bitmap goodPositionBmp, Bitmap badPositionBmp)
-        {
-            _locManager = locManager;
-           // _goodPosition = new Spot(goodPositionBmp, null);
-            //_badPosition =  new Spot(badPositionBmp, null);
-    }
-
-        public Spot getUpdatedSpot()
-        {
-            _locManager.update();
-            IndoorPosition newPosition = _locManager.getPosition();
-            int precision = _locManager.getLocalizationPrecision();
-            if(precision > 0)
-            {
-              //  _goodPosition.upadtePosition(newPosition);
-                return _goodPosition;
-            }
-            else
-            {
-             //   _badPosition.upadtePosition(newPosition);
-                return _badPosition;
-            }
-        }
-
-        public void update(){
-            _locManager.update();
-        }
-    }
+//
+//
+//    private class LocalizationSpotManager
+//    {
+//        Spot _goodPosition; // will load blue icon
+//        Spot _badPosition; // will load gray icon, indicates that you can not be localized :(
+//        LocalizationManager _locManager;
+//
+//        LocalizationSpotManager(LocalizationManager locManager, Bitmap goodPositionBmp, Bitmap badPositionBmp)
+//        {
+//            _locManager = locManager;
+//           // _goodPosition = new Spot(goodPositionBmp, null);
+//            //_badPosition =  new Spot(badPositionBmp, null);
+//    }
+//
+//        public Spot getUpdatedSpot()
+//        {
+//            _locManager.update();
+//            IndoorPosition newPosition = _locManager.getPosition();
+//            int precision = _locManager.getLocalizationPrecision();
+//            if(precision > 0)
+//            {
+//              //  _goodPosition.upadtePosition(newPosition);
+//                return _goodPosition;
+//            }
+//            else
+//            {
+//             //   _badPosition.upadtePosition(newPosition);
+//                return _badPosition;
+//            }
+//        }
+//
+//        public void update(){
+//            _locManager.update();
+//        }
+//    }
 
 
 

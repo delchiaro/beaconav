@@ -1,5 +1,6 @@
 package micc.beaconav.indoorEngine;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -13,24 +14,29 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.estimote.sdk.Beacon;
 
+import java.util.HashMap;
 import java.util.List;
 
 import micc.beaconav.R;
-import micc.beaconav.indoorEngine.beaconHelper.BeaconHelper;
 import micc.beaconav.indoorEngine.beaconHelper.BeaconProximityListener;
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.Floor;
 import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.indoorEngine.building.spot.custom.ArtSpot;
+import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
 import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpotManager;
+import micc.beaconav.indoorEngine.building.spot.path.PathSpot;
 import micc.beaconav.indoorEngine.building.spot.path.PathSpotManager;
+import micc.beaconav.localization.beaconHelper.BeaconBestProximityListener;
+import micc.beaconav.localization.beaconHelper.GoodBadBeaconProximityManager;
 
 
 public class IndoorMapFragment extends Fragment
-        implements View.OnTouchListener, BeaconProximityListener
+        implements View.OnTouchListener, BeaconProximityListener, BeaconBestProximityListener
 {
 
 
@@ -55,33 +61,54 @@ public class IndoorMapFragment extends Fragment
 
 
     ViewGroup container = null;
-    ArtSpot spot1;
-    ArtSpot spot2;
-    ArtSpot spot3;
+
+    GoodBadBeaconProximityManager proximityManager;
+
+    HashMap<Integer, MarkerSpot> marker_beacon_map = new HashMap<>();
+    HashMap<Integer, PathSpot>   pathSpot_beacon_map = new HashMap<>();
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         this.container = container;
+        proximityManager = new GoodBadBeaconProximityManager(this.getActivity(), this);
+
         return inflater.inflate(R.layout.fragment_indoor_map, container, false);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        proximityManager.scan();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        proximityManager.stopScan();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if(container != null) {
-
+        if(container != null)
+        {
             backgroundImgView = (ImageView) container.findViewById(R.id.backgroundImageView);
             backgroundImgView.setOnTouchListener(this);
             backgroundImgView.setScaleType(ImageView.ScaleType.MATRIX);
 
             foregroundImgView = (ImageView) container.findViewById(R.id.foregroundImageView);
-
             navigationImgView = (ImageView) container.findViewById(R.id.navigationLayerImageView);
-
-
         }
+
+
+
 
         // BUILDING DEFINITION
         Building building = new Building(50*PPM, 50*PPM);
@@ -102,15 +129,22 @@ public class IndoorMapFragment extends Fragment
         floor.add(stanzaFerracani);
 
 
+
+        // SPOT DEFINITIONS
+        ArtSpot spot1;
+        ArtSpot spot2;
+        ArtSpot spot3;
+
+
         spot1 = new ArtSpot(2f,     2f);
         spot2 = new ArtSpot(8f,     28);
         spot3 = new ArtSpot(11f,   27f);
 
-
-
         corridoio.add(spot1);
         stanzaFerracani.add(spot2);
         stanzaFerracani.add(spot3);
+
+        marker_beacon_map.put(GoodBadBeaconProximityManager.getID(31950, 39427), spot1);
 
 
 
@@ -147,13 +181,9 @@ public class IndoorMapFragment extends Fragment
         // DRAWABLES DEFINITION
 
 
-//        spot1.toggleSelection();
-
-
-        BeaconHelper beaconHelper = new BeaconHelper(this.getActivity());
-        beaconHelper.addProximityListener(this);
-        beaconHelper.scanBeacons();
-        //beaconHelper.execute();
+//        BeaconHelper beaconHelper = new BeaconHelper(this.getActivity());
+//        beaconHelper.addProximityListener(this);
+//        beaconHelper.scanBeacons();
 
 
 
@@ -178,16 +208,60 @@ public class IndoorMapFragment extends Fragment
 
     }
 
+
+    MarkerSpot proximityMarker = null;
+    PathSpot   lastLocalizedPathSpot = null;
+
+    @Override
+    public void OnNewBeaconBestProximity(Beacon bestProximity, Beacon oldBestProximity) {
+
+        proximityMarker = marker_beacon_map.get(GoodBadBeaconProximityManager.getID(bestProximity));
+
+        Toast toast;
+        if(proximityMarker != null)
+        {
+            lastLocalizedPathSpot = proximityMarker.getNearestPathSpot();
+            // TODO: Notifica l'utente !!
+            toast = Toast.makeText(getActivity(), "BEACON VICINO!!!", Toast.LENGTH_LONG);
+
+        }
+        else
+        {
+            // TODO: rimuovi la notifica di una opera d'arte vician
+            toast = Toast.makeText(getActivity(), "BEACON LONTANO ...", Toast.LENGTH_LONG);
+
+        }
+
+        PathSpot newPathBest = pathSpot_beacon_map.get(GoodBadBeaconProximityManager.getID(bestProximity));
+
+        if(newPathBest != null)
+        {
+            lastLocalizedPathSpot = newPathBest;
+        }
+
+        toast.show();
+
+    }
+
+    @Override
+    public void OnNoneBeaconBestProximity(Beacon oldBestProximity) {
+        proximityMarker = null;
+        // TODO: rimuovi la notifica di una opera d'arte vician
+        Toast toast = Toast.makeText(getActivity(), "BEACON LONTANO ...", Toast.LENGTH_SHORT);
+
+        toast.show();
+    }
+
     @Override
     public void OnBeaconProximity(List<Beacon> proximityBeacons)
     {
-
-        if(BeaconHelper.isInProximity(proximityBeacons.get(0) ))
-        {
-            //spot2.sele;
-            spot2.drawable().invalidateSelf();
-            foregroundImgView.invalidate();
-        }
+//
+//        if(BeaconHelper.isInProximity(proximityBeacons.get(0) ))
+//        {
+//            //spot2.sele;
+//            spot2.drawable().invalidateSelf();
+//            foregroundImgView.invalidate();
+//        }
     }
 
 
@@ -406,7 +480,6 @@ public class IndoorMapFragment extends Fragment
         double radians = Math.atan2(delta_y, delta_x);
         return (float) Math.toDegrees(radians);
     }
-
 
 
 }
