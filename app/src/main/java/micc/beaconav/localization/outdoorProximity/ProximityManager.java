@@ -59,6 +59,7 @@ public class ProximityManager
             task.startAnalysis();
             return true;
         }
+        
         else return false;
     }
 
