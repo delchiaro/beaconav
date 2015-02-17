@@ -76,6 +76,17 @@ public class Spot extends Contained<Room>
     }
 
 
+    public void resetTranslationAndScale() {
+        _translation_x = 0;
+        _translation_y = 0;
+        _scaleTranslation_x = 0;
+        _scaleTranslation_y = 0;
+
+        _realtime_scaleTranslation_factor   = 1;
+        _last_final_scaleTranslation_factor = 1;
+
+        _spot_rescale_factor = 1;
+    }
 
 
     private final void _setScaledCoords(){

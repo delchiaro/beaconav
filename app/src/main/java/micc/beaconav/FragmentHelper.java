@@ -154,11 +154,13 @@ public class FragmentHelper  implements MuseumMarkerManager
         mainActivity.setFABListener(defaultFABOnClickListener);
         mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.INVISIBLE);
         mainActivity.getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.INVISIBLE);
+        mainActivity.getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
+
     }
 
 
     public final void showIndoorFragment(MuseumRow museum) {
-        IndoorMapFragment indoorMapFragment = new IndoorMapFragment();// gli dovremmo passare il building, o il museo, o il file json del building
+        indoorMapFragment = new IndoorMapFragment();// gli dovremmo passare il building, o il museo, o il file json del building
         swapFragment(R.id.fragment_map_container, indoorMapFragment);
         activeMainFragment = MainFragment.INDOOR;
         showArtworkListFragment(museum);
@@ -166,6 +168,9 @@ public class FragmentHelper  implements MuseumMarkerManager
         mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
         mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.VISIBLE);
+        mainActivity.getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
+
+
     }
 
 
@@ -242,12 +247,12 @@ public class FragmentHelper  implements MuseumMarkerManager
         artworkDescrFragment.setArtworkRow(row);
         mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.ic_directions_white_48dp));
-        mainActivity.setFABListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //indoorMapFragment.
-            }
-        });
+//        mainActivity.setFABListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                indoorMapFragment.navigateToSelectedMarker();
+//            }
+//        });
 
         //settare il bottone per la navigazione verso l'opera
 
@@ -295,6 +300,8 @@ public class FragmentHelper  implements MuseumMarkerManager
         Map.getIstance().simulateMuseumClick(row);
         mapFragment.onClickNavigate(v);
     }
+
+
 
     private View.OnClickListener defaultFABOnClickListener = new View.OnClickListener() {
         @Override

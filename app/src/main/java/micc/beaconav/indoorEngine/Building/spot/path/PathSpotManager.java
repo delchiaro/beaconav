@@ -23,7 +23,7 @@ public class PathSpotManager<PS extends PathSpot> extends DrawableSpotManager<PS
 
 
     @Override
-    public Drawable generateWrapperDrawable()
+    protected  Drawable generateWrapperDrawable()
     {
         return new Drawable() {
             @Override

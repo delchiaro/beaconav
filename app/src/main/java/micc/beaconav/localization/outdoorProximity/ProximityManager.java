@@ -63,6 +63,11 @@ public class ProximityManager
         else return false;
     }
 
+    public void abortProximityAnalysis() {
+        if(task != null)
+            task.cancel(true);
+    }
+
     private void makeNewSkimming(Location newSkimmingLoc)
     {
         this.skimmedProxyObjects = new LinkedList<>();
@@ -101,5 +106,7 @@ public class ProximityManager
         this.handler.handleProximityNotification(object);
         this.task = null;
     }
+
+
 
 }

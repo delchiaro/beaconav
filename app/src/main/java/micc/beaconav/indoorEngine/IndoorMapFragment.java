@@ -104,6 +104,7 @@ public class IndoorMapFragment extends Fragment
     public void onStop() {
         super.onStop();
         proximityManager.stopScan();
+
     }
 
     @Override
@@ -388,8 +389,10 @@ public class IndoorMapFragment extends Fragment
         {
             if(selectedMarker.getNearestPathSpot() != null)
             {
+                navigationImgView.setImageDrawable(null);
                 pathSpotManager =  building.drawBestPath(lastLocalizedPathSpot, selectedMarker.getNearestPathSpot());
-                navigationImgView.setImageDrawable(pathSpotManager.generateWrapperDrawable());
+                navigationImgView.setImageDrawable(pathSpotManager.newWrapperDrawable());
+                pathSpotManager.invalidate();
                 return 1;
             }
             else

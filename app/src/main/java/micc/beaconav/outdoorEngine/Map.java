@@ -4,6 +4,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.graphics.Color;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -166,14 +167,32 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     }
 
     @Override
-    public void handleProximityNotification(ProximityObject object)
+    public void handleProximityNotification(final ProximityObject object)
     {
+
         if(this.fakeProximity)
         {
-            if (this.lastProxyMuseum == null || this.lastProxyMuseum != null && this.lastProxyMuseum != object) {
+            if (this.lastProxyMuseum == null || this.lastProxyMuseum != null && this.lastProxyMuseum != object)
+            {
                 zoomOnLatLng(new LatLng(object.getLatitude(), object.getLongitude()), 16);
                 this.lastProxyMuseum = object;
-            } else lastProxyMuseum = object;
+            }
+            else lastProxyMuseum = object;
+        }
+        else
+        {
+            FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setVisibility(View.VISIBLE);
+
+            FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (object instanceof MuseumRow) {
+                        FragmentHelper.instance().showIndoorFragment((MuseumRow) object);
+
+                        FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
         }
     }
 
@@ -439,7 +458,14 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     }
 
 
+    public void stopLocalization() {
+        this.gmap.setMyLocationEnabled(false);
+        this.proximityManager.abortProximityAnalysis();
+    }
 
+    public void startLocalization() {
+        this.gmap.setMyLocationEnabled(true);
+    }
 
 
 

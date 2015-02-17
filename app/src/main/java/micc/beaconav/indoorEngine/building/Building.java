@@ -70,6 +70,14 @@ public class Building extends Container<Floor>
     public PathSpotManager<PathSpot> drawBestPath( PathSpot startSpot, PathSpot goalSpot) {
         dijkstraPath = new PathSpotManager( dijkstraSolver.solve(startSpot, goalSpot));
 
+        MarkerSpotManager  markerManager = getActiveMarkerManager();
+        if(markerManager != null) {
+            dijkstraPath.resetAllTranslationAndScale();
+            dijkstraPath.translate(markerManager.get_translation_x(), markerManager.get_translation_y());
+            dijkstraPath.translateByRealtimeScaling(markerManager.get_last_final_scaleTranslation_factor());
+            dijkstraPath.holdScalingFactor();
+            dijkstraPath.translateByRealtimeScaling(markerManager.get_realtime_scaleTranslation_factor());
+        }
         return dijkstraPath;
     }
 
