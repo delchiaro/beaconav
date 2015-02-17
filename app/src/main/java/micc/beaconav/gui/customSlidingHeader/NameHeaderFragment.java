@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import micc.beaconav.FragmentHelper;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.IArtRow;
@@ -75,7 +77,7 @@ public class NameHeaderFragment extends Fragment {
                             break;
 
                         case LIST:
-                            FragmentHelper.instance().showOutdoorFragment();
+                            FragmentHelper.instance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                             break;
 
                     }

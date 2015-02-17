@@ -34,6 +34,9 @@ import micc.beaconav.test.testLastLocationActivity;
 
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.nhaarman.supertooltips.ToolTip;
+import com.nhaarman.supertooltips.ToolTipRelativeLayout;
+import com.nhaarman.supertooltips.ToolTipView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
@@ -74,7 +77,8 @@ public class MainActivity extends ActionBarActivity
     private FloatingActionButton floatingActionButtonQRScanBtn;
     private FloatingActionButton floatingActionButtonNotifyBeaconProximity;
     private FloatingActionButton floatingActionButtonNotifyToIndoor;
-
+    private ToolTipRelativeLayout toIndoorTooltipContainer;
+    private ToolTipRelativeLayout artworkFoundTooltipContainer;
 
 
 
@@ -85,7 +89,7 @@ public class MainActivity extends ActionBarActivity
 
     private void initActivityAndXML() {
     // FIND VIEW BY ID * * * * * * * * * * * * * * * * * * * * * * * *
-        mSearch = (SearchView) findViewById(R.id.search_view);
+        //mSearch = (SearchView) findViewById(R.id.search_view);
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         //mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
 
@@ -99,6 +103,8 @@ public class MainActivity extends ActionBarActivity
         fragmentListContainer = (RelativeLayout) findViewById(R.id.fragment_list_container);
         textViewContent = (TextView) findViewById(R.id.scan_format);
         textViewFormat = (TextView) findViewById(R.id.scan_content);
+        toIndoorTooltipContainer = (ToolTipRelativeLayout) findViewById(R.id.to_indoor_tooltip_container);
+        artworkFoundTooltipContainer = (ToolTipRelativeLayout) findViewById(R.id.artwork_found_tooltip_container);
 
 
     // INIT * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -167,16 +173,16 @@ public class MainActivity extends ActionBarActivity
                     if (fadeOutAnimationStarted == false)
                     {
 
-                        Animation a = new Animation() {
-                            @Override
-                            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mSearch.getLayoutParams();
-                                params.topMargin = DpHelper.dpToPx(SEARCH_BAR_PADDING_DP, context) + (int) (dpHelper.dpToPx(SEARCH_BAR_HIDED_PADDING_DP) * interpolatedTime);
-                                mSearch.setLayoutParams(params);
-                            }
-                        };
-                        a.setDuration(200);
-                        mSearch.startAnimation(a);
+//                        Animation a = new Animation() {
+//                            @Override
+//                            protected void applyTransformation(float interpolatedTime, Transformation t) {
+//                                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mSearch.getLayoutParams();
+//                                params.topMargin = DpHelper.dpToPx(SEARCH_BAR_PADDING_DP, context) + (int) (dpHelper.dpToPx(SEARCH_BAR_HIDED_PADDING_DP) * interpolatedTime);
+//                                mSearch.setLayoutParams(params);
+//                            }
+//                        };
+//                        a.setDuration(200);
+//                        mSearch.startAnimation(a);
 
                         fadeOutAnimationStarted = true;
 
@@ -194,17 +200,17 @@ public class MainActivity extends ActionBarActivity
                 {
                     if (fadeOutAnimationStarted == true)
                     {
-                        Animation a = new Animation() {
-                            @Override
-                            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mSearch.getLayoutParams();
-                                params.topMargin = dpHelper.dpToPx(SEARCH_BAR_PADDING_DP) + (int) (dpHelper.dpToPx(SEARCH_BAR_HIDED_PADDING_DP) * (1 - interpolatedTime));
-                                mSearch.setLayoutParams(params);
-                            }
-                        };
-                        a.setDuration(200);
-                        mSearch.startAnimation(a);
-                        fadeOutAnimationStarted = false;
+//                        Animation a = new Animation() {
+//                            @Override
+//                            protected void applyTransformation(float interpolatedTime, Transformation t) {
+//                                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mSearch.getLayoutParams();
+//                                params.topMargin = dpHelper.dpToPx(SEARCH_BAR_PADDING_DP) + (int) (dpHelper.dpToPx(SEARCH_BAR_HIDED_PADDING_DP) * (1 - interpolatedTime));
+//                                mSearch.setLayoutParams(params);
+//                            }
+//                        };
+//                        a.setDuration(200);
+//                        mSearch.startAnimation(a);
+//                        fadeOutAnimationStarted = false;
 
 
                         /*
@@ -432,6 +438,17 @@ public class MainActivity extends ActionBarActivity
         return floatingActionButtonNotifyToIndoor;
     }
 
+    public ToolTipRelativeLayout getToIndoorTooltipContainer() {
+        return toIndoorTooltipContainer;
+    }
+
+    public ToolTipRelativeLayout getArtworkFoundTooltipContainer() {
+        return artworkFoundTooltipContainer;
+    }
+
+    //    public SearchView getSearchBar() {
+//        return mSearch;
+//    }
     // * * * * * * * * * * * * * * *  ALTRI EVENT MANAGER CREATI BEACONAV * * * * * * * * * * * * * * *
 
 

@@ -3,6 +3,7 @@ package micc.beaconav.indoorEngine;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.support.annotation.Nullable;
@@ -20,6 +21,8 @@ import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.nhaarman.supertooltips.ToolTip;
+import com.nhaarman.supertooltips.ToolTipView;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -84,6 +87,15 @@ public class IndoorMapFragment extends Fragment
 //    HashMap<Integer, PathSpot>   pathSpot_beacon_map = new HashMap<>();
 
     HashMap<Integer, Spot> spot_beacon_map = new HashMap<>();
+
+
+    private ToolTip artworkproximityToolTip = new ToolTip()
+            .withText("Cliccka per\nvisualizzare\ninfo sull'opera")
+            .withTextColor(Color.BLACK)
+            .withColor(Color.WHITE)
+            .withAnimationType(ToolTip.AnimationType.FROM_MASTER_VIEW);
+
+    private ToolTipView toolTipView;
 
 
 
@@ -348,30 +360,36 @@ public class IndoorMapFragment extends Fragment
         }
 
 
-
-
-        Toast toast;
+        //Toast toast;
         if(proximityMarker != null)
         {
             lastLocalizedPathSpot = proximityMarker.getNearestPathSpot();
-            // TODO: Notifica l'utente !! Mostra pulsante per visualizzare info opera
+
+            toolTipView = FragmentHelper.instance().getMainActivity()
+                    .getArtworkFoundTooltipContainer().showToolTipForView(artworkproximityToolTip, FragmentHelper.instance().getMainActivity().findViewById(R.id.notifyToIndoor));
+
+
             FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.VISIBLE);
-            toast = Toast.makeText(getActivity(), "BEACON VICINO!!!", Toast.LENGTH_LONG);
+            //toast = Toast.makeText(getActivity(), "BEACON VICINO!!!", Toast.LENGTH_LONG);
 
             FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onMarkerSpotSelected(proximityMarker);
                     markerManager.invalidate();
+
+                    toolTipView.remove();
                 }
             });
+
 
         }
         else
         {
-            // TODO: rimuovi la notifica di una opera d'arte vicina. Nascondi pulsante per visualizzare l'opera
+
             FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.INVISIBLE);
-            toast = Toast.makeText(getActivity(), "BEACON LONTANO ...", Toast.LENGTH_LONG);
+
+            //toast = Toast.makeText(getActivity(), "BEACON LONTANO ...", Toast.LENGTH_LONG);
             FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -380,7 +398,7 @@ public class IndoorMapFragment extends Fragment
             });
 
         }
-        toast.show();
+        //toast.show();
 
     }
     @Override
@@ -399,6 +417,9 @@ public class IndoorMapFragment extends Fragment
         FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.INVISIBLE);
         Toast toast = Toast.makeText(getActivity(), "BEACON LONTANO ...", Toast.LENGTH_SHORT);
         toast.show();
+
+        toolTipView.remove();
+
     }
 
     @Override

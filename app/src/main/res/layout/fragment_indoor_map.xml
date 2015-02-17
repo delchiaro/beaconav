@@ -18,7 +18,7 @@
 
 
         <ImageView
-            android:background="#FFB6D6C8"
+            android:background="@drawable/gradient"
 
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

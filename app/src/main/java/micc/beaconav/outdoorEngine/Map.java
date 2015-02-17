@@ -24,6 +24,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.maps.android.SphericalUtil;
+import com.nhaarman.supertooltips.ToolTip;
+import com.nhaarman.supertooltips.ToolTipView;
 
 
 import java.util.Arrays;
@@ -31,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import micc.beaconav.FragmentHelper;
+import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
@@ -53,6 +56,15 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
 
     private static Map istance = null;
+
+    private ToolTip toolTip = new ToolTip()
+            .withText("Clickare per andare\nall'indoor del museo")
+            .withTextColor(Color.WHITE)
+            .withColor(FragmentHelper.instance().getMainActivity().getResources().getColor(android.R.color.holo_red_light))
+            .withAnimationType(ToolTip.AnimationType.FROM_MASTER_VIEW);
+
+    private ToolTipView toolTipView;
+
     public static Map getIstance(){
         if(istance == null)
         {
@@ -183,6 +195,8 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         {
             FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setVisibility(View.VISIBLE);
 
+            toolTipView = FragmentHelper.instance().getMainActivity().getToIndoorTooltipContainer().showToolTipForView(toolTip, FragmentHelper.instance().getMainActivity().findViewById(R.id.notifyToIndoor));
+
             FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -190,6 +204,8 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
                         FragmentHelper.instance().showIndoorFragment((MuseumRow) object);
 
                         FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
+
+                        toolTipView.remove();
                     }
                 }
             });
