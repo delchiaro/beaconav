@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import micc.beaconav.db.timeStatistics.TimeStatisticsManager;
 import micc.beaconav.gui.animationHelper.BackgroundColorChangerHSV;
 import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
@@ -129,20 +130,16 @@ public class MainActivity extends ActionBarActivity
 //            ObjectAnimator searchBarAnimation;
 
 
-
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 Log.i(TAG, "onPanelSlide, offset " + slideOffset);
-                scrollViewResizer.resizeScrollView(1-slideOffset);
+                scrollViewResizer.resizeScrollView(1 - slideOffset);
 
-                if (slideOffset >= 0.002)
-                {
-                    if (colorAnimationStarted == false )
-                    {
+                if (slideOffset >= 0.002) {
+                    if (colorAnimationStarted == false) {
                         colorAnimationStarted = true;
 
-                        if (themeColor == ThemeColor.ORANGE)
-                        {
+                        if (themeColor == ThemeColor.ORANGE) {
 
                             slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", 0, slidingBarColorChanger.getS());
                             slidingBarHeightAnimation.setDuration(500);
@@ -151,14 +148,11 @@ public class MainActivity extends ActionBarActivity
                     }
                 }
 
-                if (slideOffset < 0.002)
-                {
-                    if (colorAnimationStarted == true )
-                    {
+                if (slideOffset < 0.002) {
+                    if (colorAnimationStarted == true) {
                         colorAnimationStarted = false;
 
-                        if (themeColor == ThemeColor.ORANGE)
-                        {
+                        if (themeColor == ThemeColor.ORANGE) {
                             //slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
                             slidingBarHeightAnimation = ObjectAnimator.ofFloat(slidingBarColorChanger, "saturation", slidingBarColorChanger.getS(), 0);
                             slidingBarHeightAnimation.setDuration(200);
@@ -171,8 +165,7 @@ public class MainActivity extends ActionBarActivity
 
                 if (slideOffset >= 0.4) {
 
-                    if (fadeOutAnimationStarted == false)
-                    {
+                    if (fadeOutAnimationStarted == false) {
 
 //                        Animation a = new Animation() {
 //                            @Override
@@ -196,11 +189,8 @@ public class MainActivity extends ActionBarActivity
 
 
                     }
-                }
-                else if (slideOffset < 0.4)
-                {
-                    if (fadeOutAnimationStarted == true)
-                    {
+                } else if (slideOffset < 0.4) {
+                    if (fadeOutAnimationStarted == true) {
 //                        Animation a = new Animation() {
 //                            @Override
 //                            protected void applyTransformation(float interpolatedTime, Transformation t) {
@@ -224,10 +214,8 @@ public class MainActivity extends ActionBarActivity
                     }
                 }
 
-                if(slideOffset >= 0.95)
-                {
-                    if(heightAnimationStarted != true)
-                    {
+                if (slideOffset >= 0.95) {
+                    if (heightAnimationStarted != true) {
                         slidingBarHeightAnimation = ObjectAnimator.ofInt(slidingBarHeightAnimMan, "dpHeight", SLIDING_BAR_HEIGHT_DP, SLIDING_BAR_EXPANDED_HEIGHT_DP);
                         slidingBarHeightAnimation.setDuration(200);
                         slidingBarHeightAnimation.start();
@@ -236,10 +224,8 @@ public class MainActivity extends ActionBarActivity
 
                 }
 
-                if(slideOffset < 0.95)
-                {
-                    if(heightAnimationStarted != false)
-                    {
+                if (slideOffset < 0.95) {
+                    if (heightAnimationStarted != false) {
                         slidingBarHeightAnimation = ObjectAnimator.ofInt(slidingBarHeightAnimMan, "dpHeight", SLIDING_BAR_EXPANDED_HEIGHT_DP, SLIDING_BAR_HEIGHT_DP);
                         slidingBarHeightAnimation.setDuration(500);
                         slidingBarHeightAnimation.start();
@@ -253,7 +239,7 @@ public class MainActivity extends ActionBarActivity
             @Override
             public void onPanelExpanded(View panel) {
                 Log.i(TAG, "onPanelExpanded");
-                
+
                 scrollViewResizer.resizeScrollView(0.0f);
 
             }
@@ -281,8 +267,7 @@ public class MainActivity extends ActionBarActivity
         floatingActionButtonQRScanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(v.getId()==R.id.scanCodeBtn)
-                {
+                if (v.getId() == R.id.scanCodeBtn) {
                     IntentIntegrator scanIntegrator = new IntentIntegrator(MainActivity.this);
                     scanIntegrator.initiateScan();
                 }
@@ -303,6 +288,7 @@ public class MainActivity extends ActionBarActivity
 
         this.context = this;
         dpHelper = new DpHelper(this);
+        TimeStatisticsManager.init(this);
 
 
         initActivityAndXML();

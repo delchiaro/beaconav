@@ -1,5 +1,7 @@
 package micc.beaconav.gui.customList;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,9 +13,14 @@ import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+
 import micc.beaconav.FragmentHelper;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
+import micc.beaconav.db.timeStatistics.TimeStatisticsManager;
 
 
 public class ArtworkDescrFragment extends Fragment {
@@ -29,6 +36,9 @@ public class ArtworkDescrFragment extends Fragment {
     private TextView textViewArtistName = null;
     private TextView textViewDimensions = null;
     private TextView textViewType = null;
+
+
+    Date startNavigationDate;
 
     public ArtworkDescrFragment() {
     }
@@ -87,6 +97,23 @@ public class ArtworkDescrFragment extends Fragment {
 
     }
 
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startNavigationDate = new Date();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (artworkRow != null) {
+            long lastTimeInApp = TimeStatisticsManager.readInAppTime(this.artworkRow);
+            long timeInSeconds = ((new Date()).getTime() - startNavigationDate.getTime()) / 1000;
+            TimeStatisticsManager.writeInAppTime(this.artworkRow, timeInSeconds + lastTimeInApp);
+        }
+    }
 
     public void setArtworkRow(ArtworkRow row){
         this.artworkRow = row;

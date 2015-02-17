@@ -16,6 +16,7 @@ import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
+import micc.beaconav.db.timeStatistics.TimeStatisticsManager;
 
 import java.util.List;
 
@@ -75,7 +76,8 @@ public class ListAdapter extends BaseAdapter {
         holder._artPieceName.setText(artRow.getName());
         //holder._navButton.setImageResource(artRow.getImageId());
 
-        holder._timeStat.setText("00:00:00"); //TODO Metterci la statistica sul tempo trascorso dentro
+        long time = TimeStatisticsManager.readInAppTime(artRow);
+        holder._timeStat.setText("time: " + Long.toString(time)); //TODO Metterci la statistica sul tempo trascorso dentro
 
 
         final IArtRow currentRow = list.get(position);

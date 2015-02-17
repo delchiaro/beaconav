@@ -6,6 +6,8 @@ import micc.beaconav.FragmentHelper;
 import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatField;
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.IntegerField;
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringField;
 import micc.beaconav.indoorEngine.building.spot.custom.ArtSpot;
 
@@ -19,7 +21,7 @@ public class ArtworkRow extends TableRow<ArtworkSchema> implements IArtRow
     private Context context;
     private ArtSpot linkedArtSpot = null;
 
-    public final StringField ID          = (StringField) field(schema.ID);
+    public final LongField ID          = (LongField) field(schema.ID);
     public final StringField title       = (StringField) field(schema.title);
     public final StringField descr       = (StringField) field(schema.descr);
     public final FloatField x            = (FloatField) field(schema.x);
@@ -57,6 +59,11 @@ public class ArtworkRow extends TableRow<ArtworkSchema> implements IArtRow
 
         return context.getResources().getIdentifier(ID_artworkImage.getValue() , "drawable", context.getPackageName());
         //qui va presa la stringa per l'id di ogni opera
+    }
+
+    @Override
+    public long getID() {
+        return ID.getValue();
     }
 
     public String getCreationYear()

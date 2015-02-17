@@ -4,6 +4,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.TableSchema;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.DoubleSchema;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatSchema;
+import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongSchema;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringSchema;
 
 /**
@@ -13,7 +14,7 @@ public class ArtworkSchema extends TableSchema<ArtworkRow>
 {
     static final String          tableName  = "artwork";
 
-    static final StringSchema    ID          = new StringSchema("ID");
+    static final LongSchema    ID          = new LongSchema("ID");
     static final StringSchema    title       = new StringSchema("title");
     static final StringSchema    descr       = new StringSchema("descr");
     static final FloatSchema     x           = new FloatSchema("x");

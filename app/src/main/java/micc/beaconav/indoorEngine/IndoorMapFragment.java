@@ -25,6 +25,7 @@ import com.nhaarman.supertooltips.ToolTip;
 import com.nhaarman.supertooltips.ToolTipView;
 
 import java.lang.ref.WeakReference;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,7 +33,9 @@ import micc.beaconav.FragmentHelper;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
+import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
+import micc.beaconav.db.timeStatistics.TimeStatisticsManager;
 import micc.beaconav.indoorEngine.beaconHelper.BeaconProximityListener;
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.Floor;
@@ -80,6 +83,8 @@ public class IndoorMapFragment extends Fragment
     PathSpotManager pathSpotManager;
     PathSpotManager myLocationPathSpotManager;
 
+    private MuseumRow museumRow = null;
+    public void initMuseumRow(MuseumRow row) { this.museumRow = row; }
 
 
     GoodBadBeaconProximityManager proximityManager;
@@ -117,6 +122,25 @@ public class IndoorMapFragment extends Fragment
     }
 
 
+
+    Date startNavigationDate;
+    Date startProximityDate;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startNavigationDate = new Date();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(this != null) {
+            long lastTimeInApp = TimeStatisticsManager.readInAppTime(this.museumRow);
+            long timeInSeconds = ((new Date()).getTime() - startNavigationDate.getTime()) / 1000;
+            TimeStatisticsManager.writeInAppTime(this.museumRow, timeInSeconds + lastTimeInApp);
+        }
+    }
 
 
 
@@ -541,6 +565,8 @@ public class IndoorMapFragment extends Fragment
     }
 
 
+
+
     @Override
     public void OnNewBeaconBestProximity(Beacon bestProximity, Beacon oldBestProximity) {
 
@@ -548,10 +574,20 @@ public class IndoorMapFragment extends Fragment
 
         if( beaconAssociatedSpot instanceof ArtSpot )
         {
+            // OLD PROXIMITY MARKER: (for statistics)
+            if(this.proximityMarker != null && this.proximityMarker.getArtworkRow() != null && startProximityDate != null)
+            {
+                long lastTimeInApp = TimeStatisticsManager.readInAppTime(this.proximityMarker.getArtworkRow());
+                long timeInSeconds = ((new Date()).getTime() - startProximityDate.getTime()) / 1000;
+                TimeStatisticsManager.writeInProximityTime(this.proximityMarker.getArtworkRow(), timeInSeconds + lastTimeInApp);
+            }// TODO: COMMENTA SE CRASHA
+
+            // NEW PROXIMITY MARKER:
             this.proximityMarker = (ArtSpot) beaconAssociatedSpot;
             if( proximityMarker.getNearestPathSpot() != null)
             {
                 newCurrentLocation(proximityMarker.getNearestPathSpot());
+                startProximityDate = new Date(); // for statistics
             }
         }
         else if( beaconAssociatedSpot instanceof  PathSpot )

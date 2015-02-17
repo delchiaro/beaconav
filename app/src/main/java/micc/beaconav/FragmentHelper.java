@@ -246,6 +246,7 @@ public class FragmentHelper  implements MuseumMarkerManager
 
     public final void showIndoorFragment(MuseumRow museum) {
         indoorMapFragment = new IndoorMapFragment();// gli dovremmo passare il building, o il museo, o il file json del building
+        indoorMapFragment.initMuseumRow(museum);
         swapFragment(R.id.fragment_map_container, indoorMapFragment);
         activeMainFragment = MainFragment.INDOOR;
         showArtworkListFragment(museum);

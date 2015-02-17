@@ -9,5 +9,7 @@ public interface IArtRow {
     public abstract String getName();
     public abstract String getDescription();
     public abstract int getImageId();
+    public abstract long getID();
+
 
 }

@@ -10,8 +10,12 @@ import android.widget.TextView;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.FragmentHelper;
+import micc.beaconav.db.timeStatistics.TimeStatisticsManager;
+
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import java.util.Date;
 
 
 public class MuseumDescrFragment extends Fragment
@@ -25,6 +29,26 @@ public class MuseumDescrFragment extends Fragment
 
     public MuseumDescrFragment() {
     }
+
+    Date startNavigationDate;
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startNavigationDate = new Date();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(museumRow != null) {
+            long lastTimeInApp = TimeStatisticsManager.readInAppTime(this.museumRow);
+            long timeInSeconds = ((new Date()).getTime() - startNavigationDate.getTime()) / 1000;
+            TimeStatisticsManager.writeInAppTime(this.museumRow, timeInSeconds + lastTimeInApp);
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
