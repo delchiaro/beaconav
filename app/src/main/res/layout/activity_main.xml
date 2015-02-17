@@ -45,7 +45,7 @@
             </RelativeLayout>
 
 
-            <SearchView
+            <!--<SearchView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/search_view"
@@ -53,17 +53,18 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
-                android:background="@drawable/layout_searchbar_corners"/>
+                android:background="@drawable/layout_searchbar_corners"/>-->
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/notifyToIndoor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|right"
-                android:layout_marginTop="86dp"
+                android:layout_marginTop="108dp"
                 android:visibility="invisible"
                 sothree:fab_colorNormal="@android:color/holo_red_light"
-                sothree:fab_colorPressed="@color/white_pressed"/>
+                sothree:fab_colorPressed="@color/white_pressed"
+                sothree:fab_icon="@drawable/ic_report_white_48dp"/>
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/scanCodeBtn"
@@ -82,7 +83,21 @@
                 android:layout_gravity="top|right"
                 android:layout_marginTop="136dp"
                 sothree:fab_colorNormal="@color/white"
-                sothree:fab_colorPressed="@color/white_pressed"/>
+                sothree:fab_colorPressed="@color/white_pressed"
+                sothree:fab_icon="@drawable/ic_report_black_48dp"/>
+
+            <com.nhaarman.supertooltips.ToolTipRelativeLayout
+                android:id="@+id/to_indoor_tooltip_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="170dp"/>
+
+            <com.nhaarman.supertooltips.ToolTipRelativeLayout
+                android:id="@+id/artwork_found_tooltip_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="200dp"/>
+
 
             <!--Questi 2 textView vanno tolti, servono solo per testare-->
             <TextView

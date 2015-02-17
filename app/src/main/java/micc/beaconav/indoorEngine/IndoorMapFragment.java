@@ -2,6 +2,7 @@ package micc.beaconav.indoorEngine;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.support.annotation.Nullable;
@@ -17,6 +18,11 @@ import android.widget.Toast;
 
 import com.estimote.sdk.Beacon;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.estimote.sdk.BeaconManager;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.nhaarman.supertooltips.ToolTip;
+import com.nhaarman.supertooltips.ToolTipView;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -83,6 +89,15 @@ public class IndoorMapFragment extends Fragment
 
     HashMap<Integer, Spot> spot_beacon_map = new HashMap<>();
     HashMap<String, Spot> qr_beacon_map = new HashMap<>();
+
+
+    private ToolTip artworkproximityToolTip = new ToolTip()
+            .withText("Cliccka per\nvisualizzare\ninfo sull'opera")
+            .withTextColor(Color.BLACK)
+            .withColor(Color.WHITE)
+            .withAnimationType(ToolTip.AnimationType.FROM_MASTER_VIEW);
+
+    private ToolTipView toolTipView;
 
 
 
@@ -495,6 +510,8 @@ public class IndoorMapFragment extends Fragment
 
     public void showProximityArtworkBeaconFAB() {
         Toast toast;
+        toolTipView = FragmentHelper.instance().getMainActivity()
+                .getArtworkFoundTooltipContainer().showToolTipForView(artworkproximityToolTip, FragmentHelper.instance().getMainActivity().findViewById(R.id.notifyToIndoor));
 
         FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.VISIBLE);
         toast = Toast.makeText(getActivity(), "BEACON VICINO!!!", Toast.LENGTH_LONG);
@@ -505,6 +522,7 @@ public class IndoorMapFragment extends Fragment
             public void onClick(View v) {
                 onMarkerSpotSelected(proximityMarker);
                 markerManager.invalidate();
+                toolTipView.remove();
             }
         });
 
@@ -519,6 +537,7 @@ public class IndoorMapFragment extends Fragment
             }
         });
         FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.INVISIBLE);
+        toolTipView.remove();
         //Toast toast = Toast.makeText(getActivity(), "BEACON LONTANO ...", Toast.LENGTH_SHORT);
         //toast.show();
     }
@@ -763,7 +782,7 @@ public class IndoorMapFragment extends Fragment
 //        this.drawable.invalidateSelf();
         //this.foregroundImgView.setImageMatrix(fgMatrix);
 
-        if(event.getPointerCount() == 1 && dx == 0 && dy == 0 && lastEvent == null  && mode != ZOOM && mode !=DRAG)
+        if(event.getPointerCount() == 1 && dx == 0 && dy == 0 ) // lastEvent == null )// mode != ZOOM && mode !=DRAG)
           markerManager.onTouch(view, event);
         return true;
     }

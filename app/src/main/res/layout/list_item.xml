@@ -5,21 +5,24 @@
     >
 
     <TextView
-        android:id="@+id/artPieceName"
-        android:layout_width="wrap_content"
+        android:id="@+id/art_museum_name"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:text="Description"
         android:layout_alignParentLeft="true"
         android:textColor="@android:color/black"
         android:layout_marginTop="16dp"
         android:textSize="16dp"
         android:paddingLeft="7dp"
         android:paddingRight="7dp"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever"
         />
 
 
     <!--Qualsiasi cosa si voglia infilare fra il nome dell'opera/museo va messa qui e
      gli va assegnato l'allineamento alla destra di artPieceName-->
+
 
     <ImageView
         android:id="@+id/navButton"
@@ -32,12 +35,28 @@
         android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
         android:layout_marginRight="5dp"
-
         android:paddingTop      ="6dp"
         android:paddingBottom   ="4dp"
         android:paddingLeft     ="6dp"
         android:paddingRight    ="4dp"
 
+
         />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time_stat"
+        android:layout_alignTop="@id/art_museum_name"
+        android:layout_centerHorizontal="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever"
+        android:layout_toLeftOf="@id/navButton"
+        android:paddingRight="8dp"/>
+
+
+
 
 </RelativeLayout>

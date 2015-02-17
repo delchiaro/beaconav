@@ -14,6 +14,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import micc.beaconav.FragmentHelper;
 import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.IArtRow;
+import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class ListAdapter extends BaseAdapter {
     {
         ImageView _navButton;
         TextView _artPieceName;
+        TextView _timeStat;
         //Altri elementi visuali qui e vanno ovviamente agganciati all'xml
     }
 
@@ -53,11 +55,14 @@ public class ListAdapter extends BaseAdapter {
         LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.art_list_item, null);
+            convertView = mInflater.inflate(R.layout.list_item, null);
             holder = new ViewHolder();
             // qui aggancio i vari componenti dell'oggetto base
             // della lista nell'xml
-            holder._artPieceName = (TextView) convertView.findViewById(R.id.artPieceName);
+            holder._artPieceName = (TextView) convertView.findViewById(R.id.art_museum_name);
+            holder._artPieceName.setSelected(true);
+            holder._timeStat =(TextView) convertView.findViewById(R.id.time_stat);
+            holder._timeStat.setSelected(true);
             holder._navButton = (ImageView) convertView.findViewById(R.id.navButton);
             convertView.setTag(holder);
         }
@@ -69,6 +74,8 @@ public class ListAdapter extends BaseAdapter {
 
         holder._artPieceName.setText(artRow.getName());
         //holder._navButton.setImageResource(artRow.getImageId());
+
+        holder._timeStat.setText("00:00:00"); //TODO Metterci la statistica sul tempo trascorso dentro
 
 
         final IArtRow currentRow = list.get(position);
@@ -82,7 +89,10 @@ public class ListAdapter extends BaseAdapter {
                     FragmentHelper.instance().navigateToMuseumOnBtnClick((MuseumRow) currentRow, v);
                     FragmentHelper.instance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 }
-                //else {setta il listener per l'indoor per la navigazione interna}
+                else if (currentRow instanceof ArtworkRow){
+                    FragmentHelper.instance().indoorMapFragment.simulateArtSpotSelection((ArtworkRow)currentRow);
+                    FragmentHelper.instance().indoorMapFragment.navigateToSelectedMarker();
+                }
             }
         });
 

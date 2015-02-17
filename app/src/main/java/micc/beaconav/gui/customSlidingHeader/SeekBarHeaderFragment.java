@@ -1,5 +1,6 @@
 package micc.beaconav.gui.customSlidingHeader;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.nhaarman.supertooltips.ToolTip;
+import com.nhaarman.supertooltips.ToolTipRelativeLayout;
+import com.nhaarman.supertooltips.ToolTipView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import micc.beaconav.FragmentHelper;
@@ -16,8 +20,10 @@ import micc.beaconav.outdoorEngine.Map;
 
 public class SeekBarHeaderFragment extends Fragment {
 
-    Button backBtn = null;
-    DiscreteSeekBar discreteSeekBar = null;
+    private Button backBtn = null;
+    private DiscreteSeekBar discreteSeekBar = null;
+
+
 
     private static int SEEKBAR_MIN = 0; // NON CAMBIARE. GLI ARRAY PARTANO DA 0! NON SPRECARE MEMORIA..
     private static int SEEKBAR_MAX = 15;
@@ -72,19 +78,8 @@ public class SeekBarHeaderFragment extends Fragment {
             public void onClick(View v) {
                 FragmentHelper.instance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
             }
+
         });
-
-
-
-//        DiscreteSeekBar.NumericTransformer numericTransformer = new DiscreteSeekBar.NumericTransformer() {
-//            @Override
-//            public int transform(int value) {
-//                return value*1000-950;
-//            }
-//        };
-
-
-
 
         discreteSeekBar.setNumericTransformer(new DiscreteSeekBar.NumericTransformer() {
 

@@ -34,7 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_above="@id/search_radius">
+        android:layout_above="@id/search_radius"
+        android:padding="0dp"
+        android:layout_margin="0dp">
 
         <Button
             android:layout_width="wrap_content"
@@ -43,10 +45,11 @@
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="20dp"
             android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/ic_chevron_left_white_48dp"
-            android:text="Nelle vicinanze"
+            android:drawableLeft="@drawable/ic_chevron_left_white_36dp"
+            android:text="Musei"
             android:textColor="@color/white"
             android:textSize="24dp"
+            android:paddingRight="24dp"
             />
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -58,11 +61,11 @@
             android:layout_toRightOf="@id/back_button"
             android:orientation="horizontal">
 
-            <SearchView
+            <!--<SearchView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/search_view_in_header"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"/>-->
 
         </RelativeLayout>
 
