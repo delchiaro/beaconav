@@ -1,10 +1,13 @@
 package micc.beaconav;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.Toast;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -65,7 +68,7 @@ public class FragmentHelper  implements MuseumMarkerManager
 
 
     public MapFragment       mapFragment = new MapFragment();
-    public IndoorMapFragment indoorMapFragment;
+    public IndoorMapFragment indoorMapFragment = null;
 
 
     public ArtListFragment museumListFragment = new ArtListFragment();
@@ -111,11 +114,42 @@ public class FragmentHelper  implements MuseumMarkerManager
                             break;
 
                         case DETAILS:
-                            showArtworkListFragment(artworkList_museumRow);
+                            //showArtworkListFragment(artworkList_museumRow);
+                            indoorMapFragment.onMarkerSpotSelected(null);
                             break;
 
                         case LIST:
-                            showOutdoorFragment();
+                            SlidingUpPanelLayout.PanelState panelState = mainActivity.getSlidingUpPanelLayout().getPanelState();
+
+                            if(panelState == SlidingUpPanelLayout.PanelState.ANCHORED)
+                            {
+
+                            }
+                            if(mainActivity.getSlidingUpPanelLayout().getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED)
+                            {
+                                AlertDialog alertDialog = new AlertDialog.Builder(mainActivity).create();
+
+                                alertDialog.setTitle("Conferma azione");
+                                alertDialog.setMessage("Vuoi uscire dal museo e tornare alla mappa esterna?");
+
+                                // Setting Icon to Dialog
+                                //alertDialog.setIcon(R.drawable.);
+
+                                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        showOutdoorFragment();
+                                        indoorMapFragment = null;
+                                    }
+                                });
+
+                                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Annulla", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                });
+
+                                alertDialog.show();
+                            }
                             break;
 
                     }
@@ -147,6 +181,7 @@ public class FragmentHelper  implements MuseumMarkerManager
 
 
     public final void showOutdoorFragment() {
+        indoorMapFragment = null;
         swapFragment(R.id.fragment_map_container, mapFragment);
         activeMainFragment = MainFragment.OUTDOOR;
         mapFragment.setMuseumMarkerManager(this);
@@ -154,11 +189,13 @@ public class FragmentHelper  implements MuseumMarkerManager
         mainActivity.setFABListener(defaultFABOnClickListener);
         mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.INVISIBLE);
         mainActivity.getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.INVISIBLE);
+        mainActivity.getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
+
     }
 
 
     public final void showIndoorFragment(MuseumRow museum) {
-        IndoorMapFragment indoorMapFragment = new IndoorMapFragment();// gli dovremmo passare il building, o il museo, o il file json del building
+        indoorMapFragment = new IndoorMapFragment();// gli dovremmo passare il building, o il museo, o il file json del building
         swapFragment(R.id.fragment_map_container, indoorMapFragment);
         activeMainFragment = MainFragment.INDOOR;
         showArtworkListFragment(museum);
@@ -166,6 +203,9 @@ public class FragmentHelper  implements MuseumMarkerManager
         mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
         mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.VISIBLE);
+        mainActivity.getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
+
+
     }
 
 
@@ -238,16 +278,18 @@ public class FragmentHelper  implements MuseumMarkerManager
         activeSlidingFragment = SlidingFragment.DETAILS;
 
         showNameHeaderFragment(row);
-        swapFragment(R.id.fragment_list_container, artworkDescrFragment);
+        artworkDescrFragment = new ArtworkDescrFragment();
         artworkDescrFragment.setArtworkRow(row);
+        swapFragment(R.id.fragment_list_container, artworkDescrFragment);
+        indoorMapFragment.simulateArtSpotSelection(row);
         mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.ic_directions_white_48dp));
-        mainActivity.setFABListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //indoorMapFragment.
-            }
-        });
+//        mainActivity.setFABListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                indoorMapFragment.navigateToSelectedMarker();
+//            }
+//        });
 
         //settare il bottone per la navigazione verso l'opera
 
@@ -295,6 +337,8 @@ public class FragmentHelper  implements MuseumMarkerManager
         Map.getIstance().simulateMuseumClick(row);
         mapFragment.onClickNavigate(v);
     }
+
+
 
     private View.OnClickListener defaultFABOnClickListener = new View.OnClickListener() {
         @Override

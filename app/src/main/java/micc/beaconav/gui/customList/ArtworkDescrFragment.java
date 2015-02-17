@@ -75,8 +75,13 @@ public class ArtworkDescrFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if( artworkRow != null && artworkRow instanceof ArtworkRow)
-                    //TODO: mostra il precorso fino all'opera
-                FragmentHelper.instance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                {
+                    if(FragmentHelper.instance().indoorMapFragment != null)
+                    {
+                        FragmentHelper.instance().indoorMapFragment.navigateToSelectedMarker();
+                        FragmentHelper.instance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    }
+                }
             }
         });
 

@@ -76,7 +76,7 @@ public class ProximityAnalysisTask extends AsyncTask<ProximityObject, String, Pr
 
             Location testLocation = new Location("testLocation");
             testLocation.setLatitude(proximityObjects[0].getLatitude());
-            testLocation.setLatitude(proximityObjects[0].getLongitude());
+            testLocation.setLongitude(proximityObjects[0].getLongitude());
 
             ProximityObject best = proximityObjects[0];
             float bestDistance = currentLocation.distanceTo(testLocation);
@@ -105,7 +105,8 @@ public class ProximityAnalysisTask extends AsyncTask<ProximityObject, String, Pr
         super.onPostExecute(proximityObject);
         this.isAnalyzing = false;
         this.hadAnalyzed = true;
-        manager.onProximityAnalysisExecuted(proximityObject);
+        if(proximityObject != null)
+            manager.onProximityAnalysisExecuted(proximityObject);
 
     }
 }

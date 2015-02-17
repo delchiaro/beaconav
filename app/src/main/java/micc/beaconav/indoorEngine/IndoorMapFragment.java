@@ -18,7 +18,10 @@ import android.widget.Toast;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,11 +61,13 @@ public class IndoorMapFragment extends Fragment
     private Matrix fgMatrix = new Matrix();
     private Matrix fgSavedMatrix = new Matrix();
 
-
+    WeakReference<Bitmap> backgroundBmp; // FIXED MEMORY LEAK CON WEAK REFERENCE !!!!
 
     ImageView backgroundImgView;
     ImageView foregroundImgView;
     ImageView navigationImgView;
+
+    ViewGroup container = null;
 
     private Matrix buildingMatrix = new Matrix();
 
@@ -72,7 +77,6 @@ public class IndoorMapFragment extends Fragment
     PathSpotManager pathSpotManager;
 
 
-    ViewGroup container = null;
 
     GoodBadBeaconProximityManager proximityManager;
 
@@ -81,15 +85,6 @@ public class IndoorMapFragment extends Fragment
 
     HashMap<Integer, Spot> spot_beacon_map = new HashMap<>();
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        this.container = container;
-        proximityManager = new GoodBadBeaconProximityManager(this.getActivity(), this);
-
-        return inflater.inflate(R.layout.fragment_indoor_map, container, false);
-    }
 
 
     @Override
@@ -104,6 +99,40 @@ public class IndoorMapFragment extends Fragment
     public void onStop() {
         super.onStop();
         proximityManager.stopScan();
+
+    }
+
+
+
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //backgroundImgView.setImageResource(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        //backgroundBmp.recycle();
+
+        // FORZA il liberamentodella memoria bitmap background
+        // (non è questo che elimina il memory leak ma la weakReference)
+        backgroundBmp.get().recycle();
+
+        backgroundImgView = null;
+        foregroundImgView = null;
+        navigationImgView = null;
+
+        container = null;
+
+        //libera la memoria!!
+        //http://stackoverflow.com/questions/13421945/retained-fragments-with-ui-and-memory-leaks
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        this.container = container;
+        proximityManager = new GoodBadBeaconProximityManager(this.getActivity(), this);
+
+        return inflater.inflate(R.layout.fragment_indoor_map, container, false);
     }
 
     @Override
@@ -218,10 +247,10 @@ public class IndoorMapFragment extends Fragment
 
 
         // DRAWING:
-        Bitmap bmp = generateBackgroundBmp(building);
+        backgroundBmp = generateBackgroundBmp(building);
         //backgroundImgView.setImageDrawable(indoorMap); // disegno background in vettoriale
         // disegno background stampando il vettoriale su un bitmap
-        backgroundImgView.setImageBitmap(bmp );
+        backgroundImgView.setImageBitmap(backgroundBmp.get() );
 
 
         //indoorMap = new IndoorMap(building);
@@ -254,13 +283,11 @@ public class IndoorMapFragment extends Fragment
     public void onMarkerSpotSelected(ArtSpot newSelectedMarker) {
 
         MarkerSpot oldSelectedMarker = selectedMarker;
-        if(oldSelectedMarker != null)
-        {
-            if( oldSelectedMarker.isSelected() )
-            {
-                oldSelectedMarker.deselect();
-            }
+        if(oldSelectedMarker != null && oldSelectedMarker.isSelected() ) {
+            oldSelectedMarker.deselect();
+          //  FragmentHelper.instance().showArtworkListFragment(FragmentHelper.instance().artworkList_museumRow);
         }
+
         selectedMarker = newSelectedMarker;
 
         if(selectedMarker != null)
@@ -276,11 +303,28 @@ public class IndoorMapFragment extends Fragment
                 });
             else FragmentHelper.instance().showArtworkDetailsFragment((selectedMarker).getArtworkRow());
         }
+        else
+        {
+            FragmentHelper.instance().showArtworkListFragment(FragmentHelper.instance().artworkList_museumRow);
+            markerManager.invalidate();
+        }
 
 
 
     }
 
+    public void simulateArtSpotSelection(ArtworkRow row) {
+        if(row != null && row.getLinkedArtSpot() != null)
+        {
+            MarkerSpot oldSelectedMarker = selectedMarker;
+            if(oldSelectedMarker != null && oldSelectedMarker.isSelected())
+                  oldSelectedMarker.deselect();
+
+            selectedMarker = row.getLinkedArtSpot();
+            selectedMarker.select();
+            markerManager.invalidate();
+        }
+    }
     // GESTIONE MARKER PIÙ VICINO (BEACON)
     @Override
     public void OnNewBeaconBestProximity(Beacon bestProximity, Beacon oldBestProximity) {
@@ -371,11 +415,11 @@ public class IndoorMapFragment extends Fragment
 
 
 
-    public Bitmap generateBackgroundBmp(Building building) {
+    public WeakReference<Bitmap> generateBackgroundBmp(Building building) {
 
-        Bitmap frame =  Bitmap.createBitmap((int)building.getWidth(), (int)building.getHeight(), Bitmap.Config.ARGB_8888);
+        WeakReference<Bitmap> frame =  new WeakReference<Bitmap>(Bitmap.createBitmap((int)building.getWidth(), (int)building.getHeight(), Bitmap.Config.ARGB_8888));
 
-        Canvas frameBuildingCanvas = new Canvas(frame);
+        Canvas frameBuildingCanvas = new Canvas(frame.get());
         frameBuildingCanvas.setMatrix(this.buildingMatrix);
         building.draw(frameBuildingCanvas);
 
@@ -388,8 +432,10 @@ public class IndoorMapFragment extends Fragment
         {
             if(selectedMarker.getNearestPathSpot() != null)
             {
+                navigationImgView.setImageDrawable(null);
                 pathSpotManager =  building.drawBestPath(lastLocalizedPathSpot, selectedMarker.getNearestPathSpot());
-                navigationImgView.setImageDrawable(pathSpotManager.generateWrapperDrawable());
+                navigationImgView.setImageDrawable(pathSpotManager.newWrapperDrawable());
+                pathSpotManager.invalidate();
                 return 1;
             }
             else

@@ -7,6 +7,7 @@ import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringField;
+import micc.beaconav.indoorEngine.building.spot.custom.ArtSpot;
 
 
 /**
@@ -16,6 +17,7 @@ public class ArtworkRow extends TableRow<ArtworkSchema> implements IArtRow
 {
     static ArtworkSchema schema = new ArtworkSchema();
     private Context context;
+    private ArtSpot linkedArtSpot = null;
 
     public final StringField ID          = (StringField) field(schema.ID);
     public final StringField title       = (StringField) field(schema.title);
@@ -80,6 +82,20 @@ public class ArtworkRow extends TableRow<ArtworkSchema> implements IArtRow
     public String getDimensions()
     {
         return dimensions.getValue();
+    }
+
+
+
+
+    public final void setLinkArtSpot(ArtSpot spot) {
+        this.linkedArtSpot = spot;
+        if(spot.getArtworkRow() != this)
+        {
+            spot.setArtworkRow(this);
+        }
+    }
+    public final ArtSpot getLinkedArtSpot(){
+        return this.linkedArtSpot;
     }
 
 }

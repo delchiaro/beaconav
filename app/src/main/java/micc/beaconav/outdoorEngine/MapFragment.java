@@ -170,5 +170,16 @@ public class MapFragment extends Fragment
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        map.startLocalization();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        map.stopLocalization();
+
+    }
 }

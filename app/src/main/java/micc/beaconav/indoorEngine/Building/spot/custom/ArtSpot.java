@@ -64,6 +64,10 @@ public class ArtSpot extends MarkerSpot
 
     public void setArtworkRow(ArtworkRow row) {
         this.artworkRow = row;
+        if(row.getLinkedArtSpot() != this)
+        {
+            row.setLinkArtSpot(this);
+        }
     }
     public ArtworkRow getArtworkRow() {
         return this.artworkRow;
