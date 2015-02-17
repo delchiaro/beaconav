@@ -183,11 +183,40 @@ public class IndoorMapFragment extends Fragment
         Room corridoio = new Room();
         floor.add(corridoio);
 
-        Room ingresso1 = new Room();
-        floor.add(ingresso1);
+        Room ingressoFerracani = new Room();
+        floor.add(ingressoFerracani);
 
         Room stanzaFerracani = new Room();
         floor.add(stanzaFerracani);
+
+        Room bagno = new Room();
+        floor.add(bagno);
+
+        Room stanzaPC = new Room();
+        floor.add(stanzaPC);
+
+        Room stanzaRasta = new Room();
+        floor.add(stanzaRasta);
+
+        Room ingresso = new Room();
+        floor.add(ingresso);
+
+        Room stanzaEntrataSegreta = new Room();
+        floor.add(stanzaEntrataSegreta);
+
+        Room corridoio2 = new Room();
+        floor.add(corridoio2);
+
+        Room stanzaBertini = new Room();
+        floor.add(stanzaBertini);
+
+        Room bagno2 = new Room();
+        floor.add(bagno2);
+
+        Room stanzaPulizie = new Room();
+        floor.add(stanzaPulizie);
+
+
 
 
 
@@ -230,32 +259,73 @@ public class IndoorMapFragment extends Fragment
 
 
         // VertexDefinitions and Spot Definitions
-        corridoio.pushWall(new PointF(1f,   1f));
-        corridoio.pushWall(new PointF(4.5f, 1f));
-        corridoio.pushWall(new PointF(4.5f, 30f));
-        corridoio.pushWall(new PointF(1f,   30f));
+        corridoio.pushWall(new PointF(11f,   1f));
+        corridoio.pushWall(new PointF(16f, 1f));
+        corridoio.pushWall(new PointF(16f, 31f));
+        corridoio.pushWall(new PointF(11f,   31f));
 
 
 
 
-        ingresso1.pushWall(new PointF(4.5f, 25f));
-        ingresso1.pushWall(new PointF(7.5f, 25f));
-            ingresso1.pushAperture(new PointF(7.5f, 26f));
-            Room.addDoorSpot(ingresso1, 7f, 27, true, stanzaFerracani, 8f, 27, true );
-            ingresso1.pushWall(new PointF(7.5f, 28f));
-
-        ingresso1.pushWall(new PointF(7.5f, 30f));
-        ingresso1.pushWall(new PointF(4.5f, 30f));
-            ingresso1.pushAperture(new PointF(4.5f, 28f));
-            Room.addDoorSpot(ingresso1, 4f, 27, true, corridoio, 5f, 27, true );
-            ingresso1.pushWall(new PointF(4.5f, 26f));
+        ingressoFerracani.pushWall(new PointF(16f, 21f));
+        ingressoFerracani.pushWall(new PointF(22f, 21f));
+        ingressoFerracani.pushWall(new PointF(22f, 30f));
+        ingressoFerracani.pushWall(new PointF(16f, 30f));
 
 
 
-        stanzaFerracani.pushWall(new PointF(7.5f, 25f));
-        stanzaFerracani.pushWall(new PointF(13f,  25f));
-        stanzaFerracani.pushWall(new PointF(13f,  30f));
-        stanzaFerracani.pushWall(new PointF(7.5f, 30f));
+
+        stanzaFerracani.pushWall(new PointF(22f, 21f));
+        stanzaFerracani.pushWall(new PointF(30f,  21f));
+        stanzaFerracani.pushWall(new PointF(30f,  30f));
+        stanzaFerracani.pushWall(new PointF(22f, 30f));
+
+        bagno.pushWall(new PointF(16f, 1f));
+        bagno.pushWall(new PointF(22f, 1f));
+        bagno.pushWall(new PointF(22f, 8f));
+        bagno.pushWall(new PointF(16f, 8f));
+
+        stanzaPC.pushWall(new PointF(16f, 8f));
+        stanzaPC.pushWall(new PointF(30f, 8f));
+        stanzaPC.pushWall(new PointF(30f, 18f));
+        stanzaPC.pushWall(new PointF(16f, 18f));
+
+        stanzaRasta.pushWall(new PointF(16f, 18f));
+        stanzaRasta.pushWall(new PointF(30f, 18f));
+        stanzaRasta.pushWall(new PointF(30f, 21f));
+        stanzaRasta.pushWall(new PointF(16f, 21f));
+
+        stanzaEntrataSegreta.pushWall(new PointF(0f, 31f));
+        stanzaEntrataSegreta.pushWall(new PointF(11f, 31f));
+        stanzaEntrataSegreta.pushWall(new PointF(11f, 44f));
+        stanzaEntrataSegreta.pushWall(new PointF(0f, 44f));
+
+        ingresso.pushWall(new PointF(11f, 31f));
+        ingresso.pushWall(new PointF(16f, 31f));
+        ingresso.pushWall(new PointF(16f, 30f));
+        ingresso.pushWall(new PointF(20f, 30f));
+        ingresso.pushWall(new PointF(20f, 44f));
+        ingresso.pushWall(new PointF(11f, 44f));
+
+        corridoio2.pushWall(new PointF(20f, 30f));
+        corridoio2.pushWall(new PointF(49f, 30f));
+        corridoio2.pushWall(new PointF(49f, 35f));
+        corridoio2.pushWall(new PointF(20f, 35f));
+
+        stanzaBertini.pushWall(new PointF(20f, 35f));
+        stanzaBertini.pushWall(new PointF(32f, 35f));
+        stanzaBertini.pushWall(new PointF(44f, 44f));
+        stanzaBertini.pushWall(new PointF(20f, 44f));
+
+        bagno2.pushWall(new PointF(32f, 35f));
+        bagno2.pushWall(new PointF(42f, 35f));
+        bagno2.pushWall(new PointF(42f, 44f));
+        bagno2.pushWall(new PointF(32f, 44f));
+
+        stanzaPulizie.pushWall(new PointF(42f, 35f));
+        stanzaPulizie.pushWall(new PointF(49f, 35f));
+        stanzaPulizie.pushWall(new PointF(49f, 44f));
+        stanzaPulizie.pushWall(new PointF(42f, 44f));
 
 
 
