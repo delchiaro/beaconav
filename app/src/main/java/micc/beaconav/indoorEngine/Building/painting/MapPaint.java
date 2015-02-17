@@ -14,7 +14,7 @@ public class MapPaint
 
     private static int PPM = ProportionsHelper.PPM;
 
-    private static int          WALL_DEFAULT_COLOR = Color.rgb(94, 97, 76);
+    private static int          WALL_DEFAULT_COLOR = Color.rgb(0, 0, 0);
     private static float        WALL_DEFAULT_WIDTH = 0.25f;
     private static Paint.Style  WALL_STYLE = Paint.Style.STROKE;
 
@@ -22,7 +22,7 @@ public class MapPaint
     private static float        DOOR_DEFAULT_WIDTH = 0.25f;
     private static Paint.Style  DOOR_DEFAULT_STYLE = Paint.Style.STROKE;
 
-    private static int          FLOOR_DEFAULT_COLOR = Color.rgb(255, 248, 176);
+    private static int          FLOOR_DEFAULT_COLOR = Color.rgb(255, 255, 255);
     private static Paint.Style  FLOOR_DEFAULT_STYLE = Paint.Style.FILL;
 
 

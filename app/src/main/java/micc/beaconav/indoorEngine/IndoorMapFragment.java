@@ -285,19 +285,42 @@ public class IndoorMapFragment extends Fragment
         // VertexDefinitions and Spot Definitions
         corridoio.pushWall(new PointF(11f,   1f));
         corridoio.pushWall(new PointF(16f, 1f));
+            corridoio.pushAperture(new PointF(16f, 4f));
+            Room.addDoorSpot(corridoio, 15f, 5f, true, bagno, 17f, 5f, true);
+            corridoio.pushWall(new PointF(16f, 6f));
+
+            corridoio.pushAperture(new PointF(16f, 12f));
+            Room.addDoorSpot(corridoio, 15f, 13f, true, stanzaPC, 17f, 13f, true);
+            corridoio.pushWall(new PointF(16f, 14f));
+
+            corridoio.pushAperture(new PointF(16f, 24f));
+            Room.addDoorSpot(corridoio, 15f, 25f, true, ingressoFerracani, 17f, 25f, true);
+            corridoio.pushWall(new PointF(16f, 26f));
+
+
         corridoio.pushWall(new PointF(16f, 31f));
+
+            corridoio.pushAperture(new PointF(15f, 31f));
+            Room.addDoorSpot(corridoio, 14f, 30f, true, ingresso, 14f, 32f, true);
+            corridoio.pushWall(new PointF(13f, 31f));
+
         corridoio.pushWall(new PointF(11f,   31f));
 
 
-
-
         ingressoFerracani.pushWall(new PointF(16f, 21f));
+
+            ingressoFerracani.pushAperture(new PointF(18f, 21f));
+            Room.addDoorSpot(ingressoFerracani, 19f, 22f, true, stanzaRasta, 19f, 20f, true);
+            ingressoFerracani.pushWall(new PointF(20f, 21f));
+
         ingressoFerracani.pushWall(new PointF(22f, 21f));
+
+            ingressoFerracani.pushAperture(new PointF(22f, 24f));
+            Room.addDoorSpot(ingressoFerracani, 21f, 25f, true, stanzaFerracani, 23f, 25f, true);
+            ingressoFerracani.pushWall(new PointF(22f, 26f));
+
         ingressoFerracani.pushWall(new PointF(22f, 30f));
         ingressoFerracani.pushWall(new PointF(16f, 30f));
-
-
-
 
         stanzaFerracani.pushWall(new PointF(22f, 21f));
         stanzaFerracani.pushWall(new PointF(30f,  21f));
@@ -321,6 +344,9 @@ public class IndoorMapFragment extends Fragment
 
         stanzaEntrataSegreta.pushWall(new PointF(0f, 31f));
         stanzaEntrataSegreta.pushWall(new PointF(11f, 31f));
+            stanzaEntrataSegreta.pushAperture(new PointF(11f, 34f));
+            Room.addDoorSpot(stanzaEntrataSegreta, 10f, 35f, true, ingresso, 12f, 35f, true);
+            stanzaEntrataSegreta.pushWall(new PointF(11f, 36));
         stanzaEntrataSegreta.pushWall(new PointF(11f, 44f));
         stanzaEntrataSegreta.pushWall(new PointF(0f, 44f));
 
@@ -334,7 +360,24 @@ public class IndoorMapFragment extends Fragment
         corridoio2.pushWall(new PointF(20f, 30f));
         corridoio2.pushWall(new PointF(49f, 30f));
         corridoio2.pushWall(new PointF(49f, 35f));
+
+            corridoio2.pushAperture(new PointF(46f, 35f));
+            Room.addDoorSpot(corridoio2, 45f, 34f, true, stanzaPulizie, 45f, 36f, true);
+            corridoio2.pushWall(new PointF(44f, 35f));
+
+            corridoio2.pushAperture(new PointF(37f, 35f));
+            Room.addDoorSpot(corridoio2, 36f, 34f, true, bagno2, 36f, 36f, true);
+            corridoio2.pushWall(new PointF(35f, 35f));
+
+            corridoio2.pushAperture(new PointF(28f, 35f));
+            Room.addDoorSpot(corridoio2, 27f, 34f, true, stanzaBertini, 34f, 36f, true);
+            corridoio2.pushWall(new PointF(26f, 35f));
+
         corridoio2.pushWall(new PointF(20f, 35f));
+
+            corridoio2.pushAperture(new PointF(20f, 34f));
+            Room.addDoorSpot(corridoio2, 21f, 33f, true, ingresso, 19f, 33f, true);
+            corridoio2.pushWall(new PointF(20f, 32f));
 
         stanzaBertini.pushWall(new PointF(20f, 35f));
         stanzaBertini.pushWall(new PointF(32f, 35f));
