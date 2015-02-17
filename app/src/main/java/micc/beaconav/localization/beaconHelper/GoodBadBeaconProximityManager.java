@@ -18,8 +18,8 @@ public class GoodBadBeaconProximityManager extends ABeaconProximityManager {
 
 
 
-    private final int       INIT_GOOD = 100;//50
-    private final int       INIT_BAD  = 400;
+    private final int       INIT_GOOD = 100;//100 //50
+    private final int       INIT_BAD  = 400;//400
 
     private final int       DEFAULT_GOOD_TASHOLD    = 1200;
     private final int       DEFAULT_BAD_TRASHOLD    = -800;

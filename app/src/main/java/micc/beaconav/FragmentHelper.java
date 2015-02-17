@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -82,8 +83,12 @@ public class FragmentHelper  implements MuseumMarkerManager
 
 
 
+
+
     public OnBackPressedListener getOnBackPressedListener(){
         return new OnBackPressedListener() {
+
+
             @Override
             public void doBack() {
                 if(activeMainFragment == MainFragment.OUTDOOR)
@@ -101,7 +106,45 @@ public class FragmentHelper  implements MuseumMarkerManager
                             break;
 
                         case LIST:
-                            // void. Nothing to do!
+                            switch (mainActivity.getSlidingUpPanelLayout().getPanelState())
+                            {
+                                case EXPANDED:
+                                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+                                    break;
+
+                                case ANCHORED:
+                                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                                    break;
+
+                                case COLLAPSED:
+                                {
+                                    if (mainActivity.getSlidingUpPanelLayout().getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                                        AlertDialog alertDialog = new AlertDialog.Builder(mainActivity).create();
+
+                                        alertDialog.setTitle("Conferma azione");
+                                        alertDialog.setMessage("Vuoi uscire dal programma?");
+
+                                        // Setting Icon to Dialog
+                                        //alertDialog.setIcon(R.drawable.);
+
+                                        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                showOutdoorFragment();
+                                                mainActivity.finish();
+                                            }
+                                        });
+
+                                        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Annulla", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                            }
+                                        });
+
+                                        alertDialog.show();
+                                    }
+                                    break;
+                                }
+                            }
                             break;
 
                     }
@@ -119,42 +162,50 @@ public class FragmentHelper  implements MuseumMarkerManager
                             break;
 
                         case LIST:
-                            SlidingUpPanelLayout.PanelState panelState = mainActivity.getSlidingUpPanelLayout().getPanelState();
-
-                            if(panelState == SlidingUpPanelLayout.PanelState.ANCHORED)
+                            switch (mainActivity.getSlidingUpPanelLayout().getPanelState())
                             {
+                                case EXPANDED:
+                                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+                                    break;
 
-                            }
-                            if(mainActivity.getSlidingUpPanelLayout().getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED)
-                            {
-                                AlertDialog alertDialog = new AlertDialog.Builder(mainActivity).create();
+                                case ANCHORED:
+                                    mainActivity.getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                                    break;
 
-                                alertDialog.setTitle("Conferma azione");
-                                alertDialog.setMessage("Vuoi uscire dal museo e tornare alla mappa esterna?");
+                                case COLLAPSED:
+                                {
+                                    if (mainActivity.getSlidingUpPanelLayout().getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                                        AlertDialog alertDialog = new AlertDialog.Builder(mainActivity).create();
 
-                                // Setting Icon to Dialog
-                                //alertDialog.setIcon(R.drawable.);
+                                        alertDialog.setTitle("Conferma azione");
+                                        alertDialog.setMessage("Vuoi uscire dal museo e tornare alla mappa esterna?");
 
-                                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        showOutdoorFragment();
-                                        indoorMapFragment = null;
+                                        // Setting Icon to Dialog
+                                        //alertDialog.setIcon(R.drawable.);
+
+                                        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                showOutdoorFragment();
+                                                indoorMapFragment = null;
+                                            }
+                                        });
+
+                                        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Annulla", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                            }
+                                        });
+
+                                        alertDialog.show();
                                     }
-                                });
-
-                                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Annulla", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                });
-
-                                alertDialog.show();
-                            }
-                            break;
+                                    break;
+                                }
+                            }                            break;
 
                     }
                 }
             }
+
         };
     }
 
@@ -190,7 +241,6 @@ public class FragmentHelper  implements MuseumMarkerManager
         mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.INVISIBLE);
         mainActivity.getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.INVISIBLE);
         mainActivity.getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
-
     }
 
 
@@ -204,8 +254,6 @@ public class FragmentHelper  implements MuseumMarkerManager
         mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
         mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.VISIBLE);
         mainActivity.getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
-
-
     }
 
 

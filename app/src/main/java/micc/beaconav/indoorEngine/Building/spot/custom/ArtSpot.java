@@ -1,5 +1,7 @@
 package micc.beaconav.indoorEngine.building.spot.custom;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -7,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
 import micc.beaconav.FragmentHelper;
+import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.indoorEngine.building.spot.marker.Collidable;
@@ -93,6 +96,7 @@ public class ArtSpot extends MarkerSpot
 
 
 
+
     @Override
     protected Drawable generateDrawable() {
         return new Drawable() {
@@ -107,6 +111,12 @@ public class ArtSpot extends MarkerSpot
                 {
                     canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, borderPaint);
                     canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, fillPaint);
+//
+//                    Bitmap bmp = BitmapFactory.
+//                            decodeResource(FragmentHelper.instance().getMainActivity().getResources(),
+//                                    R.drawable.ic_arrow_back_white_36dp);
+//
+//                    canvas.drawBitmap(bmp, x_for_drawing() -  bmp.getWidth()/2, y_for_drawing() - bmp.getHeight()/2, borderPaint );
                 }
             }
 

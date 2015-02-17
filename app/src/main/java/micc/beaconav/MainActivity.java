@@ -1,6 +1,7 @@
 package micc.beaconav;
 
 import android.animation.ObjectAnimator;
+import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -307,12 +308,16 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanningResult != null) {
+        if (scanningResult != null)
+        {
             scanContent = scanningResult.getContents();
             scanFormat = scanningResult.getFormatName();
-            textViewFormat.setText("FORMAT: " + scanFormat);
-            textViewContent.setText("CONTENT: " + scanContent);
+            if(FragmentHelper.instance().indoorMapFragment != null)
+                FragmentHelper.instance().indoorMapFragment.onCameraScanResult(scanContent);
+            // textViewFormat.setText("FORMAT: " + scanFormat);
+            // textViewContent.setText("CONTENT: " + scanContent);
         }
         else{
             Toast toast = Toast.makeText(getApplicationContext(), "No scan data received!", Toast.LENGTH_SHORT);
@@ -396,6 +401,12 @@ public class MainActivity extends ActionBarActivity
                FragmentHelper.instance().mapFragment.toggleFakeProximity();
                return true;
             }
+            case R.id.stop_best_path:
+            {
+                Fragment indoorMapFrag = FragmentHelper.instance().indoorMapFragment;
+                if(indoorMapFrag != null)
+                   FragmentHelper.instance().indoorMapFragment.hideDijkstraPath();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -476,6 +487,20 @@ public class MainActivity extends ActionBarActivity
     public void showFab() {
         // TODO
     }
+
+
+    public void hideMenuItemStopPath() {
+
+        MenuItem stopPathItem = (MenuItem) findViewById(R.id.stop_best_path);
+        if(stopPathItem != null)
+           stopPathItem.setVisible(false);
+    }
+    public void showMenuItemStopPath() {
+        MenuItem stopPathItem = (MenuItem) findViewById(R.id.stop_best_path);
+        if(stopPathItem != null)
+             stopPathItem.setVisible(true);
+    }
+
 
 
     //Listener di default per il back, quando siamo nella lista di musei

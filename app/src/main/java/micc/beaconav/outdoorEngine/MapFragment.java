@@ -153,6 +153,7 @@ public class MapFragment extends Fragment
             myFragmentView = inflater.inflate(R.layout.fragment_map, container, false);
         }
         catch (InflateException e) { /* map is already there, just return view as it is */ }
+        FragmentHelper.instance().getMainActivity().hideMenuItemStopPath();
 
         return myFragmentView;
     }

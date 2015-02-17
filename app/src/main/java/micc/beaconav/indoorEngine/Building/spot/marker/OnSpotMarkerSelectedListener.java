@@ -6,4 +6,6 @@ package micc.beaconav.indoorEngine.building.spot.marker;
 public interface OnSpotMarkerSelectedListener< MS extends  MarkerSpot> {
 
     public void onMarkerSpotSelected( MS selectedMarker );
+    public void onNullMarkerSpotSelected( );
+
 }

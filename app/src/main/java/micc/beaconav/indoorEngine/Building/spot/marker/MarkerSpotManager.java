@@ -17,7 +17,7 @@ public class MarkerSpotManager<MS extends  MarkerSpot> extends DrawableSpotManag
     // TODO: implementare metodi per touch, ritornare il marker toccato tra quelli nel manager
 
     MS selectedMarker = null;
-    private static final int MAX_CLICK_DURATION = 200;
+    private static final int MAX_CLICK_DURATION = 150;
     private long startClickTime;
 
     OnSpotMarkerSelectedListener<MS> listener = null;
@@ -53,6 +53,10 @@ public class MarkerSpotManager<MS extends  MarkerSpot> extends DrawableSpotManag
                         if(selectedMarker != null && this.listener != null )
                         {
                             listener.onMarkerSpotSelected(selectedMarker);
+                        }
+                        else if(selectedMarker == null && this.listener != null)
+                        {
+                            listener.onNullMarkerSpotSelected();
                         }
 
                     }

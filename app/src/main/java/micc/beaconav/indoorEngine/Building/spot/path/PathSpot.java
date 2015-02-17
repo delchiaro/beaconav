@@ -25,6 +25,10 @@ import micc.beaconav.indoorEngine.dijkstraSolver.DijkstraStatistics;
 public class PathSpot extends DrawableSpot implements DijkstraNodeAdapter<PathSpot>
 {
 
+    public static int STEP_NUMBER_GOAL = -100;
+    public static int STEP_NUMBER_MY_POSITION = -1000;
+    public static int STEP_MY_LAST_POSITION = -2000;
+
     protected int stepNumber = -1;
     private DijkstraStatistics _dijkstraStatistick = new DijkstraStatistics();
     private List<PathSpot> _linkedSpots = new ArrayList<PathSpot>();
@@ -121,27 +125,32 @@ public class PathSpot extends DrawableSpot implements DijkstraNodeAdapter<PathSp
 
 
 
-
-
     private static Paint textNumberPaint = null;
     private static Paint textPaint = null;
 
     private static Paint borderPaint = null;
     private static Paint fillPaint = null;
+
+
     private final static int radius_DP = 10;
     private final static int radius = FragmentHelper.dpToPx(radius_DP);
 
 
-    @Override
-    public Drawable drawable() {
-        if( stepNumber >= 0 || stepNumber == -100)
-            return super.drawable();
-        else return null;
-    }
+//    @Override
+//    public Drawable drawable()
+//    {
+//        if( stepNumber >= 0 || stepNumber == STEP_NUMBER_GOAL)
+//            return super.drawable();
+//
+//        else return null;
+//    }
 
-    private void initDrawable() {
+    protected void initDrawable() {
         if(borderPaint == null)
         {
+
+
+
             textPaint = new Paint();
             textPaint.setColor(Color.BLACK);
             textPaint.setStyle(Paint.Style.STROKE);
@@ -170,6 +179,7 @@ public class PathSpot extends DrawableSpot implements DijkstraNodeAdapter<PathSp
             fillPaint.setAntiAlias(true);
         }
     }
+
 
 
     @Override
@@ -209,8 +219,9 @@ public class PathSpot extends DrawableSpot implements DijkstraNodeAdapter<PathSp
 
         }
 
+        @Override
         public void draw(Canvas canvas) {
-            if (stepNumber >= 0 || stepNumber == -100 )
+            if (stepNumber >= 0 || stepNumber == STEP_NUMBER_GOAL )
             {
                 canvas.drawCircle(x_for_drawing(), y_for_drawing(), getScaleFactor() * radius,  borderPaint);
                 canvas.drawCircle(x_for_drawing(), y_for_drawing(), getScaleFactor() * radius,  fillPaint);
@@ -220,15 +231,13 @@ public class PathSpot extends DrawableSpot implements DijkstraNodeAdapter<PathSp
                 if(stepNumber == 0)
                     drawTextCentred(canvas, textPaint, "Start", x_for_drawing(), y_for_drawing());
 
-                else if(stepNumber == -100)
+                else if(stepNumber == STEP_NUMBER_GOAL)
                     drawTextCentred(canvas, textPaint, "Goal", x_for_drawing(), y_for_drawing());
 
                 else
                     drawTextCentred(canvas, textNumberPaint, Integer.toString(stepNumber), x_for_drawing(), y_for_drawing());
-
-
-
             }
+
         }
         @Override
         public void setAlpha(int alpha) {

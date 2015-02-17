@@ -37,4 +37,11 @@
         sothree:showAsAction="never"
         android:title="Toggle Proximity Test"/>
 
+    <item
+        android:id="@+id/stop_best_path"
+        android:orderInCategory="700"
+        sothree:showAsAction="never"
+        android:title="Rimuovi cammino"
+        android:visible="true"/>
+
 </menu>
