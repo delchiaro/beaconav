@@ -15,11 +15,9 @@ import java.util.List;
 
 import micc.beaconav.FragmentHelper;
 import micc.beaconav.R;
-import micc.beaconav.db.dbHelper.DbManager;
 import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
-import micc.beaconav.db.dbJSONManager.JSONHandler;
 
 /**
 * Created by Mr_Holmes on 21/01/15.
@@ -31,7 +29,7 @@ public class ArtListFragment extends Fragment
 
     private boolean listInflated = false;
     private ListView listView = null;
-    private List<IArtRow> artListItems = null;
+    private List<IArtRow> iArtRowList = null;
 
 
     public ArtListFragment() {}
@@ -64,9 +62,9 @@ public class ArtListFragment extends Fragment
 
     public void insertRows(final IArtRow[] result) {
 
-        artListItems = new ArrayList<>();
+        iArtRowList = new ArrayList<>();
         for (int i = 0; i < result.length; i++) {
-            artListItems.add(result[i]);
+            iArtRowList.add(result[i]);
         }
         inflateList();
     }
@@ -78,15 +76,15 @@ public class ArtListFragment extends Fragment
 
     private void inflateList()
     {
-        if(artListItems != null && listView != null && listInflated == false)
+        if(iArtRowList != null && listView != null && listInflated == false)
         {
-            ListAdapter adapter = new ListAdapter(getActivity(), artListItems);
+            ListAdapter adapter = new ListAdapter(getActivity(), iArtRowList);
             listView.setAdapter(adapter);
 
             listView.setOnItemClickListener(new ListView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    IArtRow artRow = artListItems.get(position);
+                    IArtRow artRow = iArtRowList.get(position);
 
                     if (artRow instanceof MuseumRow) {
                         FragmentHelper.instance().simulateMuseumOnMapClick((MuseumRow) artRow);
