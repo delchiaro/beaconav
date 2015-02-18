@@ -92,7 +92,7 @@ public class IndoorMap
 //                    spot1.setArtworkRow(result[2]);
 //                    spot2.setArtworkRow(result[3]);
 //                    spot3.setArtworkRow(result[4]);
-//                    spot_beacon_map.put(GoodBadBeaconProximityManager.getID(31950, 39427), spot1);
+//                    beacon_spot_map.put(GoodBadBeaconProximityManager.getID(31950, 39427), spot1);
 //
 //                }
 //            }

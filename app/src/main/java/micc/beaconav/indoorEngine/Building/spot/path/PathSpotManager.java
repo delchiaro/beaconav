@@ -36,12 +36,20 @@ public class PathSpotManager<PS extends PathSpot> extends DrawableSpotManager<PS
                     PS spot = spotIter.next();
                     if(spot instanceof DoorSpot)
                     {
-                        PS nextSpot = spotIter.next();
-                        if(nextSpot instanceof DoorSpot)
-                        {
-                            // disegna Spot --> nextSpot nei rispettivi punti di aggancio della porta
+                        if( ((DoorSpot) spot).isVisibleInDijkstraPath() ) {
+
+                            if (spotIter.hasNext() == false)
+                                spot.setStepNumber(-100); // -100 = punto di arrivo
+                            else spot.setStepNumber(i); // 0 = punto di partenza
+                            spot.drawable().draw(canvas);
+                            i++;
                         }
-                        else nextSpot.drawable().draw(canvas);
+//                        PS nextSpot = spotIter.next();
+//                        if(nextSpot instanceof DoorSpot)
+//                        {
+//                            // disegna Spot --> nextSpot nei rispettivi punti di aggancio della porta
+//                        }
+//                        else nextSpot.drawable().draw(canvas);
                     }
                     else
                     {

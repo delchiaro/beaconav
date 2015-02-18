@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
+import android.opengl.Visibility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,13 +166,72 @@ public class Room  extends ContainerContained<Floor, Spot>
 //    }
 
 
-    public static void addDoorSpot(Room r1, float x1, float y1, boolean linkRoom1Spot,
-                                   Room r2, float x2, float y2, boolean linkRoom2Spot) {
 
-        DoorSpot d1 = new DoorSpot(x1, y1, null);
-        DoorSpot d2 = new DoorSpot(x2, y2, d1);
+
+    public static DoorSpot[] addDoorSpot(Room r1, float x1, float y1, DoorSpot.Visibility visibility1,boolean linkRoom1Spot,
+                                   Room r2, float x2, float y2,  DoorSpot.Visibility visibility2, boolean linkRoom2Spot) {
+
+        DoorSpot d1 = new DoorSpot(x1, y1, null, visibility1);
+        DoorSpot d2 = new DoorSpot(x2, y2, d1, visibility2);
         r1.addPathSpot(d1, linkRoom1Spot);
         r2.addPathSpot(d2, linkRoom2Spot);
+        DoorSpot[] ret = new DoorSpot[2];
+        ret[0] = d1;
+        ret[1] = d2;
+        return ret;
+    }
+
+
+
+    public static DoorSpot[] addDoorSpot(Room r1, float x1, float y1, boolean linkRoom1Spot,
+                                   Room r2, float x2, float y2, boolean linkRoom2Spot) {
+
+        return addDoorSpot(r1, x1, y1, DoorSpot.Visibility.HIDDEN, linkRoom1Spot, r2, x2, y2, DoorSpot.Visibility.HIDDEN, linkRoom2Spot);
+    }
+
+
+    public static DoorSpot[] addDoorSpot(Room r1, float x1, float y1, DoorSpot.Visibility visibility1,
+                                   Room r2, float x2, float y2,  DoorSpot.Visibility visibility2) {
+
+        return addDoorSpot(r1, x1, y1, visibility1, true, r2, x2, y2, visibility2, true);
+
+    }
+
+
+    public static DoorSpot[] addDoorSpot(Room r1, float x1, float y1, DoorSpot.Visibility visibility1,
+                                   Room r2, float x2, float y2) {
+
+        return addDoorSpot(r1, x1, y1, visibility1, true, r2, x2, y2, DoorSpot.Visibility.HIDDEN, true);
+
+    }
+
+
+    public static DoorSpot[] addDoorSpot(Room r1, float x1, float y1,
+                                   Room r2, float x2, float y2,  DoorSpot.Visibility visibility2) {
+
+        return addDoorSpot(r1, x1, y1, DoorSpot.Visibility.HIDDEN, true, r2, x2, y2, visibility2, true);
+
+    }
+
+
+
+
+    public static DoorSpot[] addDoorSpot(Room r1, float x1, float y1,boolean linkRoom1Spot,
+                                   Room r2, float x2, float y2,  DoorSpot.Visibility visibility2, boolean linkRoom2Spot) {
+
+        return addDoorSpot(r1, x1, y1, DoorSpot.Visibility.HIDDEN, linkRoom1Spot, r2, x2, y2, visibility2, linkRoom2Spot);
+
+    }
+
+
+    public static DoorSpot[] addDoorSpot(Room r1, float x1, float y1, DoorSpot.Visibility visibility1,boolean linkRoom1Spot,
+                                   Room r2, float x2, float y2, boolean linkRoom2Spot) {
+        return addDoorSpot(r1, x1, y1, visibility1, linkRoom1Spot, r2, x2, y2, DoorSpot.Visibility.HIDDEN, linkRoom2Spot);
+
+    }
+
+    public static DoorSpot[] addDoorSpot(Room r1, float x1, float y1, Room r2, float x2, float y2) {
+        return addDoorSpot(r1, x1, y1, DoorSpot.Visibility.HIDDEN, true, r2, x2, y2, DoorSpot.Visibility.HIDDEN, true);
     }
 
 

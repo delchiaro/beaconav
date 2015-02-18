@@ -18,9 +18,6 @@ import android.widget.Toast;
 
 import com.estimote.sdk.Beacon;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.estimote.sdk.BeaconManager;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.nhaarman.supertooltips.ToolTip;
 import com.nhaarman.supertooltips.ToolTipView;
 
@@ -45,6 +42,7 @@ import micc.beaconav.indoorEngine.building.spot.custom.ArtSpot;
 import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
 import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpotManager;
 import micc.beaconav.indoorEngine.building.spot.marker.OnSpotMarkerSelectedListener;
+import micc.beaconav.indoorEngine.building.spot.path.DoorSpot;
 import micc.beaconav.indoorEngine.building.spot.path.LocalizationSpot;
 import micc.beaconav.indoorEngine.building.spot.path.PathSpot;
 import micc.beaconav.indoorEngine.building.spot.path.PathSpotManager;
@@ -92,8 +90,8 @@ public class IndoorMapFragment extends Fragment
 //    HashMap<Integer, MarkerSpot> marker_beacon_map = new HashMap<>();
 //    HashMap<Integer, PathSpot>   pathSpot_beacon_map = new HashMap<>();
 
-    HashMap<Integer, Spot> spot_beacon_map = new HashMap<>();
-    HashMap<String, Spot> qr_beacon_map = new HashMap<>();
+    HashMap<Integer, Spot> beacon_spot_map = new HashMap<>();
+    HashMap<String, Spot> qr_spot_map = new HashMap<>();
 
 
     private ToolTip artworkproximityToolTip = new ToolTip()
@@ -243,50 +241,15 @@ public class IndoorMapFragment extends Fragment
 
 
 
-
-        // SPOT DEFINITIONS
-        final ArtSpot spot1;
-        final ArtSpot spot2;
-        final ArtSpot spot3;
-
-        spot1 = new ArtSpot( 2f, 2f);
-        spot2 = new ArtSpot( 8f, 28);
-        spot3 = new ArtSpot( 11f, 27f);
-        corridoio.add(spot1);
-        stanzaFerracani.add(spot2);
-        stanzaFerracani.add(spot3);
-
-        qr_beacon_map.put("qr_prova", spot1);
-        qr_beacon_map.put("qr_prova2", spot2);
-//        qr_beacon_map.put("qr_prova3", spot3);
-
-
-
-        DbManager.getLastArtworkDownloader().addHandler(new JSONHandler<ArtworkRow>() {
-            @Override
-            public void onJSONDownloadFinished(ArtworkRow[] result) {
-                if (result.length > 3) {
-                    spot1.setArtworkRow(result[2]);
-                    spot2.setArtworkRow(result[3]);
-                    spot3.setArtworkRow(result[4]);
-                    spot_beacon_map.put(GoodBadBeaconProximityManager.getID(31950, 39427), spot1);
-                    qr_beacon_map.put("qr_prova2", spot2);
-
-
-                }
-            }
-        });
-
-
-
-
+        DoorSpot[] doorsAppoggio;
 
 
         // VertexDefinitions and Spot Definitions
         corridoio.pushWall(new PointF(11f,   1f));
         corridoio.pushWall(new PointF(16f, 1f));
             corridoio.pushAperture(new PointF(16f, 4f));
-            Room.addDoorSpot(corridoio, 15f, 5f, true, bagno, 17f, 5f, true);
+            doorsAppoggio = Room.addDoorSpot(corridoio, 15f, 5f, true, bagno, 17f, 5f, true);
+            DoorSpot door_corridoio_bagno = doorsAppoggio[0];
             corridoio.pushWall(new PointF(16f, 6f));
 
             corridoio.pushAperture(new PointF(16f, 12f));
@@ -294,23 +257,29 @@ public class IndoorMapFragment extends Fragment
             corridoio.pushWall(new PointF(16f, 14f));
 
             corridoio.pushAperture(new PointF(16f, 24f));
-            Room.addDoorSpot(corridoio, 15f, 25f, true, ingressoFerracani, 17f, 25f, true);
+            doorsAppoggio = Room.addDoorSpot(corridoio, 15f, 25f, DoorSpot.Visibility.VISIBLE, true, ingressoFerracani, 17f, 25f, true);
+            DoorSpot door_corridoio_ingressoFerracani = doorsAppoggio[0];
             corridoio.pushWall(new PointF(16f, 26f));
 
 
         corridoio.pushWall(new PointF(16f, 31f));
 
             corridoio.pushAperture(new PointF(15f, 31f));
-            Room.addDoorSpot(corridoio, 14f, 30f, true, ingresso, 14f, 32f, true);
+            doorsAppoggio = Room.addDoorSpot(corridoio, 14f, 30f, true, ingresso, 14f, 32f, true);
+            DoorSpot door_corridoio_ingresso = doorsAppoggio[0];
             corridoio.pushWall(new PointF(13f, 31f));
 
         corridoio.pushWall(new PointF(11f,   31f));
 
 
+
+
+
         ingressoFerracani.pushWall(new PointF(16f, 21f));
 
             ingressoFerracani.pushAperture(new PointF(18f, 21f));
-            Room.addDoorSpot(ingressoFerracani, 19f, 22f, true, stanzaRasta, 19f, 20f, true);
+            doorsAppoggio = Room.addDoorSpot(ingressoFerracani, 19f, 22f, true, stanzaRasta, 19f, 20f, DoorSpot.Visibility.VISIBLE, true);
+            DoorSpot door_stanzaRasta_ingressoFerracani = doorsAppoggio[1];
             ingressoFerracani.pushWall(new PointF(20f, 21f));
 
         ingressoFerracani.pushWall(new PointF(22f, 21f));
@@ -322,33 +291,48 @@ public class IndoorMapFragment extends Fragment
         ingressoFerracani.pushWall(new PointF(22f, 30f));
         ingressoFerracani.pushWall(new PointF(16f, 30f));
 
+
+
+
         stanzaFerracani.pushWall(new PointF(22f, 21f));
         stanzaFerracani.pushWall(new PointF(30f,  21f));
         stanzaFerracani.pushWall(new PointF(30f,  30f));
         stanzaFerracani.pushWall(new PointF(22f, 30f));
+
 
         bagno.pushWall(new PointF(16f, 1f));
         bagno.pushWall(new PointF(22f, 1f));
         bagno.pushWall(new PointF(22f, 8f));
         bagno.pushWall(new PointF(16f, 8f));
 
+
+
         stanzaPC.pushWall(new PointF(16f, 8f));
         stanzaPC.pushWall(new PointF(30f, 8f));
         stanzaPC.pushWall(new PointF(30f, 18f));
         stanzaPC.pushWall(new PointF(16f, 18f));
+
+
+
 
         stanzaRasta.pushWall(new PointF(16f, 18f));
         stanzaRasta.pushWall(new PointF(30f, 18f));
         stanzaRasta.pushWall(new PointF(30f, 21f));
         stanzaRasta.pushWall(new PointF(16f, 21f));
 
+
+
         stanzaEntrataSegreta.pushWall(new PointF(0f, 31f));
         stanzaEntrataSegreta.pushWall(new PointF(11f, 31f));
             stanzaEntrataSegreta.pushAperture(new PointF(11f, 34f));
-            Room.addDoorSpot(stanzaEntrataSegreta, 10f, 35f, true, ingresso, 12f, 35f, true);
+            doorsAppoggio = Room.addDoorSpot(stanzaEntrataSegreta, 10f, 35f, DoorSpot.Visibility.VISIBLE, true, ingresso, 12f, 35f, true);
+            DoorSpot door_entrataSegreta_ingresso = doorsAppoggio[0];
             stanzaEntrataSegreta.pushWall(new PointF(11f, 36));
         stanzaEntrataSegreta.pushWall(new PointF(11f, 44f));
         stanzaEntrataSegreta.pushWall(new PointF(0f, 44f));
+
+
+
 
         ingresso.pushWall(new PointF(11f, 31f));
         ingresso.pushWall(new PointF(16f, 31f));
@@ -357,12 +341,15 @@ public class IndoorMapFragment extends Fragment
         ingresso.pushWall(new PointF(20f, 44f));
         ingresso.pushWall(new PointF(11f, 44f));
 
+
+
         corridoio2.pushWall(new PointF(20f, 30f));
         corridoio2.pushWall(new PointF(49f, 30f));
         corridoio2.pushWall(new PointF(49f, 35f));
 
             corridoio2.pushAperture(new PointF(46f, 35f));
-            Room.addDoorSpot(corridoio2, 45f, 34f, true, stanzaPulizie, 45f, 36f, true);
+            doorsAppoggio = Room.addDoorSpot(corridoio2, 45f, 34f, DoorSpot.Visibility.VISIBLE, true, stanzaPulizie, 45f, 36f, true);
+            DoorSpot door_corridioio2_pulizie = doorsAppoggio[0];
             corridoio2.pushWall(new PointF(44f, 35f));
 
             corridoio2.pushAperture(new PointF(37f, 35f));
@@ -370,29 +357,131 @@ public class IndoorMapFragment extends Fragment
             corridoio2.pushWall(new PointF(35f, 35f));
 
             corridoio2.pushAperture(new PointF(28f, 35f));
-            Room.addDoorSpot(corridoio2, 27f, 34f, true, stanzaBertini, 34f, 36f, true);
+            doorsAppoggio = Room.addDoorSpot(corridoio2, 27f, 34f, DoorSpot.Visibility.VISIBLE, true, stanzaBertini, 34f, 36f, true);
+            DoorSpot door_corridoio2_stanzaBertini = doorsAppoggio[0];
             corridoio2.pushWall(new PointF(26f, 35f));
 
         corridoio2.pushWall(new PointF(20f, 35f));
 
             corridoio2.pushAperture(new PointF(20f, 34f));
-            Room.addDoorSpot(corridoio2, 21f, 33f, true, ingresso, 19f, 33f, true);
+            doorsAppoggio = Room.addDoorSpot(corridoio2, 21f, 33f, DoorSpot.Visibility.VISIBLE, true, ingresso, 19f, 33f, true);
+            DoorSpot door_corridio2_ingresso = doorsAppoggio[0];
             corridoio2.pushWall(new PointF(20f, 32f));
+
+
+
+
 
         stanzaBertini.pushWall(new PointF(20f, 35f));
         stanzaBertini.pushWall(new PointF(32f, 35f));
         stanzaBertini.pushWall(new PointF(44f, 44f));
         stanzaBertini.pushWall(new PointF(20f, 44f));
 
+
         bagno2.pushWall(new PointF(32f, 35f));
         bagno2.pushWall(new PointF(42f, 35f));
         bagno2.pushWall(new PointF(42f, 44f));
         bagno2.pushWall(new PointF(32f, 44f));
 
+
         stanzaPulizie.pushWall(new PointF(42f, 35f));
         stanzaPulizie.pushWall(new PointF(49f, 35f));
         stanzaPulizie.pushWall(new PointF(49f, 44f));
         stanzaPulizie.pushWall(new PointF(42f, 44f));
+
+
+
+
+
+
+
+
+        // SPOT DEFINITIONS
+//        final ArtSpot spot1;
+//        final ArtSpot spot2;
+//        final ArtSpot spot3;
+
+
+
+            // CORRIDOIO
+        corridoio.getRoomSpot().x(13.5f);
+        corridoio.getRoomSpot().y(18);
+        final PathSpot pathSpotCorridoio = new PathSpot(13.5f, 5f);
+        qr_spot_map.put("path_corridoio", pathSpotCorridoio);
+        pathSpotCorridoio.addLinkBidirectional(door_corridoio_bagno);
+        door_corridoio_ingresso.addLinkBidirectional(door_corridoio_ingressoFerracani);
+
+            // INGRESSO FERRACANI
+        ingressoFerracani.getRoomSpot().x(18.5f);
+        ingressoFerracani.getRoomSpot().y(25);
+
+
+        // INGRESSO
+        ingresso.getRoomSpot().x(14f);
+        ingresso.getRoomSpot().y(33f);
+        final PathSpot pathSpotIngresso = new PathSpot(13.5f, 37f);
+        qr_spot_map.put("path_scale", pathSpotIngresso);
+        pathSpotIngresso.addLinkBidirectional(ingresso.getRoomSpot());
+
+            // STANZA ENTRATA SEGRETA
+//        final PathSpot pathSpotDivani = new PathSpot(9f, 42f);
+        stanzaEntrataSegreta.getRoomSpot().x(5);
+        stanzaEntrataSegreta.getRoomSpot().y(38);
+        final ArtSpot artSpotDivani = new ArtSpot(10f, 42f, stanzaEntrataSegreta);
+        //artSpotDivani.setNearestPathSpot(pathSpotDivani);
+
+        qr_spot_map.put("art_divani", artSpotDivani);
+        //pathSpotDivani.addLinkBidirectional(stanzaEntrataSegreta.getRoomSpot());
+
+
+            // CORRIDOIO 2
+        corridoio2.getRoomSpot().x(37);
+        corridoio2.getRoomSpot().y(32);
+        door_corridioio2_pulizie.x(45);
+        door_corridioio2_pulizie.y(32);
+        final ArtSpot artSpotCorridoio2 = new ArtSpot(44, 31, corridoio2);
+        artSpotCorridoio2.setNearestPathSpot(door_corridioio2_pulizie);
+        qr_spot_map.put("art_corridoio2", artSpotCorridoio2);
+        door_corridio2_ingresso.addLinkBidirectional(corridoio2.getRoomSpot());
+
+
+            // STANZA FERRACANI
+        final ArtSpot artSpotStanzaFerracani = new ArtSpot(28f,28f, stanzaFerracani);
+        int beaconID = GoodBadBeaconProximityManager.getID(31950, 39427);
+        beacon_spot_map.put(beaconID, artSpotStanzaFerracani);
+
+
+
+        DbManager.getLastArtworkDownloader().addHandler(new JSONHandler<ArtworkRow>() {
+            @Override
+            public void onJSONDownloadFinished(ArtworkRow[] result) {
+                if (result.length >= 7)
+                {
+                    artSpotStanzaFerracani.setArtworkRow(result[2]); // bacco di caravaggio
+                    artSpotCorridoio2.setArtworkRow(result[6]); // madonna del cardellino (Raffaello)
+                    artSpotDivani.setArtworkRow(result[4]);// madonna di ognissanti
+
+                }
+            }
+        });
+
+
+
+
+
+//        spot1 = new ArtSpot( 2f, 2f);
+//        spot2 = new ArtSpot( 8f, 28);
+//        spot3 = new ArtSpot( 11f, 27f);
+//        corridoio.add(spot1);
+//        stanzaFerracani.add(spot2);
+//        stanzaFerracani.add(spot3);
+//
+//        qr_spot_map.put("qr_prova", spot1);
+//        qr_spot_map.put("qr_prova2", spot2);
+//        qr_spot_map.put("qr_prova3", spot3);
+
+
+
 
 
 
@@ -500,7 +589,7 @@ public class IndoorMapFragment extends Fragment
 
     // GESTIONE QR CODE SCANNER (MARKER PIÙ VICINO E POSIZIONE CORRENTE)
     public void onCameraScanResult(String qr_code_result) {
-        Spot scannedSpot = qr_beacon_map.get(qr_code_result);
+        Spot scannedSpot = qr_spot_map.get(qr_code_result);
         if(scannedSpot != null)
         {
             if( scannedSpot instanceof PathSpot )
@@ -613,7 +702,7 @@ public class IndoorMapFragment extends Fragment
     @Override
     public void OnNewBeaconBestProximity(Beacon bestProximity, Beacon oldBestProximity) {
 
-        Spot beaconAssociatedSpot  = spot_beacon_map.get(ABeaconProximityManager.getID(bestProximity));
+        Spot beaconAssociatedSpot  = beacon_spot_map.get(ABeaconProximityManager.getID(bestProximity));
 
         if( beaconAssociatedSpot instanceof ArtSpot )
         {

@@ -17,6 +17,9 @@ import micc.beaconav.indoorEngine.dijkstraSolver.DijkstraNodeAdapter;
  */
 public class DoorSpot extends PathSpot {
 
+    public enum Visibility {
+        VISIBLE, HIDDEN
+    }
 
     private static final float arrowCosin = 1;
     private static final int arrowColor = Color.RED;
@@ -30,11 +33,12 @@ public class DoorSpot extends PathSpot {
         arrowPaint.setStrokeWidth(arrowWidth);
     }
 
+    private Visibility _visibleInDijkstraPath = Visibility.HIDDEN;
     private DoorSpot _linkedDoor;
 
-    public DoorSpot(float x, float y, DoorSpot linkedDoor) {
+    public DoorSpot(float x, float y, DoorSpot linkedDoor, Visibility visibleInPath) {
         super(x, y);
-
+        this._visibleInDijkstraPath = visibleInPath;
         if(linkedDoor != null)
         {
             if (linkedDoor != null && linkedDoor._linkedDoor == null)
@@ -53,10 +57,20 @@ public class DoorSpot extends PathSpot {
             initPaint();
         }
     }
-    public DoorSpot(float x, float y) {
-        this(x, y, null);
+
+    public DoorSpot(float x, float y, DoorSpot linkedDoor) {
+        this(x, y, linkedDoor, Visibility.HIDDEN);
     }
 
+
+    public boolean isVisibleInDijkstraPath() {
+        return (this._visibleInDijkstraPath == Visibility.VISIBLE);
+    }
+
+
+    public void setVisibleInDijkstraPath( Visibility visibility ) {
+        this._visibleInDijkstraPath = visibility;
+    }
 
     @Override
     public List<? extends DijkstraNodeAdapter> getAdjacent() {
@@ -67,36 +81,4 @@ public class DoorSpot extends PathSpot {
 
 
 
-    @Override
-    protected Drawable generateDrawable() {
-
-        return new Drawable()
-        {
-            @Override
-            public void draw(Canvas canvas)
-            {
-
-//                if(_linkedDoor != null &&
-//                    stepNumber > 0 &&
-//                    _linkedDoor.stepNumber < stepNumber)
-//
-//                {
-//                    Path arrowPath = new Path();
-//                    canvas.drawLine(x(), y(), _linkedDoor.x(), _linkedDoor.y(), arrowPaint);
-//                }
-            }
-
-
-            @Override
-            public void setAlpha(int alpha) {}
-
-            @Override
-            public void setColorFilter(ColorFilter cf) {}
-
-            @Override
-            public int getOpacity() {
-                return 0;
-            }
-        };
-    }
 }
