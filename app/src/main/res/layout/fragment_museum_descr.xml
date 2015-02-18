@@ -150,8 +150,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:layout_below="@id/indoorMapHere"
-                fab:fab_colorNormal="@android:color/holo_red_light"
-                fab:fab_colorPressed="@color/white"
+                fab:fab_colorNormal="@color/material_red"
+                fab:fab_colorPressed="@color/material_red_pressed"
                 fab:fab_icon="@drawable/white_museum"/>
 
             <TextView
