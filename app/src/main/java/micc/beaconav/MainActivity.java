@@ -462,18 +462,21 @@ public class MainActivity extends ActionBarActivity
                 else fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.orange));
 
                 floatingActionButton.setColorNormal(getResources().getColor(R.color.orange));
+                floatingActionButton.setColorPressed(getResources().getColor(R.color.orange_pressed));
                 this.themeColor = ThemeColor.ORANGE;
                 break;
 
             case PURPLE:
                 fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.material_deep_purple));
                 floatingActionButton.setColorNormal(getResources().getColor(R.color.material_deep_purple));
+                floatingActionButton.setColorPressed(getResources().getColor(R.color.material_deep_purple_pressed));
                 this.themeColor = ThemeColor.PURPLE;
                 break;
 
             case RED:
-                fragmentHeaderContainer.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-                floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_light));
+                fragmentHeaderContainer.setBackgroundColor(getResources().getColor(R.color.material_red));
+                floatingActionButton.setColorNormal(getResources().getColor(R.color.material_red));
+                floatingActionButton.setColorPressed(getResources().getColor(R.color.material_red_pressed));
                 this.themeColor = ThemeColor.RED;
                 break;
         }
