@@ -95,7 +95,7 @@ public class IndoorMapFragment extends Fragment
 
 
     private ToolTip artworkproximityToolTip = new ToolTip()
-            .withText("Cliccka per\nvisualizzare\ninfo sull'opera")
+            .withText("Premi per\ninformazioni\nsull'opera")
             .withTextColor(Color.BLACK)
             .withColor(Color.WHITE)
             .withAnimationType(ToolTip.AnimationType.FROM_MASTER_VIEW);

@@ -58,9 +58,9 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     private static Map istance = null;
 
     private ToolTip toolTip = new ToolTip()
-            .withText("Clickare per andare\nall'indoor del museo")
+            .withText("Premi per andare\nall'interno del museo")
             .withTextColor(Color.WHITE)
-            .withColor(FragmentHelper.instance().getMainActivity().getResources().getColor(android.R.color.holo_red_light))
+            .withColor(FragmentHelper.instance().getMainActivity().getResources().getColor(R.color.material_red))
             .withAnimationType(ToolTip.AnimationType.FROM_MASTER_VIEW);
 
     private ToolTipView toolTipView;
