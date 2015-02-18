@@ -519,7 +519,7 @@ public class IndoorMapFragment extends Fragment
 
 
 
-        translateAll(0, 0);
+        translateAll(40, 40);
         navigationImgView.invalidate();
 
     }

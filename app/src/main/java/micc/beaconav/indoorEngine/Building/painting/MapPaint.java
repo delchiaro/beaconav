@@ -22,7 +22,7 @@ public class MapPaint
     private static float        DOOR_DEFAULT_WIDTH = 0.25f;
     private static Paint.Style  DOOR_DEFAULT_STYLE = Paint.Style.STROKE;
 
-    private static int          FLOOR_DEFAULT_COLOR = Color.rgb(255, 255, 255);
+    private static int          FLOOR_DEFAULT_COLOR = Color.rgb(237, 231, 246); //Color.rgb(255, 255, 255);
     private static Paint.Style  FLOOR_DEFAULT_STYLE = Paint.Style.FILL;
 
 
