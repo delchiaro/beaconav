@@ -151,12 +151,14 @@ public class IndoorMapFragment extends Fragment
         // FORZA il liberamentodella memoria bitmap background
         // (non è questo che elimina il memory leak ma la weakReference)
         backgroundBmp.get().recycle();
-
+        backgroundBmp = null;
         backgroundImgView = null;
         foregroundImgView = null;
         navigationImgView = null;
+        localizationImgView = null;
 
         container = null;
+        ArtSpot.flushDrawable();
 
         //libera la memoria!!
         //http://stackoverflow.com/questions/13421945/retained-fragments-with-ui-and-memory-leaks
@@ -327,6 +329,7 @@ public class IndoorMapFragment extends Fragment
             stanzaEntrataSegreta.pushAperture(new PointF(11f, 34f));
             doorsAppoggio = Room.addDoorSpot(stanzaEntrataSegreta, 10f, 35f, DoorSpot.Visibility.VISIBLE, true, ingresso, 12f, 35f, true);
             DoorSpot door_entrataSegreta_ingresso = doorsAppoggio[0];
+            DoorSpot door_ingresso_entrataSegreta = doorsAppoggio[1];
             stanzaEntrataSegreta.pushWall(new PointF(11f, 36));
         stanzaEntrataSegreta.pushWall(new PointF(11f, 44f));
         stanzaEntrataSegreta.pushWall(new PointF(0f, 44f));
@@ -422,8 +425,11 @@ public class IndoorMapFragment extends Fragment
         final PathSpot pathSpotIngresso = new PathSpot(13.5f, 37f);
         qr_spot_map.put("path_scale", pathSpotIngresso);
         pathSpotIngresso.addLinkBidirectional(ingresso.getRoomSpot());
+        pathSpotIngresso.addLinkBidirectional(door_ingresso_entrataSegreta);
+        pathSpotIngresso.addLinkBidirectional(door_corridio2_ingresso);
 
-            // STANZA ENTRATA SEGRETA
+
+        // STANZA ENTRATA SEGRETA
 //        final PathSpot pathSpotDivani = new PathSpot(9f, 42f);
         stanzaEntrataSegreta.getRoomSpot().x(5);
         stanzaEntrataSegreta.getRoomSpot().y(38);
@@ -480,11 +486,6 @@ public class IndoorMapFragment extends Fragment
 //        qr_spot_map.put("qr_prova2", spot2);
 //        qr_spot_map.put("qr_prova3", spot3);
 
-
-
-
-
-
         // DRAWABLES DEFINITION
 
 
@@ -518,7 +519,7 @@ public class IndoorMapFragment extends Fragment
 
 
 
-        translateAll(200, 200);
+        translateAll(0, 0);
         navigationImgView.invalidate();
 
     }

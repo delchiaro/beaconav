@@ -5,5 +5,5 @@ package micc.beaconav.indoorEngine;
  */
 public class ProportionsHelper
 {
-    public static final int PPM = 50; // Pixel Per Miter
+    public static final int PPM = 20; // Pixel Per Miter
 }

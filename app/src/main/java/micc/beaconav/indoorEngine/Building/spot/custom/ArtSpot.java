@@ -29,7 +29,7 @@ public class ArtSpot extends MarkerSpot
     }
     public ArtSpot(float x, float y, Room room_container) {
         super(x, y, room_container);
-
+        initDrawable();
         if(borderPaint == null)
         {
             borderPaint = new Paint();
@@ -85,6 +85,7 @@ public class ArtSpot extends MarkerSpot
     private static Paint fillPaintSelected = null;
 
 
+
     private static final float bluePaintStroke = 4;
     private final static int radius_DP           = 5;
     private final static int radius_selected_DP  = 8;
@@ -95,10 +96,41 @@ public class ArtSpot extends MarkerSpot
     private final static int radius_collision = FragmentHelper.dpToPx(radius_collision_DP);
 
 
+    private static Paint bmpPaint = null;
+    private static Bitmap bmpSelected = null;
+    private static Bitmap bmp = null;
+    private static int bmp_x_offset = -1;
+    private static int bmp_y_offset = -1;
 
+    public static void flushDrawable() {
+        if(bmp != null) {
+            bmp.recycle();
+            bmpSelected.recycle();
+            bmp = null;
+            bmpSelected = null;
+        }
+    }
+    public static void initDrawable(){
+        if(bmp == null)
+        {
+            bmp = BitmapFactory.
+                    decodeResource(FragmentHelper.instance().getMainActivity().getResources(),
+                            R.mipmap.artspot);
 
+            bmpSelected = BitmapFactory.
+                    decodeResource(FragmentHelper.instance().getMainActivity().getResources(),
+                            R.mipmap.artspot_selected);
+            bmp_x_offset = bmp.getWidth()/2;
+            bmp_y_offset = bmp.getHeight()/2;
+
+            bmpPaint = new Paint();
+        }
+    }
     @Override
     protected Drawable generateDrawable() {
+
+
+
         return new Drawable() {
             @Override
             public void draw(Canvas canvas) {
@@ -106,22 +138,13 @@ public class ArtSpot extends MarkerSpot
 //                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, borderPaintSelected);
 //                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, borderPaintSelected2);
 //                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, fillPaintSelected);
-                    Bitmap bmp = BitmapFactory.
-                            decodeResource(FragmentHelper.instance().getMainActivity().getResources(),
-                                    R.mipmap.artspot_selected);
-                    canvas.drawBitmap(bmp, x_for_drawing() -  bmp.getWidth()/2, y_for_drawing() - bmp.getHeight()/2, borderPaint );
-
+                    canvas.drawBitmap(bmpSelected, x_for_drawing() - bmp_x_offset, y_for_drawing() - bmp_y_offset, bmpPaint );
                 }
                 else
                 {
 //                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, borderPaint);
 //                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, fillPaint);
-
-                    Bitmap bmp = BitmapFactory.
-                            decodeResource(FragmentHelper.instance().getMainActivity().getResources(),
-                                    R.mipmap.artspot);
-
-                    canvas.drawBitmap(bmp, x_for_drawing() -  bmp.getWidth()/2, y_for_drawing() - bmp.getHeight()/2, borderPaint );
+                    canvas.drawBitmap(bmp, x_for_drawing() - bmp_x_offset, y_for_drawing() - bmp_y_offset, bmpPaint);
                 }
             }
 
