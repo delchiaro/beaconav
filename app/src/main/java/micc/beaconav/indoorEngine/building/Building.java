@@ -31,8 +31,6 @@ public class Building extends Container<Floor>
 
 
 
-
-
     public Building(int width, int height)  {
         this.width = width;
         this.height = height;

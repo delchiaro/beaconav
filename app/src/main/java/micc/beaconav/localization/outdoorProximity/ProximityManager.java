@@ -13,7 +13,6 @@ public class ProximityManager
 {
     private static boolean isAnalyzing = false;
 
-    private ProximityObject lastProximityObject = null;
     private ProximityObject[] proxObjects;
 
     private int proximityRadius;
@@ -22,6 +21,8 @@ public class ProximityManager
     private Location skimmingLocation = null;
     private int skimmingRadius;
 
+
+    private ProximityObject lastProximityObject = null;
 
     ProximityNotificationHandler handler;
 
@@ -89,10 +90,6 @@ public class ProximityManager
     }
 
 
-    public void setProximityObjects(ProximityObject[] objects)
-    {
-        this.proxObjects = objects;
-    }
 
     public ProximityObject getLastProximityObject()
     {
@@ -100,11 +97,20 @@ public class ProximityManager
     }
 
 
+    public void setProximityObjects(ProximityObject[] objects)
+    {
+        this.proxObjects = objects;
+    }
+
+
     void onProximityAnalysisExecuted(ProximityObject object)
     {
-        this.lastProximityObject = object;
-        this.handler.handleProximityNotification(object);
-        this.task = null;
+        if(lastProximityObject != object )
+        {
+            this.lastProximityObject = object;
+            this.handler.handleProximityNotification(object);
+            this.task = null;
+        }
     }
 
 

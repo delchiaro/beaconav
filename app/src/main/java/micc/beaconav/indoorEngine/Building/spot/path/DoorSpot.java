@@ -36,7 +36,7 @@ public class DoorSpot extends PathSpot {
     private Visibility _visibleInDijkstraPath = Visibility.HIDDEN;
     private DoorSpot _linkedDoor;
 
-    public DoorSpot(float x, float y, DoorSpot linkedDoor, Visibility visibleInPath) {
+    public DoorSpot(float x, float y, DoorSpot linkedDoor, Visibility visibleInPath ) {
         super(x, y);
         this._visibleInDijkstraPath = visibleInPath;
         if(linkedDoor != null)

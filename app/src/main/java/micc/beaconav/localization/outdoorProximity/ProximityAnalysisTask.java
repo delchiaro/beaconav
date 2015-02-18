@@ -105,7 +105,7 @@ public class ProximityAnalysisTask extends AsyncTask<ProximityObject, String, Pr
         super.onPostExecute(proximityObject);
         this.isAnalyzing = false;
         this.hadAnalyzed = true;
-        if(proximityObject != null)
+        if(proximityObject != null )
             manager.onProximityAnalysisExecuted(proximityObject);
 
     }

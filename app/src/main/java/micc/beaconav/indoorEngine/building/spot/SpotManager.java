@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 
 import micc.beaconav.indoorEngine.building.Room;
@@ -59,5 +60,12 @@ public class SpotManager<S extends Spot>
         return _containedSpots.iterator();
     }
 
+    public Set<S> getContainedSpots() {
+        return _containedSpots;
+    }
+
+    public Spot[] getContainedSpotsArray() {
+        return _containedSpots.toArray(new Spot[_containedSpots.size()]);
+    }
 
 }

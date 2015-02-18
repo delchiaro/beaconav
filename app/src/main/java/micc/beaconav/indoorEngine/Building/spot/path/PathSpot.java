@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import micc.beaconav.FragmentHelper;
+import micc.beaconav.R;
 import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.indoorEngine.building.spot.draw.DrawableSpot;
 import micc.beaconav.indoorEngine.dijkstraSolver.DijkstraNodeAdapter;
@@ -131,9 +132,10 @@ public class PathSpot extends DrawableSpot implements DijkstraNodeAdapter<PathSp
     private static Paint borderPaint = null;
     private static Paint fillPaint = null;
 
+    private static Paint redBallPaint = null;
 
-    private final static int radius_DP = 10;
-    private final static int radius = FragmentHelper.dpToPx(radius_DP);
+    private final static int radiusBall = FragmentHelper.dpToPx(4);
+    private final static int radius = FragmentHelper.dpToPx(10);
 
 
 //    @Override
@@ -149,7 +151,10 @@ public class PathSpot extends DrawableSpot implements DijkstraNodeAdapter<PathSp
         if(borderPaint == null)
         {
 
-
+            redBallPaint = new Paint();
+            redBallPaint.setColor(FragmentHelper.instance().getMainActivity().getResources().getColor(R.color.material_red));
+            redBallPaint.setStyle(Paint.Style.FILL);
+            redBallPaint.setAntiAlias(true);
 
             textPaint = new Paint();
             textPaint.setColor(Color.BLACK);
@@ -179,6 +184,7 @@ public class PathSpot extends DrawableSpot implements DijkstraNodeAdapter<PathSp
             fillPaint.setAntiAlias(true);
         }
     }
+
 
 
 
@@ -221,6 +227,16 @@ public class PathSpot extends DrawableSpot implements DijkstraNodeAdapter<PathSp
 
         @Override
         public void draw(Canvas canvas) {
+            // drawConPallini(canvas);
+            drawConLinee(canvas);
+
+        }
+
+        public void drawConLinee(Canvas canvas) {
+            canvas.drawCircle(x_for_drawing(), y_for_drawing(), getScaleFactor() * radiusBall,  redBallPaint);
+        }
+
+        public void drawConPallini(Canvas canvas) {
             if (stepNumber >= 0 || stepNumber == STEP_NUMBER_GOAL )
             {
                 canvas.drawCircle(x_for_drawing(), y_for_drawing(), getScaleFactor() * radius,  borderPaint);
@@ -239,6 +255,7 @@ public class PathSpot extends DrawableSpot implements DijkstraNodeAdapter<PathSp
             }
 
         }
+
         @Override
         public void setAlpha(int alpha) {
 

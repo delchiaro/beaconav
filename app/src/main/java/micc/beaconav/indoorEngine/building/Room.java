@@ -183,6 +183,9 @@ public class Room  extends ContainerContained<Floor, Spot>
 
 
 
+
+
+
     public static DoorSpot[] addDoorSpot(Room r1, float x1, float y1, boolean linkRoom1Spot,
                                    Room r2, float x2, float y2, boolean linkRoom2Spot) {
 
@@ -212,8 +215,6 @@ public class Room  extends ContainerContained<Floor, Spot>
         return addDoorSpot(r1, x1, y1, DoorSpot.Visibility.HIDDEN, true, r2, x2, y2, visibility2, true);
 
     }
-
-
 
 
     public static DoorSpot[] addDoorSpot(Room r1, float x1, float y1,boolean linkRoom1Spot,
