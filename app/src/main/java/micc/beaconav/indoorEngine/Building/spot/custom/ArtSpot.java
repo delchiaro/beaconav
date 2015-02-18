@@ -119,7 +119,7 @@ public class ArtSpot extends MarkerSpot
 
             bmpSelected = BitmapFactory.
                     decodeResource(FragmentHelper.instance().getMainActivity().getResources(),
-                            R.mipmap.artspot_selected);
+                            R.mipmap.artwork_spot_green);
             bmp_x_offset = bmp.getWidth()/2;
             bmp_y_offset = bmp.getHeight()/2;
 
