@@ -103,20 +103,25 @@ public class ArtSpot extends MarkerSpot
             @Override
             public void draw(Canvas canvas) {
                 if(isSelected()){
-                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, borderPaintSelected);
-                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, borderPaintSelected2);
-                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, fillPaintSelected);
+//                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, borderPaintSelected);
+//                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, borderPaintSelected2);
+//                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius_selected, fillPaintSelected);
+                    Bitmap bmp = BitmapFactory.
+                            decodeResource(FragmentHelper.instance().getMainActivity().getResources(),
+                                    R.mipmap.artspot_selected);
+                    canvas.drawBitmap(bmp, x_for_drawing() -  bmp.getWidth()/2, y_for_drawing() - bmp.getHeight()/2, borderPaint );
+
                 }
                 else
                 {
-                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, borderPaint);
-                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, fillPaint);
-//
-//                    Bitmap bmp = BitmapFactory.
-//                            decodeResource(FragmentHelper.instance().getMainActivity().getResources(),
-//                                    R.drawable.ic_arrow_back_white_36dp);
-//
-//                    canvas.drawBitmap(bmp, x_for_drawing() -  bmp.getWidth()/2, y_for_drawing() - bmp.getHeight()/2, borderPaint );
+//                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, borderPaint);
+//                    canvas.drawCircle(x_for_drawing(), y_for_drawing(), radius, fillPaint);
+
+                    Bitmap bmp = BitmapFactory.
+                            decodeResource(FragmentHelper.instance().getMainActivity().getResources(),
+                                    R.mipmap.artspot);
+
+                    canvas.drawBitmap(bmp, x_for_drawing() -  bmp.getWidth()/2, y_for_drawing() - bmp.getHeight()/2, borderPaint );
                 }
             }
 
