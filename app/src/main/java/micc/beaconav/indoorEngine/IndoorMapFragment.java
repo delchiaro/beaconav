@@ -762,6 +762,7 @@ public class IndoorMapFragment extends Fragment
                 onMarkerSpotSelected(proximityMarker);
                 markerManager.invalidate();
                 toolTipView.remove();
+                FragmentHelper.instance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
             }
         });
 
