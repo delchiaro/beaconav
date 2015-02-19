@@ -181,6 +181,7 @@ public class MapFragment extends Fragment
     public void onStop() {
         super.onStop();
         map.stopLocalization();
+        map.clearProximityNotificationTooltip();
 
     }
 }

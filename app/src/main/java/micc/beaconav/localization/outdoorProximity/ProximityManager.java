@@ -5,28 +5,36 @@ import android.location.Location;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by nagash on 23/01/15.
  */
 public class ProximityManager
 {
-    private static boolean isAnalyzing = false;
+    private boolean analyzing = false;
 
     private ProximityObject[] proxObjects;
-
     private int proximityRadius;
 
-    private LinkedList<ProximityObject> skimmedProxyObjects = null;
+    ConcurrentLinkedQueue<ProximityObject> skimmedProxyObjects = null;
     private Location skimmingLocation = null;
     private int skimmingRadius;
 
 
-    private ProximityObject lastProximityObject = null;
-
+    ProximityObject lastProximityObject = null;
     ProximityNotificationHandler handler;
+    ProximityAsyncTask asyncTask = null;
 
-    ProximityAnalysisTask task = null;
+
+    LinkedList<ProximityAnalysisTask> tasks = new LinkedList<>();
+
+
+
+
+
+
+
 
 
     public ProximityManager(int proximityRadius, int skimmingRadius, ProximityNotificationHandler handler, ProximityObject[] objects)
@@ -41,7 +49,12 @@ public class ProximityManager
         this(proximityRadius, skimmingRadius, handler, null);
     }
 
-    public boolean startProximityAnalysis(double myLat, double myLong)
+
+
+
+
+
+    public boolean pushProximityAnalysis(double myLat, double myLong)
     {
         Location myLoc = new Location("myLocation");
         myLoc.setLatitude(myLat);
@@ -53,25 +66,67 @@ public class ProximityManager
         }
 
 
-        if(task == null && skimmedProxyObjects != null && skimmedProxyObjects.size() > 0)
+        if(skimmedProxyObjects != null && skimmedProxyObjects.size() > 0)
         {
-            task = new ProximityAnalysisTask(proximityRadius, this, new LatLng(myLat, myLong),
+            ProximityAnalysisTask task = new ProximityAnalysisTask(proximityRadius, this, new LatLng(myLat, myLong),
                     skimmedProxyObjects.toArray(new ProximityObject[skimmedProxyObjects.size()]));
-            task.startAnalysis();
+            //task.startAnalysis();
+            tasks.push(task);
+
+//            if(analyzing == false )
+//                startAnalysis();
+
             return true;
         }
 
         else return false;
     }
 
-    public void abortProximityAnalysis() {
-        if(task != null)
-            task.cancel(true);
+
+
+
+
+    public void startAnalysis() {
+        if(analyzing == false )
+        {
+            this.asyncTask = new ProximityAsyncTask(this);
+            this.asyncTask.execute("null");
+            analyzing = true;
+        }
     }
+
+    public void stopAnalysis() {
+        this.analyzing = false;
+    }
+    public void abortAnalysis() {
+        if(asyncTask != null)
+        {
+            asyncTask.cancel(true);
+            analyzing = false;
+        }
+    }
+
+    void onProximityAnalysisExecuted(ProximityObject object)
+    {
+        if(lastProximityObject != object )
+        {
+            this.lastProximityObject = object;
+            this.handler.handleProximityNotification(object);
+        }
+
+        if(analyzing == true)
+        {
+            asyncTask = new ProximityAsyncTask(this);
+            asyncTask.execute("null");
+        }
+    }
+
+
+
 
     private void makeNewSkimming(Location newSkimmingLoc)
     {
-        this.skimmedProxyObjects = new LinkedList<>();
+        this.skimmedProxyObjects = new ConcurrentLinkedQueue<>();
         if(proxObjects != null && proxObjects.length > 0)
         {
             Location loc = new Location("testLoc");
@@ -91,6 +146,8 @@ public class ProximityManager
 
 
 
+
+
     public ProximityObject getLastProximityObject()
     {
         return lastProximityObject;
@@ -103,15 +160,6 @@ public class ProximityManager
     }
 
 
-    void onProximityAnalysisExecuted(ProximityObject object)
-    {
-        if(lastProximityObject != object )
-        {
-            this.lastProximityObject = object;
-            this.handler.handleProximityNotification(object);
-            this.task = null;
-        }
-    }
 
 
 

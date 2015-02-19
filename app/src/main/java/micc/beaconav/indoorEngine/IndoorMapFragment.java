@@ -117,6 +117,8 @@ public class IndoorMapFragment extends Fragment
         super.onStop();
         proximityManager.stopScan();
         proximityManager = null;
+        if(toolTipView != null)
+            toolTipView.remove();
     }
 
 

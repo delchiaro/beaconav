@@ -50,7 +50,7 @@ import micc.beaconav.localization.outdoorProximity.ProximityObject;
 public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 {
 
-    private final static int PROXIMITY_RADIUS = 100; // in  metri
+    private final static int PROXIMITY_RADIUS = 30; // in  metri
     private final static int PROXIMITY_SKIMMING_RADIUS = 2000; // in metri
 
 
@@ -193,22 +193,31 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         }
         else
         {
-            FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setVisibility(View.VISIBLE);
+            if(object == null)
+            {
+                FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
+                toolTipView.remove();
+            }
+            else
+            {
+                FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setVisibility(View.VISIBLE);
+                toolTipView = FragmentHelper.instance().getMainActivity().getToIndoorTooltipContainer().showToolTipForView(toolTip, FragmentHelper.instance().getMainActivity().findViewById(R.id.notifyToIndoor));
 
-            toolTipView = FragmentHelper.instance().getMainActivity().getToIndoorTooltipContainer().showToolTipForView(toolTip, FragmentHelper.instance().getMainActivity().findViewById(R.id.notifyToIndoor));
+                FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (object instanceof MuseumRow) {
+                            FragmentHelper.instance().showIndoorFragment((MuseumRow) object);
 
-            FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (object instanceof MuseumRow) {
-                        FragmentHelper.instance().showIndoorFragment((MuseumRow) object);
+                            FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
 
-                        FragmentHelper.instance().getMainActivity().getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
-
-                        toolTipView.remove();
+                            toolTipView.remove();
+                        }
                     }
-                }
-            });
+                });
+            }
+
+
         }
     }
 
@@ -224,7 +233,11 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
     }
 
 
-
+    public void clearProximityNotificationTooltip()
+    {
+        if(this.toolTipView != null)
+            this.toolTipView.remove();
+    }
 
 
 
@@ -261,7 +274,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
             public void onMyLocationChange(Location location) {
                 lastLocation = new LatLng( location.getLatitude(), location.getLongitude());
                 circle.setCenter(lastLocation);
-                proximityManager.startProximityAnalysis(location.getLatitude(), location.getLongitude() );
+                proximityManager.pushProximityAnalysis(location.getLatitude(), location.getLongitude());
 
             }
         });
@@ -476,11 +489,12 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
     public void stopLocalization() {
         this.gmap.setMyLocationEnabled(false);
-        this.proximityManager.abortProximityAnalysis();
+        this.proximityManager.abortAnalysis();
     }
 
     public void startLocalization() {
         this.gmap.setMyLocationEnabled(true);
+        this.proximityManager.startAnalysis();
     }
 
 
