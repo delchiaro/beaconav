@@ -15,6 +15,7 @@ import java.util.TreeMap;
 public abstract class ABeaconProximityManager implements  BeaconProximityListener{
 
 
+    private static int BEACON_DISTANCE = 2; // in metri
 
     BeaconBestProximityListener proximityBestListener;
 
@@ -72,7 +73,7 @@ public abstract class ABeaconProximityManager implements  BeaconProximityListene
     protected static boolean isInProximity(Beacon beacon)
     {
         double distance = getDistance(beacon);
-        if(distance <= 3.5)
+        if(distance <= BEACON_DISTANCE)
             return true;
         else return false;
 //        if(Utils.computeProximity(beacon) != Utils.Proximity.NEAR) // NEAR <= 0.5m

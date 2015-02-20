@@ -89,7 +89,7 @@ public class ArtSpot extends MarkerSpot
     private static final float bluePaintStroke = 4;
     private final static int radius_DP           = 5;
     private final static int radius_selected_DP  = 8;
-    private final static int radius_collision_DP = 15;
+    private final static int radius_collision_DP = 25;
 
     private final static int radius         = FragmentHelper.dpToPx(radius_DP);
     private final static int radius_selected = FragmentHelper.dpToPx(radius_selected_DP);

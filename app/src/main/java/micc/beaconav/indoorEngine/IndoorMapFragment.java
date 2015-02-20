@@ -411,9 +411,16 @@ public class IndoorMapFragment extends Fragment
             // CORRIDOIO
         corridoio.getRoomSpot().x(13.5f);
         corridoio.getRoomSpot().y(18);
+
+
         final PathSpot pathSpotCorridoio = new PathSpot(13.5f, 5f);
-        qr_spot_map.put("path_corridoio", pathSpotCorridoio);
+        //qr_spot_map.put("path_corridoio", pathSpotCorridoio);
         pathSpotCorridoio.addLinkBidirectional(door_corridoio_bagno);
+
+        final ArtSpot artSpotCorridoio = new ArtSpot(13.5f, 2f, corridoio);
+        qr_spot_map.put("art_corridoio2", artSpotCorridoio);
+        artSpotCorridoio.setNearestPathSpot(pathSpotCorridoio);
+
         door_corridoio_ingresso.addLinkBidirectional(door_corridoio_ingressoFerracani);
 
             // INGRESSO FERRACANI
@@ -447,14 +454,14 @@ public class IndoorMapFragment extends Fragment
         corridoio2.getRoomSpot().y(32);
         door_corridioio2_pulizie.x(45);
         door_corridioio2_pulizie.y(32);
-        final ArtSpot artSpotCorridoio2 = new ArtSpot(44, 31, corridoio2);
-        artSpotCorridoio2.setNearestPathSpot(door_corridioio2_pulizie);
-        qr_spot_map.put("art_corridoio2", artSpotCorridoio2);
+        // final ArtSpot artSpotCorridoio2 = new ArtSpot(44, 31, corridoio2);
+        // artSpotCorridoio2.setNearestPathSpot(door_corridioio2_pulizie);
+        // qr_spot_map.put("art_corridoio2", artSpotCorridoio2);
         door_corridio2_ingresso.addLinkBidirectional(corridoio2.getRoomSpot());
 
 
             // STANZA FERRACANI
-        final ArtSpot artSpotStanzaFerracani = new ArtSpot(28f,28f, stanzaFerracani);
+        final ArtSpot artSpotStanzaFerracani = new ArtSpot(28f,25f, stanzaFerracani);
         int beaconID = GoodBadBeaconProximityManager.getID(31950, 39427);
         beacon_spot_map.put(beaconID, artSpotStanzaFerracani);
 
@@ -466,7 +473,8 @@ public class IndoorMapFragment extends Fragment
                 if (result.length >= 7)
                 {
                     artSpotStanzaFerracani.setArtworkRow(result[2]); // bacco di caravaggio
-                    artSpotCorridoio2.setArtworkRow(result[6]); // madonna del cardellino (Raffaello)
+                   // artSpotCorridoio2.setArtworkRow(result[6]); // madonna del cardellino (Raffaello)
+                    artSpotCorridoio.setArtworkRow(result[6]); // madonna del cardellino (Raffaello)
                     artSpotDivani.setArtworkRow(result[4]);// madonna di ognissanti
 
                 }

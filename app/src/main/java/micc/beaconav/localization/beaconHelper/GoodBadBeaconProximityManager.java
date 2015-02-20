@@ -3,13 +3,10 @@ package micc.beaconav.localization.beaconHelper;
 import android.app.Activity;
 
 import com.estimote.sdk.Beacon;
-import com.estimote.sdk.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  * Created by nagash on 15/02/15.
@@ -21,15 +18,15 @@ public class GoodBadBeaconProximityManager extends ABeaconProximityManager {
     private final int       INIT_GOOD = 100;//100 //50
     private final int       INIT_BAD  = 400;//400
 
-    private final int       DEFAULT_GOOD_TASHOLD    = 1200;
-    private final int       DEFAULT_BAD_TRASHOLD    = -800;
+    private final int       DEFAULT_GOOD_TRESHOLD = 1200;
+    private final int       DEFAULT_BAD_TRESHOLD = -800;
 
     private final int       DEFAULT_GOOD_MAX    = 1600;
     private final int       DEFAULT_BAD_MAX     = 2000;
 
     private final float     DEFAULT_GOOD_MULT   = 2;
-    private final float     DEFAULT_BAD_MULT    = 2;
-    private final float     DEFAULT_STD_DIVISOR = 1.3f;
+    private final float     DEFAULT_BAD_MULT    = 2;//2
+    private final float     DEFAULT_STD_DIVISOR = 1.6f;//2
     private final int       MAX_INIT_GOOD_STD_REDUCTORS = 1;
     private final int       MAX_INIT_BAD_STD_REDUCTORS = 2;//1
 
@@ -40,8 +37,8 @@ public class GoodBadBeaconProximityManager extends ABeaconProximityManager {
     private final int       INIT_GOOD = 100;
     private final int       INIT_BAD  = 100;
 
-    private final int       DEFAULT_GOOD_TASHOLD    = 1000;
-    private final int       DEFAULT_BAD_TRASHOLD    = -100;
+    private final int       DEFAULT_GOOD_TRESHOLD    = 1000;
+    private final int       DEFAULT_BAD_TRESHOLD    = -100;
 
     private final int       DEFAULT_GOOD_MAX    = 1600;
     private final int       DEFAULT_BAD_MAX     = 2000;
@@ -63,8 +60,8 @@ public class GoodBadBeaconProximityManager extends ABeaconProximityManager {
         int badPoints = INIT_BAD;
 
 
-        private final int goodTrashold = DEFAULT_GOOD_TASHOLD;
-        private final int badTrashold = DEFAULT_BAD_TRASHOLD;
+        private final int goodTrashold = DEFAULT_GOOD_TRESHOLD;
+        private final int badTrashold = DEFAULT_BAD_TRESHOLD;
         private final float goodMult = DEFAULT_GOOD_MULT;
         private final float badMult = DEFAULT_BAD_MULT;
         private final float stdDiv = DEFAULT_STD_DIVISOR;

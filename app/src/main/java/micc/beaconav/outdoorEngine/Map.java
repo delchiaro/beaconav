@@ -50,7 +50,7 @@ import micc.beaconav.localization.outdoorProximity.ProximityObject;
 public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 {
 
-    private final static int PROXIMITY_RADIUS = 30; // in  metri
+    private final static int PROXIMITY_RADIUS = 50;//26 // in  metri
     private final static int PROXIMITY_SKIMMING_RADIUS = 2000; // in metri
 
 
