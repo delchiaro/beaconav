@@ -33,8 +33,6 @@ public abstract class DrawableSpot extends Spot
 
 
 
-
-
     private static float PPM = ProportionsHelper.PPM;
 
 
@@ -47,7 +45,6 @@ public abstract class DrawableSpot extends Spot
      * per mantenere la posizione dello spot in pixel reali invariata rispetto all punto di aggancio
      * sul background che è stato scalato */
     private float _realtime_scaleTranslation_factor = 1;
-
 
     /** scale factor del background che implica una traslazione delle coordinate
      * per mantenere la posizione dello spot in pixel reali invariata rispetto all punto di aggancio
@@ -117,11 +114,14 @@ public abstract class DrawableSpot extends Spot
     }
 
 
+
     /**  se si vuole scalare la dimensione fisica dello spot si usa questo parametro  */
     public void setScaleFactor(float scaleFactor) {
         this._spot_rescale_factor = scaleFactor;
     }
     public float getScaleFactor() { return this._spot_rescale_factor; }
+
+
 
 
     @Override
