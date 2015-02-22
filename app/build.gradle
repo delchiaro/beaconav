@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "micc.beaconav"
-        minSdkVersion 14 //14
+        minSdkVersion 14 //14 //19
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"

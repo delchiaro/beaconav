@@ -1995,8 +1995,8 @@
 							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
-							"left": 64,
-							"top": 460,
+							"left": 920,
+							"top": 444,
 							"width": 249,
 							"height": 85,
 							"autoResize": false,
@@ -2019,12 +2019,12 @@
 							"showShadow": true,
 							"containerChangeable": false,
 							"containerExtending": true,
-							"left": 64,
-							"top": 556,
+							"left": 916,
+							"top": 532,
 							"width": 309,
 							"height": 188,
 							"autoResize": false,
-							"text": "add(Contained rem)\n{\n     if( rem.getContainer() != null)\n     {\n          if( rem.getContainer() == this)\n          {\n               this.containedAggregation.remove(rem);\n               rem.unsetContainer();\n          }\n     }\n}",
+							"text": "remove(Contained rem)\n{\n     if( rem.getContainer() != null)\n     {\n          if( rem.getContainer() == this)\n          {\n               this.containedAggregation.remove(rem);\n               rem.unsetContainer();\n          }\n     }\n}",
 							"wordWrap": true
 						},
 						{
@@ -2050,7 +2050,7 @@
 								"$ref": "AAAAAAFKpnbDv5HTla4="
 							},
 							"lineStyle": 0,
-							"points": "312:512;424:512"
+							"points": "920:512;688:512"
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -2075,7 +2075,7 @@
 								"$ref": "AAAAAAFKpnjzXZHUREk="
 							},
 							"lineStyle": 0,
-							"points": "372:596;424:596"
+							"points": "916:596;688:596"
 						}
 					]
 				},

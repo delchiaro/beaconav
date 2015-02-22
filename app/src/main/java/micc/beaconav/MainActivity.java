@@ -293,8 +293,6 @@ public class MainActivity extends ActionBarActivity
         initEventListeners();
         initFragments();
 
-
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
