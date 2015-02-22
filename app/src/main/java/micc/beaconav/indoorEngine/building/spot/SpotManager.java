@@ -32,11 +32,7 @@ public class SpotManager<S extends Spot>
     }
 
 
-    public void resetAllTranslationAndScale() {
-        Iterator<S> iter = iterator();
-        while(iter.hasNext())
-            iter.next().resetTranslationAndScale();
-    }
+
     public boolean addAll(Collection<S> spots) {
        return this._containedSpots.addAll(spots);
     }

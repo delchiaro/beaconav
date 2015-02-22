@@ -155,7 +155,11 @@ public class DrawableSpotManager<DS extends DrawableSpot> extends SpotManager<DS
             this._wrapperDrawable.invalidateSelf();
     }
 
-
+    public void resetAllTranslationAndScale() {
+        Iterator<DS> iter = iterator();
+        while(iter.hasNext())
+            iter.next().resetTranslationAndScale();
+    }
 
 
     protected Drawable generateWrapperDrawable() {
