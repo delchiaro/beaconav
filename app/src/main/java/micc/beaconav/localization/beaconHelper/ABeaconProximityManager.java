@@ -9,10 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
+import micc.beaconav.localization.beaconHelper.deprecated.BeaconProximityListener;
+
 /**
  * Created by nagash on 16/02/15.
  */
-public abstract class ABeaconProximityManager implements  BeaconProximityListener{
+public abstract class ABeaconProximityManager implements BeaconProximityListener {
 
 
     private static int BEACON_DISTANCE = 2; // in metri
