@@ -465,6 +465,9 @@ public class IndoorMapFragment extends Fragment
         int beaconID = GoodBadBeaconProximityManager.getID(31950, 39427);
         beacon_spot_map.put(beaconID, artSpotStanzaFerracani);
 
+        int virtualBeaconID = GoodBadBeaconProximityManager.getID(4123, 24794);
+        beacon_spot_map.put(virtualBeaconID, artSpotCorridoio);
+
 
 
         DbManager.getLastArtworkDownloader().addHandler(new JSONHandler<ArtworkRow>() {

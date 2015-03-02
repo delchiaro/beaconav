@@ -99,16 +99,17 @@ public class ProximityManager
         this.analyzing = false;
     }
     public void abortAnalysis() {
+        analyzing = false;
         if(asyncTask != null)
         {
             asyncTask.cancel(true);
-            analyzing = false;
+            asyncTask = null;
         }
     }
 
     void onProximityAnalysisExecuted(ProximityObject object)
     {
-        if(lastProximityObject != object )
+        if(lastProximityObject != object)
         {
             this.lastProximityObject = object;
             this.handler.handleProximityNotification(object);

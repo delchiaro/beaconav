@@ -25,7 +25,11 @@ import micc.beaconav.localization.beaconHelper.deprecated.BeaconProximityListene
 public class BeaconHelper
 {
     private static final int wait_time_between_scan = 1000;
+    private static final String ALL_BEACONS_UUID = null;
+
     private static final String ESTIMOTE_PROXIMITY_UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
+    private static final String ESTIMOTE_VIRTUAL_BEACON_UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
+
     private final Region ALL_UUID_BEACONS;
 
 
@@ -42,7 +46,7 @@ public class BeaconHelper
     private static final int REQUEST_ENABLE_BT = 1234;
 
     public BeaconHelper(Activity activity) {
-        this(activity, ESTIMOTE_PROXIMITY_UUID);
+        this(activity, ALL_BEACONS_UUID);
     }
     public BeaconHelper(Activity activity, String Alternative_UUID) {
         this.context = activity;

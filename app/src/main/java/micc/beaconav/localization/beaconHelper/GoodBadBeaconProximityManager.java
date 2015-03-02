@@ -14,7 +14,7 @@ import java.util.List;
 public class GoodBadBeaconProximityManager extends ABeaconProximityManager {
 
 
-
+/*
     private final int       INIT_GOOD = 100;//100 //50
     private final int       INIT_BAD  = 400;//400
 
@@ -30,24 +30,23 @@ public class GoodBadBeaconProximityManager extends ABeaconProximityManager {
     private final int       MAX_INIT_GOOD_STD_REDUCTORS = 1;
     private final int       MAX_INIT_BAD_STD_REDUCTORS = 2;//1
 
+*/
 
+    private final int       INIT_GOOD = 5;
+    private final int       INIT_BAD  = 2;
 
-    /*
+    private final int       DEFAULT_GOOD_TRESHOLD = 25;
+    private final int       DEFAULT_BAD_TRESHOLD = -5;
 
-    private final int       INIT_GOOD = 100;
-    private final int       INIT_BAD  = 100;
-
-    private final int       DEFAULT_GOOD_TRESHOLD    = 1000;
-    private final int       DEFAULT_BAD_TRESHOLD    = -100;
-
-    private final int       DEFAULT_GOOD_MAX    = 1600;
-    private final int       DEFAULT_BAD_MAX     = 2000;
+    private final int       DEFAULT_GOOD_MAX    = 35;
+    private final int       DEFAULT_BAD_MAX     = 45;
 
     private final float     DEFAULT_GOOD_MULT   = 2;
     private final float     DEFAULT_BAD_MULT    = 2;
-    private final float     DEFAULT_STD_DIVISOR = 1.3f;
+    private final float     DEFAULT_STD_DIVISOR = 1.2f;
+    private final int       MAX_INIT_GOOD_STD_REDUCTORS = 1;
+    private final int       MAX_INIT_BAD_STD_REDUCTORS = 1;//1
 
-     */
 
 
     private class BeaconScore{
