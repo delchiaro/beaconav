@@ -16,8 +16,6 @@ import com.estimote.sdk.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import micc.beaconav.localization.beaconHelper.deprecated.BeaconProximityListener;
-
 /**
  * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  */

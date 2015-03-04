@@ -1,4 +1,4 @@
-package micc.beaconav.localization.beaconHelper.deprecated;
+package micc.beaconav.localization.beaconHelper;
 
 import com.estimote.sdk.Beacon;
 

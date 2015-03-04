@@ -1,4 +1,4 @@
-package micc.beaconav.gui.multitouch.gesturedetectors;
+package micc.beaconav.test.multitouch.gesturedetectors;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

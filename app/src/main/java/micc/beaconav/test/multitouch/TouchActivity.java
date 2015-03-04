@@ -1,4 +1,4 @@
-//package micc.beaconav.gui.multitouch;
+//package micc.beaconav.test.multitouch;
 //
 //import android.app.Activity;
 //import android.graphics.Bitmap;
@@ -18,8 +18,8 @@
 //import micc.beaconav.indoorEngine.IndoorMap;
 //import micc.beaconav.indoorEngine.building.building;
 //import micc.beaconav.indoorEngine.building.Floor;
-//import micc.beaconav.gui.multitouch.gesturedetectors.MoveGestureDetector;
-//import micc.beaconav.gui.multitouch.gesturedetectors.RotateGestureDetector;
+//import micc.beaconav.test.multitouch.gesturedetectors.MoveGestureDetector;
+//import micc.beaconav.test.multitouch.gesturedetectors.RotateGestureDetector;
 //
 ///**
 //* Test activity for testing the different GestureDetectors.
