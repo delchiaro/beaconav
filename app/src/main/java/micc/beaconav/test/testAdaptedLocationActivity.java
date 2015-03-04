@@ -9,6 +9,9 @@ import android.widget.TextView;
 import micc.beaconav.localization.GoogleLocalizationAdaptedActivity;
 import micc.beaconav.localization.GoogleLocalizationAdapter;
 
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class testAdaptedLocationActivity extends Activity  implements GoogleLocalizationAdaptedActivity
 {
 

@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.android.gms.maps.GoogleMap;
 
-
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class Leg
 {
     List<Step> steps;

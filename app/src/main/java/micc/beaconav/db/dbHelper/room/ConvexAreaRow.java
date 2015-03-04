@@ -5,7 +5,7 @@
 //import micc.beaconav.indoorEngine.building.ConvexArea;
 //
 ///**
-// * Created by nagash on 22/01/15.
+// * Created by Ricardo Del Chiaro & Franco Yang.
 // */
 //public class ConvexAreaRow extends TableRow<ConvexAreaSchema>
 //{

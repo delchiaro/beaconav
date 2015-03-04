@@ -3,9 +3,8 @@ package micc.beaconav.indoorEngine.dijkstraSolver;
 import java.util.Comparator;
 
 /**
- * Created by nagash on 13/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
-
 public class DijkstraComparator implements Comparator<DijkstraNodeAdapter> {
 
     @Override

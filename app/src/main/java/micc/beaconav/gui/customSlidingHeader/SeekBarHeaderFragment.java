@@ -18,6 +18,10 @@ import micc.beaconav.R;
 import micc.beaconav.gui.seekBar.DiscreteSeekBar;
 import micc.beaconav.outdoorEngine.Map;
 
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
+
 public class SeekBarHeaderFragment extends Fragment {
 
     private Button backBtn = null;

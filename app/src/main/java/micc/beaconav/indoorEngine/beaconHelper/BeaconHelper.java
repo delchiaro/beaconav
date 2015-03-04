@@ -20,9 +20,8 @@ import java.util.List;
 import micc.beaconav.FragmentHelper;
 
 /**
- * Created by Mr_Holmes on 11/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
-
 public class BeaconHelper
 {
     private static final int wait_time_between_scan = 1000;

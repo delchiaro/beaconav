@@ -3,7 +3,7 @@ package micc.beaconav.indoorEngine.building.spot.marker;
 import android.graphics.PointF;
 
 /**
- * Created by nagash on 15/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class CollidableCircle implements Collidable {
 

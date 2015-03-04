@@ -12,7 +12,9 @@ import micc.beaconav.indoorEngine.building.spot.path.PathSpot;
 import micc.beaconav.indoorEngine.building.spot.path.PathSpotManager;
 import micc.beaconav.util.containerContained.ContainerContained;
 
-
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class Floor extends ContainerContained<Building, Room>  // extends Drawable
 {
     private int _floorIndex = 0;

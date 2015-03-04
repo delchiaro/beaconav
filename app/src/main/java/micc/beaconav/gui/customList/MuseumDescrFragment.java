@@ -17,7 +17,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.Date;
 
-
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class MuseumDescrFragment extends Fragment
 {
 

@@ -19,7 +19,7 @@ import micc.beaconav.indoorEngine.building.spot.Spot;
 import micc.beaconav.util.containerContained.ContainerContained;
 
 /**
- * 
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class Room  extends ContainerContained<Floor, Spot>
         //extends Drawable

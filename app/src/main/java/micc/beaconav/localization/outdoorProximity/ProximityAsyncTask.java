@@ -3,7 +3,7 @@ package micc.beaconav.localization.outdoorProximity;
 import android.os.AsyncTask;
 
 /**
- * Created by nagash on 19/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class ProximityAsyncTask extends AsyncTask<String, String, ProximityObject> {
 

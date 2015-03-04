@@ -13,7 +13,7 @@ import micc.beaconav.indoorEngine.building.spot.custom.ArtSpot;
 
 
 /**
- * Created by nagash on 22/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class ArtworkRow extends TableRow<ArtworkSchema> implements IArtRow
 {

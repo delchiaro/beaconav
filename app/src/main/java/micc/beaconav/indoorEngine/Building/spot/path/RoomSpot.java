@@ -4,6 +4,9 @@ import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
 
 /**
+ *
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ *
  * Rappresenta un normale MarkerSpot con la differenza che ogni Room deve avere uno ed un solo RoomSpot
  */
 public class RoomSpot extends PathSpot {

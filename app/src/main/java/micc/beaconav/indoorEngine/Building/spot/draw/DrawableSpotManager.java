@@ -12,7 +12,8 @@ import micc.beaconav.indoorEngine.building.spot.SpotManager;
 
 
 /**
- * Created by nagash on 11/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ *
  */
 public class DrawableSpotManager<DS extends DrawableSpot> extends SpotManager<DS>
 {

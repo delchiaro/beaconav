@@ -3,6 +3,8 @@
 //import micc.beaconav.indoorEngine.building.spot.path.PathSpot;
 //
 ///**
+// * Created by Ricardo Del Chiaro & Franco Yang.
+// *
 // * Simile ad un BeaconSpot, ma invece di essere associato ad un beacon è associato ad un codice QR.
 // */
 //public class QrSpot extends PathSpot {

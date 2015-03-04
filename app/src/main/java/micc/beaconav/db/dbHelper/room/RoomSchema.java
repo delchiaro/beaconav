@@ -10,7 +10,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongSc
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.StringSchema;
 
 /**
- * Created by nagash on 01/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class RoomSchema extends TableSchema<RoomRow>
 {

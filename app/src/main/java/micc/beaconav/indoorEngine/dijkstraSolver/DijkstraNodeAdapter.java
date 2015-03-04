@@ -3,7 +3,7 @@ package micc.beaconav.indoorEngine.dijkstraSolver;
 import java.util.List;
 
 /**
- * Created by nagash on 05/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public interface DijkstraNodeAdapter<DNA extends  DijkstraNodeAdapter> {
 

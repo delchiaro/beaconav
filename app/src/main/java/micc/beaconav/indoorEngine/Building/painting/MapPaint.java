@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import micc.beaconav.indoorEngine.ProportionsHelper;
 
 /**
- * Created by nagash on 12/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class MapPaint
 {

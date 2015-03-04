@@ -2,8 +2,10 @@ package micc.beaconav.util.containerContained;
 
 
 /**
- * Created by nagash on 10/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
+
+
 public interface IContainer<CONTAINED extends IContained> {
 
 

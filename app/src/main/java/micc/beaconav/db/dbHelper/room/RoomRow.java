@@ -8,7 +8,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.String
 import micc.beaconav.indoorEngine.building.Room;
 
 /**
- * Created by nagash on 22/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class RoomRow extends TableRow<RoomSchema>
 {

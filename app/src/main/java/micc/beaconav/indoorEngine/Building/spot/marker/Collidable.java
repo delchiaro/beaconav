@@ -1,7 +1,7 @@
 package micc.beaconav.indoorEngine.building.spot.marker;
 
 /**
- * Created by nagash on 15/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public interface  Collidable
 {

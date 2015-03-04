@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
- * Created by nagash on 05/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class DijkstraSolver< DNA extends DijkstraNodeAdapter> {
 

@@ -5,8 +5,8 @@ import java.util.List;
 import micc.beaconav.indoorEngine.building.Room;
 
 /**
-* Created by nagash on 30/01/15.
-*/
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class RoomGenerator
 {
     public static Room generateRoomFromVertices(List<VertexRow> vertexRows)

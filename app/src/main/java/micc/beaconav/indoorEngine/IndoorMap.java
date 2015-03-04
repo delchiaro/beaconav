@@ -23,7 +23,7 @@ import micc.beaconav.indoorEngine.building.spot.custom.ArtSpot;
 import micc.beaconav.localization.beaconHelper.GoodBadBeaconProximityManager;
 
 /**
- * Created by Nagash on 22/12/2014.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class IndoorMap
 {

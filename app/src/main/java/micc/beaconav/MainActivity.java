@@ -43,6 +43,10 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
+
 public class MainActivity extends ActionBarActivity
 {
 

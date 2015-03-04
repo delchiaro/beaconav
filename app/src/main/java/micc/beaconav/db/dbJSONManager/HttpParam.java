@@ -3,7 +3,7 @@ package micc.beaconav.db.dbJSONManager;
 import org.apache.http.NameValuePair;
 
 /**
- * Created by nagash on 11/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class HttpParam implements NameValuePair {
     private final String name;

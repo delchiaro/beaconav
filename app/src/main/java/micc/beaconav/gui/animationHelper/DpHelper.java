@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.TypedValue;
 
 /**
- * Created by nagash on 17/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class DpHelper
 {

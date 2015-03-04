@@ -3,7 +3,7 @@ package micc.beaconav.gui.animationHelper;
 import android.view.ViewGroup;
 
 /**
- * Created by nagash on 17/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class MarginChanger
 {

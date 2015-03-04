@@ -1,7 +1,7 @@
 package micc.beaconav.outdoorEngine;
 
 /**
- * Created by Nagash on 02/01/2015.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class localizationManager {
 }

@@ -29,6 +29,9 @@ import android.widget.Toast;
 
 import micc.beaconav.R;
 
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class testLastLocationActivity extends FragmentActivity implements
         GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener,

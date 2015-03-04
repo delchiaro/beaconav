@@ -12,7 +12,7 @@ import micc.beaconav.db.dbJSONManager.JSONDownloader;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 
 /**
- * Created by nagash on 30/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class DbManager
 {

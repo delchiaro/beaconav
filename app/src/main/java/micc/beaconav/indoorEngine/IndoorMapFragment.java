@@ -50,7 +50,9 @@ import micc.beaconav.localization.beaconHelper.ABeaconProximityManager;
 import micc.beaconav.localization.beaconHelper.BeaconBestProximityListener;
 import micc.beaconav.localization.beaconHelper.GoodBadBeaconProximityManager;
 
-
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class IndoorMapFragment extends Fragment
         implements View.OnTouchListener, BeaconProximityListener, BeaconBestProximityListener,
         OnSpotMarkerSelectedListener<ArtSpot>

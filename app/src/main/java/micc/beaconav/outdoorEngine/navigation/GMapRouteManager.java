@@ -13,7 +13,9 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class GMapRouteManager
 {
     // TODO: includere le procedure per il parsing json e richieste ecc..

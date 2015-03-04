@@ -45,7 +45,7 @@ import micc.beaconav.localization.outdoorProximity.ProximityObject;
 
 
 /**
- * Created by nagash on 02/12/14.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 {

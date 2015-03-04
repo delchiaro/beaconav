@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import micc.beaconav.localization.beaconHelper.deprecated.BeaconProximityListener;
 
 /**
- * Created by nagash on 16/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public abstract class ABeaconProximityManager implements BeaconProximityListener {
 

@@ -16,8 +16,9 @@ import micc.beaconav.indoorEngine.building.spot.marker.Collidable;
 import micc.beaconav.indoorEngine.building.spot.marker.CollidableCircle;
 import micc.beaconav.indoorEngine.building.spot.marker.MarkerSpot;
 
+
 /**
- * Created by nagash on 09/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class ArtSpot extends MarkerSpot
 {

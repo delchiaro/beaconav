@@ -15,7 +15,7 @@ import micc.beaconav.util.containerContained.Container;
 import micc.beaconav.util.containerContained.ContainerContained;
 
 /**
- * Created by nagash on 09/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class SpotManager<S extends Spot>
 {

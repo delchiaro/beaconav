@@ -5,7 +5,7 @@ import java.util.List;
 import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 
 /**
- * Created by nagash on 22/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public interface JSONHandler<TR extends TableRow>
 {

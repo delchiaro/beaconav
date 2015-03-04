@@ -1,7 +1,7 @@
 package micc.beaconav.indoorEngine.dijkstraSolver;
 
 /**
- * Created by nagash on 13/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class DijkstraStatistics
 {

@@ -5,7 +5,7 @@ import com.estimote.sdk.Beacon;
 import java.util.List;
 
 /**
- * Created by nagash on 11/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public interface BeaconProximityListener {
 

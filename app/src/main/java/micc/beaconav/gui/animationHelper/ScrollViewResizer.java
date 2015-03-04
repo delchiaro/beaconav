@@ -6,7 +6,7 @@ import android.widget.RelativeLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 /**
- * Created by Mr_Holmes on 24/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class ScrollViewResizer {
 

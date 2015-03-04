@@ -11,7 +11,9 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class Navigation
 {
     List<Route> routes;

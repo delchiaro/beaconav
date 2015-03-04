@@ -16,6 +16,9 @@ import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.outdoorEngine.Map;
 
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class NameHeaderFragment extends Fragment {
 
     private TextView textViewName = null;

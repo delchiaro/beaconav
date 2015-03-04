@@ -5,7 +5,7 @@ import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
 /**
- * Created by Mr_Holmes on 22/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class ArtListItem {
 

@@ -17,10 +17,11 @@ import java.util.List;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnField;
 import micc.beaconav.db.dbJSONManager.tableScheme.TableRow;
 import micc.beaconav.db.dbJSONManager.tableScheme.TableSchema;
-/**
- * Created by nagash on 21/01/15.
- */
 
+
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class JSONDownloader<TR extends TableRow, TS extends TableSchema<TR>> extends AsyncTask<String, String, TR[]>
 {
 

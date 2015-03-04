@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by nagash on 10/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class Container<CONTAINED extends IContained>  implements IContainer<CONTAINED> {
 

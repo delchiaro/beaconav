@@ -20,9 +20,8 @@ import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
 /**
-* Created by Mr_Holmes on 21/01/15.
-*/
-
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 
 public class ArtListFragment extends Fragment
 {

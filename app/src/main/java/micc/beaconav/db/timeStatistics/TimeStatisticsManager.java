@@ -11,7 +11,7 @@ import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
 /**
- * Created by nagash on 17/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class TimeStatisticsManager {
 

@@ -4,6 +4,8 @@
 //
 //
 ///**
+// * Created by Ricardo Del Chiaro & Franco Yang.
+// *
 // * Rappresenta un MarkerSpot sensorizzato da un beacon.
 // * È quindi strettamente associato ad un unico beacon bluetooth)
 // */

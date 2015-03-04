@@ -8,7 +8,7 @@ import micc.beaconav.indoorEngine.beaconHelper.*;
 import micc.beaconav.indoorEngine.building.spot.Spot;
 
 /**
- * Created by nagash on 15/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class BeaconSpot extends Beacon
 {

@@ -21,7 +21,7 @@ import micc.beaconav.indoorEngine.dijkstraSolver.DijkstraNodeAdapter;
 import micc.beaconav.indoorEngine.dijkstraSolver.DijkstraStatistics;
 
 /**
- * Created by nagash on 13/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class PathSpot extends DrawableSpot implements DijkstraNodeAdapter<PathSpot>
 {

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by nagash on 10/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class ContainerContained<MY_CONTAINER extends IContainer, CONTAINED extends IContained>
         extends Container<CONTAINED>

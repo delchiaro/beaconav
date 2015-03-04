@@ -1,7 +1,7 @@
 package micc.beaconav;
 
 /**
- * Created by nagash on 04/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class ColorHelper
 {

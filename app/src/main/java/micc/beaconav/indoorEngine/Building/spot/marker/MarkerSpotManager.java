@@ -9,7 +9,8 @@ import java.util.Iterator;
 import micc.beaconav.indoorEngine.building.spot.draw.DrawableSpotManager;
 
 /**
- * Created by nagash on 14/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ *
  */
 public class MarkerSpotManager<MS extends  MarkerSpot> extends DrawableSpotManager<MS>  implements View.OnTouchListener
 {

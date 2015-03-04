@@ -1,7 +1,7 @@
 package micc.beaconav.db.dbHelper;
 
 /**
- * Created by nagash on 02/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public interface IArtRow {
 

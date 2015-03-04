@@ -6,7 +6,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.FloatS
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongSchema;
 
 /**
- * Created by nagash on 02/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class SpotSchema extends TableSchema<SpotRow> {
 

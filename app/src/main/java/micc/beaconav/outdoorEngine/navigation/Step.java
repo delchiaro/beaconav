@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import com.google.android.gms.maps.GoogleMap;
 
 
-
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class Step
 {
 

@@ -29,8 +29,10 @@ import micc.beaconav.outdoorEngine.MapFragment;
 import micc.beaconav.outdoorEngine.MuseumMarkerManager;
 
 /**
- * Created by nagash on 01/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
+
+
 
 //A questo punto per ogni Fragment sparato c'è un'imlementazione di OnBackPressedListener che spara il fragment precedente
 

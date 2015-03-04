@@ -1,7 +1,7 @@
 package micc.beaconav.localization.outdoorProximity;
 
 /**
- * Created by nagash on 23/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public interface ProximityNotificationHandler {
 

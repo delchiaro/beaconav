@@ -4,7 +4,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 
 /**
- * Created by nagash on 27/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class Vertex
 {

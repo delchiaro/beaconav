@@ -9,7 +9,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.String
 import micc.beaconav.localization.outdoorProximity.ProximityObject;
 
 /**
- * Created by nagash on 22/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class MuseumRow extends TableRow<MuseumSchema> implements ProximityObject, IArtRow
 {

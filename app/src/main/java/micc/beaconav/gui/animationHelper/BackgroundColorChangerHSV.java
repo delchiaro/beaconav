@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.view.View;
 
 /**
- * Created by nagash on 17/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class BackgroundColorChangerHSV
 {

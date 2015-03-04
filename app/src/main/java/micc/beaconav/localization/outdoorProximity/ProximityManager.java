@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Created by nagash on 23/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class ProximityManager
 {

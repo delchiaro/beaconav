@@ -4,7 +4,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnField;
 import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.ColumnSchema;
 
 /**
- * Created by nagash on 02/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class StringSchema extends ColumnSchema<String> {
 

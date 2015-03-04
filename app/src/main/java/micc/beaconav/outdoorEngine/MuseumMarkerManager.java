@@ -4,7 +4,7 @@ package micc.beaconav.outdoorEngine;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 
 /**
- * Created by nagash on 27/01/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public interface MuseumMarkerManager {
 

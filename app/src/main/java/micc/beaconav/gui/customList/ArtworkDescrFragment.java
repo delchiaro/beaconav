@@ -22,7 +22,9 @@ import micc.beaconav.R;
 import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.db.timeStatistics.TimeStatisticsManager;
 
-
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class ArtworkDescrFragment extends Fragment {
 
 

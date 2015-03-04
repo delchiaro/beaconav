@@ -16,7 +16,7 @@ import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.indoorEngine.building.spot.draw.DrawableSpotManager;
 
 /**
- * Created by nagash on 14/02/15.
+ * Created by Ricardo Del Chiaro & Franco Yang.
  */
 public class PathSpotManager<PS extends PathSpot> extends DrawableSpotManager<PS> {
 

@@ -13,7 +13,9 @@ import micc.beaconav.indoorEngine.building.spot.path.PathSpotManager;
 import micc.beaconav.indoorEngine.dijkstraSolver.DijkstraSolver;
 import micc.beaconav.util.containerContained.Container;
 
-
+/**
+ * Created by Ricardo Del Chiaro & Franco Yang.
+ */
 public class Building extends Container<Floor>
 {
 
