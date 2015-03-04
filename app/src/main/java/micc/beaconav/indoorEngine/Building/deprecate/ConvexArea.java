@@ -13,7 +13,7 @@
 //import micc.beaconav.util.containerContained.ContainerContained;
 //
 ///**
-// * Created by Ricardo Del Chiaro & Franco Yang.
+// * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
 // */
 //public class ConvexArea extends ContainerContained<Room, SpotManager<Spot>>
 //        //extends Drawable

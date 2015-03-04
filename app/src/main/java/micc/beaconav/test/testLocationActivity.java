@@ -14,7 +14,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 /**
- * Created by Ricardo Del Chiaro & Franco Yang.
+ * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  */
 public class testLocationActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks,

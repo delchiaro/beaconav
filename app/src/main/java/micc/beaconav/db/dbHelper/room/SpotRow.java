@@ -6,7 +6,7 @@ import micc.beaconav.db.dbJSONManager.tableScheme.columnSchema.basicTypes.LongFi
 import micc.beaconav.indoorEngine.building.spot.Spot;
 
 /**
- * Created by Ricardo Del Chiaro & Franco Yang.
+ * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  */
 public class SpotRow extends TableRow<SpotSchema>
 {

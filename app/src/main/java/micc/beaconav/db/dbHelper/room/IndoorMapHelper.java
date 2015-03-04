@@ -15,7 +15,7 @@
 //import micc.beaconav.indoorEngine.building.Room;
 //
 ///**
-// * Created by Ricardo Del Chiaro & Franco Yang.
+// * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
 // */
 //public class IndoorMapHelper {
 //    private final MuseumRow museumRow;

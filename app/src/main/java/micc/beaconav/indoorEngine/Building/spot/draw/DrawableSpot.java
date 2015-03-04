@@ -13,7 +13,7 @@ import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.indoorEngine.building.spot.Spot;
 
 /**
- * Created by Ricardo Del Chiaro & Franco Yang.
+ * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  *
  */
 public abstract class DrawableSpot extends Spot

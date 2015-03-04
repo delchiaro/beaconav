@@ -10,7 +10,7 @@ import micc.beaconav.indoorEngine.building.spot.draw.DrawableSpot;
 import micc.beaconav.indoorEngine.building.spot.path.PathSpot;
 
 /**
- * Created by Ricardo Del Chiaro & Franco Yang.
+ * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  *
  * Rappresenta un  PathSpot cliccabile che interagisce quindi con l'utente come un pulsante.
  */

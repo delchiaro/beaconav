@@ -8,7 +8,7 @@ import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.util.containerContained.Contained;
 
 /**
- * Created by Ricardo Del Chiaro & Franco Yang.
+ * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  */
 public class Spot extends Contained<Room>
 {

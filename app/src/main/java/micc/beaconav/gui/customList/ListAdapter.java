@@ -21,7 +21,7 @@ import micc.beaconav.db.timeStatistics.TimeStatisticsManager;
 import java.util.List;
 
 /**
- * Created by Ricardo Del Chiaro & Franco Yang.
+ * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  */
 //A questo ListAdapter non interessa di che stiamo parlando (musei o opere),
 //basta dargli dati che corrispondano al ViewHolder (si può fare in comune fra opere e musei in una ViewHolder grossa

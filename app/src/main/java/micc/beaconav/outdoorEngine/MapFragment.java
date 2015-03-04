@@ -22,7 +22,7 @@ import micc.beaconav.test.testAdaptedLocationActivity;
 import micc.beaconav.test.testLastLocationActivity;
 
 /**
- * Created by Ricardo Del Chiaro & Franco Yang.
+ * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  */
 public class MapFragment extends Fragment
 {

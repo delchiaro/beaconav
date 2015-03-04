@@ -21,7 +21,7 @@ import micc.beaconav.R;
 import micc.beaconav.db.dbJSONManager.JSONParser;
 
 /**
- * Created by Ricardo Del Chiaro & Franco Yang.
+ * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  */
 public class JSONTest extends ActionBarActivity {
 

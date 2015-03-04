@@ -3,7 +3,7 @@ package micc.beaconav.util.containerContained;
 import android.util.Log;
 
 /**
- * Created by Ricardo Del Chiaro & Franco Yang.
+ * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  */
 public class Contained<CONTAINER extends IContainer> implements IContained<CONTAINER> {
 
