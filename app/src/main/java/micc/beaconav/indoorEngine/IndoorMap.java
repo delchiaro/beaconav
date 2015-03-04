@@ -1,26 +1,9 @@
 package micc.beaconav.indoorEngine;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.DrawFilter;
-import android.graphics.Paint;
-import android.graphics.PaintFlagsDrawFilter;
-import android.graphics.PointF;
-import android.graphics.drawable.Drawable;
-
 import java.util.HashMap;
 
-import micc.beaconav.db.dbHelper.DbManager;
-import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
-import micc.beaconav.db.dbJSONManager.JSONHandler;
 import micc.beaconav.indoorEngine.building.Building;
-import micc.beaconav.indoorEngine.building.Floor;
-import micc.beaconav.indoorEngine.building.Room;
 import micc.beaconav.indoorEngine.building.spot.Spot;
-import micc.beaconav.indoorEngine.building.spot.custom.ArtSpot;
-import micc.beaconav.localization.beaconHelper.GoodBadBeaconProximityManager;
 
 /**
  * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)

@@ -39,9 +39,9 @@ import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
 import micc.beaconav.outdoorEngine.navigation.GMapRouteManager;
 import micc.beaconav.outdoorEngine.navigation.Navigation;
-import micc.beaconav.localization.outdoorProximity.ProximityManager;
-import micc.beaconav.localization.outdoorProximity.ProximityNotificationHandler;
-import micc.beaconav.localization.outdoorProximity.ProximityObject;
+import micc.beaconav.outdoorEngine.localization.outdoorProximity.ProximityManager;
+import micc.beaconav.outdoorEngine.localization.outdoorProximity.ProximityNotificationHandler;
+import micc.beaconav.outdoorEngine.localization.outdoorProximity.ProximityObject;
 
 
 /**

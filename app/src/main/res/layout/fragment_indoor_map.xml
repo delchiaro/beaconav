@@ -7,7 +7,7 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     android:paddingBottom="0dp"
-    tools:context="micc.beaconav.test.canvasTest.canvasTestActivity">
+    tools:context="micc.beaconav.__test.canvasTest.canvasTestActivity">
 
 
 

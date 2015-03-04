@@ -6,9 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -17,15 +15,15 @@ import micc.beaconav.db.dbHelper.IArtRow;
 import micc.beaconav.db.dbHelper.artwork.ArtworkRow;
 import micc.beaconav.db.dbHelper.museum.MuseumRow;
 import micc.beaconav.db.dbJSONManager.JSONHandler;
-import micc.beaconav.gui.backPressedListeners.OnBackPressedListener;
-import micc.beaconav.gui.customList.ArtListFragment;
-import micc.beaconav.gui.customList.ArtworkDescrFragment;
-import micc.beaconav.gui.customList.MuseumDescrFragment;
-import micc.beaconav.gui.customSlidingHeader.NameHeaderFragment;
-import micc.beaconav.gui.customSlidingHeader.SeekBarHeaderFragment;
-import micc.beaconav.indoorEngine.IndoorMapFragment;
+import micc.beaconav.fragments.backPressedListeners.OnBackPressedListener;
+import micc.beaconav.fragments.slidingContentFragment.slidingContentList.ArtListFragment;
+import micc.beaconav.fragments.slidingContentFragment.slidingContentDescription.ArtworkDescrFragment;
+import micc.beaconav.fragments.slidingContentFragment.slidingContentDescription.MuseumDescrFragment;
+import micc.beaconav.fragments.slidingHeaderFragment.NameHeaderFragment;
+import micc.beaconav.fragments.slidingHeaderFragment.SeekBarHeaderFragment;
+import micc.beaconav.fragments.mainFragment.IndoorMapFragment;
 import micc.beaconav.outdoorEngine.Map;
-import micc.beaconav.outdoorEngine.MapFragment;
+import micc.beaconav.fragments.mainFragment.MapFragment;
 import micc.beaconav.outdoorEngine.MuseumMarkerManager;
 
 /**

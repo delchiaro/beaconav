@@ -2,7 +2,6 @@ package micc.beaconav;
 
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -28,11 +25,11 @@ import micc.beaconav.gui.animationHelper.BackgroundColorChangerHSV;
 import micc.beaconav.gui.animationHelper.DpHelper;
 import micc.beaconav.gui.animationHelper.LayoutDimensionChanger;
 import micc.beaconav.gui.animationHelper.ScrollViewResizer;
-import micc.beaconav.gui.backPressedListeners.OnBackPressedListener;
-import micc.beaconav.gui.backPressedListeners.VoidOnBackPressedListener;
-import micc.beaconav.test.JSONTest;
-import micc.beaconav.test.testAdaptedLocationActivity;
-import micc.beaconav.test.testLastLocationActivity;
+import micc.beaconav.fragments.backPressedListeners.OnBackPressedListener;
+import micc.beaconav.fragments.backPressedListeners.VoidOnBackPressedListener;
+import micc.beaconav.__test.JSONTest;
+import micc.beaconav.__test.testAdaptedLocationActivity;
+import micc.beaconav.__test.testLastLocationActivity;
 
 
 import com.getbase.floatingactionbutton.FloatingActionButton;

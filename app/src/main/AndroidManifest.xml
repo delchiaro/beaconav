@@ -57,24 +57,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".test.canvasTest.canvasTestActivity"
+            android:name=".__test.canvasTest.canvasTestActivity"
             android:label="@string/title_activity_canvas_test" >
         </activity>
 
         <activity
-            android:name=".test.testLocationActivity"
+            android:name=".__test.testLocationActivity"
             android:label="@string/title_activity_test_location" >
         </activity>
         <activity
-            android:name=".test.testLastLocationActivity"
+            android:name=".__test.testLastLocationActivity"
             android:label="@string/title_activity_test_updating_location" >
         </activity>
         <activity
-            android:name=".test.testAdaptedLocationActivity"
+            android:name=".__test.testAdaptedLocationActivity"
             android:label="@string/title_activity_test_updating_location" >
         </activity>
         <activity
-            android:name=".test.JSONTest"
+            android:name=".__test.JSONTest"
             android:label="@string/title_activity_jsontest" >
         </activity>
 
