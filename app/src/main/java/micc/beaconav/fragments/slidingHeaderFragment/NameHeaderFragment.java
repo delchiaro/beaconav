@@ -1,7 +1,9 @@
 package micc.beaconav.fragments.slidingHeaderFragment;
 
+
+import android.support.v4.app.Fragment;
+
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +54,7 @@ public class NameHeaderFragment extends Fragment {
                 {
                     switch(FragmentHelper.instance().getActiveSlidingFragment()){
                         case NAVIGATE:
-                            MuseumRow selectedMuseumRow = Map.getIstance().getSelectedMuseumRow();
+                            MuseumRow selectedMuseumRow = FragmentHelper.instance().getSelectedMuseumRow();
                             FragmentHelper.instance().simulateDeselectMuseumOnMapClick();
                             FragmentHelper.instance().simulateMuseumOnMapClick(selectedMuseumRow);
                             break;

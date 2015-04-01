@@ -1,9 +1,13 @@
 package micc.beaconav;
 
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+//import android.app.FragmentManager;
+
+
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.util.TypedValue;
 import android.view.View;
@@ -50,22 +54,22 @@ public class FragmentHelper  implements MuseumMarkerManager
     }
 
     public static void setMainActivity(MainActivity activity) {
-        if(mainActivity == null) {
+        // if(mainActivity == null) { // NO!!!! IN QUESTO MODO chiudendo e riaprendo l'app non cambio l'address della main activiti -> force close al primo fragment transaction !!!
             mainActivity = activity;
             mainActivity.setOnBackPressedListener(instance().getOnBackPressedListener());
-        }
+        //}
         // settabile solo 1 volta
     }
 
 
 
-    public enum SlidingFragment { LIST, DETAILS, NAVIGATE; }
+    public enum SlidingFragment { LIST, DETAILS, NAVIGATE }
     public enum MainFragment{ OUTDOOR, INDOOR; }
 
 
 
-    private MainFragment    activeMainFragment    = MainFragment.OUTDOOR;
-    private SlidingFragment activeSlidingFragment = SlidingFragment.LIST;
+    private MainFragment    activeMainFragment    = null;
+    private SlidingFragment activeSlidingFragment = null;
 
 
     public MapFragment       mapFragment = new MapFragment();
@@ -95,7 +99,7 @@ public class FragmentHelper  implements MuseumMarkerManager
                 {
                     switch(activeSlidingFragment){
                         case NAVIGATE:
-                            MuseumRow selectedMuseumRow = Map.getIstance().getSelectedMuseumRow();
+                            MuseumRow selectedMuseumRow = mapFragment.getMap().getSelectedMuseumRow();
                             simulateDeselectMuseumOnMapClick();
                             simulateMuseumOnMapClick(selectedMuseumRow);
                             break;
@@ -232,15 +236,19 @@ public class FragmentHelper  implements MuseumMarkerManager
 
 
     public final void showOutdoorFragment() {
-        indoorMapFragment = null;
-        swapFragment(R.id.fragment_map_container, mapFragment);
-        activeMainFragment = MainFragment.OUTDOOR;
-        mapFragment.setMuseumMarkerManager(this);
-        showMuseumListFragment();
-        mainActivity.setFABListener(defaultFABOnClickListener);
-        mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.INVISIBLE);
-        mainActivity.getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.INVISIBLE);
-        mainActivity.getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
+        //if(activeMainFragment != MainFragment.OUTDOOR) {
+            activeMainFragment = MainFragment.OUTDOOR;
+            indoorMapFragment = null;
+
+            swapFragment(R.id.fragment_map_container, mapFragment);
+            mapFragment.setMuseumMarkerManager(this);
+            showMuseumListFragment();
+
+            mainActivity.setFABListener(defaultFABOnClickListener);
+            mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.INVISIBLE);
+            mainActivity.getFloatingActionButtonNotifyBeaconProximity().setVisibility(View.INVISIBLE);
+            mainActivity.getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
+        //}
     }
 
 
@@ -373,18 +381,26 @@ public class FragmentHelper  implements MuseumMarkerManager
 
 
     public final void simulateDeselectMuseumOnMapClick() {
-        Map istance = Map.getIstance();
-        if(istance != null)
-            istance.simulateUnselectMarker();
+        Map map = mapFragment.getMap();
+        if(map != null)
+            map.simulateUnselectMarker();
     }
 
     public final void simulateMuseumOnMapClick(final MuseumRow row){
-        Map.getIstance().simulateMuseumClick(row);
+        mapFragment.getMap().simulateMuseumClick(row);
         // showNameHeaderFragment(row);
+    }
+    public final MuseumRow getSelectedMuseumRow() {
+        return mapFragment.getMap().getSelectedMuseumRow();
+    }
+    public final Map getOutdoorMap() {
+        if(mapFragment != null )
+            return  mapFragment.getMap();
+        else return null;
     }
 
     public final void navigateToMuseumOnBtnClick(final MuseumRow row, View v) {
-        Map.getIstance().simulateMuseumClick(row);
+        mapFragment.getMap().simulateMuseumClick(row);
         mapFragment.onClickNavigate(v);
     }
 
@@ -412,6 +428,8 @@ public class FragmentHelper  implements MuseumMarkerManager
     };
 
 
+
+
     //  HELPER PER INTERFACCIA GRAFICA
     public void resetInitialSeekBarRadius() {
         seekBarHeaderFragment.resetInitialSeekBarRadius();
@@ -421,11 +439,11 @@ public class FragmentHelper  implements MuseumMarkerManager
     //Metodo per lo swap di fragments
     private final void swapFragment(int containerID, Fragment newFragment) {
         if (containerID != newFragment.getId()) {
-            FragmentManager fragmentManager = mainActivity.getFragmentManager();
+            FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(containerID, newFragment);
             //transaction.addToBackStack(null);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
 

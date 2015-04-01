@@ -1,7 +1,8 @@
 package micc.beaconav.fragments.slidingContentFragment.slidingContentList;
 
-import android.app.Activity;
-import android.app.Fragment;
+
+import android.support.v4.app.Fragment;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,23 +27,22 @@ import micc.beaconav.db.dbHelper.museum.MuseumRow;
 public class ArtListFragment extends Fragment
 {
 
-    private boolean listInflated = false;
-    private ListView listView = null;
-    private List<IArtRow> iArtRowList = null;
+    private boolean         listInflated = false;
+    private ListView        listView     = null;
+    private List<IArtRow>   iArtRowList  = null;
 
 
     public ArtListFragment() {}
 
 
-    //probabilmente questo metodo non serve
-    @Override
-    public void onAttach(Activity parentActivity) {
-        super.onAttach(parentActivity);
-    }
+//    //probabilmente questo metodo non serve
+//    @Override
+//    public void onAttach(Activity parentActivity) {
+//        super.onAttach(parentActivity);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-
         return inflater.inflate(R.layout.fragment_art_list, container, false);
     }
 
@@ -73,8 +73,8 @@ public class ArtListFragment extends Fragment
         inflateList();
     }
 
-    private void inflateList()
-    {
+    private void inflateList() {
+
         if(iArtRowList != null && listView != null && listInflated == false)
         {
             ListAdapter adapter = new ListAdapter(getActivity(), iArtRowList);
