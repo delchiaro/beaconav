@@ -1,7 +1,9 @@
 package micc.beaconav.fragments.slidingHeaderFragment;
 
+
+import android.support.v4.app.Fragment;
+
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +108,7 @@ public class SeekBarHeaderFragment extends Fragment {
         discreteSeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
-                Map.getIstance().setCircleRadius(values[value]);
+                FragmentHelper.instance().getOutdoorMap().setCircleRadius(values[value]);
             }
         });
 

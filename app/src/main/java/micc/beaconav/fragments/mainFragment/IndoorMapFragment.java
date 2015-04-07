@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.FloatMath;
 import android.view.LayoutInflater;
@@ -876,6 +876,10 @@ public class IndoorMapFragment extends Fragment
         myLocationPathSpotManager.translate(x, y);
 
     }
+
+
+
+
 
 
 

@@ -1,18 +1,28 @@
 package micc.beaconav.indoorEngine;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteCursorDriver;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQuery;
+
 import java.util.HashMap;
 
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.spot.Spot;
+import micc.beaconav.indoorEngine.databaseLite.BuildingDownloader;
+import micc.beaconav.indoorEngine.databaseLite.BuildingDownloaderListener;
+import micc.beaconav.indoorEngine.databaseLite.BuildingSqliteHelper;
 
 /**
  * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  */
-public class IndoorMap
+public class IndoorMap implements BuildingDownloaderListener
 {
     private static int PPM = 300; // Pixel Per Meter
-
+    private Context context;
     private Building building;
+    private BuildingSqliteHelper buildingSqliteHelper = null;
     //private LocalizationSpotManager _localizationSpot;
 
 
@@ -22,141 +32,22 @@ public class IndoorMap
     HashMap<Integer, Spot> spot_QR_map = new HashMap<>();
 
 
+    BuildingDownloader downloader;
+
+    public IndoorMap( Context context, String museumUrl ) {
+        this.context = context;
+        downloader = new BuildingDownloader(context, museumUrl, this);
+        //this.building = building;
 
 
-
-
-
-    public IndoorMap( Building building )
-    {
-        this.building = building;
-
-
-//
-//        // BUILDING DEFINITION
-//        building = new Building(50*PPM, 50*PPM);
-//
-//        // FLOOR DEFINITION
-//        Floor floor = new Floor(0);
-//        building.add(floor);
-//
-//
-//        // ROOM DEFINITION
-//        Room corridoio = new Room();
-//        floor.add(corridoio);
-//
-//        Room ingresso1 = new Room();
-//        floor.add(ingresso1);
-//
-//        Room stanzaFerracani = new Room();
-//        floor.add(stanzaFerracani);
-//
-//
-//
-//        // SPOT DEFINITIONS
-//        final ArtSpot spot1;
-//        final ArtSpot spot2;
-//        final ArtSpot spot3;
-//
-//        spot1 = new ArtSpot( 2f, 2f);
-//        spot2 = new ArtSpot( 8f, 28);
-//        spot3 = new ArtSpot( 11f, 27f);
-//        corridoio.add(spot1);
-//        stanzaFerracani.add(spot2);
-//        stanzaFerracani.add(spot3);
-//
-//
-//
-//
-//        DbManager.getLastArtworkDownloader().addHandler(new JSONHandler<ArtworkRow>() {
-//            @Override
-//            public void onJSONDownloadFinished(ArtworkRow[] result) {
-//                if (result.length > 3) {
-//                    spot1.setArtworkRow(result[2]);
-//                    spot2.setArtworkRow(result[3]);
-//                    spot3.setArtworkRow(result[4]);
-//                    beacon_spot_map.put(GoodBadBeaconProximityManager.getID(31950, 39427), spot1);
-//
-//                }
-//            }
-//        });
-//
-//
-//
-//
-//
-//
-//        // VertexDefinitions and Spot Definitions
-//        corridoio.pushWall(new PointF(1f,   1f));
-//        corridoio.pushWall(new PointF(4.5f, 1f));
-//        corridoio.pushWall(new PointF(4.5f, 30f));
-//        corridoio.pushWall(new PointF(1f,   30f));
-//
-//
-//
-//
-//        ingresso1.pushWall(new PointF(4.5f, 25f));
-//        ingresso1.pushWall(new PointF(7.5f, 25f));
-//        ingresso1.pushAperture(new PointF(7.5f, 26f));
-//        Room.addDoorSpot(ingresso1, 7f, 27, true, stanzaFerracani, 8f, 27, true );
-//        ingresso1.pushWall(new PointF(7.5f, 28f));
-//
-//        ingresso1.pushWall(new PointF(7.5f, 30f));
-//        ingresso1.pushWall(new PointF(4.5f, 30f));
-//        ingresso1.pushAperture(new PointF(4.5f, 28f));
-//        Room.addDoorSpot(ingresso1, 4f, 27, true, corridoio, 5f, 27, true );
-//        ingresso1.pushWall(new PointF(4.5f, 26f));
-//
-//
-//        stanzaFerracani.pushWall(new PointF(7.5f, 25f));
-//        stanzaFerracani.pushWall(new PointF(13f,  25f));
-//        stanzaFerracani.pushWall(new PointF(13f,  30f));
-//        stanzaFerracani.pushWall(new PointF(7.5f, 30f));
-//
-//
-//
-//        // DRAWABLES DEFINITION
-//
-//
-////        BeaconHelper beaconHelper = new BeaconHelper(this.getActivity());
-////        beaconHelper.addProximityListener(this);
-////        beaconHelper.scanBeacons();
-//
-//
-//
-//        // DRAWING:
-//        Bitmap bmp = generateBackgroundBmp(building);
-//        //backgroundImgView.setImageDrawable(indoorMap); // disegno background in vettoriale
-//        // disegno background stampando il vettoriale su un bitmap
-//        backgroundImgView.setImageBitmap(bmp );
-//
-//
-//        //indoorMap = new IndoorMap(building);
-//        markerManager = building.getActiveMarkerManager();
-//        markerManager.setOnMarkerSpotSelectedListener(this);
-//
-//        foregroundImgView.setImageDrawable(markerManager.newWrapperDrawable());
-//
-//        //foregroundImgView.setOnTouchListener(markerManager);
-//
-//        pathSpotManager = building.drawBestPath(corridoio.getRoomSpot(), stanzaFerracani.getRoomSpot());
-//
-//        navigationImgView.setImageDrawable(pathSpotManager.newWrapperDrawable());
-//
-//
-//        translateAll(200, 200);
-//        navigationImgView.invalidate();
     }
 
+    @Override
+    public void onDownloadFinished() {
+        buildingSqliteHelper = new BuildingSqliteHelper(this.context);
 
 
+        // build museum building from buildingSqliteHelper
 
-
-
-
-
-
-
-
-
+    }
 }

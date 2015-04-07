@@ -1,12 +1,15 @@
 package micc.beaconav;
 
+import android.os.PersistableBundle;
+import android.support.v4.app.FragmentActivity;
+//import android.app.Activity;
+import android.support.v4.app.Fragment;
+
 import android.animation.ObjectAnimator;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBarActivity;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
@@ -44,7 +47,7 @@ import com.google.zxing.integration.android.IntentResult;
  * Created by Riccardo Del Chiaro & Franco Yang (25/02/2015)
  */
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends FragmentActivity
 {
 
     private static final String TAG = "MainActivity";
@@ -292,7 +295,27 @@ public class MainActivity extends ActionBarActivity
 
         initActivityAndXML();
         initEventListeners();
+
+        // Check whether we're recreating a previously destroyed instance
+        if (savedInstanceState != null)
+        {
+            // Restore value of members from saved state
+        }
+        else
+        {
+            // Probably initialize members with default values for a new instance
+        }
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
         initFragments();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
     }
 

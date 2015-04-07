@@ -55,7 +55,6 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
 
 
-    private static Map istance = null;
 
     private ToolTip toolTip = new ToolTip()
             .withText("Premi per andare\nall'interno del museo")
@@ -65,21 +64,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
     private ToolTipView toolTipView;
 
-    public static Map getIstance(){
-        if(istance == null)
-        {
-            return null;
-        }
-        else return istance;
-    }
-    public static Map setupIstance(GoogleMap mMap, MuseumMarkerManager markerManager){
-        if(istance == null)
-        {
-            istance = new Map(mMap, markerManager);
-            return istance;
-        }
-        else return null;
-    }
+
 
 
     private GoogleMap gmap; // Might be null if Google Play services APK is not available.
@@ -112,7 +97,7 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
 
 
 
-    private Map(GoogleMap mMap, MuseumMarkerManager markerManager)
+    public Map(GoogleMap mMap, MuseumMarkerManager markerManager)
     {
         this.gmap = mMap;
         this.gmap.setMyLocationEnabled(true);
@@ -248,8 +233,6 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
             @Override
             public boolean onMarkerClick(Marker marker) {
                 simulateMarkerClick(marker);
-
-
                 return true;
             }
         } );
@@ -427,6 +410,8 @@ public class Map implements JSONHandler<MuseumRow>, ProximityNotificationHandler
         Marker markerToClick = this.museumMarkersMap.inverse().get(museumRow);
         this.simulateMarkerClick(markerToClick);
     }
+
+
 
 
 

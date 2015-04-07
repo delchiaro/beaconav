@@ -1,9 +1,11 @@
 package micc.beaconav.fragments.mainFragment;
 
-import android.app.Fragment;
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+
+import android.support.v4.app.Fragment;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,8 +67,7 @@ public class MapFragment extends Fragment
 
     private GoogleMap getGMapFromXML() {
         // Try to obtain the map from the SupportMapFragment.
-        return ((SupportMapFragment)((FragmentActivity)getActivity()).getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-        //return ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        return ( (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map) ).getMap();
     }
 
 
@@ -113,7 +114,6 @@ public class MapFragment extends Fragment
         map.route();
     }
 
-
     public void toggleFakeProximity() {
         map.resetLastProxyMuseum();
         if(map.getFakeProximity() == false)
@@ -126,6 +126,11 @@ public class MapFragment extends Fragment
 
 
 
+// * * * * GETTERS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+    public Map getMap(){
+        return this.map;
+    }
 
 
 
@@ -164,7 +169,7 @@ public class MapFragment extends Fragment
         setUp();
         setUpEventListeners();
         if(map == null) {
-            map = Map.setupIstance(getGMapFromXML(), manager);
+            map = new Map(getGMapFromXML(), manager);
             setUpMap();
         }
     }

@@ -1,6 +1,7 @@
 package micc.beaconav.fragments.slidingContentFragment.slidingContentDescription;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,16 +24,18 @@ import java.util.Date;
 public class MuseumDescrFragment extends Fragment
 {
 
-
-    private TextView textViewMuseumDescr = null;
-    private MuseumRow museumRow = null;
-    private FloatingActionButton toIndoorBtn = null;
+    private FloatingActionButton toIndoorBtn    = null;
     private FloatingActionButton navToMuseumBtn = null;
 
-    public MuseumDescrFragment() {
-    }
+    private TextView  textViewMuseumDescr     = null;
+    private MuseumRow museumRow               = null;
+
 
     Date startNavigationDate;
+
+
+
+    public MuseumDescrFragment() {}
 
 
     @Override
@@ -55,31 +58,32 @@ public class MuseumDescrFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_museum_descr, container, false);
-
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
         textViewMuseumDescr = (TextView)getView().findViewById(R.id.museumDescription);
+        toIndoorBtn         = (FloatingActionButton)getView().findViewById(R.id.toIndoorBtn);
+        navToMuseumBtn      = FragmentHelper.instance().getMainActivity().getFloatingActionButton();
+
+
         if(museumRow != null) {
             textViewMuseumDescr.setText(museumRow.getDescr());
         }
 
-
-        toIndoorBtn = (FloatingActionButton)getView().findViewById(R.id.toIndoorBtn);
         toIndoorBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 FragmentHelper.instance().showIndoorFragment(museumRow);
                 FragmentHelper.instance().getMainActivity().getSlidingUpPanelLayout().setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                // TODO:    QUESTO CODIEC SAREBBE MEGLIO SE SI RIUSCISSE A PORTARLO NELL'HELPER E/O MAIN ACTIVITY RENDENDOLO FRUIBILE CON METODO PUBBLICO
+                // TODO:    QUESTO CODICE SAREBBE MEGLIO SE SI RIUSCISSE A PORTARLO NELL'HELPER E/O MAIN ACTIVITY RENDENDOLO FRUIBILE CON METODO PUBBLICO
                 // BASTEREBBE NEL FRAGMENT HELPER FARE DEI METODI CHE ALZANO E ABBASSANO IL PANEL DEL MAIN RICHIAMANDO UN METODO PUBBLICO DEL  MAIN CHE FA QUESTO.
-
             }
         });
 
 
-        navToMuseumBtn = FragmentHelper.instance().getMainActivity().getFloatingActionButton();
         navToMuseumBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,17 +99,10 @@ public class MuseumDescrFragment extends Fragment
     //Questo setter è fondamentale, al Fragment di quale museo sto parlando
     public void setMuseumRow(MuseumRow row){
         this.museumRow = row;
-        if(textViewMuseumDescr != null) {
+        if(textViewMuseumDescr != null)
+        {
             textViewMuseumDescr.setText(museumRow.getDescr());
         }
     }
-
-
-//    public void updateMuseumDescr(String newDescr){
-//        if(textViewMuseumDescr != null)
-//            textViewMuseumDescr.setText(newDescr);
-//    }
-
-
 
 }
