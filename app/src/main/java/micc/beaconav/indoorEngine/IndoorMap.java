@@ -1,12 +1,10 @@
 package micc.beaconav.indoorEngine;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteCursorDriver;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQuery;
+import android.os.AsyncTask;
 
 import java.util.HashMap;
+import java.util.concurrent.Executor;
 
 import micc.beaconav.indoorEngine.building.Building;
 import micc.beaconav.indoorEngine.building.spot.Spot;
@@ -38,7 +36,7 @@ public class IndoorMap implements BuildingDownloaderListener
         this.context = context;
         downloader = new BuildingDownloader(context, museumUrl, this);
         //this.building = building;
-
+        downloader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 

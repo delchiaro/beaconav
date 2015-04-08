@@ -26,6 +26,7 @@ import micc.beaconav.fragments.slidingContentFragment.slidingContentDescription.
 import micc.beaconav.fragments.slidingHeaderFragment.NameHeaderFragment;
 import micc.beaconav.fragments.slidingHeaderFragment.SeekBarHeaderFragment;
 import micc.beaconav.fragments.mainFragment.IndoorMapFragment;
+import micc.beaconav.indoorEngine.IndoorMapFragmentLite;
 import micc.beaconav.outdoorEngine.Map;
 import micc.beaconav.fragments.mainFragment.MapFragment;
 import micc.beaconav.outdoorEngine.MuseumMarkerManager;
@@ -74,6 +75,7 @@ public class FragmentHelper  implements MuseumMarkerManager
 
     public MapFragment       mapFragment = new MapFragment();
     public IndoorMapFragment indoorMapFragment = null;
+    public IndoorMapFragmentLite indoorMapFragmentLite = null;
 
 
     public ArtListFragment museumListFragment = new ArtListFragment();
@@ -253,6 +255,19 @@ public class FragmentHelper  implements MuseumMarkerManager
 
 
     public final void showIndoorFragment(MuseumRow museum) {
+        indoorMapFragmentLite = new IndoorMapFragmentLite();// gli dovremmo passare il building, o il museo, o il file json del building
+        swapFragment(R.id.fragment_map_container, indoorMapFragmentLite);
+        activeMainFragment = MainFragment.INDOOR;
+        //showArtworkListFragment(museum);
+        //indoorMapFragment.setMuseum(museum);
+        //mainActivity.setThemeColor(MainActivity.ThemeColor.RED);
+        //mainActivity.getFloatingActionButton().setIconDrawable(mainActivity.getResources().getDrawable(R.drawable.white_museum));
+        //mainActivity.getFloatingActionButtonQRScanBtn().setVisibility(View.VISIBLE);
+        //mainActivity.getFloatingActionButtonNotifyToIndoor().setVisibility(View.INVISIBLE);
+    }
+
+
+    public final void showIndoorFragmentInline(MuseumRow museum) {
         indoorMapFragment = new IndoorMapFragment();// gli dovremmo passare il building, o il museo, o il file json del building
         indoorMapFragment.initMuseumRow(museum);
         swapFragment(R.id.fragment_map_container, indoorMapFragment);
